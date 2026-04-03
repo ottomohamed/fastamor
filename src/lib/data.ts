@@ -1,27 +1,37 @@
 ﻿export const AFFILIATE_LINKS = [
-  { name: "Booking.com", url: "https://booking.tpx.gr/pO1xgUOk" },
-  { name: "Trip.com", url: "https://trip.tpx.gr/xuZyhawM" },
-  { name: "GetYourGuide", url: "https://getyourguide.tpx.gr/N4hqBYBh" },
-  { name: "Discover Cars", url: "https://discovercars.tpx.gr/Db7PkpPH" },
-  { name: "Klook", url: "https://klook.tpx.gr/maKAx6cu" },
-  { name: "Tiqets", url: "https://tiqets.tpx.gr/4XvdA3sA" },
-  { name: "Omio", url: "https://omio.tpx.gr/HhKpT0j2" },
-  { name: "Hotels.com", url: "https://hotels.tpx.gr/HZcgZ2jB" },
-  { name: "Sea Radar", url: "https://searadar.tpx.gr/PdA1Y1ul" },
-  { name: "Go City", url: "https://gocity.tpx.gr/mvQ9kUHY" },
-  { name: "FlixBus", url: "https://tpx.gr/nd8xOURD" },
-  { name: "Expedia", url: "https://expedia.tpx.gr/oZmiqQ00" },
-  { name: "Aviasales", url: "https://aviasales.tpx.gr/EDLTCi50" },
+  { name: "Aviasales", url: "https://aviasales.tpx.gr/s8LtyZGl" },
+  { name: "Booking.com", url: "https://booking.tpx.gr/XkdJ1mCf" },
+  { name: "Trip.com", url: "https://trip.tpx.gr/WcnMHB2l" },
+  { name: "Expedia", url: "https://expedia.tpx.gr/qP7fFSmb" },
+  { name: "Hotels.com", url: "https://hotels.tpx.gr/84T1xJ3l" },
+  { name: "GetYourGuide", url: "https://getyourguide.tpx.gr/Gfoy3dVm" },
+  { name: "Klook", url: "https://klook.tpx.gr/yBUxcarT" },
+  { name: "Tiqets", url: "https://tiqets.tpx.gr/iBVncWGF" },
+  { name: "Discover Cars", url: "https://discovercars.tpx.gr/y9NI2Vf2" },
+  { name: "Omio", url: "https://omio.tpx.gr/4yjPLY2r" },
+  { name: "FlixBus", url: "https://tpx.gr/Ya1SCLtE" },
+  { name: "Sea Radar", url: "https://searadar.tpx.gr/PRzRZqAz" },
+  { name: "Go City", url: "https://gocity.tpx.gr/1MSHTQmc" },
+  { name: "WeGoTrip", url: "https://wegotrip.tpx.gr/eowy8zFu" },
+  { name: "Eatwith", url: "https://eatwith.tpx.gr/L9BXlUlB" },
+  { name: "12Go Asia", url: "https://12go.tpx.gr/Fekgzq7Z" },
+  { name: "AirHelp", url: "https://airhelp.tpx.gr/o8u4FKaz" },
+  { name: "Compensair", url: "https://compensair.tpx.gr/psr2R9M2" },
+  { name: "TicketNetwork", url: "https://ticketnetwork.tpx.gr/AWkaQmtd" },
 ];
 
-// هذا السطر يحل مشكلة LandingView.tsx
 export const PARTNERS = AFFILIATE_LINKS;
 
 export const SERVICES = {
   flight: {
     id: "flight",
     titleKey: "cheap_flights",
+    title: "Flights",
     icon: "Plane",
+    links: [
+      { name: "Aviasales", url: "https://aviasales.tpx.gr/s8LtyZGl", icon: "✈️", desc: "Best flight deals worldwide" },
+      { name: "Expedia", url: "https://expedia.tpx.gr/qP7fFSmb", icon: "🌍", desc: "Flights + hotel combos" },
+    ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me your origin, destination and travel dates. I'll find the best flights instantly!",
       ar: "مرحبا! أنا Fastamor. أخبرني بمدينة الانطلاق والوجهة وتاريخ السفر. سأجد لك أفضل الرحلات فورا!",
@@ -32,7 +42,13 @@ export const SERVICES = {
   hotel: {
     id: "hotel",
     titleKey: "top_hotels",
+    title: "Hotels",
     icon: "Building2",
+    links: [
+      { name: "Booking.com", url: "https://booking.tpx.gr/XkdJ1mCf", icon: "🏨", desc: "Best hotel deals" },
+      { name: "Hotels.com", url: "https://hotels.tpx.gr/84T1xJ3l", icon: "🛎️", desc: "Earn free nights" },
+      { name: "Trip.com", url: "https://trip.tpx.gr/WcnMHB2l", icon: "⭐", desc: "VIP hotel discounts" },
+    ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me your destination and dates. I'll find top hotels for you!",
       ar: "مرحبا! أنا Fastamor. أخبرني بوجهتك والتواريخ. سأجد لك أفضل الفنادق!",
@@ -43,18 +59,30 @@ export const SERVICES = {
   taxi: {
     id: "taxi",
     titleKey: "car_rental",
+    title: "Transfers",
     icon: "Car",
+    links: [
+      { name: "Discover Cars", url: "https://discovercars.tpx.gr/y9NI2Vf2", icon: "🚗", desc: "Best car rental deals" },
+    ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me pickup and destination. I'll find the best transfer for you!",
       ar: "مرحبا! أنا Fastamor. أخبرني بنقطة الانطلاق والوجهة. سأجد أفضل وسيلة نقل!",
-      fr: "Bonjour! Je suis Fastamor. Donnez-me votre point de départ et destination. je trouverai le meilleur transfert!",
+      fr: "Bonjour! Je suis Fastamor. Donnez-moi votre point de départ et destination. je trouverai le meilleur transfert!",
       es: "¡Hola! Soy Fastamor. Dime el punto de recogida y destino. ¡encontraré el mejor traslado!"
     }
   },
   experience: {
     id: "experience",
     titleKey: "experiences",
+    title: "Tours",
     icon: "Ticket",
+    links: [
+      { name: "GetYourGuide", url: "https://getyourguide.tpx.gr/Gfoy3dVm", icon: "🎟️", desc: "Best tours & activities" },
+      { name: "Klook", url: "https://klook.tpx.gr/yBUxcarT", icon: "🎡", desc: "Amazing experiences" },
+      { name: "Tiqets", url: "https://tiqets.tpx.gr/iBVncWGF", icon: "🎭", desc: "Museums & attractions" },
+      { name: "WeGoTrip", url: "https://wegotrip.tpx.gr/eowy8zFu", icon: "🗺️", desc: "Audio tours & guides" },
+      { name: "Go City", url: "https://gocity.tpx.gr/1MSHTQmc", icon: "🏙️", desc: "City passes & cards" },
+    ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me which city. I'll find amazing tours and experiences!",
       ar: "مرحبا! أنا Fastamor. أخبرني بالمدينة. سأجد لك أروع الجولات والتجارب!",
@@ -65,7 +93,13 @@ export const SERVICES = {
   bus: {
     id: "bus",
     titleKey: "trains_buses",
+    title: "Trains & Buses",
     icon: "Bus",
+    links: [
+      { name: "Omio", url: "https://omio.tpx.gr/4yjPLY2r", icon: "🚌", desc: "Trains, buses & ferries" },
+      { name: "FlixBus", url: "https://tpx.gr/Ya1SCLtE", icon: "🚍", desc: "Cheap bus tickets" },
+      { name: "12Go Asia", url: "https://12go.tpx.gr/Fekgzq7Z", icon: "🚂", desc: "Asia transport booking" },
+    ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me your route and date. I'll find the cheapest bus tickets!",
       ar: "مرحبا! أنا Fastamor. أخبرني بمسارك وتاريخ السفر. سأجد أرخص تذاكر الحافلات!",
@@ -196,7 +230,7 @@ export const I18N = {
     flash_sale: "🚀 VENTE FLASH : JUSQU'À 50% DE RÉDUCTION — CLIQUEZ ICI",
     hero_badge: "✨ Votre Concierge IA Personnel",
     hero_title: "Voyagez avec",
-    hero_desc: "Arrêtez de chercher sans fin. Dites à notre IA où vous voulez aller, et obtenez instantanément les meilleurs prix sur les vols, hôtels et circuits sur 200+ fournisseurs.",
+    hero_desc: "Arrêtez de chercher sans fin. Dites à notre IA où vous voulez aller, et obtenez instantanément les meilleurs prix sur les vols, hôtels et circuits.",
     hero_btn_start: "Commencer",
     hero_btn_how: "Comment ça marche",
     cheap_flights: "Vols",
@@ -252,7 +286,7 @@ export const I18N = {
     flash_sale: "🚀 VENTA FLASH: HASTA 50% DE DESCUENTO — CLIC AQUÍ",
     hero_badge: "✨ Tu Conserje IA Personal",
     hero_title: "Viaja con",
-    hero_desc: "Deja de buscar sin fin. Dile a nuestra IA a dónde quieres ir, y obtén al instante los mejores precios en vuelos, hoteles y tours en más de 200 proveedores.",
+    hero_desc: "Deja de buscar sin fin. Dile a nuestra IA a dónde quieres ir, y obtén al instante los mejores precios en vuelos, hoteles y tours.",
     hero_btn_start: "Explorar",
     hero_btn_how: "Cómo funciona",
     cheap_flights: "Vuelos",
@@ -301,5 +335,3 @@ export const I18N = {
     unauthorized: "Acceso no autorizado"
   }
 };
-
-// ملف مُصلح ليعمل مع AppView (AFFILIATE_LINKS) و LandingView (PARTNERS)
