@@ -1,0 +1,23 @@
+﻿{
+  "common": {
+    "search": "Search",
+    "bookNow": "Book Now",
+    "contactUs": "Contact Us",
+    "explore": "Explore More"
+  },
+  "hero": {
+    "title": "Travel the World with Comfort & Luxury",
+    "subtitle": "We offer the best deals on flights, hotels, and private transfers."
+  },
+  "services": {
+    "flights": "Scenic Flight Experience",
+    "hotels": "Luxury Hotel Stays",
+    "taxi": "Airport Taxi Transfers",
+    "tours": "Unique Tour Experiences"
+  },
+  "features": {
+    "bestPrice": "Best Price Guaranteed",
+    "support": "24/7 Premium Support",
+    "secure": "Safe & Secure Payments"
+  }
+}

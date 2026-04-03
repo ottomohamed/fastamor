@@ -1,0 +1,9 @@
+{
+  "buildCommand": "cd artifacts/fastamor && npm run build",
+  "outputDirectory": "artifacts/fastamor/dist/public",
+  "installCommand": "cd artifacts/fastamor && npm install",
+  "devCommand": "cd artifacts/fastamor && npm run dev",
+  "routes": [
+    { "src": "/api/(.*)", "dest": "http://localhost:3000/api/$1" }
+  ]
+}

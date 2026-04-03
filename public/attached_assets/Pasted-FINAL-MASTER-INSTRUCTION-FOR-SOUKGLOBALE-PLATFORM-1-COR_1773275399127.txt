@@ -1,0 +1,34 @@
+FINAL MASTER INSTRUCTION FOR SOUKGLOBALE PLATFORM
+​1. CORE MISSION & ACCESS CONTROL:
+
+​Geographic Restriction: Implement a strict geo-fencing registration system. ONLY users physically located in Morocco or Egypt can register as "Artisans/Vendors."
+​Anti-Middleman Protocol: Block any registration for artisan accounts from outside these two countries (e.g., Europe, USA) to ensure 100% direct-from-source sales.
+​Verification: Integrate a phone number verification system for registration, supporting only local prefixes (+212 for Morocco, +20 for Egypt).
+​2. PROFESSIONAL ADMIN DASHBOARD (THE CONTROL ROOM):
+
+​Admin UI: Create a high-end, secure Admin Dashboard accessible only to me.
+​Vendor Management: A portal to review, approve, or reject pending artisan applications (including their ID documentation and process videos).
+​The "Kill Switch": Implement a one-click permanent ban button for artisans caught cheating or selling non-handmade/mass-produced items.
+​Partners & Logistics Hub: Add a section to manage shipping partners (DHL, Aramex, Morocco Post, Egypt Post). I must be able to add new carriers, input their API credentials, and assign them to specific regions via the UI without changing the code.
+​3. ESCROW, PAYMENTS & COMMISSIONS:
+
+​Escrow Logic: Funds from buyers must be held by the platform and only released to the artisan after the buyer confirms receipt or tracking shows "Delivered."
+​Automated Fee Calculation: For every sale, split the payment into:
+​8% Platform Commission (My revenue).
+​2.5% Insurance/Reserve Fund (To cover refunds/returns).
+​The Remainder: To be released to the artisan.
+​Financial Reporting: The Admin Dashboard must show separate balances for Commission, Insurance Fund, and Escrowed Funds.
+​4. LOGISTICS & AUTOMATED SHIPPING:
+
+​Prepaid Labels: Integrate with shipping APIs. The buyer pays shipping costs at checkout. The system must generate a Prepaid PDF Shipping Label in the artisan's dashboard.
+​The Drop-off Model: Artisans print the label, attach it, and drop it at the carrier office with ZERO out-of-pocket costs.
+​Real-time Tracking: Use webhooks to update the order status to "In Transit" or "Delivered" automatically.
+​5. VISUAL AUTHENTICITY & CONTENT:
+
+​Image Overhaul: Replace all placeholder images with high-quality, AUTHENTIC photos of traditional Moroccan and Egyptian crafts (e.g., Fez Pottery, Zellige, Marrakech Leather, Egyptian Khayameya, Alabaster, and Fayoum Pottery).
+​Strict No-Industrial Rule: Ensure no mass-produced or modern generic items are shown. Every item must look handmade and culturally specific.
+​Location Metadata: Every product must display its origin (e.g., "Handmade in Luxor, Egypt").
+​6. USER REPUTATION & PROTECTION:
+
+​Vendor Ban Policy: Auto-suspend artisans after 2 consecutive quality rejections or fraudulent listings.
+​Buyer Blacklist: Flag and block buyers who exhibit fraudulent return patterns.

@@ -1,0 +1,18 @@
+{
+  "nav_home": "Accueil",
+  "nav_flights": "Vols Pas Chers",
+  "nav_hotels": "Meilleurs Hôtels",
+  "nav_experiences": "Expériences",
+  "nav_taxis": "Location Voiture",
+  "hero_badge": "Voyage IA",
+  "hero_btn_start": "Commencer",
+  "hero_btn_how": "Comment ça marche",
+  "hero_desc": "Économisez 40% sur les vols, hôtels et circuits",
+  "cta_open_ai": "Rejoindre",
+  "admin_password_prompt": "Entrez le mot de passe Admin :",
+  "unauthorized": "Non autorisé",
+  "enter_source_name": "Entrez le nom de la source",
+  "voice_not_supported": "Reconnaissance vocale non supportée dans ce navigateur.",
+  "campaign_source_label": "Nom de la campagne / Source",
+  "generate_copy_link": "Générer et copier le lien"
+}
