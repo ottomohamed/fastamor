@@ -37,7 +37,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
       <nav className="sticky top-0 z-40 bg-background/90 backdrop-blur-xl border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="font-serif text-2xl font-black tracking-widest text-foreground cursor-pointer select-none" onClick={() => onOpenApp()}>
-            FAST<span className="text-primary italic">AMOR</span>
+            <img src="https://i.ibb.co/x8sSqTDj/1978.png" alt="Fastamor" class="h-10 w-auto" />
           </div>
           <div className="hidden md:flex items-center gap-8">
             <a href="#services" className="text-sm font-medium text-muted hover:text-primary transition-colors">{t.services}</a>
@@ -255,7 +255,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div>
-              <div className="font-serif text-2xl font-black tracking-widest text-white mb-4">FAST<span className="text-[#FF6B35] italic">AMOR</span></div>
+              <div className="font-serif text-2xl font-black tracking-widest text-white mb-4"><img src="https://i.ibb.co/x8sSqTDj/1978.png" alt="Fastamor" class="h-10 w-auto" /></div>
               <p className="text-white/60 text-sm leading-relaxed font-medium">Boutique travel concierge — instant joy, best deals. Driven by AI, trusted by travelers worldwide.</p>
             </div>
             <div>
