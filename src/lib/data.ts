@@ -1,23 +1,11 @@
-﻿export const AFFILIATE_LINKS = [
-  { name: "Aviasales", url: "https://aviasales.tpx.gr/s8LtyZGl" },
-  { name: "Booking.com", url: "https://booking.tpx.gr/XkdJ1mCf" },
-  { name: "Trip.com", url: "https://trip.tpx.gr/WcnMHB2l" },
-  { name: "Expedia", url: "https://expedia.tpx.gr/qP7fFSmb" },
-  { name: "Hotels.com", url: "https://hotels.tpx.gr/84T1xJ3l" },
-  { name: "GetYourGuide", url: "https://getyourguide.tpx.gr/Gfoy3dVm" },
-  { name: "Klook", url: "https://klook.tpx.gr/yBUxcarT" },
-  { name: "Tiqets", url: "https://tiqets.tpx.gr/iBVncWGF" },
-  { name: "Discover Cars", url: "https://discovercars.tpx.gr/y9NI2Vf2" },
-  { name: "Omio", url: "https://omio.tpx.gr/4yjPLY2r" },
-  { name: "FlixBus", url: "https://tpx.gr/Ya1SCLtE" },
-  { name: "Sea Radar", url: "https://searadar.tpx.gr/PRzRZqAz" },
-  { name: "Go City", url: "https://gocity.tpx.gr/1MSHTQmc" },
-  { name: "WeGoTrip", url: "https://wegotrip.tpx.gr/eowy8zFu" },
-  { name: "Eatwith", url: "https://eatwith.tpx.gr/L9BXlUlB" },
-  { name: "12Go Asia", url: "https://12go.tpx.gr/Fekgzq7Z" },
-  { name: "AirHelp", url: "https://airhelp.tpx.gr/o8u4FKaz" },
-  { name: "Compensair", url: "https://compensair.tpx.gr/psr2R9M2" },
-  { name: "TicketNetwork", url: "https://ticketnetwork.tpx.gr/AWkaQmtd" },
+export const AFFILIATE_LINKS = [
+  { name: "Aviasales", url: "https://aviasales.tpx.gr/yQxrYmk7" },
+  { name: "Yesim eSIM", url: "https://yesim.tpx.gr/9gzdax7m" },
+  { name: "Kiwi Taxi", url: "https://kiwitaxi.tpx.gr/Y6yrFeYN" },
+  { name: "LocalRent", url: "https://localrent.tpx.gr/qr92Puo9" },
+  { name: "Compensair", url: "https://compensair.tpx.gr/MGUDRrY2" },
+  { name: "AirHelp", url: "https://airhelp.tpx.gr/baeI5YIf" },
+  { name: "Intui Travel", url: "https://intui.tpx.gr/kguAoKIU" },
 ];
 
 export const PARTNERS = AFFILIATE_LINKS;
@@ -29,8 +17,7 @@ export const SERVICES = {
     title: "Flights",
     icon: "Plane",
     links: [
-      { name: "Aviasales", url: "https://aviasales.tpx.gr/s8LtyZGl", icon: "✈️", desc: "Best flight deals worldwide" },
-      { name: "Expedia", url: "https://expedia.tpx.gr/qP7fFSmb", icon: "🌍", desc: "Flights + hotel combos" },
+      { name: "Aviasales", url: "https://aviasales.tpx.gr/yQxrYmk7", icon: "✈️", desc: "Best flight deals worldwide" },
     ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me your origin, destination and travel dates. I'll find the best flights instantly!",
@@ -45,9 +32,7 @@ export const SERVICES = {
     title: "Hotels",
     icon: "Building2",
     links: [
-      { name: "Booking.com", url: "https://booking.tpx.gr/XkdJ1mCf", icon: "🏨", desc: "Best hotel deals" },
-      { name: "Hotels.com", url: "https://hotels.tpx.gr/84T1xJ3l", icon: "🛎️", desc: "Earn free nights" },
-      { name: "Trip.com", url: "https://trip.tpx.gr/WcnMHB2l", icon: "⭐", desc: "VIP hotel discounts" },
+      { name: "Intui Travel", url: "https://intui.tpx.gr/kguAoKIU", icon: "🏨", desc: "Best hotel deals worldwide" },
     ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me your destination and dates. I'll find top hotels for you!",
@@ -62,13 +47,14 @@ export const SERVICES = {
     title: "Transfers",
     icon: "Car",
     links: [
-      { name: "Discover Cars", url: "https://discovercars.tpx.gr/y9NI2Vf2", icon: "🚗", desc: "Best car rental deals" },
+      { name: "Kiwi Taxi", url: "https://kiwitaxi.tpx.gr/Y6yrFeYN", icon: "🚕", desc: "Airport transfers worldwide" },
+      { name: "LocalRent", url: "https://localrent.tpx.gr/qr92Puo9", icon: "🚗", desc: "Local car rental deals" },
     ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me pickup and destination. I'll find the best transfer for you!",
       ar: "مرحبا! أنا Fastamor. أخبرني بنقطة الانطلاق والوجهة. سأجد أفضل وسيلة نقل!",
-      fr: "Bonjour! Je suis Fastamor. Donnez-moi votre point de départ et destination. je trouverai le meilleur transfert!",
-      es: "¡Hola! Soy Fastamor. Dime el punto de recogida y destino. ¡encontraré el mejor traslado!"
+      fr: "Bonjour! Je suis Fastamor. Donnez-moi votre point de départ. je trouverai le meilleur transfert!",
+      es: "¡Hola! Soy Fastamor. Dime el punto de recogida. ¡encontraré el mejor traslado!"
     }
   },
   experience: {
@@ -77,11 +63,7 @@ export const SERVICES = {
     title: "Tours",
     icon: "Ticket",
     links: [
-      { name: "GetYourGuide", url: "https://getyourguide.tpx.gr/Gfoy3dVm", icon: "🎟️", desc: "Best tours & activities" },
-      { name: "Klook", url: "https://klook.tpx.gr/yBUxcarT", icon: "🎡", desc: "Amazing experiences" },
-      { name: "Tiqets", url: "https://tiqets.tpx.gr/iBVncWGF", icon: "🎭", desc: "Museums & attractions" },
-      { name: "WeGoTrip", url: "https://wegotrip.tpx.gr/eowy8zFu", icon: "🗺️", desc: "Audio tours & guides" },
-      { name: "Go City", url: "https://gocity.tpx.gr/1MSHTQmc", icon: "🏙️", desc: "City passes & cards" },
+      { name: "Intui Travel", url: "https://intui.tpx.gr/kguAoKIU", icon: "🎟️", desc: "Amazing tours & experiences" },
     ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me which city. I'll find amazing tours and experiences!",
@@ -96,15 +78,13 @@ export const SERVICES = {
     title: "Trains & Buses",
     icon: "Bus",
     links: [
-      { name: "Omio", url: "https://omio.tpx.gr/4yjPLY2r", icon: "🚌", desc: "Trains, buses & ferries" },
-      { name: "FlixBus", url: "https://tpx.gr/Ya1SCLtE", icon: "🚍", desc: "Cheap bus tickets" },
-      { name: "12Go Asia", url: "https://12go.tpx.gr/Fekgzq7Z", icon: "🚂", desc: "Asia transport booking" },
+      { name: "Intui Travel", url: "https://intui.tpx.gr/kguAoKIU", icon: "🚌", desc: "Trains, buses & transport" },
     ],
     greetings: {
-      en: "Hi! I'm Fastamor. Tell me your route and date. I'll find the cheapest bus tickets!",
-      ar: "مرحبا! أنا Fastamor. أخبرني بمسارك وتاريخ السفر. سأجد أرخص تذاكر الحافلات!",
-      fr: "Bonjour! Je suis Fastamor. Dites-moi votre trajet et date. je trouverai les bus les moins chers!",
-      es: "¡Hola! Soy Fastamor. Dime tu ruta y fecha. ¡encontraré los autobuses más baratos!"
+      en: "Hi! I'm Fastamor. Tell me your route and date. I'll find the cheapest tickets!",
+      ar: "مرحبا! أنا Fastamor. أخبرني بمسارك وتاريخ السفر. سأجد أرخص التذاكر!",
+      fr: "Bonjour! Je suis Fastamor. Dites-moi votre trajet. je trouverai les billets les moins chers!",
+      es: "¡Hola! Soy Fastamor. Dime tu ruta. ¡encontraré los billetes más baratos!"
     }
   }
 };
@@ -174,7 +154,7 @@ export const I18N = {
     flash_sale: "🚀 عرض حصري: خصم يصل إلى 50% على الرحلات والفنادق — اضغط هنا",
     hero_badge: "✨ مساعدك الشخصي بالذكاء الاصطناعي",
     hero_title: "سافر مع",
-    hero_desc: "توقف عن البحث الطويل. أخبر مساعدنا الذكي أين تريد الذهاب وستحصل فورا على أفضل الأسعار للرحلات والفنادق والجولات عبر 200+ مزود خدمة.",
+    hero_desc: "توقف عن البحث الطويل. أخبر مساعدنا الذكي أين تريد الذهاب وستحصل فورا على أفضل الأسعار.",
     hero_btn_start: "ابدأ الاستكشاف",
     hero_btn_how: "شاهد كيف يعمل",
     cheap_flights: "طيران",
@@ -190,7 +170,7 @@ export const I18N = {
     step1_title: "تحدث مع فاستامور",
     step1_desc: "اكتب أو تحدث بشكل طبيعي. 'ابحث لي عن رحلة رخيصة إلى باريس الجمعة القادمة'.",
     step2_title: "البحث الذكي",
-    step2_desc: "في ثوانٍ، نقوم بمسح 200+ مزود خدمة عبر الويب للعثور على أفضل العروض.",
+    step2_desc: "في ثوانٍ، نقوم بمسح 200+ مزود خدمة للعثور على أفضل العروض.",
     step3_title: "احجز مباشرة",
     step3_desc: "اضغط على الروابط للحجز مباشرة مع المزود. لا توجد رسوم خفية منا.",
     placeholder: "اسأل عن أي شيء يخص رحلتك...",
@@ -230,7 +210,7 @@ export const I18N = {
     flash_sale: "🚀 VENTE FLASH : JUSQU'À 50% DE RÉDUCTION — CLIQUEZ ICI",
     hero_badge: "✨ Votre Concierge IA Personnel",
     hero_title: "Voyagez avec",
-    hero_desc: "Arrêtez de chercher sans fin. Dites à notre IA où vous voulez aller, et obtenez instantanément les meilleurs prix sur les vols, hôtels et circuits.",
+    hero_desc: "Arrêtez de chercher sans fin. Dites à notre IA où vous voulez aller.",
     hero_btn_start: "Commencer",
     hero_btn_how: "Comment ça marche",
     cheap_flights: "Vols",
@@ -244,11 +224,11 @@ export const I18N = {
     itinerary_desc: "Tout votre itinéraire géré dans une seule interface intelligente.",
     how_it_works: "Comment ça marche",
     step1_title: "Dites à Fastamor",
-    step1_desc: "Écrivez ou parlez naturellement. 'Trouve-moi un vol pas cher pour Paris vendredi prochain.'",
+    step1_desc: "Écrivez ou parlez naturellement.",
     step2_title: "L'IA Recherche",
-    step2_desc: "En quelques secondes, nous scannons 200+ fournisseurs pour trouver les perles rares.",
+    step2_desc: "En secondes, nous scannons 200+ fournisseurs.",
     step3_title: "Réservez Direct",
-    step3_desc: "Cliquez sur les liens pour réserver directement. Zéro frais cachés chez nous.",
+    step3_desc: "Cliquez sur les liens pour réserver directement.",
     placeholder: "Demandez n'importe quoi...",
     search_flights: "Rechercher Vols",
     search_hotels: "Rechercher Hôtels",
@@ -275,7 +255,7 @@ export const I18N = {
     currency: "Devise",
     rights: "Tous droits réservés.",
     powered_by: "Propulsé par Travelpayouts",
-    admin_password_prompt: "Entrez le mot de passe administrateur :",
+    admin_password_prompt: "Entrez le mot de passe:",
     unauthorized: "Accès non autorisé"
   },
   es: {
@@ -286,7 +266,7 @@ export const I18N = {
     flash_sale: "🚀 VENTA FLASH: HASTA 50% DE DESCUENTO — CLIC AQUÍ",
     hero_badge: "✨ Tu Conserje IA Personal",
     hero_title: "Viaja con",
-    hero_desc: "Deja de buscar sin fin. Dile a nuestra IA a dónde quieres ir, y obtén al instante los mejores precios en vuelos, hoteles y tours.",
+    hero_desc: "Deja de buscar sin fin. Dile a nuestra IA a dónde quieres ir.",
     hero_btn_start: "Explorar",
     hero_btn_how: "Cómo funciona",
     cheap_flights: "Vuelos",
@@ -300,11 +280,11 @@ export const I18N = {
     itinerary_desc: "Todo tu itinerario gestionado en una interfaz inteligente.",
     how_it_works: "Cómo Funciona",
     step1_title: "Dile a Fastamor",
-    step1_desc: "Escribe o habla naturalmente. 'Búscame un vuelo barato a París el próximo viernes'.",
+    step1_desc: "Escribe o habla naturalmente.",
     step2_title: "IA Busca",
-    step2_desc: "En segundos, escaneamos más de 200 proveedores para encontrar las mejores ofertas.",
+    step2_desc: "En segundos, escaneamos más de 200 proveedores.",
     step3_title: "Reserva Directo",
-    step3_desc: "Haz clic en los enlaces para reservar directamente. Sin cargos ocultos por nuestra parte.",
+    step3_desc: "Haz clic en los enlaces para reservar directamente.",
     placeholder: "Pregunta cualquier cosa...",
     search_flights: "Buscar Vuelos",
     search_hotels: "Buscar Hoteles",
@@ -331,7 +311,7 @@ export const I18N = {
     currency: "Moneda",
     rights: "Todos los derechos reservados.",
     powered_by: "Desarrollado por Travelpayouts",
-    admin_password_prompt: "Ingrese la contraseña de administrador:",
+    admin_password_prompt: "Ingrese la contraseña:",
     unauthorized: "Acceso no autorizado"
   }
 };
