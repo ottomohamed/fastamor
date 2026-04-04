@@ -194,7 +194,8 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
   const isRtl = lang === 'ar';
 
   const { messages, isTyping, showSearchAnim, hasResults, dynamicLinks, flightResults, sendMessage, clearChat } = useFastamorChat(activeSvc || 'flight', lang);
-  const { isListening, supported, listen, cancelSpeech } = useSpeech(lang);
+  const { isListening, supported, listen, speak, cancelSpeech } = useSpeech(lang);
+  const [voiceMode, setVoiceMode] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { if (initialService) handleServiceSelect(initialService); }, [initialService]);
@@ -222,8 +223,10 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
     setInputText('');
   };
 
+  useEffect(() => { if (voiceMode && messages.length > 0) { const last = messages[messages.length - 1]; if (last.role === 'assistant' && last.content) { speak(last.content); } } }, [messages, voiceMode]);
+
   const handleMicClick = (context: 'home' | 'chat') => {
-    if (!supported) return alert("Voice recognition not supported in this browser.");
+    if (!supported) return alert("Voice recognition not supported in this browser."); setVoiceMode(true);
     listen((text) => {
       setInputText(text);
       if (context === 'home') {

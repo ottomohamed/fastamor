@@ -15,7 +15,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
   const t = I18N[lang as keyof typeof I18N] || I18N.en;
 
   const IMAGES = {
-    hero: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=2000",
+    hero: "https://i.ibb.co/WWJBNxwT/1977.png",
     flight: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=800",
     hotel: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800",
     tour: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=800",
