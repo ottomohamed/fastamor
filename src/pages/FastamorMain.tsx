@@ -1,12 +1,13 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { LandingView } from '@/views/LandingView';
 import { AppView } from '@/views/AppView';
 import { PrivacyView } from '@/views/PrivacyView';
 import { AdminModal } from '@/components/AdminModal';
+import { AdminView } from '@/views/AdminView';
 import { initTracking } from '@/lib/tracking';
 import { I18N } from '@/lib/data';
 
-type ViewState = 'landing' | 'app' | 'privacy';
+type ViewState = 'landing' | 'app' | 'privacy' | 'admin';
 
 export default function FastamorMain() {
   const [view, setView] = useState<ViewState>('landing');
