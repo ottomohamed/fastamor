@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plane, Building2, Ticket, Car, Bus, Train, ArrowLeft, Bot, Mic, Send, ExternalLink, MapPin } from 'lucide-react';
 import { I18N, SERVICES, AFFILIATE_LINKS } from '@/lib/data';
 import { trackClick } from '@/lib/tracking';
-import { useFastamorChat, detectService } from '@/hooks/use-pyramic-chat';
-import type { FlightResult } from '@/hooks/use-pyramic-chat';
+import { useFastamorChat, detectService } from '@/hooks/use-fastamor-chat';
+import type { FlightResult } from '@/hooks/use-fastamor-chat';
 import { useSpeech } from '@/hooks/use-speech';
 import { SearchOverlay } from '@/components/SearchOverlay';
 
