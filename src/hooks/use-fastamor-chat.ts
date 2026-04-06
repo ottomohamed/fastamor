@@ -99,12 +99,12 @@ City to IATA examples:
 
 For hotels use:
 <links>
-[{"name":"Booking.com","desc":"Best hotel deals","url":"https://booking.tpx.gr/XkdJ1mCf","icon":"🏨"}]
+[{"name":"Intui Travel","desc":"Best hotel deals","url":"https://intui.tpx.gr/kguAoKIU","icon":"🏨"}]
 </links>
 
-For tours: https://getyourguide.tpx.gr/Gfoy3dVm
-For cars: https://discovercars.tpx.gr/y9NI2Vf2
-For buses: https://omio.tpx.gr/4yjPLY2r
+For tours: https://klook.tpx.gr/vRUzaJbI
+For cars: https://gettransfer.tpx.gr/9poAnD5l
+For buses: https://tpx.gr/n6krgEY3
 
 Current service: ${lang}`;
 }
@@ -238,7 +238,7 @@ export function useFastamorChat(service: string, lang: string) {
               setDynamicLinks([
                 { name: 'Aviasales', desc: `${searchData.origin} → ${searchData.destination}`, url: 'https://aviasales.tpx.gr/s8LtyZGl', icon: '✈️' },
                 { name: 'Expedia', desc: 'Flights + hotel bundles', url: 'https://expedia.tpx.gr/qP7fFSmb', icon: '🌍' },
-                { name: 'Omio', desc: 'Trains & buses too', url: 'https://omio.tpx.gr/4yjPLY2r', icon: '🚌' },
+                { name: 'FlixBus', desc: 'Trains & buses too', url: 'https://tpx.gr/n6krgEY3', icon: '🚌' },
               ]);
               setHasResults(true);
             }
