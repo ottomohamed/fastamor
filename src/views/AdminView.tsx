@@ -11,7 +11,7 @@ import {
   Check, X, TrendingUp, BarChart2, Eye, Megaphone, Image as ImageIcon, 
   Layout, ImagePlus, Settings, Save, Trash2, MessageSquare, 
   Users, PenLine, ToggleLeft, ToggleRight, Plus, Upload, Search, 
-  Star, Clock, Edit, Globe, Sparkles, Bell, Calendar, Newspaper,
+  Star, Clock, Edit, Globe, Sparkles, Bell, Calendar, Newspaper, Sun, Moon,
   Link, Hash, Heart, Share2, Bold, Italic, List, Quote, Link2, 
   Image as ImageIcon2, Eye as EyeIcon, Download, TrendingUp as TrendingIcon,
   Award, Menu, Hotel, Plane, MapPin, DollarSign, ShoppingBag, Languages
