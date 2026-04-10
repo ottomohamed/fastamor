@@ -25,7 +25,7 @@ import {
 import * as XLSX from 'xlsx';
 
 // ==================== Constants ====================
-const ADMIN_KEY = "fastamor2025";
+const ADMIN_KEY = "709105";
 
 // ==================== Types ====================
 interface TravelWriter {
