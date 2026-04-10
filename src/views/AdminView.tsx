@@ -1,588 +1,617 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+// fastamor-admin.tsx
+import { supabase } from '@/lib/supabase'
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import TiptapImage from '@tiptap/extension-image'
+import TiptapLink from '@tiptap/extension-link'
+
+import { useState, useEffect, useRef } from "react";
 import { 
-  BarChart2, Link2, Megaphone, Settings, LogOut, 
-  Plus, Trash2, Edit3, Check, X, Eye, EyeOff,
-  TrendingUp, MousePointer, Search, Globe, Newspaper,
-  DollarSign, Users, Percent, Activity
-} from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+  Loader2, ShieldAlert, RefreshCw, Activity, Crosshair, Send, Inbox, 
+  Check, X, TrendingUp, BarChart2, Eye, Megaphone, Image as ImageIcon, 
+  Layout, ImagePlus, Settings, Save, Trash2, MessageSquare, 
+  Users, PenLine, ToggleLeft, ToggleRight, Plus, Upload, Search, 
+  Star, Clock, Edit, Globe, Sparkles, Bell, Calendar, Newspaper,
+  Link, Hash, Heart, Share2, Bold, Italic, List, Quote, Link2, 
+  Image as ImageIcon2, Eye as EyeIcon, Download, TrendingUp as TrendingIcon,
+  Award, Menu, Hotel, Plane, MapPin, DollarSign, ShoppingBag, Languages
+} from "lucide-react";
+import { formatDateTime } from "@/lib/utils";
+import { toast, Toaster } from 'react-hot-toast';
+import {
+  AreaChart, Area, PieChart, Pie, Cell,
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
+} from 'recharts';
+import * as XLSX from 'xlsx';
 
-interface AdminViewProps {
-  onClose: () => void;
+// ==================== Constants ====================
+const ADMIN_KEY = "fastamor2025";
+
+// ==================== Types ====================
+interface TravelWriter {
+  slug: string;
+  name: string;        // Will be shown based on language
+  name_ar: string;
+  name_en: string;
+  specialty: string;
+  specialty_ar: string;
+  specialty_en: string;
+  emoji: string;
+  color: string;
+  bio_ar: string;
+  bio_en: string;
+  expertise: string[]; // Dubai, Thailand, Hotels, Flights, etc.
+  social: {
+    instagram?: string;
+    twitter?: string;
+    blog?: string;
+  };
 }
 
-type Tab = 'stats' | 'links' | 'banners' | 'content' | 'settings';
-
-interface AffiliateLink {
+interface Destination {
   id: string;
-  name: string;
-  url: string;
-  icon: string;
-  category: string;
-  is_active: boolean;
-  clicks: number;
+  slug: string;
+  name_ar: string;
+  name_en: string;
+  country_ar: string;
+  country_en: string;
+  continent: string;
+  description_ar: string;
+  description_en: string;
+  image_url: string;
+  best_time_ar: string;
+  best_time_en: string;
+  currency: string;
+  language_ar: string;
+  language_en: string;
+  popular_attractions_ar: string[];
+  popular_attractions_en: string[];
+  average_cost: number;
+  rating: number;
+  status: 'draft' | 'published';
+  meta_title_ar?: string;
+  meta_title_en?: string;
+  meta_description_ar?: string;
+  meta_description_en?: string;
 }
 
-interface Banner {
+interface Hotel {
   id: string;
-  text: string;
-  url: string;
-  is_active: boolean;
-  clicks: number;
+  name_ar: string;
+  name_en: string;
+  destination_id: string;
+  stars: number;
+  price_per_night: number;
+  image_url: string;
+  description_ar: string;
+  description_en: string;
+  amenities: string[];
+  booking_url: string;
+  latitude?: number;
+  longitude?: number;
+  rating: number;
 }
 
-interface Stats {
-  clicks: number;
-  searches: number;
-  todayClicks: number;
-  total: number;
-  conversionRate: number;
-  estimatedRevenue: number;
+interface Article {
+  id: string;
+  slug: string;
+  title_ar: string;
+  title_en: string;
+  body_ar: string;
+  body_en: string;
+  excerpt_ar: string;
+  excerpt_en: string;
+  category: 'destination_guide' | 'hotel_review' | 'travel_tips' | 'itinerary' | 'news';
+  destination_id?: string;
+  hotel_id?: string;
+  author_slug: string;
+  status: 'draft' | 'published' | 'archived';
+  published_at: string;
+  featured_image: string | null;
+  gallery_images?: string[];
+  views: number;
+  likes: number;
+  affiliate_links?: { platform: string; url: string }[];
+  tags_ar?: string[];
+  tags_en?: string[];
+  seo_title_ar?: string;
+  seo_title_en?: string;
+  seo_description_ar?: string;
+  seo_description_en?: string;
 }
 
-export function AdminView({ onClose }: AdminViewProps) {
-  const [activeTab, setActiveTab] = useState<Tab>('stats');
-  const [links, setLinks] = useState<AffiliateLink[]>([]);
-  const [banners, setBanners] = useState<Banner[]>([]);
-  const [stats, setStats] = useState<Stats>({ clicks: 0, searches: 0, todayClicks: 0, total: 0, conversionRate: 0, estimatedRevenue: 0 });
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [toast, setToast] = useState('');
+// ==================== Travel Writers (Multilingual) ====================
+export const TRAVEL_WRITERS: TravelWriter[] = [
+  {
+    slug: "youssef-travel",
+    name_ar: "يوسف السفر",
+    name_en: "Youssef Travel",
+    name: "Youssef Travel",
+    specialty_ar: "وجهات عالمية",
+    specialty_en: "Global Destinations",
+    specialty: "Global Destinations",
+    emoji: "🌍",
+    color: "text-emerald-400",
+    bio_ar: "خبير سفر زار أكثر من 50 دولة، متخصص في الوجهات السياحية وتكاليف السفر",
+    bio_en: "Travel expert who visited 50+ countries, specializing in destinations and travel costs",
+    expertise: ["Luxury Travel", "Budget Travel", "Southeast Asia", "Middle East"],
+    social: { instagram: "youssef.travel", blog: "yousseftravel.com" }
+  },
+  {
+    slug: "laila-hotels",
+    name_ar: "ليلى الفنادق",
+    name_en: "Laila Hotels",
+    name: "Laila Hotels",
+    specialty_ar: "فنادق ومنتجعات",
+    specialty_en: "Hotels & Resorts",
+    specialty: "Hotels & Resorts",
+    emoji: "🏨",
+    color: "text-blue-400",
+    bio_ar: "ناقدة فنادق محترفة، 200+ فندق تمت زيارتها",
+    bio_en: "Professional hotel critic, visited 200+ hotels worldwide",
+    expertise: ["Luxury Hotels", "Boutique Hotels", "Resorts", "Spa Retreats"],
+    social: { instagram: "laila.hotels" }
+  },
+  {
+    slug: "ahmed-flights",
+    name_ar: "أحمد الطيران",
+    name_en: "Ahmed Flights",
+    name: "Ahmed Flights",
+    specialty_ar: "طيران وسفر جوي",
+    specialty_en: "Aviation & Flight",
+    specialty: "Aviation & Flight",
+    emoji: "✈️",
+    color: "text-cyan-400",
+    bio_ar: "خبير تذاكر الطيران وأسعارها",
+    bio_en: "Flight ticket expert and price hacking specialist",
+    expertise: ["Flight Deals", "Airlines", "Airports", "Miles & Points"],
+    social: { twitter: "ahmedflights", blog: "flights.ahmed.com" }
+  },
+  {
+    slug: "sarah-adventure",
+    name_ar: "سارة المغامرات",
+    name_en: "Sarah Adventure",
+    name: "Sarah Adventure",
+    specialty_ar: "مغامرات",
+    specialty_en: "Adventure Travel",
+    specialty: "Adventure Travel",
+    emoji: "🏔️",
+    color: "text-orange-400",
+    bio_ar: "متخصصة في رحلات المغامرة والتسلق",
+    bio_en: "Adventure travel specialist, trekking and climbing expert",
+    expertise: ["Hiking", "Climbing", "Safari", "Extreme Sports"],
+    social: { instagram: "sarah.adventure" }
+  }
+];
 
-  // New link form
-  const [newLink, setNewLink] = useState({ name: '', url: '', icon: '🔗', category: 'general' });
-  const [showNewLink, setShowNewLink] = useState(false);
-
-  // New banner form
-  const [newBanner, setNewBanner] = useState({ text: '', url: '' });
-  const [showNewBanner, setShowNewBanner] = useState(false);
-
-  // Settings
-  const [siteConfig, setSiteConfig] = useState({ lang: 'en', adminPassword: '709105' });
-  const [chatConfig, setChatConfig] = useState({ model: 'claude-haiku-4-5-20251001', maxTokens: 1024 });
-
-  useEffect(() => { 
-    loadData(); 
-    loadRealTimeStats();
-  }, [activeTab]);
-
-  const loadRealTimeStats = async () => {
-    try {
-      // Load clicks from affiliate_links
-      const { data: linksData } = await supabase
-        .from('affiliate_links')
-        .select('clicks');
-      
-      const totalClicks = linksData?.reduce((sum, link) => sum + (link.clicks || 0), 0) || 0;
-      
-      // Load searches from analytics table if exists
-      const { data: analyticsData } = await supabase
-        .from('analytics')
-        .select('searches, date')
-        .gte('date', new Date().toISOString().split('T')[0]);
-      
-      const todaySearches = analyticsData?.reduce((sum, a) => sum + (a.searches || 0), 0) || 0;
-      const totalSearches = analyticsData?.reduce((sum, a) => sum + (a.searches || 0), 0) || 0;
-      
-      // Calculate conversion rate (assuming 2% of clicks convert)
-      const conversionRate = totalClicks > 0 ? (totalClicks * 0.02) : 0;
-      const estimatedRevenue = conversionRate * 5; // $5 CPA
-      
-      setStats({
-        clicks: totalClicks,
-        searches: totalSearches,
-        todayClicks: Math.floor(totalClicks * 0.1), // Example: 10% today
-        total: totalClicks + totalSearches,
-        conversionRate: totalClicks > 0 ? 2 : 0,
-        estimatedRevenue: estimatedRevenue
-      });
-    } catch (err) {
-      console.error('Error loading stats:', err);
-    }
-  };
-
-  const loadData = async () => {
-    setLoading(true);
-    try {
-      if (activeTab === 'links') {
-        const { data } = await supabase
-          .from('affiliate_links')
-          .select('*')
-          .order('created_at', { ascending: false });
-        setLinks(data || []);
-      } else if (activeTab === 'banners') {
-        const { data } = await supabase
-          .from('banners')
-          .select('*')
-          .order('created_at', { ascending: false });
-        setBanners(data || []);
-      } else if (activeTab === 'settings') {
-        const { data: sc } = await supabase
-          .from('settings')
-          .select('value')
-          .eq('key', 'site_config')
-          .single();
-        const { data: cc } = await supabase
-          .from('settings')
-          .select('value')
-          .eq('key', 'chat_config')
-          .single();
-        
-        if (sc) setSiteConfig(sc.value);
-        if (cc) setChatConfig(cc.value);
-      } else if (activeTab === 'stats') {
-        await loadRealTimeStats();
-      }
-    } catch (err) {
-      console.error('Error loading data:', err);
-      showToast('❌ خطأ في تحميل البيانات');
-    }
-    setLoading(false);
-  };
-
-  const showToast = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(''), 3000);
-  };
-
-  const toggleLink = async (id: string, current: boolean) => {
-    const { error } = await supabase
-      .from('affiliate_links')
-      .update({ is_active: !current })
-      .eq('id', id);
-    
-    if (!error) {
-      setLinks(links.map(l => l.id === id ? { ...l, is_active: !current } : l));
-      showToast(current ? '🔴 رابط معطّل' : '🟢 رابط مفعّل');
-    }
-  };
-
-  const deleteLink = async (id: string) => {
-    if (!confirm('حذف هذا الرابط؟')) return;
-    const { error } = await supabase.from('affiliate_links').delete().eq('id', id);
-    if (!error) {
-      setLinks(links.filter(l => l.id !== id));
-      showToast('🗑️ تم الحذف');
-    }
-  };
-
-  const addLink = async () => {
-    if (!newLink.name || !newLink.url) return showToast('❌ أدخل الاسم والرابط');
-    setSaving(true);
-    const { data, error } = await supabase
-      .from('affiliate_links')
-      .insert({ ...newLink, clicks: 0, is_active: true })
-      .select()
-      .single();
-    
-    if (data) {
-      setLinks([data, ...links]);
-      setNewLink({ name: '', url: '', icon: '🔗', category: 'general' });
-      setShowNewLink(false);
-      showToast('✅ تم إضافة الرابط');
-    }
-    setSaving(false);
-  };
-
-  const incrementLinkClick = async (id: string) => {
-    const link = links.find(l => l.id === id);
-    if (link) {
-      const newClicks = (link.clicks || 0) + 1;
-      await supabase
-        .from('affiliate_links')
-        .update({ clicks: newClicks })
-        .eq('id', id);
-      setLinks(links.map(l => l.id === id ? { ...l, clicks: newClicks } : l));
-      await loadRealTimeStats();
-    }
-  };
-
-  const toggleBanner = async (id: string, current: boolean) => {
-    const { error } = await supabase
-      .from('banners')
-      .update({ is_active: !current })
-      .eq('id', id);
-    
-    if (!error) {
-      setBanners(banners.map(b => b.id === id ? { ...b, is_active: !current } : b));
-      showToast(current ? '🔴 إعلان معطّل' : '🟢 إعلان مفعّل');
-    }
-  };
-
-  const deleteBanner = async (id: string) => {
-    if (!confirm('حذف هذا الإعلان؟')) return;
-    const { error } = await supabase.from('banners').delete().eq('id', id);
-    if (!error) {
-      setBanners(banners.filter(b => b.id !== id));
-      showToast('🗑️ تم الحذف');
-    }
-  };
-
-  const addBanner = async () => {
-    if (!newBanner.text) return showToast('❌ أدخل نص الإعلان');
-    setSaving(true);
-    const { data, error } = await supabase
-      .from('banners')
-      .insert({ ...newBanner, clicks: 0, is_active: true })
-      .select()
-      .single();
-    
-    if (data) {
-      setBanners([data, ...banners]);
-      setNewBanner({ text: '', url: '' });
-      setShowNewBanner(false);
-      showToast('✅ تم إضافة الإعلان');
-    }
-    setSaving(false);
-  };
-
-  const saveSettings = async () => {
-    setSaving(true);
-    await supabase
-      .from('settings')
-      .upsert({ key: 'site_config', value: siteConfig, updated_at: new Date().toISOString() });
-    await supabase
-      .from('settings')
-      .upsert({ key: 'chat_config', value: chatConfig, updated_at: new Date().toISOString() });
-    setSaving(false);
-    showToast('✅ تم حفظ الإعدادات');
-  };
-
-  const TABS = [
-    { id: 'stats', label: 'إحصائيات', icon: <BarChart2 size={18}/> },
-    { id: 'links', label: 'روابط', icon: <Link2 size={18}/> },
-    { id: 'banners', label: 'إعلانات', icon: <Megaphone size={18}/> },
-    { id: 'settings', label: 'إعدادات', icon: <Settings size={18}/> },
-  ] as const;
+// ==================== Rich Text Editor ====================
+function RichTextEditor({ content, onChange, darkMode, language }: { content: string; onChange: (content: string) => void; darkMode: boolean; language: 'ar' | 'en' }) {
+  const editor = useEditor({
+    extensions: [StarterKit, TiptapImage.configure({ inline: false, allowBase64: true }), TiptapLink.configure({ openOnClick: false })],
+    content: content || (language === 'ar' ? '<p>اكتب محتوى المقال هنا...</p>' : '<p>Write your article content here...</p>'),
+    onUpdate: ({ editor }: any) => onChange(editor.getHTML()),
+    editorProps: {
+      attributes: {
+        class: `min-h-[300px] p-4 focus:outline-none ${darkMode ? 'text-zinc-300' : 'text-gray-800'}`,
+        dir: language === 'ar' ? 'rtl' : 'ltr',
+      },
+    },
+  });
 
   return (
-    <div className="min-h-screen bg-background" dir="rtl">
-      <AnimatePresence>
-        {toast && (
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-            className="fixed top-4 right-4 z-50 bg-foreground text-background px-4 py-2 rounded-xl shadow-lg font-bold text-sm">
-            {toast}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Header */}
-      <div className="bg-[#0D3B38] text-white px-6 py-4 flex items-center justify-between shadow-lg">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] flex items-center justify-center font-black text-lg">F</div>
-          <div>
-            <h1 className="font-black text-lg tracking-wide">لوحة تحكم Fastamor</h1>
-            <p className="text-white/50 text-xs">Admin Dashboard</p>
-          </div>
-        </div>
-        <button onClick={onClose} className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm font-medium">
-          <LogOut size={18}/> خروج
-        </button>
+    <div className={`border rounded-lg overflow-hidden ${darkMode ? 'border-zinc-800' : 'border-gray-200'}`}>
+      <div className={`flex flex-wrap items-center gap-1 p-2 border-b ${darkMode ? 'border-zinc-800 bg-zinc-900/50' : 'border-gray-200 bg-gray-50'}`}>
+        <button onClick={() => editor?.chain().focus().toggleBold().run()} className="p-1.5 rounded hover:bg-zinc-700"><Bold className="w-4 h-4" /></button>
+        <button onClick={() => editor?.chain().focus().toggleItalic().run()} className="p-1.5 rounded hover:bg-zinc-700"><Italic className="w-4 h-4" /></button>
+        <button onClick={() => editor?.chain().focus().toggleBulletList().run()} className="p-1.5 rounded hover:bg-zinc-700"><List className="w-4 h-4" /></button>
+        <button onClick={() => editor?.chain().focus().toggleBlockquote().run()} className="p-1.5 rounded hover:bg-zinc-700"><Quote className="w-4 h-4" /></button>
+        <button onClick={() => { const url = prompt(language === 'ar' ? 'أدخل رابط الصورة:' : 'Enter image URL:'); if (url && editor) editor.chain().focus().setImage({ src: url }).run(); }} className="p-1.5 rounded hover:bg-zinc-700"><ImageIcon2 className="w-4 h-4" /></button>
+        <button onClick={() => { const url = prompt(language === 'ar' ? 'أدخل رابط الحجز:' : 'Enter booking URL:'); if (url && editor) editor.chain().focus().setLink({ href: url }).run(); }} className="p-1.5 rounded hover:bg-zinc-700"><ShoppingBag className="w-4 h-4" /></button>
       </div>
-
-      {/* Tabs */}
-      <div className="bg-surface border-b border-border px-6 flex gap-1 overflow-x-auto">
-        {TABS.map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id as Tab)}
-            className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
-              activeTab === tab.id ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-foreground'
-            }`}>
-            {tab.icon} {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Content */}
-      <div className="max-w-6xl mx-auto p-6">
-        {loading && activeTab !== 'stats' ? (
-          <div className="flex justify-center py-20">
-            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"/>
-          </div>
-        ) : (
-          <>
-            {/* STATS - محدث */}
-            {activeTab === 'stats' && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <h2 className="font-serif font-black text-2xl text-foreground mb-6">الإحصائيات والتحليلات</h2>
-                
-                {/* البطاقات الرئيسية */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                  <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4">
-                    <MousePointer size={24} className="text-primary mb-2"/>
-                    <div className="text-3xl font-black text-foreground">{stats.clicks.toLocaleString()}</div>
-                    <div className="text-xs text-muted font-medium mt-1">إجمالي النقرات</div>
-                  </div>
-                  <div className="rounded-2xl border border-secondary/20 bg-secondary/5 p-4">
-                    <TrendingUp size={24} className="text-secondary mb-2"/>
-                    <div className="text-3xl font-black text-foreground">{stats.todayClicks.toLocaleString()}</div>
-                    <div className="text-xs text-muted font-medium mt-1">نقرات اليوم</div>
-                  </div>
-                  <div className="rounded-2xl border border-accent/20 bg-accent/5 p-4">
-                    <Search size={24} className="text-accent mb-2"/>
-                    <div className="text-3xl font-black text-foreground">{stats.searches.toLocaleString()}</div>
-                    <div className="text-xs text-muted font-medium mt-1">عمليات بحث</div>
-                  </div>
-                  <div className="rounded-2xl border border-info/20 bg-info/5 p-4">
-                    <Users size={24} className="text-info mb-2"/>
-                    <div className="text-3xl font-black text-foreground">{stats.total.toLocaleString()}</div>
-                    <div className="text-xs text-muted font-medium mt-1">إجمالي الأحداث</div>
-                  </div>
-                </div>
-
-                {/* بطاقات الأداء الإضافية */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                  <div className="bg-surface border border-border rounded-2xl p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <Percent size={20} className="text-emerald-500"/>
-                      <span className="text-sm text-muted">معدل التحويل</span>
-                    </div>
-                    <div className="text-2xl font-black text-foreground">{stats.conversionRate}%</div>
-                    <div className="text-xs text-muted mt-1">(تقديري بناءً على 2% من النقرات)</div>
-                  </div>
-                  <div className="bg-surface border border-border rounded-2xl p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <DollarSign size={20} className="text-yellow-500"/>
-                      <span className="text-sm text-muted">الإيرادات المقدرة</span>
-                    </div>
-                    <div className="text-2xl font-black text-foreground">${stats.estimatedRevenue.toFixed(2)}</div>
-                    <div className="text-xs text-muted mt-1">(على أساس $5 لكل تحويل)</div>
-                  </div>
-                  <div className="bg-surface border border-border rounded-2xl p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <Activity size={20} className="text-blue-500"/>
-                      <span className="text-sm text-muted">نشاط الشركاء</span>
-                    </div>
-                    <div className="text-2xl font-black text-foreground">{links.filter(l => l.is_active).length}</div>
-                    <div className="text-xs text-muted mt-1">روابط نشطة من أصل {links.length}</div>
-                  </div>
-                </div>
-                
-                {/* روابط Travelpayouts */}
-                <div className="bg-surface border border-border rounded-2xl p-6 text-center">
-                  <BarChart2 size={48} className="mx-auto mb-3 opacity-30"/>
-                  <p className="font-medium">للحصول على إحصائيات تفصيلية دقيقة</p>
-                  <p className="text-sm text-muted mt-1">قم بزيارة لوحة تحكم Travelpayouts لمتابعة الأرباح والنقرات بشكل فوري</p>
-                  <div className="flex gap-3 justify-center mt-4">
-                    <a href="https://app.travelpayouts.com/statistics" target="_blank" rel="noopener noreferrer"
-                      className="inline-block bg-primary text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-primary/90 transition-colors">
-                      فتح Travelpayouts
-                    </a>
-                    <button onClick={loadRealTimeStats}
-                      className="inline-block bg-background border border-border px-5 py-2 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors">
-                      تحديث البيانات
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* LINKS - محدث مع عرض النقرات */}
-            {activeTab === 'links' && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="font-serif font-black text-2xl text-foreground">روابط Affiliate</h2>
-                  <button onClick={() => setShowNewLink(!showNewLink)}
-                    className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl font-bold text-sm hover:bg-primary/90 transition-colors">
-                    <Plus size={16}/> إضافة رابط
-                  </button>
-                </div>
-
-                {showNewLink && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
-                    className="bg-surface border border-border rounded-2xl p-4 mb-4">
-                    <div className="grid grid-cols-2 gap-3 mb-3">
-                      <input value={newLink.name} onChange={e => setNewLink({...newLink, name: e.target.value})}
-                        placeholder="اسم الشركة" className="bg-background border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary"/>
-                      <input value={newLink.url} onChange={e => setNewLink({...newLink, url: e.target.value})}
-                        placeholder="https://..." className="bg-background border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary" dir="ltr"/>
-                      <input value={newLink.icon} onChange={e => setNewLink({...newLink, icon: e.target.value})}
-                        placeholder="أيقونة (emoji)" className="bg-background border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary"/>
-                      <select value={newLink.category} onChange={e => setNewLink({...newLink, category: e.target.value})}
-                        className="bg-background border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary">
-                        <option value="flight">طيران</option>
-                        <option value="hotel">فنادق</option>
-                        <option value="taxi">نقل</option>
-                        <option value="tour">جولات</option>
-                        <option value="esim">eSIM</option>
-                        <option value="general">عام</option>
-                      </select>
-                    </div>
-                    <div className="flex gap-2">
-                      <button onClick={addLink} disabled={saving}
-                        className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl font-bold text-sm">
-                        <Check size={14}/> حفظ
-                      </button>
-                      <button onClick={() => setShowNewLink(false)}
-                        className="flex items-center gap-2 bg-background border border-border px-4 py-2 rounded-xl text-sm font-medium">
-                        <X size={14}/> إلغاء
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-
-                <div className="space-y-3">
-                  {links.length === 0 ? (
-                    <div className="bg-surface border border-border rounded-2xl p-12 text-center text-muted">
-                      <Link2 size={48} className="mx-auto mb-3 opacity-30"/>
-                      <p>لا توجد روابط بعد</p>
-                      <button onClick={() => setShowNewLink(true)} className="mt-3 text-primary font-bold">➕ أضف رابطاً</button>
-                    </div>
-                  ) : (
-                    links.map(link => (
-                      <div key={link.id} className={`bg-surface border rounded-2xl p-4 flex items-center gap-3 transition-all ${link.is_active ? 'border-border' : 'border-border opacity-60'}`}>
-                        <span className="text-2xl w-10 text-center">{link.icon}</span>
-                        <div className="flex-1 min-w-0">
-                          <div className="font-bold text-foreground">{link.name}</div>
-                          <div className="text-xs text-muted truncate" dir="ltr">{link.url}</div>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs bg-background border border-border px-2 py-0.5 rounded-full">{link.category}</span>
-                            <span className="text-xs text-muted">🖱️ {link.clicks || 0} نقرة</span>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <button onClick={() => toggleLink(link.id, link.is_active)}
-                            className={`p-2 rounded-xl transition-colors ${link.is_active ? 'bg-secondary/10 text-secondary hover:bg-secondary/20' : 'bg-background border border-border text-muted'}`}>
-                            {link.is_active ? <Eye size={16}/> : <EyeOff size={16}/>}
-                          </button>
-                          <button onClick={() => deleteLink(link.id)} className="p-2 rounded-xl bg-red-50 text-red-500 hover:bg-red-100 transition-colors">
-                            <Trash2 size={16}/>
-                          </button>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </motion.div>
-            )}
-
-            {/* BANNERS - محدث */}
-            {activeTab === 'banners' && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="font-serif font-black text-2xl text-foreground">الإعلانات</h2>
-                  <button onClick={() => setShowNewBanner(!showNewBanner)}
-                    className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl font-bold text-sm hover:bg-primary/90 transition-colors">
-                    <Plus size={16}/> إضافة إعلان
-                  </button>
-                </div>
-
-                {showNewBanner && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
-                    className="bg-surface border border-border rounded-2xl p-4 mb-4">
-                    <div className="space-y-3 mb-3">
-                      <input value={newBanner.text} onChange={e => setNewBanner({...newBanner, text: e.target.value})}
-                        placeholder="نص الإعلان..." className="w-full bg-background border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary"/>
-                      <input value={newBanner.url} onChange={e => setNewBanner({...newBanner, url: e.target.value})}
-                        placeholder="رابط الإعلان https://..." className="w-full bg-background border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary" dir="ltr"/>
-                    </div>
-                    <div className="flex gap-2">
-                      <button onClick={addBanner} disabled={saving}
-                        className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl font-bold text-sm">
-                        <Check size={14}/> حفظ
-                      </button>
-                      <button onClick={() => setShowNewBanner(false)}
-                        className="flex items-center gap-2 bg-background border border-border px-4 py-2 rounded-xl text-sm font-medium">
-                        <X size={14}/> إلغاء
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-
-                <div className="space-y-3">
-                  {banners.length === 0 ? (
-                    <div className="bg-surface border border-border rounded-2xl p-12 text-center text-muted">
-                      <Megaphone size={48} className="mx-auto mb-3 opacity-30"/>
-                      <p>لا توجد إعلانات بعد</p>
-                      <button onClick={() => setShowNewBanner(true)} className="mt-3 text-primary font-bold">➕ أضف إعلاناً</button>
-                    </div>
-                  ) : (
-                    banners.map(banner => (
-                      <div key={banner.id} className={`bg-surface border rounded-2xl p-4 transition-all ${banner.is_active ? 'border-border' : 'border-border opacity-60'}`}>
-                        <div className="flex items-start gap-3">
-                          <Megaphone size={20} className="text-primary mt-1 shrink-0"/>
-                          <div className="flex-1 min-w-0">
-                            <div className="font-medium text-foreground text-sm">{banner.text}</div>
-                            {banner.url && <div className="text-xs text-muted truncate mt-1" dir="ltr">{banner.url}</div>}
-                            <div className="text-xs text-muted mt-1">🖱️ {banner.clicks || 0} نقرة</div>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <button onClick={() => toggleBanner(banner.id, banner.is_active)}
-                              className={`p-2 rounded-xl transition-colors ${banner.is_active ? 'bg-secondary/10 text-secondary' : 'bg-background border border-border text-muted'}`}>
-                              {banner.is_active ? <Eye size={16}/> : <EyeOff size={16}/>}
-                            </button>
-                            <button onClick={() => deleteBanner(banner.id)} className="p-2 rounded-xl bg-red-50 text-red-500 hover:bg-red-100 transition-colors">
-                              <Trash2 size={16}/>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </motion.div>
-            )}
-
-            {/* SETTINGS - موجود */}
-            {activeTab === 'settings' && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <h2 className="font-serif font-black text-2xl text-foreground mb-6">الإعدادات</h2>
-
-                <div className="space-y-6">
-                  <div className="bg-surface border border-border rounded-2xl p-6">
-                    <h3 className="font-bold text-foreground mb-4">إعدادات الموقع</h3>
-                    <div className="space-y-4">
-                      <div>
-                        <label className="text-sm font-medium text-muted mb-1 block">اللغة الافتراضية</label>
-                        <select value={siteConfig.lang} onChange={e => setSiteConfig({...siteConfig, lang: e.target.value})}
-                          className="bg-background border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary w-full">
-                          <option value="en">English</option>
-                          <option value="ar">العربية</option>
-                          <option value="fr">Français</option>
-                          <option value="es">Español</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium text-muted mb-1 block">كلمة مرور الأدمن</label>
-                        <input type="password" value={siteConfig.adminPassword}
-                          onChange={e => setSiteConfig({...siteConfig, adminPassword: e.target.value})}
-                          className="bg-background border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary w-full" dir="ltr"/>
-                        <p className="text-xs text-muted mt-1">كلمة المرور الحالية: <strong>{siteConfig.adminPassword}</strong></p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-surface border border-border rounded-2xl p-6">
-                    <h3 className="font-bold text-foreground mb-4">إعدادات الشات AI</h3>
-                    <div className="space-y-4">
-                      <div>
-                        <label className="text-sm font-medium text-muted mb-1 block">النموذج</label>
-                        <select value={chatConfig.model} onChange={e => setChatConfig({...chatConfig, model: e.target.value})}
-                          className="bg-background border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary w-full" dir="ltr">
-                          <option value="claude-haiku-4-5-20251001">Claude Haiku (سريع واقتصادي)</option>
-                          <option value="claude-sonnet-4-6">Claude Sonnet (أذكى)</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium text-muted mb-1 block">الحد الأقصى للرد (tokens)</label>
-                        <input type="number" value={chatConfig.maxTokens}
-                          onChange={e => setChatConfig({...chatConfig, maxTokens: Number(e.target.value)})}
-                          className="bg-background border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary w-full" dir="ltr"/>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button onClick={saveSettings} disabled={saving}
-                    className="w-full bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white py-3 rounded-xl font-black text-base hover:shadow-lg transition-all flex items-center justify-center gap-2">
-                    {saving ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"/> : <Check size={20}/>}
-                    حفظ جميع الإعدادات
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </>
-        )}
+      <div className={darkMode ? 'bg-black' : 'bg-white'}>
+        <EditorContent editor={editor} />
       </div>
     </div>
   );
+}
+
+// ==================== Article Editor Modal (Bilingual) ====================
+function ArticleEditorModal({ article, destinations, hotels, onClose, onSave, darkMode }: any) {
+  const [activeLang, setActiveLang] = useState<'ar' | 'en'>('en');
+  const [titleAr, setTitleAr] = useState(article?.title_ar || '');
+  const [titleEn, setTitleEn] = useState(article?.title_en || '');
+  const [bodyAr, setBodyAr] = useState(article?.body_ar || '');
+  const [bodyEn, setBodyEn] = useState(article?.body_en || '');
+  const [excerptAr, setExcerptAr] = useState(article?.excerpt_ar || '');
+  const [excerptEn, setExcerptEn] = useState(article?.excerpt_en || '');
+  const [category, setCategory] = useState(article?.category || 'destination_guide');
+  const [destinationId, setDestinationId] = useState(article?.destination_id || '');
+  const [hotelId, setHotelId] = useState(article?.hotel_id || '');
+  const [featuredImage, setFeaturedImage] = useState(article?.featured_image || '');
+  const [authorSlug, setAuthorSlug] = useState(article?.author_slug || 'youssef-travel');
+  const [tagsAr, setTagsAr] = useState<string[]>(article?.tags_ar || []);
+  const [tagsEn, setTagsEn] = useState<string[]>(article?.tags_en || []);
+  const [newTag, setNewTag] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    setSaving(true);
+    const articleData = {
+      title_ar: titleAr, title_en: titleEn,
+      body_ar: bodyAr, body_en: bodyEn,
+      excerpt_ar: excerptAr || bodyAr.slice(0, 200),
+      excerpt_en: excerptEn || bodyEn.slice(0, 200),
+      category, destination_id: destinationId || null, hotel_id: hotelId || null,
+      featured_image: featuredImage, author_slug: authorSlug,
+      tags_ar: tagsAr, tags_en: tagsEn,
+      updated_at: new Date().toISOString(),
+    };
+    
+    if (article?.id) {
+      await supabase.from('articles').update(articleData).eq('id', article.id);
+      toast.success(activeLang === 'ar' ? 'تم تحديث المقال' : 'Article updated');
+    } else {
+      await supabase.from('articles').insert({
+        ...articleData, status: 'draft', created_at: new Date().toISOString(),
+        slug: titleEn.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now()
+      });
+      toast.success(activeLang === 'ar' ? 'تم حفظ المقال' : 'Article saved');
+    }
+    onSave();
+    onClose();
+    setSaving(false);
+  };
+
+  const addTag = () => {
+    if (!newTag.trim()) return;
+    if (activeLang === 'ar') setTagsAr([...tagsAr, newTag.trim()]);
+    else setTagsEn([...tagsEn, newTag.trim()]);
+    setNewTag('');
+  };
+
+  const removeTag = (tag: string) => {
+    if (activeLang === 'ar') setTagsAr(tagsAr.filter(t => t !== tag));
+    else setTagsEn(tagsEn.filter(t => t !== tag));
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4 overflow-y-auto">
+      <div className={`${darkMode ? 'bg-zinc-900' : 'bg-white'} rounded-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto`}>
+        {/* Header with Language Toggle */}
+        <div className={`sticky top-0 p-4 border-b ${darkMode ? 'border-zinc-800' : 'border-gray-200'} flex justify-between items-center`}>
+          <button onClick={onClose} className="p-2 hover:bg-zinc-800 rounded-lg"><X className="w-5 h-5" /></button>
+          <div className="flex gap-2">
+            <button onClick={() => setActiveLang('ar')} className={`px-3 py-1 rounded ${activeLang === 'ar' ? 'bg-emerald-500 text-white' : darkMode ? 'bg-zinc-800' : 'bg-gray-200'}`}>العربية</button>
+            <button onClick={() => setActiveLang('en')} className={`px-3 py-1 rounded ${activeLang === 'en' ? 'bg-emerald-500 text-white' : darkMode ? 'bg-zinc-800' : 'bg-gray-200'}`}>English</button>
+          </div>
+          <h3 className="text-lg font-bold">{article?.id ? (activeLang === 'ar' ? 'تحرير المقال' : 'Edit Article') : (activeLang === 'ar' ? 'مقال جديد' : 'New Article')}</h3>
+        </div>
+        
+        <div className="p-6 space-y-6">
+          {/* Title */}
+          <input type="text" value={activeLang === 'ar' ? titleAr : titleEn} onChange={e => activeLang === 'ar' ? setTitleAr(e.target.value) : setTitleEn(e.target.value)} placeholder={activeLang === 'ar' ? 'عنوان المقال' : 'Article Title'} className={`w-full ${darkMode ? 'bg-black border-zinc-800 text-zinc-300' : 'bg-gray-50 border-gray-200'} border rounded-lg p-3 text-xl font-bold`} />
+          
+          {/* Featured Image */}
+          <div>
+            <label className={`block text-sm mb-2 ${darkMode ? 'text-zinc-400' : 'text-gray-600'}`}>{activeLang === 'ar' ? 'الصورة الرئيسية' : 'Featured Image'}</label>
+            <input type="text" value={featuredImage} onChange={e => setFeaturedImage(e.target.value)} placeholder="https://..." className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-black border-zinc-800' : 'bg-gray-50 border-gray-200'}`} />
+            {featuredImage && <img src={featuredImage} className="mt-2 w-full h-48 object-cover rounded-lg" />}
+          </div>
+
+          {/* Category & Author */}
+          <div className="grid grid-cols-2 gap-4">
+            <select value={category} onChange={e => setCategory(e.target.value as any)} className={`p-3 rounded-lg border ${darkMode ? 'bg-black border-zinc-800' : 'bg-gray-50 border-gray-200'}`}>
+              <option value="destination_guide">{activeLang === 'ar' ? 'دليل وجهة' : 'Destination Guide'}</option>
+              <option value="hotel_review">{activeLang === 'ar' ? 'مراجعة فندق' : 'Hotel Review'}</option>
+              <option value="travel_tips">{activeLang === 'ar' ? 'نصائح سفر' : 'Travel Tips'}</option>
+              <option value="itinerary">{activeLang === 'ar' ? 'برنامج رحلة' : 'Itinerary'}</option>
+              <option value="news">{activeLang === 'ar' ? 'أخبار سياحية' : 'Travel News'}</option>
+            </select>
+            
+            <select value={authorSlug} onChange={e => setAuthorSlug(e.target.value)} className={`p-3 rounded-lg border ${darkMode ? 'bg-black border-zinc-800' : 'bg-gray-50 border-gray-200'}`}>
+              {TRAVEL_WRITERS.map(w => <option key={w.slug} value={w.slug}>{w.emoji} {activeLang === 'ar' ? w.name_ar : w.name_en} - {activeLang === 'ar' ? w.specialty_ar : w.specialty_en}</option>)}
+            </select>
+          </div>
+
+          {/* Destination / Hotel Relation */}
+          {category === 'destination_guide' && destinations && (
+            <select value={destinationId} onChange={e => setDestinationId(e.target.value)} className={`w-full p-3 rounded-lg border ${darkMode ? 'bg-black border-zinc-800' : 'bg-gray-50 border-gray-200'}`}>
+              <option value="">{activeLang === 'ar' ? 'اختر وجهة' : 'Select Destination'}</option>
+              {destinations.map((d: any) => <option key={d.id} value={d.id}>{activeLang === 'ar' ? d.name_ar : d.name_en} ({activeLang === 'ar' ? d.country_ar : d.country_en})</option>)}
+            </select>
+          )}
+          
+          {category === 'hotel_review' && hotels && (
+            <select value={hotelId} onChange={e => setHotelId(e.target.value)} className={`w-full p-3 rounded-lg border ${darkMode ? 'bg-black border-zinc-800' : 'bg-gray-50 border-gray-200'}`}>
+              <option value="">{activeLang === 'ar' ? 'اختر فندق' : 'Select Hotel'}</option>
+              {hotels.map((h: any) => <option key={h.id} value={h.id}>{activeLang === 'ar' ? h.name_ar : h.name_en} ({'★'.repeat(h.stars)})</option>)}
+            </select>
+          )}
+
+          {/* Content */}
+          <RichTextEditor content={activeLang === 'ar' ? bodyAr : bodyEn} onChange={activeLang === 'ar' ? setBodyAr : setBodyEn} darkMode={darkMode} language={activeLang} />
+          
+          {/* Excerpt */}
+          <textarea value={activeLang === 'ar' ? excerptAr : excerptEn} onChange={e => activeLang === 'ar' ? setExcerptAr(e.target.value) : setExcerptEn(e.target.value)} rows={3} placeholder={activeLang === 'ar' ? 'مقتطف قصير' : 'Short excerpt'} className={`w-full p-3 rounded-lg border ${darkMode ? 'bg-black border-zinc-800' : 'bg-gray-50 border-gray-200'}`} />
+          
+          {/* Tags */}
+          <div>
+            <label className={`block text-sm mb-2 ${darkMode ? 'text-zinc-400' : 'text-gray-600'}`}>{activeLang === 'ar' ? 'العلامات' : 'Tags'}</label>
+            <div className="flex gap-2 mb-2">
+              <input type="text" value={newTag} onChange={e => setNewTag(e.target.value)} onKeyPress={e => e.key === 'Enter' && addTag()} placeholder={activeLang === 'ar' ? 'أضف علامة' : 'Add tag'} className={`flex-1 p-2 rounded-lg border ${darkMode ? 'bg-black border-zinc-800' : 'bg-gray-50 border-gray-200'}`} />
+              <button onClick={addTag} className="px-3 py-2 bg-emerald-600 text-white rounded-lg"><Plus className="w-4 h-4" /></button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {(activeLang === 'ar' ? tagsAr : tagsEn).map(tag => (
+                <span key={tag} className={`px-2 py-1 text-xs rounded-full flex items-center gap-1 ${darkMode ? 'bg-zinc-800' : 'bg-gray-100'}`}>
+                  <Hash className="w-3 h-3" /> {tag}
+                  <button onClick={() => removeTag(tag)} className="hover:text-red-500"><X className="w-3 h-3" /></button>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        <div className={`sticky bottom-0 p-4 border-t ${darkMode ? 'border-zinc-800 bg-zinc-900' : 'border-gray-200 bg-white'} flex gap-3 justify-end`}>
+          <button onClick={onClose} className="px-4 py-2 bg-red-600/10 text-red-400 rounded-lg">{activeLang === 'ar' ? 'إلغاء' : 'Cancel'}</button>
+          <button onClick={handleSave} disabled={saving} className="px-6 py-2 bg-emerald-600 text-white rounded-lg flex items-center gap-2">
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            {article?.id ? (activeLang === 'ar' ? 'تحديث' : 'Update') : (activeLang === 'ar' ? 'نشر' : 'Publish')}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ==================== Main Admin Component ====================
+export default function FastamorAdmin() {
+  const [auth, setAuth] = useState(false);
+  const [pass, setPass] = useState("");
+  const [error, setError] = useState("");
+  const [darkMode, setDarkMode] = useState(true);
+  const [adminLang, setAdminLang] = useState<'ar' | 'en'>('en'); // Admin UI language
+  
+  useEffect(() => {
+    if (sessionStorage.getItem('fastamor_auth') === 'true') setAuth(true);
+    const savedMode = localStorage.getItem('fastamor_dark_mode');
+    if (savedMode !== null) setDarkMode(savedMode === 'true');
+  }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pass === ADMIN_KEY) {
+      sessionStorage.setItem('fastamor_auth', 'true');
+      setAuth(true);
+      toast.success(adminLang === 'ar' ? 'تم الدخول بنجاح' : 'Login successful');
+    } else {
+      setError(adminLang === 'ar' ? 'مفتاح غير صالح' : 'Invalid key');
+    }
+  };
+
+  if (!auth) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center ${darkMode ? 'bg-[#0a0a0a]' : 'bg-gray-50'}`} dir={adminLang === 'ar' ? 'rtl' : 'ltr'}>
+        <Toaster position="top-center" />
+        <div className={`w-full max-w-md p-8 rounded-xl border ${darkMode ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-gray-200'}`}>
+          <div className="flex justify-center mb-6">
+            <Globe className="w-16 h-16 text-emerald-500" />
+          </div>
+          <h1 className="text-2xl font-bold text-center mb-2">Fastamor Travel</h1>
+          <p className={`text-center text-sm mb-6 ${darkMode ? 'text-zinc-500' : 'text-gray-500'}`}>Admin Hub</p>
+          
+          <div className="flex justify-center gap-2 mb-4">
+            <button onClick={() => setAdminLang('ar')} className={`px-3 py-1 rounded ${adminLang === 'ar' ? 'bg-emerald-500 text-white' : darkMode ? 'bg-zinc-800' : 'bg-gray-200'}`}>العربية</button>
+            <button onClick={() => setAdminLang('en')} className={`px-3 py-1 rounded ${adminLang === 'en' ? 'bg-emerald-500 text-white' : darkMode ? 'bg-zinc-800' : 'bg-gray-200'}`}>English</button>
+          </div>
+          
+          <form onSubmit={handleLogin} className="space-y-4">
+            <input type="password" value={pass} onChange={e => setPass(e.target.value)} placeholder={adminLang === 'ar' ? 'مفتاح الإدارة' : 'Admin Key'} autoFocus className={`w-full p-3 rounded-lg border ${darkMode ? 'bg-black border-zinc-800 text-zinc-300' : 'bg-gray-50 border-gray-200'}`} />
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+            <button type="submit" className="w-full py-3 bg-emerald-600 text-white rounded-lg font-bold">{adminLang === 'ar' ? 'دخول' : 'Login'}</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`min-h-screen ${darkMode ? 'bg-[#0a0a0a] text-zinc-300' : 'bg-gray-100 text-gray-800'}`} dir={adminLang === 'ar' ? 'rtl' : 'ltr'}>
+      <Toaster position="top-center" />
+      <AdminDashboard darkMode={darkMode} adminLang={adminLang} setAdminLang={setAdminLang} />
+    </div>
+  );
+}
+
+// ==================== Admin Dashboard ====================
+function AdminDashboard({ darkMode, adminLang, setAdminLang }: { darkMode: boolean; adminLang: 'ar' | 'en'; setAdminLang: (lang: 'ar' | 'en') => void }) {
+  const [activeTab, setActiveTab] = useState<'articles' | 'destinations' | 'hotels' | 'analytics' | 'writers' | 'settings'>('articles');
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [destinations, setDestinations] = useState<Destination[]>([]);
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [editingArticle, setEditingArticle] = useState<Article | null>(null);
+  const [showNewArticle, setShowNewArticle] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => { loadAllData(); }, []);
+
+  const loadAllData = async () => {
+    setIsLoading(true);
+    const [articlesRes, destinationsRes, hotelsRes] = await Promise.all([
+      supabase.from('articles').select('*').order('created_at', { ascending: false }),
+      supabase.from('destinations').select('*').order('created_at', { ascending: false }),
+      supabase.from('hotels').select('*').order('created_at', { ascending: false })
+    ]);
+    if (articlesRes.data) setArticles(articlesRes.data);
+    if (destinationsRes.data) setDestinations(destinationsRes.data);
+    if (hotelsRes.data) setHotels(hotelsRes.data);
+    setIsLoading(false);
+  };
+
+  const filteredArticles = articles.filter(a => 
+    a.title_en?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    a.title_ar?.includes(searchQuery)
+  );
+
+  const t = (key: string): string => {
+    const translations: Record<string, { ar: string; en: string }> = {
+      articles: { ar: 'المقالات', en: 'Articles' },
+      destinations: { ar: 'الوجهات', en: 'Destinations' },
+      hotels: { ar: 'الفنادق', en: 'Hotels' },
+      analytics: { ar: 'التحليلات', en: 'Analytics' },
+      writers: { ar: 'الكتّاب', en: 'Writers' },
+      settings: { ar: 'الإعدادات', en: 'Settings' },
+      new_article: { ar: 'مقال جديد', en: 'New Article' },
+      search: { ar: 'بحث...', en: 'Search...' },
+      no_articles: { ar: 'لا توجد مقالات', en: 'No articles found' },
+    };
+    return translations[key]?.[adminLang] || key;
+  };
+
+  return (
+    <div className="max-w-[1600px] mx-auto p-6">
+      {/* Header */}
+      <div className={`flex items-center justify-between mb-6 border-b ${darkMode ? 'border-zinc-800' : 'border-gray-200'} pb-4`}>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Plane className="w-6 h-6 text-emerald-500" />
+            <span className="text-xl font-bold">Fastamor</span>
+            <span className={`text-xs ${darkMode ? 'text-zinc-600' : 'text-gray-400'}`}>Travel Admin Hub</span>
+          </div>
+          <button onClick={loadAllData} className={`p-2 rounded-lg ${darkMode ? 'hover:bg-zinc-800' : 'hover:bg-gray-200'}`}>
+            <RefreshCw className="w-4 h-4" />
+          </button>
+        </div>
+        
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <Search className={`absolute ${adminLang === 'ar' ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 w-4 h-4 text-zinc-500`} />
+            <input type="text" placeholder={t('search')} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className={`${adminLang === 'ar' ? 'pr-9 pl-3' : 'pl-9 pr-3'} py-2 text-sm rounded-lg border ${darkMode ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-gray-200'}`} />
+          </div>
+          <button onClick={() => setAdminLang(adminLang === 'ar' ? 'en' : 'ar')} className={`p-2 rounded-lg ${darkMode ? 'hover:bg-zinc-800' : 'hover:bg-gray-200'}`}>
+            <Languages className="w-5 h-5" />
+          </button>
+          <button onClick={() => { localStorage.setItem('fastamor_dark_mode', (!darkMode).toString()); window.location.reload(); }} className={`p-2 rounded-lg ${darkMode ? 'hover:bg-zinc-800' : 'hover:bg-gray-200'}`}>
+            {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+        </div>
+      </div>
+      
+      {/* Tabs */}
+      <div className={`flex gap-1 mb-6 border-b ${darkMode ? 'border-zinc-800' : 'border-gray-200'}`}>
+        {[
+          { id: 'articles', icon: Newspaper, label: t('articles') },
+          { id: 'destinations', icon: MapPin, label: t('destinations') },
+          { id: 'hotels', icon: Hotel, label: t('hotels') },
+          { id: 'analytics', icon: BarChart2, label: t('analytics') },
+          { id: 'writers', icon: Users, label: t('writers') },
+          { id: 'settings', icon: Settings, label: t('settings') },
+        ].map(tab => (
+          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${activeTab === tab.id ? `border-b-2 border-emerald-500 text-emerald-500` : darkMode ? 'text-zinc-500 hover:text-zinc-300' : 'text-gray-500 hover:text-gray-700'}`}>
+            <tab.icon className="w-4 h-4" /> {tab.label}
+          </button>
+        ))}
+      </div>
+      
+      {/* Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          {activeTab === 'articles' && (
+            <div className={`${darkMode ? 'bg-black border-zinc-800' : 'bg-white border-gray-200'} border rounded-lg overflow-hidden`}>
+              <div className={`p-4 border-b ${darkMode ? 'border-zinc-800' : 'border-gray-200'} flex justify-between items-center`}>
+                <h3 className="text-sm font-bold">{t('articles')}</h3>
+                <button onClick={() => setShowNewArticle(true)} className="px-3 py-1.5 text-xs bg-emerald-500 text-white rounded-lg flex items-center gap-1">
+                  <Plus className="w-3 h-3" /> {t('new_article')}
+                </button>
+              </div>
+              <div className="divide-y divide-zinc-800">
+                {filteredArticles.length === 0 ? (
+                  <div className="p-8 text-center text-zinc-500">{t('no_articles')}</div>
+                ) : (
+                  filteredArticles.map(article => (
+                    <div key={article.id} className="p-4 hover:bg-zinc-900/30 transition-colors">
+                      <div className="flex gap-4">
+                        {article.featured_image && <img src={article.featured_image} className="w-20 h-20 object-cover rounded" />}
+                        <div className="flex-1 text-right">
+                          <div className="flex items-center gap-2 justify-end mb-1">
+                            <span className={`text-xs px-2 py-0.5 rounded ${article.status === 'published' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+                              {article.status}
+                            </span>
+                            <span className="text-xs text-zinc-500">{article.author_slug}</span>
+                          </div>
+                          <h4 className="font-bold mb-1">{adminLang === 'ar' ? article.title_ar : article.title_en}</h4>
+                          <div className="flex gap-3 mt-2 justify-end">
+                            <button onClick={() => setEditingArticle(article)} className="text-blue-400"><Edit className="w-4 h-4" /></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+          {activeTab === 'destinations' && <DestinationsPanel darkMode={darkMode} adminLang={adminLang} destinations={destinations} onRefresh={loadAllData} />}
+          {activeTab === 'hotels' && <HotelsPanel darkMode={darkMode} adminLang={adminLang} hotels={hotels} destinations={destinations} onRefresh={loadAllData} />}
+          {activeTab === 'analytics' && <AnalyticsPanel darkMode={darkMode} adminLang={adminLang} articles={articles} />}
+        </div>
+        
+        {/* Sidebar - Writers & Quick Actions */}
+        <div className="space-y-6">
+          <div className={`${darkMode ? 'bg-black border-emerald-900/40' : 'bg-white border-gray-200'} border p-5 rounded-lg`}>
+            <h3 className="text-xs font-bold text-emerald-500 uppercase mb-4 flex items-center gap-2 justify-end">
+              {adminLang === 'ar' ? 'كتّاب السفر' : 'Travel Writers'}
+              <Users className="w-3.5 h-3.5" />
+            </h3>
+            <div className="space-y-3">
+              {TRAVEL_WRITERS.map(writer => (
+                <div key={writer.slug} className="flex items-center gap-3 justify-end">
+                  <div className="text-right">
+                    <div className={`text-sm font-bold ${writer.color}`}>{writer.emoji} {adminLang === 'ar' ? writer.name_ar : writer.name_en}</div>
+                    <div className="text-[10px] text-zinc-500">{adminLang === 'ar' ? writer.specialty_ar : writer.specialty_en}</div>
+                  </div>
+                  <div className={`w-2 h-2 rounded-full animate-pulse ${writer.color.replace('text', 'bg')}`} />
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className={`${darkMode ? 'bg-black border-zinc-800' : 'bg-white border-gray-200'} border p-5 rounded-lg`}>
+            <h3 className="text-xs font-bold uppercase mb-3">{adminLang === 'ar' ? 'إحصائيات سريعة' : 'Quick Stats'}</h3>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between"><span>{adminLang === 'ar' ? 'المقالات' : 'Articles'}:</span><span className="font-bold">{articles.length}</span></div>
+              <div className="flex justify-between"><span>{adminLang === 'ar' ? 'الوجهات' : 'Destinations'}:</span><span className="font-bold">{destinations.length}</span></div>
+              <div className="flex justify-between"><span>{adminLang === 'ar' ? 'الفنادق' : 'Hotels'}:</span><span className="font-bold">{hotels.length}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Modals */}
+      {(editingArticle || showNewArticle) && (
+        <ArticleEditorModal
+          article={editingArticle}
+          destinations={destinations}
+          hotels={hotels}
+          onClose={() => { setEditingArticle(null); setShowNewArticle(false); }}
+          onSave={loadAllData}
+          darkMode={darkMode}
+        />
+      )}
+    </div>
+  );
+}
+
+// Placeholder components (simplified)
+function DestinationsPanel({ darkMode, adminLang, destinations, onRefresh }: any) {
+  return <div className={`p-8 text-center ${darkMode ? 'bg-black border-zinc-800' : 'bg-white border-gray-200'} border rounded-lg`}>{adminLang === 'ar' ? 'إدارة الوجهات قيد التطوير' : 'Destinations management coming soon'}</div>;
+}
+
+function HotelsPanel({ darkMode, adminLang }: any) {
+  return <div className={`p-8 text-center ${darkMode ? 'bg-black border-zinc-800' : 'bg-white border-gray-200'} border rounded-lg`}>{adminLang === 'ar' ? 'إدارة الفنادق قيد التطوير' : 'Hotels management coming soon'}</div>;
+}
+
+function AnalyticsPanel({ darkMode, adminLang, articles }: any) {
+  return <div className={`p-8 text-center ${darkMode ? 'bg-black border-zinc-800' : 'bg-white border-gray-200'} border rounded-lg`}>{adminLang === 'ar' ? 'التحليلات قيد التطوير' : 'Analytics coming soon'}</div>;
 }
