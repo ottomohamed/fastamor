@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { LandingView } from '@/views/LandingView';
 import { AppView } from '@/views/AppView';
 import { PrivacyView } from '@/views/PrivacyView';
-import { AdminModal } from '@/components/AdminModal';
 import AdminView from '@/views/AdminView';
 import { initTracking } from '@/lib/tracking';
 import { I18N } from '@/lib/data';
@@ -13,7 +12,6 @@ export default function FastamorMain() {
   const [view, setView] = useState<ViewState>('landing');
   const [lang, setLang] = useState('en');
   const [initialSvc, setInitialSvc] = useState<string>('');
-  const [adminOpen, setAdminOpen] = useState(false);
   const [clicks, setClicks] = useState(0);
 
   useEffect(() => { initTracking(); }, []);
@@ -29,14 +27,12 @@ export default function FastamorMain() {
   };
 
   const handleAdminTrigger = () => {
-    const t = I18N[lang as keyof typeof I18N] || I18N.en;
     const newClicks = clicks + 1;
     setClicks(newClicks);
     if (newClicks >= 5) {
       setClicks(0);
-      const pass = prompt(t.admin_password_prompt);
-      if (pass === "709105") setAdminOpen(true);
-      else alert(t.unauthorized);
+      setView('admin');
+      window.scrollTo(0, 0);
     }
     setTimeout(() => setClicks(0), 3000);
   };
@@ -55,7 +51,9 @@ export default function FastamorMain() {
       {view === 'privacy' && (
         <PrivacyView onBack={() => { setView('landing'); window.scrollTo(0,0); }} />
       )}
-      <AdminModal isOpen={adminOpen} onClose={() => setAdminOpen(false)} lang={lang} />
+      {view === 'admin' && (
+        <AdminView onClose={() => { setView('landing'); window.scrollTo(0,0); }} />
+      )}
     </>
   );
 }
