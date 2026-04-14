@@ -1,123 +1,92 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const TOKEN = process.env.TP_API_TOKEN || '517b9f43b0fa448681c25b90fda7cf73';
-const MARKER = process.env.TP_MARKER || '709105';
+const TOKEN = process.env.TRAVELPAYOUTS_TOKEN || '517b9f43b0fa448681c25b90fda7cf73';
+const MARKER = process.env.TRAVELPAYOUTS_MARKER || '709105';
+
+function getAirlineLogo(iata: string): string {
+  return `https://pics.avs.io/64/64/${iata}.png`;
+}
+
+function formatDuration(minutes: number): string {
+  if (!minutes) return '';
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return `${h}h ${m}m`;
+}
+
+function buildBookingUrl(link: string): string {
+  if (!link) return `https://aviasales.com?marker=${MARKER}`;
+  return `https://www.aviasales.com${link}&marker=${MARKER}`;
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  
+
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { origin, destination, date, returnDate, passengers = 1, currency = 'USD' } = req.body;
+  const { origin, destination, date } = req.body || {};
 
-  if (!origin || !destination || !date) {
-    return res.status(400).json({ error: 'Missing: origin, destination, date' });
+  if (!destination) {
+    return res.status(400).json({ error: 'Destination required', flights: [] });
   }
 
   try {
-    const depMonth = date.slice(0, 7); // YYYY-MM
-    
-    // بناء رابط API البيانات
-    let url = `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?`;
-    url += `origin=${origin.toUpperCase()}`;
-    url += `&destination=${destination.toUpperCase()}`;
-    url += `&departure_at=${date}`;
-    url += `&currency=${currency.toLowerCase()}`;
-    url += `&sorting=price`;
-    url += `&limit=20`;
-    url += `&token=${TOKEN}`;
-    
-    if (returnDate) {
-      url += `&return_at=${returnDate}`;
-    }
+    // Build date param
+    const dateParam = date && date !== 'any'
+      ? `&departure_at=${date.slice(0, 7)}`  // YYYY-MM format
+      : '';
 
-    console.log('📡 Fetching flights from Data API:', { origin, destination, date });
+    const originParam = origin ? `&origin=${origin}` : '';
 
-    let response = await fetch(url);
-    let data = await response.json();
+    const url = `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?destination=${destination}${originParam}${dateParam}&currency=usd&sorting=price&direct=false&limit=10&one_way=true&token=${TOKEN}`;
 
-    // إذا لم يتم العثور على نتائج، جرب البحث بالشهر فقط
-    if (!data.success || !data.data?.length) {
-      console.log('No results for exact date, trying month search...');
-      const monthUrl = `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?`;
-      + `origin=${origin.toUpperCase()}`;
-      + `&destination=${destination.toUpperCase()}`;
-      + `&departure_at=${depMonth}`;
-      + `&currency=${currency.toLowerCase()}`;
-      + `&sorting=price`;
-      + `&limit=20`;
-      + `&token=${TOKEN}`;
-      
-      response = await fetch(monthUrl);
-      data = await response.json();
-    }
-
-    if (!data.success || !data.data?.length) {
-      return res.status(200).json({ 
-        flights: [], 
-        message: 'No flights found for this route' 
-      });
-    }
-
-    // تنسيق النتائج
-    const flights = formatFlights(data.data, origin, destination, currency, MARKER);
-    
-    console.log(`✅ Found ${flights.length} flights`);
-    
-    return res.status(200).json({ 
-      flights: flights,
-      total: flights.length,
-      source: 'data_api'
+    const response = await fetch(url, {
+      headers: {
+        'X-Access-Token': TOKEN,
+        'Accept-Encoding': 'gzip, deflate',
+      },
     });
 
+    if (!response.ok) {
+      throw new Error(`Aviasales API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!data.success || !data.data || data.data.length === 0) {
+      return res.status(200).json({ flights: [], message: 'No flights found' });
+    }
+
+    const flights = data.data.slice(0, 8).map((f: any, i: number) => ({
+      id: `flight_${i}`,
+      airline: f.airline || 'Unknown',
+      airline_logo: getAirlineLogo(f.airline || 'XX'),
+      origin: f.origin || origin || '',
+      destination: f.destination || destination,
+      departure_time: f.departure_at
+        ? new Date(f.departure_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+        : '',
+      duration: formatDuration(f.duration_to || f.duration || 0),
+      stops: f.transfers === 0 ? 'Direct' : `${f.transfers} stop${f.transfers > 1 ? 's' : ''}`,
+      price: f.price || 0,
+      currency: 'USD',
+      booking_url: buildBookingUrl(f.link || ''),
+      gate: f.destination_airport || destination,
+    }));
+
+    return res.status(200).json({ flights, success: true });
+
   } catch (error: any) {
-    console.error('❌ Flights API error:', error);
-    return res.status(500).json({ error: error.message });
+    console.error('Flights API error:', error);
+
+    // Fallback: return affiliate link
+    return res.status(200).json({
+      flights: [],
+      fallback_url: `https://aviasales.tpx.gr/yQxrYmk7`,
+      error: error.message,
+    });
   }
-}
-
-function formatFlights(data: any[], origin: string, destination: string, currency: string, marker: string) {
-  return data.map((f: any) => {
-    // حساب مدة الرحلة
-    const hours = Math.floor(f.duration_to / 60);
-    const mins = f.duration_to % 60;
-    
-    // عدد التوقفات
-    const stopsText = f.transfers === 0 ? 'Direct' : `${f.transfers} stop${f.transfers > 1 ? 's' : ''}`;
-    
-    // وقت الإقلاع
-    const depTime = f.departure_at 
-      ? new Date(f.departure_at).toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' })
-      : '';
-    
-    // رابط الحجز
-    const bookingUrl = `https://www.aviasales.com${f.link}&marker=${marker}`;
-    
-    // شعار شركة الطيران
-    const airlineLogo = `http://img.wway.io/pics/root/${f.airline}@png?exar=1&rs=fit:80:40`;
-
-    return {
-      id: `${f.flight_number}_${f.departure_at}`,
-      airline: f.airline,
-      airline_logo: airlineLogo,
-      origin: f.origin || origin.toUpperCase(),
-      destination: f.destination || destination.toUpperCase(),
-      origin_airport: f.origin_airport || origin.toUpperCase(),
-      destination_airport: f.destination_airport || destination.toUpperCase(),
-      departure_at: f.departure_at,
-      departure_time: depTime,
-      duration: `${hours}h ${mins}m`,
-      duration_minutes: f.duration_to,
-      stops: stopsText,
-      transfers: f.transfers,
-      price: f.price,
-      currency: currency.toUpperCase(),
-      gate: f.gate,
-      booking_url: bookingUrl,
-      airline_code: f.airline,
-    };
-  }).sort((a: any, b: any) => a.price - b.price);
 }

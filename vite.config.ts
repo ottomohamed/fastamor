@@ -8,15 +8,16 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: './',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
   },
-  build: {
-    outDir: 'dist',
-    emptyOutDir: true,
-    assetsDir: 'assets',
-  }
+  server: {
+    port: 5173,
+    host: true,
+    hmr: {
+      overlay: false,
+    },
+  },
 });

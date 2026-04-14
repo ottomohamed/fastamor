@@ -1,0 +1,164 @@
+interface ExtractedParams {
+  origin: string;
+  destination: string;
+  departDate: string;
+  returnDate: string;
+  adults: string;
+  found: boolean;
+}
+
+// ─────────────────────────────────────────────
+// Arabic normalization
+// ─────────────────────────────────────────────
+function normalizeArabic(text: string): string {
+  if (!text) return "";
+
+  return text
+    .toLowerCase()
+    .replace(/[أإآٱ]/g, "ا")
+    .replace(/ة/g, "ه")
+    .replace(/ى/g, "ي")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/[ًٌٍَُِّْ]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// ─────────────────────────────────────────────
+// Detect route direction
+// ─────────────────────────────────────────────
+const FROM_WORDS = ["from", "من", "de", "desde"];
+const TO_WORDS = ["to", "الى", "إلى", "vers", "a", "para"];
+
+// ─────────────────────────────────────────────
+// Extract Params
+// ─────────────────────────────────────────────
+function extractParamsLocally(messages: any[]): ExtractedParams {
+
+  const rawText = messages.map((m: any) => m.content).join(" ");
+  const text = normalizeArabic(rawText);
+
+  const today = new Date();
+  const tomorrow = new Date(today.getTime() + 86400000).toISOString().slice(0, 10);
+  const nextWeek = new Date(today.getTime() + 7 * 86400000).toISOString().slice(0, 10);
+  const nextMonth = new Date(today.getTime() + 30 * 86400000).toISOString().slice(0, 10);
+
+  let origin = "";
+  let destination = "";
+  let departDate = tomorrow;
+  let returnDate = "";
+  let adults = "1";
+
+  // ─────────────────────────────────────────────
+  // DATE detection
+  // ─────────────────────────────────────────────
+
+  const dateMatch = text.match(/\b(20\d{2}-\d{2}-\d{2})\b/);
+
+  if (dateMatch) {
+    departDate = dateMatch[1];
+  } 
+  else if (/tomorrow|غدا|mañana|demain/.test(text)) {
+    departDate = tomorrow;
+  }
+  else if (/next week|الاسبوع القادم|la semaine prochaine|la próxima semana/.test(text)) {
+    departDate = nextWeek;
+  }
+  else if (/next month|الشهر القادم|le mois prochain|el próximo mes/.test(text)) {
+    departDate = nextMonth;
+  }
+
+  // ─────────────────────────────────────────────
+  // PASSENGERS
+  // ─────────────────────────────────────────────
+
+  const adultsMatch = text.match(/(\d+)\s*(adult|person|passenger|شخص|مسافر|personne|persona)/);
+
+  if (adultsMatch) {
+    adults = adultsMatch[1];
+  }
+
+  // ─────────────────────────────────────────────
+  // CITY detection
+  // ─────────────────────────────────────────────
+
+  const tokens = text.split(/\s+/);
+
+  const detectedCities: { city: string; iata: string; index: number }[] = [];
+
+  tokens.forEach((token, i) => {
+
+    const city = searchCity(token);
+
+    if (city) {
+      detectedCities.push({
+        city: token,
+        iata: city.iata,
+        index: i
+      });
+    }
+
+    // support IATA codes
+    if (/^[A-Z]{3}$/.test(token.toUpperCase()) && IATA[token.toUpperCase()]) {
+      detectedCities.push({
+        city: token,
+        iata: token.toUpperCase(),
+        index: i
+      });
+    }
+
+  });
+
+  // ─────────────────────────────────────────────
+  // detect route direction
+  // ─────────────────────────────────────────────
+
+  for (let i = 0; i < tokens.length; i++) {
+
+    const token = tokens[i];
+
+    if (FROM_WORDS.includes(token) && tokens[i + 1]) {
+
+      const city = searchCity(tokens[i + 1]);
+
+      if (city) origin = city.iata;
+
+    }
+
+    if (TO_WORDS.includes(token) && tokens[i + 1]) {
+
+      const city = searchCity(tokens[i + 1]);
+
+      if (city) destination = city.iata;
+
+    }
+
+  }
+
+  // ─────────────────────────────────────────────
+  // fallback order
+  // ─────────────────────────────────────────────
+
+  if (!origin || !destination) {
+
+    if (detectedCities.length >= 2) {
+
+      origin = detectedCities[0].iata;
+      destination = detectedCities[1].iata;
+
+    }
+
+  }
+
+  const found = !!(origin && destination);
+
+  return {
+    origin,
+    destination,
+    departDate,
+    returnDate,
+    adults,
+    found
+  };
+}

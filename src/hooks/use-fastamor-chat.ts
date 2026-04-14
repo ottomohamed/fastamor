@@ -35,6 +35,7 @@ const CITY_TO_IATA: Record<string, string> = {
   'الجزائر': 'ALG', 'بيروت': 'BEY', 'عمان': 'AMM', 'أبوظبي': 'AUH', 'مسقط': 'MCT',
   'الكويت': 'KWI', 'البحرين': 'BAH', 'بغداد': 'BGW', 'طرابلس': 'TIP',
   'اشبيلية': 'SVQ', 'مدريد': 'MAD', 'برشلونة': 'BCN', 'روما': 'FCO',
+  'أمستردام': 'AMS', 'فرانكفورت': 'FRA', 'ميلانو': 'MXP', 'برلين': 'BER',
   'dubai': 'DXB', 'paris': 'CDG', 'london': 'LHR', 'cairo': 'CAI', 'riyadh': 'RUH',
   'jeddah': 'JED', 'doha': 'DOH', 'istanbul': 'IST', 'new york': 'JFK', 'newyork': 'JFK',
   'tokyo': 'NRT', 'rabat': 'CMN', 'casablanca': 'CMN', 'marrakech': 'RAK', 'tunis': 'TUN',
@@ -45,10 +46,52 @@ const CITY_TO_IATA: Record<string, string> = {
   'los angeles': 'LAX', 'chicago': 'ORD', 'miami': 'MIA', 'moscow': 'SVO',
   'beijing': 'PEK', 'shanghai': 'PVG', 'mumbai': 'BOM', 'delhi': 'DEL',
   'seville': 'SVQ', 'sevilla': 'SVQ', 'tanger': 'TNG', 'tangier': 'TNG',
-  'londre': 'LHR', 'londres': 'LHR', 'moscou': 'SVO',
+  'londre': 'LHR', 'londres': 'LHR', 'moscou': 'SVO', 'milan': 'MXP',
+  'berlin': 'BER', 'athens': 'ATH', 'lisbon': 'LIS', 'vienna': 'VIE',
+  'prague': 'PRG', 'budapest': 'BUD', 'warsaw': 'WAW', 'zurich': 'ZRH',
+  'brussels': 'BRU', 'copenhagen': 'CPH', 'stockholm': 'ARN', 'oslo': 'OSL',
+  'dubai': 'DXB', 'sharjah': 'SHJ', 'fujairah': 'FJR',
+};
+
+// ── Affiliate links par service
+const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
+  hotel: [
+    { name: 'Intui Travel', desc: 'Best hotel deals worldwide', url: 'https://intui.tpx.gr/kguAoKIU', icon: '🏨' },
+  ],
+  taxi: [
+    { name: 'GetTransfer', desc: 'Airport & city transfers', url: 'https://gettransfer.tpx.gr/9poAnD5l', icon: '🚕' },
+    { name: 'Kiwi Taxi', desc: 'Reliable taxi service', url: 'https://kiwitaxi.tpx.gr/Y6yrFeYN', icon: '🚖' },
+    { name: 'LocalRent', desc: 'Car rental', url: 'https://localrent.tpx.gr/qr92Puo9', icon: '🚗' },
+  ],
+  experience: [
+    { name: 'Klook', desc: 'Tours & experiences', url: 'https://klook.tpx.gr/vRUzaJbI', icon: '🎡' },
+    { name: 'Tiqets', desc: 'Museums & attractions', url: 'https://tiqets.tpx.gr/ot4HK9Pf', icon: '🎭' },
+    { name: 'WeGoTrip', desc: 'Audio tours', url: 'https://wegotrip.tpx.gr/DyN0pkVH', icon: '🗺️' },
+  ],
+  bus: [
+    { name: 'FlixBus', desc: 'Bus tickets across Europe', url: 'https://tpx.gr/n6krgEY3', icon: '🚌' },
+  ],
+  cruise: [
+    { name: 'Sea Radar', desc: 'Cruise deals worldwide', url: 'https://searadar.tpx.gr/WC89iS5m', icon: '🚢' },
+  ],
+  esim: [
+    { name: 'Yesim', desc: 'eSIM for travelers', url: 'https://yesim.tpx.gr/9gzdax7m', icon: '📱' },
+  ],
+  compensation: [
+    { name: 'Compensair', desc: 'Flight compensation', url: 'https://compensair.tpx.gr/MGUDRrY2', icon: '💰' },
+    { name: 'AirHelp', desc: 'Get your refund', url: 'https://airhelp.tpx.gr/baeI5YIf', icon: '🛡️' },
+  ],
+  car: [
+    { name: 'EconomyBookings', desc: 'Best car rental prices', url: 'https://economybookings.tpx.gr/ONZ6dOjM', icon: '🚙' },
+    { name: 'QEEQ', desc: 'Premium car rental', url: 'https://qeeq.tpx.gr/pTbTtERj', icon: '🏎️' },
+  ],
+  flight: [
+    { name: 'Aviasales', desc: 'Search all airlines', url: 'https://aviasales.tpx.gr/yQxrYmk7', icon: '✈️' },
+  ],
 };
 
 function getIATA(text: string): string | undefined {
+  if (!text) return undefined;
   if (/^[A-Z]{3}$/.test(text.trim())) return text.trim();
   const lower = text.toLowerCase().trim();
   for (const [city, iata] of Object.entries(CITY_TO_IATA)) {
@@ -63,60 +106,83 @@ function getDefaultDate(): string {
   return d.toISOString().split('T')[0];
 }
 
-function getSystemPrompt(lang: string): string {
+function getSystemPrompt(lang: string, service: string): string {
   const today = new Date().toISOString().split('T')[0];
   const defaultDate = getDefaultDate();
 
-  const langInstruction =
-    lang === 'ar' ? 'CRITICAL: You MUST respond in Arabic (العربية) ONLY. Every single word must be in Arabic. Never use English or any other language.' :
-    lang === 'fr' ? 'CRITICAL: You MUST respond in French (Français) ONLY. Every single word must be in French. Never use English or any other language.' :
-    lang === 'es' ? 'CRITICAL: You MUST respond in Spanish (Español) ONLY. Every single word must be in Spanish. Never use English or any other language.' :
-    'CRITICAL: You MUST respond in English ONLY.';
+  const langRule =
+    lang === 'ar' ? 'CRITICAL: Respond ONLY in Arabic. Every word must be Arabic.' :
+    lang === 'fr' ? 'CRITICAL: Respond ONLY in French. Every word must be French.' :
+    lang === 'es' ? 'CRITICAL: Respond ONLY in Spanish. Every word must be Spanish.' :
+    'CRITICAL: Respond ONLY in English.';
 
-  return `You are Fastamor, a friendly AI travel assistant. Today is ${today}.
+  return `You are Fastamor, a friendly AI travel concierge. Today: ${today}.
+${langRule}
 
-${langInstruction}
-
-When users ask about flights, extract origin, destination, and date.
+Current service requested: ${service}
 
 RULES:
-1. ${langInstruction}
-2. Keep response SHORT (2-3 sentences max)
-3. If user does not specify a date, use ${defaultDate} as default
-4. Always generate a <search> block when you have origin + destination
+- ${langRule}
+- Keep responses SHORT (2-3 sentences max)
+- ALWAYS output the correct block based on what user asks
 
-After your short response, ALWAYS add this block if it is a flight request:
+═══ FOR FLIGHTS ═══
+When user asks about flights, extract origin + destination + date.
+If no date given, use ${defaultDate}.
+Output:
 <search>
-{"type":"flight","origin":"IATA_CODE","destination":"IATA_CODE","date":"YYYY-MM-DD"}
+{"type":"flight","origin":"IATA","destination":"IATA","date":"YYYY-MM-DD"}
 </search>
 
-City to IATA examples:
-- الرباط/Rabat = CMN
-- الدار البيضاء/Casablanca = CMN
-- باريس/Paris = CDG
-- لندن/London = LHR
-- دبي/Dubai = DXB
-- القاهرة/Cairo = CAI
-- الرياض/Riyadh = RUH
-- اسطنبول/Istanbul = IST
-- نيويورك/New York = JFK
-- مراكش/Marrakech = RAK
-- مدريد/Madrid = MAD
-- برشلونة/Barcelona = BCN
-
-For hotels use:
+═══ FOR HOTELS ═══
+When user asks about hotels/accommodation, output:
 <links>
 [{"name":"Intui Travel","desc":"Best hotel deals","url":"https://intui.tpx.gr/kguAoKIU","icon":"🏨"}]
 </links>
 
-For tours/activities use: https://klook.tpx.gr/vRUzaJbI or https://tiqets.tpx.gr/ot4HK9Pf or https://wegotrip.tpx.gr/DyN0pkVH
-For cars/transfers use: https://gettransfer.tpx.gr/9poAnD5l or https://kiwitaxi.tpx.gr/Y6yrFeYN or https://qeeq.tpx.gr/pTbTtERj
-For buses use: https://tpx.gr/n6krgEY3
-For cruises use: https://searadar.tpx.gr/WC89iS5m
-For flight compensation use: https://compensair.tpx.gr/MGUDRrY2 or https://airhelp.tpx.gr/baeI5YIf
-For eSIM use: https://yesim.tpx.gr/9gzdax7m
+═══ FOR TRANSFERS/TAXI ═══
+When user asks about taxi/transfer/car hire, output:
+<links>
+[{"name":"GetTransfer","desc":"Airport transfers","url":"https://gettransfer.tpx.gr/9poAnD5l","icon":"🚕"},{"name":"Kiwi Taxi","desc":"Reliable taxi","url":"https://kiwitaxi.tpx.gr/Y6yrFeYN","icon":"🚖"},{"name":"LocalRent","desc":"Car rental","url":"https://localrent.tpx.gr/qr92Puo9","icon":"🚗"}]
+</links>
 
-Current service: ${lang}`;
+═══ FOR TOURS/EXPERIENCES ═══
+When user asks about tours, museums, attractions, activities, output:
+<links>
+[{"name":"Klook","desc":"Tours & experiences","url":"https://klook.tpx.gr/vRUzaJbI","icon":"🎡"},{"name":"Tiqets","desc":"Museums & attractions","url":"https://tiqets.tpx.gr/ot4HK9Pf","icon":"🎭"},{"name":"WeGoTrip","desc":"Audio tours","url":"https://wegotrip.tpx.gr/DyN0pkVH","icon":"🗺️"}]
+</links>
+
+═══ FOR BUSES ═══
+When user asks about buses/coaches, output:
+<links>
+[{"name":"FlixBus","desc":"Bus tickets Europe","url":"https://tpx.gr/n6krgEY3","icon":"🚌"}]
+</links>
+
+═══ FOR CRUISES ═══
+When user asks about cruises, output:
+<links>
+[{"name":"Sea Radar","desc":"Cruise deals","url":"https://searadar.tpx.gr/WC89iS5m","icon":"🚢"}]
+</links>
+
+═══ FOR eSIM ═══
+When user asks about SIM card/internet abroad, output:
+<links>
+[{"name":"Yesim","desc":"eSIM for travelers","url":"https://yesim.tpx.gr/9gzdax7m","icon":"📱"}]
+</links>
+
+═══ FOR CAR RENTAL ═══
+When user asks about renting a car, output:
+<links>
+[{"name":"EconomyBookings","desc":"Best car rental","url":"https://economybookings.tpx.gr/ONZ6dOjM","icon":"🚙"},{"name":"QEEQ","desc":"Premium cars","url":"https://qeeq.tpx.gr/pTbTtERj","icon":"🏎️"}]
+</links>
+
+═══ FOR FLIGHT COMPENSATION ═══
+When user mentions delayed/cancelled flight, output:
+<links>
+[{"name":"Compensair","desc":"Get compensation","url":"https://compensair.tpx.gr/MGUDRrY2","icon":"💰"},{"name":"AirHelp","desc":"Flight refund","url":"https://airhelp.tpx.gr/baeI5YIf","icon":"🛡️"}]
+</links>
+
+City → IATA: Dubai=DXB, Paris=CDG, London=LHR, Cairo=CAI, Riyadh=RUH, Casablanca=CMN, Rabat=CMN, Istanbul=IST, NYC=JFK, Tokyo=NRT, Madrid=MAD, Barcelona=BCN, Rome=FCO, Marrakech=RAK`;
 }
 
 export function useFastamorChat(service: string, lang: string) {
@@ -126,7 +192,6 @@ export function useFastamorChat(service: string, lang: string) {
   const [hasResults, setHasResults] = useState(false);
   const [dynamicLinks, setDynamicLinks] = useState<AffiliateLink[]>([]);
   const [flightResults, setFlightResults] = useState<FlightResult[]>([]);
-
   const messagesRef = useRef<Message[]>([]);
 
   const searchFlights = async (origin: string, destination: string, date: string) => {
@@ -166,8 +231,8 @@ export function useFastamorChat(service: string, lang: string) {
         },
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
-          max_tokens: 1024,
-          system: getSystemPrompt(lang),
+          max_tokens: 512,
+          system: getSystemPrompt(lang, service),
           messages: updatedHistory.map(m => ({ role: m.role, content: m.content })),
         }),
       });
@@ -185,63 +250,56 @@ export function useFastamorChat(service: string, lang: string) {
         .replace(/<links>[\s\S]*?<\/links>/g, '')
         .trim();
 
-      const withReply = [...updatedHistory, { role: 'assistant' as const, content: cleanText }];
+      const withReply = [...updatedHistory, { role: 'assistant' as const, content: cleanText || '...' }];
       messagesRef.current = withReply;
       setMessages([...withReply]);
       setIsTyping(false);
+      setShowSearchAnim(false);
 
+      // ── Handle flight search
       if (searchMatch) {
         try {
-          let searchData = JSON.parse(searchMatch[1].trim());
-
-          if (searchData.origin) {
-            const iata = getIATA(searchData.origin);
-            if (iata) searchData.origin = iata;
-          }
-          if (searchData.destination) {
-            const iata = getIATA(searchData.destination);
-            if (iata) searchData.destination = iata;
-          }
+          const searchData = JSON.parse(searchMatch[1].trim());
+          if (searchData.origin) { const i = getIATA(searchData.origin); if (i) searchData.origin = i; }
+          if (searchData.destination) { const i = getIATA(searchData.destination); if (i) searchData.destination = i; }
           if (!searchData.date) searchData.date = getDefaultDate();
 
-          if (searchData.origin && searchData.destination) {
+          if (searchData.destination) {
             setShowSearchAnim(true);
-            const flights = await searchFlights(searchData.origin, searchData.destination, searchData.date);
+            const flights = await searchFlights(searchData.origin || '', searchData.destination, searchData.date);
             setShowSearchAnim(false);
 
             if (flights.length > 0) {
               setFlightResults(flights);
               setHasResults(true);
               trackSearch();
-
               const cheapest = flights[0].price;
-              const confirmMsg = {
+              const msg = {
                 role: 'assistant' as const,
                 content:
-                  lang === 'ar' ? `✅ وجدت ${flights.length} رحلة من ${searchData.origin} إلى ${searchData.destination}! أرخصها بـ $${cheapest} 👇` :
-                  lang === 'fr' ? `✅ ${flights.length} vol(s) trouvé(s) de ${searchData.origin} à ${searchData.destination}! Dès $${cheapest} 👇` :
-                  lang === 'es' ? `✅ ¡${flights.length} vuelo(s) de ${searchData.origin} a ${searchData.destination}! Desde $${cheapest} 👇` :
-                  `✅ Found ${flights.length} flight(s) from ${searchData.origin} to ${searchData.destination}! From $${cheapest} 👇`
+                  lang === 'ar' ? `✅ وجدت ${flights.length} رحلة! أرخصها $${cheapest} 👇` :
+                  lang === 'fr' ? `✅ ${flights.length} vol(s) trouvé(s)! Dès $${cheapest} 👇` :
+                  lang === 'es' ? `✅ ¡${flights.length} vuelo(s)! Desde $${cheapest} 👇` :
+                  `✅ Found ${flights.length} flight(s)! From $${cheapest} 👇`,
               };
-              const withConfirm = [...withReply, confirmMsg];
-              messagesRef.current = withConfirm;
-              setMessages([...withConfirm]);
+              const updated = [...withReply, msg];
+              messagesRef.current = updated;
+              setMessages(updated);
             } else {
-              const noMsg = {
+              // No flights → show affiliate links
+              setDynamicLinks(SERVICE_LINKS.flight);
+              setHasResults(true);
+              const msg = {
                 role: 'assistant' as const,
                 content:
-                  lang === 'ar' ? `لم أجد رحلات مباشرة. جرّب البحث عبر هذه المواقع 👇` :
-                  lang === 'fr' ? `Aucun vol direct trouvé. Essayez ces sites 👇` :
-                  lang === 'es' ? `No encontré vuelos directos. Prueba estos sitios 👇` :
-                  `No direct flights found. Try searching on these sites 👇`
+                  lang === 'ar' ? `لم أجد رحلات متاحة. ابحث مباشرة عبر 👇` :
+                  lang === 'fr' ? `Aucun vol trouvé. Recherchez directement sur 👇` :
+                  lang === 'es' ? `No encontré vuelos. Busca directamente en 👇` :
+                  `No cached flights found. Search directly on 👇`,
               };
-              messagesRef.current = [...withReply, noMsg];
-              setMessages([...withReply, noMsg]);
-              setDynamicLinks([
-                { name: 'Aviasales', desc: `${searchData.origin} → ${searchData.destination}`, url: 'https://aviasales.tpx.gr/yQxrYmk7', icon: '✈️' },
-                { name: 'Intui Travel', desc: 'Flights & hotels', url: 'https://intui.tpx.gr/kguAoKIU', icon: '🌍' },
-              ]);
-              setHasResults(true);
+              const updated = [...withReply, msg];
+              messagesRef.current = updated;
+              setMessages(updated);
             }
           }
         } catch (e) {
@@ -249,6 +307,7 @@ export function useFastamorChat(service: string, lang: string) {
         }
       }
 
+      // ── Handle service links
       if (linksMatch) {
         try {
           const links = JSON.parse(linksMatch[1].trim());
@@ -258,20 +317,26 @@ export function useFastamorChat(service: string, lang: string) {
         } catch { }
       }
 
-      setShowSearchAnim(false);
+      // ── If no block detected, show service-specific links
+      if (!searchMatch && !linksMatch && service && service !== 'flight') {
+        const links = SERVICE_LINKS[service] || SERVICE_LINKS.flight;
+        setDynamicLinks(links);
+        setHasResults(true);
+      }
 
     } catch (err) {
-      const fallbacks: Record<string, string> = {
-        en: "Sorry, connection issue. Please try again. 🔄",
-        ar: "عذراً، مشكلة في الاتصال. يرجى المحاولة مجدداً. 🔄",
-        fr: "Désolé, problème de connexion. Réessayez. 🔄",
-        es: "Lo siento, problema de conexión. Inténtalo de nuevo. 🔄"
-      };
-      const withErr = [...messagesRef.current, { role: 'assistant' as const, content: fallbacks[lang] || fallbacks.en }];
-      messagesRef.current = withErr;
-      setMessages([...withErr]);
       setIsTyping(false);
       setShowSearchAnim(false);
+      const fallbacks: Record<string, string> = {
+        en: 'Sorry, connection issue. Please try again. 🔄',
+        ar: 'عذراً، مشكلة في الاتصال. حاول مجدداً. 🔄',
+        fr: 'Désolé, problème de connexion. 🔄',
+        es: 'Lo siento, error de conexión. 🔄',
+      };
+      const msg = { role: 'assistant' as const, content: fallbacks[lang] || fallbacks.en };
+      const updated = [...messagesRef.current, msg];
+      messagesRef.current = updated;
+      setMessages(updated);
     }
   }, [isTyping, service, lang]);
 
@@ -290,11 +355,13 @@ export function useFastamorChat(service: string, lang: string) {
 
 export function detectService(text: string): string {
   const l = text.toLowerCase();
-  if (/train|قطار|tren/.test(l)) return "train";
-  if (/bus|coach|حافلة|باص/.test(l)) return "bus";
-  if (/hotel|stay|فندق|إقامة/.test(l)) return "hotel";
-  if (/taxi|transfer|car|تاكسي|سيارة/.test(l)) return "taxi";
-  if (/tour|experience|جولة|تجربة/.test(l)) return "experience";
-  if (/cruise|كروز|سفينة/.test(l)) return "cruise";
-  return "flight";
+  if (/cruise|كروز|croisière|crucero/.test(l)) return 'cruise';
+  if (/bus|coach|حافلة|autobus/.test(l)) return 'bus';
+  if (/hotel|stay|فندق|إقامة|hôtel|alojamiento/.test(l)) return 'hotel';
+  if (/taxi|transfer|تاكسي|نقل|transfert|traslado/.test(l)) return 'taxi';
+  if (/car|rent|سيارة|location|alquiler/.test(l)) return 'car';
+  if (/tour|experience|جولة|تجربة|visite|excursion/.test(l)) return 'experience';
+  if (/esim|sim|internet|بيانات/.test(l)) return 'esim';
+  if (/delay|cancel|compensation|تعويض|remboursement/.test(l)) return 'compensation';
+  return 'flight';
 }
