@@ -201,7 +201,7 @@ export function useFastamorChat(service: string, lang: string) {
   //  Direct Aviasales API call (no backend needed)
   const searchFlights = async (origin: string, destination: string, date: string) => {
     try {
-      const response = await fetch('http://localhost:3001/api/flights/search', {
+      const response = await fetch('/api/flights/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ origin, destination, date })
@@ -371,6 +371,7 @@ export function detectService(text: string): string {
   if (/delay|cancel|compensation|تعويض|remboursement/.test(l)) return 'compensation';
   return 'flight';
 }
+
 
 
 
