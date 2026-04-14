@@ -199,19 +199,9 @@ export function useFastamorChat(service: string, lang: string) {
   const messagesRef = useRef<Message[]>([]);
 
   //  Direct Aviasales API call (no backend needed)
-  const searchFlights = async (origin: string, destination: string, date: string) => {
-    try {
-      const response = await fetch('/api/flights/search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ origin, destination, date })
-      });
-      const data = await response.json();
-      return data.flights || [];
-    } catch (error) {
-      console.error('Flight search error:', error);
-      return [];
-    }
+    const searchFlights = async (origin: string, destination: string, date: string) => {
+    // لا نحتاج إلى API - نستخدم رابطاً مباشراً
+    return [];
   };
 
   const sendMessage = useCallback(async (content: string) => {
@@ -271,11 +261,23 @@ export function useFastamorChat(service: string, lang: string) {
           if (!searchData.date) searchData.date = getDefaultDate();
 
           if (searchData.destination) {
-            setShowSearchAnim(true);
-            const flights = await searchFlights(searchData.origin || '', searchData.destination, searchData.date);
             setShowSearchAnim(false);
-
-            if (flights.length > 0) {
+            // استخدام رابط مباشر بدلاً من API
+            const marker = "709105";
+            const directUrl = `https://aviasales.tpx.gr/yQxrYmk7?origin=${searchData.origin}&destination=${searchData.destination}&marker=${marker}`;
+            setDynamicLinks([{ name: "Aviasales", desc: `Search flights from ${searchData.origin} to ${searchData.destination}`, url: directUrl, icon: "" }]);
+            setHasResults(true);
+            const msg = {
+              role: "assistant" as const,
+              content: lang === "ar" 
+                ? ` يمكنك البحث عن رحلة من ${searchData.origin} إلى ${searchData.destination} عبر الرابط أدناه.`
+                : ` You can search for flights from ${searchData.origin} to ${searchData.destination} using the link below.`
+            };
+            const updated = [...withReply, msg];
+            messagesRef.current = updated;
+            setMessages(updated);
+            return;
+          }
               setFlightResults(flights);
               setHasResults(true);
               trackSearch();
@@ -371,6 +373,7 @@ export function detectService(text: string): string {
   if (/delay|cancel|compensation|تعويض|remboursement/.test(l)) return 'compensation';
   return 'flight';
 }
+
 
 
 
