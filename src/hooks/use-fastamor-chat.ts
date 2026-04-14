@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+﻿import { useState, useCallback, useRef } from 'react';
 import { trackSearch } from '@/lib/tracking';
 
 export type Message = {
@@ -29,13 +29,13 @@ export type FlightResult = {
 };
 
 const CITY_TO_IATA: Record<string, string> = {
-  'دبي': 'DXB', 'باريس': 'CDG', 'لندن': 'LHR', 'القاهرة': 'CAI', 'الرياض': 'RUH',
-  'جدة': 'JED', 'الدوحة': 'DOH', 'اسطنبول': 'IST', 'نيويورك': 'JFK', 'طوكيو': 'NRT',
-  'الرباط': 'CMN', 'الدار البيضاء': 'CMN', 'مراكش': 'RAK', 'تونس': 'TUN',
-  'الجزائر': 'ALG', 'بيروت': 'BEY', 'عمان': 'AMM', 'أبوظبي': 'AUH', 'مسقط': 'MCT',
-  'الكويت': 'KWI', 'البحرين': 'BAH', 'بغداد': 'BGW', 'طرابلس': 'TIP',
-  'اشبيلية': 'SVQ', 'مدريد': 'MAD', 'برشلونة': 'BCN', 'روما': 'FCO',
-  'أمستردام': 'AMS', 'فرانكفورت': 'FRA', 'ميلانو': 'MXP', 'برلين': 'BER',
+  'Ø¯Ø¨ÙŠ': 'DXB', 'Ø¨Ø§Ø±ÙŠØ³': 'CDG', 'Ù„Ù†Ø¯Ù†': 'LHR', 'Ø§Ù„Ù‚Ø§Ù‡Ø±Ø©': 'CAI', 'Ø§Ù„Ø±ÙŠØ§Ø¶': 'RUH',
+  'Ø¬Ø¯Ø©': 'JED', 'Ø§Ù„Ø¯ÙˆØ­Ø©': 'DOH', 'Ø§Ø³Ø·Ù†Ø¨ÙˆÙ„': 'IST', 'Ù†ÙŠÙˆÙŠÙˆØ±Ùƒ': 'JFK', 'Ø·ÙˆÙƒÙŠÙˆ': 'NRT',
+  'Ø§Ù„Ø±Ø¨Ø§Ø·': 'CMN', 'Ø§Ù„Ø¯Ø§Ø± Ø§Ù„Ø¨ÙŠØ¶Ø§Ø¡': 'CMN', 'Ù…Ø±Ø§ÙƒØ´': 'RAK', 'ØªÙˆÙ†Ø³': 'TUN',
+  'Ø§Ù„Ø¬Ø²Ø§Ø¦Ø±': 'ALG', 'Ø¨ÙŠØ±ÙˆØª': 'BEY', 'Ø¹Ù…Ø§Ù†': 'AMM', 'Ø£Ø¨ÙˆØ¸Ø¨ÙŠ': 'AUH', 'Ù…Ø³Ù‚Ø·': 'MCT',
+  'Ø§Ù„ÙƒÙˆÙŠØª': 'KWI', 'Ø§Ù„Ø¨Ø­Ø±ÙŠÙ†': 'BAH', 'Ø¨ØºØ¯Ø§Ø¯': 'BGW', 'Ø·Ø±Ø§Ø¨Ù„Ø³': 'TIP',
+  'Ø§Ø´Ø¨ÙŠÙ„ÙŠØ©': 'SVQ', 'Ù…Ø¯Ø±ÙŠØ¯': 'MAD', 'Ø¨Ø±Ø´Ù„ÙˆÙ†Ø©': 'BCN', 'Ø±ÙˆÙ…Ø§': 'FCO',
+  'Ø£Ù…Ø³ØªØ±Ø¯Ø§Ù…': 'AMS', 'ÙØ±Ø§Ù†ÙƒÙÙˆØ±Øª': 'FRA', 'Ù…ÙŠÙ„Ø§Ù†Ùˆ': 'MXP', 'Ø¨Ø±Ù„ÙŠÙ†': 'BER',
   'dubai': 'DXB', 'paris': 'CDG', 'london': 'LHR', 'cairo': 'CAI', 'riyadh': 'RUH',
   'jeddah': 'JED', 'doha': 'DOH', 'istanbul': 'IST', 'new york': 'JFK', 'newyork': 'JFK',
   'tokyo': 'NRT', 'rabat': 'CMN', 'casablanca': 'CMN', 'marrakech': 'RAK', 'tunis': 'TUN',
@@ -53,40 +53,40 @@ const CITY_TO_IATA: Record<string, string> = {
   'dubai': 'DXB', 'sharjah': 'SHJ', 'fujairah': 'FJR',
 };
 
-// ── Affiliate links par service
+// â”€â”€ Affiliate links par service
 const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
   hotel: [
-    { name: 'Intui Travel', desc: 'Best hotel deals worldwide', url: 'https://intui.tpx.gr/kguAoKIU', icon: '🏨' },
+    { name: 'Intui Travel', desc: 'Best hotel deals worldwide', url: 'https://intui.tpx.gr/kguAoKIU', icon: 'ðŸ¨' },
   ],
   taxi: [
-    { name: 'GetTransfer', desc: 'Airport & city transfers', url: 'https://gettransfer.tpx.gr/9poAnD5l', icon: '🚕' },
-    { name: 'Kiwi Taxi', desc: 'Reliable taxi service', url: 'https://kiwitaxi.tpx.gr/Y6yrFeYN', icon: '🚖' },
-    { name: 'LocalRent', desc: 'Car rental', url: 'https://localrent.tpx.gr/qr92Puo9', icon: '🚗' },
+    { name: 'GetTransfer', desc: 'Airport & city transfers', url: 'https://gettransfer.tpx.gr/9poAnD5l', icon: 'ðŸš•' },
+    { name: 'Kiwi Taxi', desc: 'Reliable taxi service', url: 'https://kiwitaxi.tpx.gr/Y6yrFeYN', icon: 'ðŸš–' },
+    { name: 'LocalRent', desc: 'Car rental', url: 'https://localrent.tpx.gr/qr92Puo9', icon: 'ðŸš—' },
   ],
   experience: [
-    { name: 'Klook', desc: 'Tours & experiences', url: 'https://klook.tpx.gr/vRUzaJbI', icon: '🎡' },
-    { name: 'Tiqets', desc: 'Museums & attractions', url: 'https://tiqets.tpx.gr/ot4HK9Pf', icon: '🎭' },
-    { name: 'WeGoTrip', desc: 'Audio tours', url: 'https://wegotrip.tpx.gr/DyN0pkVH', icon: '🗺️' },
+    { name: 'Klook', desc: 'Tours & experiences', url: 'https://klook.tpx.gr/vRUzaJbI', icon: 'ðŸŽ¡' },
+    { name: 'Tiqets', desc: 'Museums & attractions', url: 'https://tiqets.tpx.gr/ot4HK9Pf', icon: 'ðŸŽ­' },
+    { name: 'WeGoTrip', desc: 'Audio tours', url: 'https://wegotrip.tpx.gr/DyN0pkVH', icon: 'ðŸ—ºï¸' },
   ],
   bus: [
-    { name: 'FlixBus', desc: 'Bus tickets across Europe', url: 'https://tpx.gr/n6krgEY3', icon: '🚌' },
+    { name: 'FlixBus', desc: 'Bus tickets across Europe', url: 'https://tpx.gr/n6krgEY3', icon: 'ðŸšŒ' },
   ],
   cruise: [
-    { name: 'Sea Radar', desc: 'Cruise deals worldwide', url: 'https://searadar.tpx.gr/WC89iS5m', icon: '🚢' },
+    { name: 'Sea Radar', desc: 'Cruise deals worldwide', url: 'https://searadar.tpx.gr/WC89iS5m', icon: 'ðŸš¢' },
   ],
   esim: [
-    { name: 'Yesim', desc: 'eSIM for travelers', url: 'https://yesim.tpx.gr/9gzdax7m', icon: '📱' },
+    { name: 'Yesim', desc: 'eSIM for travelers', url: 'https://yesim.tpx.gr/9gzdax7m', icon: 'ðŸ“±' },
   ],
   compensation: [
-    { name: 'Compensair', desc: 'Flight compensation', url: 'https://compensair.tpx.gr/MGUDRrY2', icon: '💰' },
-    { name: 'AirHelp', desc: 'Get your refund', url: 'https://airhelp.tpx.gr/baeI5YIf', icon: '🛡️' },
+    { name: 'Compensair', desc: 'Flight compensation', url: 'https://compensair.tpx.gr/MGUDRrY2', icon: 'ðŸ’°' },
+    { name: 'AirHelp', desc: 'Get your refund', url: 'https://airhelp.tpx.gr/baeI5YIf', icon: 'ðŸ›¡ï¸' },
   ],
   car: [
-    { name: 'EconomyBookings', desc: 'Best car rental prices', url: 'https://economybookings.tpx.gr/ONZ6dOjM', icon: '🚙' },
-    { name: 'QEEQ', desc: 'Premium car rental', url: 'https://qeeq.tpx.gr/pTbTtERj', icon: '🏎️' },
+    { name: 'EconomyBookings', desc: 'Best car rental prices', url: 'https://economybookings.tpx.gr/ONZ6dOjM', icon: 'ðŸš™' },
+    { name: 'QEEQ', desc: 'Premium car rental', url: 'https://qeeq.tpx.gr/pTbTtERj', icon: 'ðŸŽï¸' },
   ],
   flight: [
-    { name: 'Aviasales', desc: 'Search all airlines', url: 'https://aviasales.tpx.gr/yQxrYmk7', icon: '✈️' },
+    { name: 'Aviasales', desc: 'Search all airlines', url: 'https://aviasales.tpx.gr/yQxrYmk7', icon: 'âœˆï¸' },
   ],
 };
 
@@ -126,7 +126,7 @@ RULES:
 - Keep responses SHORT (2-3 sentences max)
 - ALWAYS output the correct block based on what user asks
 
-═══ FOR FLIGHTS ═══
+â•â•â• FOR FLIGHTS â•â•â•
 When user asks about flights, extract origin + destination + date.
 If no date given, use ${defaultDate}.
 Output:
@@ -134,55 +134,55 @@ Output:
 {"type":"flight","origin":"IATA","destination":"IATA","date":"YYYY-MM-DD"}
 </search>
 
-═══ FOR HOTELS ═══
+â•â•â• FOR HOTELS â•â•â•
 When user asks about hotels/accommodation, output:
 <links>
-[{"name":"Intui Travel","desc":"Best hotel deals","url":"https://intui.tpx.gr/kguAoKIU","icon":"🏨"}]
+[{"name":"Intui Travel","desc":"Best hotel deals","url":"https://intui.tpx.gr/kguAoKIU","icon":"ðŸ¨"}]
 </links>
 
-═══ FOR TRANSFERS/TAXI ═══
+â•â•â• FOR TRANSFERS/TAXI â•â•â•
 When user asks about taxi/transfer/car hire, output:
 <links>
-[{"name":"GetTransfer","desc":"Airport transfers","url":"https://gettransfer.tpx.gr/9poAnD5l","icon":"🚕"},{"name":"Kiwi Taxi","desc":"Reliable taxi","url":"https://kiwitaxi.tpx.gr/Y6yrFeYN","icon":"🚖"},{"name":"LocalRent","desc":"Car rental","url":"https://localrent.tpx.gr/qr92Puo9","icon":"🚗"}]
+[{"name":"GetTransfer","desc":"Airport transfers","url":"https://gettransfer.tpx.gr/9poAnD5l","icon":"ðŸš•"},{"name":"Kiwi Taxi","desc":"Reliable taxi","url":"https://kiwitaxi.tpx.gr/Y6yrFeYN","icon":"ðŸš–"},{"name":"LocalRent","desc":"Car rental","url":"https://localrent.tpx.gr/qr92Puo9","icon":"ðŸš—"}]
 </links>
 
-═══ FOR TOURS/EXPERIENCES ═══
+â•â•â• FOR TOURS/EXPERIENCES â•â•â•
 When user asks about tours, museums, attractions, activities, output:
 <links>
-[{"name":"Klook","desc":"Tours & experiences","url":"https://klook.tpx.gr/vRUzaJbI","icon":"🎡"},{"name":"Tiqets","desc":"Museums & attractions","url":"https://tiqets.tpx.gr/ot4HK9Pf","icon":"🎭"},{"name":"WeGoTrip","desc":"Audio tours","url":"https://wegotrip.tpx.gr/DyN0pkVH","icon":"🗺️"}]
+[{"name":"Klook","desc":"Tours & experiences","url":"https://klook.tpx.gr/vRUzaJbI","icon":"ðŸŽ¡"},{"name":"Tiqets","desc":"Museums & attractions","url":"https://tiqets.tpx.gr/ot4HK9Pf","icon":"ðŸŽ­"},{"name":"WeGoTrip","desc":"Audio tours","url":"https://wegotrip.tpx.gr/DyN0pkVH","icon":"ðŸ—ºï¸"}]
 </links>
 
-═══ FOR BUSES ═══
+â•â•â• FOR BUSES â•â•â•
 When user asks about buses/coaches, output:
 <links>
-[{"name":"FlixBus","desc":"Bus tickets Europe","url":"https://tpx.gr/n6krgEY3","icon":"🚌"}]
+[{"name":"FlixBus","desc":"Bus tickets Europe","url":"https://tpx.gr/n6krgEY3","icon":"ðŸšŒ"}]
 </links>
 
-═══ FOR CRUISES ═══
+â•â•â• FOR CRUISES â•â•â•
 When user asks about cruises, output:
 <links>
-[{"name":"Sea Radar","desc":"Cruise deals","url":"https://searadar.tpx.gr/WC89iS5m","icon":"🚢"}]
+[{"name":"Sea Radar","desc":"Cruise deals","url":"https://searadar.tpx.gr/WC89iS5m","icon":"ðŸš¢"}]
 </links>
 
-═══ FOR eSIM ═══
+â•â•â• FOR eSIM â•â•â•
 When user asks about SIM card/internet abroad, output:
 <links>
-[{"name":"Yesim","desc":"eSIM for travelers","url":"https://yesim.tpx.gr/9gzdax7m","icon":"📱"}]
+[{"name":"Yesim","desc":"eSIM for travelers","url":"https://yesim.tpx.gr/9gzdax7m","icon":"ðŸ“±"}]
 </links>
 
-═══ FOR CAR RENTAL ═══
+â•â•â• FOR CAR RENTAL â•â•â•
 When user asks about renting a car, output:
 <links>
-[{"name":"EconomyBookings","desc":"Best car rental","url":"https://economybookings.tpx.gr/ONZ6dOjM","icon":"🚙"},{"name":"QEEQ","desc":"Premium cars","url":"https://qeeq.tpx.gr/pTbTtERj","icon":"🏎️"}]
+[{"name":"EconomyBookings","desc":"Best car rental","url":"https://economybookings.tpx.gr/ONZ6dOjM","icon":"ðŸš™"},{"name":"QEEQ","desc":"Premium cars","url":"https://qeeq.tpx.gr/pTbTtERj","icon":"ðŸŽï¸"}]
 </links>
 
-═══ FOR FLIGHT COMPENSATION ═══
+â•â•â• FOR FLIGHT COMPENSATION â•â•â•
 When user mentions delayed/cancelled flight, output:
 <links>
-[{"name":"Compensair","desc":"Get compensation","url":"https://compensair.tpx.gr/MGUDRrY2","icon":"💰"},{"name":"AirHelp","desc":"Flight refund","url":"https://airhelp.tpx.gr/baeI5YIf","icon":"🛡️"}]
+[{"name":"Compensair","desc":"Get compensation","url":"https://compensair.tpx.gr/MGUDRrY2","icon":"ðŸ’°"},{"name":"AirHelp","desc":"Flight refund","url":"https://airhelp.tpx.gr/baeI5YIf","icon":"ðŸ›¡ï¸"}]
 </links>
 
-City → IATA: Dubai=DXB, Paris=CDG, London=LHR, Cairo=CAI, Riyadh=RUH, Casablanca=CMN, Rabat=CMN, Istanbul=IST, NYC=JFK, Tokyo=NRT, Madrid=MAD, Barcelona=BCN, Rome=FCO, Marrakech=RAK`;
+City â†’ IATA: Dubai=DXB, Paris=CDG, London=LHR, Cairo=CAI, Riyadh=RUH, Casablanca=CMN, Rabat=CMN, Istanbul=IST, NYC=JFK, Tokyo=NRT, Madrid=MAD, Barcelona=BCN, Rome=FCO, Marrakech=RAK`;
 }
 
 export function useFastamorChat(service: string, lang: string) {
@@ -196,7 +196,7 @@ export function useFastamorChat(service: string, lang: string) {
 
   const searchFlights = async (origin: string, destination: string, date: string) => {
     try {
-      const res = await fetch('/api/flights', {
+      const res = await fetch('https://fastamor-api.onrender.com/api/flights', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ origin, destination, date }),
@@ -256,7 +256,7 @@ export function useFastamorChat(service: string, lang: string) {
       setIsTyping(false);
       setShowSearchAnim(false);
 
-      // ── Handle flight search
+      // â”€â”€ Handle flight search
       if (searchMatch) {
         try {
           const searchData = JSON.parse(searchMatch[1].trim());
@@ -277,25 +277,25 @@ export function useFastamorChat(service: string, lang: string) {
               const msg = {
                 role: 'assistant' as const,
                 content:
-                  lang === 'ar' ? `✅ وجدت ${flights.length} رحلة! أرخصها $${cheapest} 👇` :
-                  lang === 'fr' ? `✅ ${flights.length} vol(s) trouvé(s)! Dès $${cheapest} 👇` :
-                  lang === 'es' ? `✅ ¡${flights.length} vuelo(s)! Desde $${cheapest} 👇` :
-                  `✅ Found ${flights.length} flight(s)! From $${cheapest} 👇`,
+                  lang === 'ar' ? `âœ… ÙˆØ¬Ø¯Øª ${flights.length} Ø±Ø­Ù„Ø©! Ø£Ø±Ø®ØµÙ‡Ø§ $${cheapest} ðŸ‘‡` :
+                  lang === 'fr' ? `âœ… ${flights.length} vol(s) trouvÃ©(s)! DÃ¨s $${cheapest} ðŸ‘‡` :
+                  lang === 'es' ? `âœ… Â¡${flights.length} vuelo(s)! Desde $${cheapest} ðŸ‘‡` :
+                  `âœ… Found ${flights.length} flight(s)! From $${cheapest} ðŸ‘‡`,
               };
               const updated = [...withReply, msg];
               messagesRef.current = updated;
               setMessages(updated);
             } else {
-              // No flights → show affiliate links
+              // No flights â†’ show affiliate links
               setDynamicLinks(SERVICE_LINKS.flight);
               setHasResults(true);
               const msg = {
                 role: 'assistant' as const,
                 content:
-                  lang === 'ar' ? `لم أجد رحلات متاحة. ابحث مباشرة عبر 👇` :
-                  lang === 'fr' ? `Aucun vol trouvé. Recherchez directement sur 👇` :
-                  lang === 'es' ? `No encontré vuelos. Busca directamente en 👇` :
-                  `No cached flights found. Search directly on 👇`,
+                  lang === 'ar' ? `Ù„Ù… Ø£Ø¬Ø¯ Ø±Ø­Ù„Ø§Øª Ù…ØªØ§Ø­Ø©. Ø§Ø¨Ø­Ø« Ù…Ø¨Ø§Ø´Ø±Ø© Ø¹Ø¨Ø± ðŸ‘‡` :
+                  lang === 'fr' ? `Aucun vol trouvÃ©. Recherchez directement sur ðŸ‘‡` :
+                  lang === 'es' ? `No encontrÃ© vuelos. Busca directamente en ðŸ‘‡` :
+                  `No cached flights found. Search directly on ðŸ‘‡`,
               };
               const updated = [...withReply, msg];
               messagesRef.current = updated;
@@ -307,7 +307,7 @@ export function useFastamorChat(service: string, lang: string) {
         }
       }
 
-      // ── Handle service links
+      // â”€â”€ Handle service links
       if (linksMatch) {
         try {
           const links = JSON.parse(linksMatch[1].trim());
@@ -317,7 +317,7 @@ export function useFastamorChat(service: string, lang: string) {
         } catch { }
       }
 
-      // ── If no block detected, show service-specific links
+      // â”€â”€ If no block detected, show service-specific links
       if (!searchMatch && !linksMatch && service && service !== 'flight') {
         const links = SERVICE_LINKS[service] || SERVICE_LINKS.flight;
         setDynamicLinks(links);
@@ -328,10 +328,10 @@ export function useFastamorChat(service: string, lang: string) {
       setIsTyping(false);
       setShowSearchAnim(false);
       const fallbacks: Record<string, string> = {
-        en: 'Sorry, connection issue. Please try again. 🔄',
-        ar: 'عذراً، مشكلة في الاتصال. حاول مجدداً. 🔄',
-        fr: 'Désolé, problème de connexion. 🔄',
-        es: 'Lo siento, error de conexión. 🔄',
+        en: 'Sorry, connection issue. Please try again. ðŸ”„',
+        ar: 'Ø¹Ø°Ø±Ø§Ù‹ØŒ Ù…Ø´ÙƒÙ„Ø© ÙÙŠ Ø§Ù„Ø§ØªØµØ§Ù„. Ø­Ø§ÙˆÙ„ Ù…Ø¬Ø¯Ø¯Ø§Ù‹. ðŸ”„',
+        fr: 'DÃ©solÃ©, problÃ¨me de connexion. ðŸ”„',
+        es: 'Lo siento, error de conexiÃ³n. ðŸ”„',
       };
       const msg = { role: 'assistant' as const, content: fallbacks[lang] || fallbacks.en };
       const updated = [...messagesRef.current, msg];
@@ -355,13 +355,14 @@ export function useFastamorChat(service: string, lang: string) {
 
 export function detectService(text: string): string {
   const l = text.toLowerCase();
-  if (/cruise|كروز|croisière|crucero/.test(l)) return 'cruise';
-  if (/bus|coach|حافلة|autobus/.test(l)) return 'bus';
-  if (/hotel|stay|فندق|إقامة|hôtel|alojamiento/.test(l)) return 'hotel';
-  if (/taxi|transfer|تاكسي|نقل|transfert|traslado/.test(l)) return 'taxi';
-  if (/car|rent|سيارة|location|alquiler/.test(l)) return 'car';
-  if (/tour|experience|جولة|تجربة|visite|excursion/.test(l)) return 'experience';
-  if (/esim|sim|internet|بيانات/.test(l)) return 'esim';
-  if (/delay|cancel|compensation|تعويض|remboursement/.test(l)) return 'compensation';
+  if (/cruise|ÙƒØ±ÙˆØ²|croisiÃ¨re|crucero/.test(l)) return 'cruise';
+  if (/bus|coach|Ø­Ø§ÙÙ„Ø©|autobus/.test(l)) return 'bus';
+  if (/hotel|stay|ÙÙ†Ø¯Ù‚|Ø¥Ù‚Ø§Ù…Ø©|hÃ´tel|alojamiento/.test(l)) return 'hotel';
+  if (/taxi|transfer|ØªØ§ÙƒØ³ÙŠ|Ù†Ù‚Ù„|transfert|traslado/.test(l)) return 'taxi';
+  if (/car|rent|Ø³ÙŠØ§Ø±Ø©|location|alquiler/.test(l)) return 'car';
+  if (/tour|experience|Ø¬ÙˆÙ„Ø©|ØªØ¬Ø±Ø¨Ø©|visite|excursion/.test(l)) return 'experience';
+  if (/esim|sim|internet|Ø¨ÙŠØ§Ù†Ø§Øª/.test(l)) return 'esim';
+  if (/delay|cancel|compensation|ØªØ¹ÙˆÙŠØ¶|remboursement/.test(l)) return 'compensation';
   return 'flight';
 }
+
