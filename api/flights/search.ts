@@ -1,7 +1,6 @@
 ﻿import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // إعدادات CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -25,8 +24,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     const month = date ? date.substring(0, 7) : new Date().toISOString().substring(0, 7);
     const url = `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?origin=${origin}&destination=${destination}&departure_at=${month}&currency=usd&limit=20&token=${token}`;
-    
-    console.log(` Fetching flights: ${origin}  ${destination} for ${month}`);
     
     const response = await fetch(url);
     const data = await response.json();
