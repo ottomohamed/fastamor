@@ -54,7 +54,7 @@ const CITY_TO_IATA: Record<string, string> = {
   };
 
 // Aviasales API Configuration
-const AVIA_TOKEN = import.meta.env.VITE_TRAVELPAYOUTS_TOKEN || '517b9f43b0fa448681c25b90fda7cf73';
+const AVIA_TOKEN = import.meta.env.TP_API_TOKEN || '517b9f43b0fa448681c25b90fda7cf73';
 const AVIA_MARKER = import.meta.env.VITE_TRAVELPAYOUTS_MARKER || '709105';
 
 //  Affiliate links par service
@@ -371,5 +371,6 @@ export function detectService(text: string): string {
   if (/delay|cancel|compensation|تعويض|remboursement/.test(l)) return 'compensation';
   return 'flight';
 }
+
 
 
