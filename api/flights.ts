@@ -14,9 +14,9 @@ function formatDuration(minutes: number): string {
   return `${h}h ${m}m`;
 }
 
-function buildBookingUrl(link: string): string {
-  if (!link) return `https://aviasales.com?marker=${MARKER}`;
-  return `https://www.aviasales.com${link}&marker=${MARKER}`;
+function buildBookingUrl(link: string, origin: string, destination: string): string {
+  if (link) return `https://www.aviasales.com${link}&marker=${MARKER}`;
+  return `https://www.aviasales.com/search/${origin}1${destination}1?marker=${MARKER}`;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -33,60 +33,57 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Destination required', flights: [] });
   }
 
-  try {
-    // Build date param
-    const dateParam = date && date !== 'any'
-      ? `&departure_at=${date.slice(0, 7)}`  // YYYY-MM format
-      : '';
+  // Try multiple markets to find cached data
+  const markets = ['us', 'gb', 'ru', 'ae'];
+  const dateParam = date && date !== 'any' ? `&departure_at=${date.slice(0, 7)}` : '';
+  const originParam = origin ? `&origin=${origin}` : '';
 
-    const originParam = origin ? `&origin=${origin}` : '';
+  for (const market of markets) {
+    try {
+      const url = `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?destination=${destination}${originParam}${dateParam}&currency=usd&sorting=price&direct=false&limit=10&one_way=true&market=${market}&token=${TOKEN}`;
 
-    const url = `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?destination=${destination}${originParam}${dateParam}&currency=usd&sorting=price&direct=false&limit=10&one_way=true&token=${TOKEN}`;
+      const response = await fetch(url, {
+        headers: { 'X-Access-Token': TOKEN },
+      });
 
-    const response = await fetch(url, {
-      headers: {
-        'X-Access-Token': TOKEN,
-        'Accept-Encoding': 'gzip, deflate',
-      },
-    });
+      if (!response.ok) continue;
 
-    if (!response.ok) {
-      throw new Error(`Aviasales API error: ${response.status}`);
+      const data = await response.json();
+
+      if (!data.success || !data.data || data.data.length === 0) continue;
+
+      const flights = data.data.slice(0, 8).map((f: any, i: number) => ({
+        id: `flight_${i}`,
+        airline: f.airline || 'Unknown',
+        airline_logo: getAirlineLogo(f.airline || 'XX'),
+        origin: f.origin || origin || '',
+        destination: f.destination || destination,
+        departure_time: f.departure_at
+          ? new Date(f.departure_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+          : '',
+        duration: formatDuration(f.duration_to || f.duration || 0),
+        stops: f.transfers === 0 ? 'Direct' : `${f.transfers} stop${f.transfers > 1 ? 's' : ''}`,
+        price: f.price || 0,
+        currency: 'USD',
+        booking_url: buildBookingUrl(f.link || '', f.origin || origin, f.destination || destination),
+        gate: f.destination_airport || destination,
+      }));
+
+      return res.status(200).json({ flights, success: true, market });
+
+    } catch (e) {
+      continue;
     }
-
-    const data = await response.json();
-
-    if (!data.success || !data.data || data.data.length === 0) {
-      return res.status(200).json({ flights: [], message: 'No flights found' });
-    }
-
-    const flights = data.data.slice(0, 8).map((f: any, i: number) => ({
-      id: `flight_${i}`,
-      airline: f.airline || 'Unknown',
-      airline_logo: getAirlineLogo(f.airline || 'XX'),
-      origin: f.origin || origin || '',
-      destination: f.destination || destination,
-      departure_time: f.departure_at
-        ? new Date(f.departure_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
-        : '',
-      duration: formatDuration(f.duration_to || f.duration || 0),
-      stops: f.transfers === 0 ? 'Direct' : `${f.transfers} stop${f.transfers > 1 ? 's' : ''}`,
-      price: f.price || 0,
-      currency: 'USD',
-      booking_url: buildBookingUrl(f.link || ''),
-      gate: f.destination_airport || destination,
-    }));
-
-    return res.status(200).json({ flights, success: true });
-
-  } catch (error: any) {
-    console.error('Flights API error:', error);
-
-    // Fallback: return affiliate link
-    return res.status(200).json({
-      flights: [],
-      fallback_url: `https://aviasales.tpx.gr/yQxrYmk7`,
-      error: error.message,
-    });
   }
+
+  // All markets failed — return affiliate deep link
+  const searchUrl = origin
+    ? `https://www.aviasales.com/search/${origin}1${destination}1?marker=${MARKER}`
+    : `https://aviasales.tpx.gr/yQxrYmk7`;
+
+  return res.status(200).json({
+    flights: [],
+    fallback_url: searchUrl,
+    message: 'No cached data, use direct link',
+  });
 }
