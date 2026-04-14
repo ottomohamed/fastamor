@@ -201,28 +201,13 @@ export function useFastamorChat(service: string, lang: string) {
   //  Direct Aviasales API call (no backend needed)
   const searchFlights = async (origin: string, destination: string, date: string) => {
     try {
-      const month = date.substring(0, 7);
-      const url = `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?origin=${origin}&destination=${destination}&departure_at=${month}&currency=usd&limit=20&token=${AVIA_TOKEN}`;
-      const response = await fetch(url);
+      const response = await fetch('/api/flights/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ origin, destination, date })
+      });
       const data = await response.json();
-      
-      if (data.success && data.data && data.data.length > 0) {
-        return data.data.map((flight: any, idx: number) => ({
-          id: `${flight.airline}_${idx}`,
-          airline: flight.airline,
-          airline_logo: `https://pics.avs.io/200/200/${flight.airline}.png`,
-          origin: flight.origin,
-          destination: flight.destination,
-          departure_time: flight.departure_at,
-          duration: flight.duration ? `${Math.floor(flight.duration / 60)}h ${flight.duration % 60}m` : 'N/A',
-          stops: flight.transfers === 0 ? 'Direct' : `${flight.transfers} stop(s)`,
-          price: flight.price,
-          currency: 'USD',
-          booking_url: `https://www.aviasales.com/search/${flight.origin}${flight.destination}${month}?marker=${AVIA_MARKER}`,
-          gate: 'aviasales'
-        }));
-      }
-      return [];
+      return data.flights || [];
     } catch (error) {
       console.error('Flight search error:', error);
       return [];
@@ -386,4 +371,5 @@ export function detectService(text: string): string {
   if (/delay|cancel|compensation|تعويض|remboursement/.test(l)) return 'compensation';
   return 'flight';
 }
+
 
