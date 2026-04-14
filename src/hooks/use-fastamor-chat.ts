@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+ï»¿import { useState, useCallback, useRef } from 'react';
 import { trackSearch } from '@/lib/tracking';
 
 export type Message = {
@@ -29,27 +29,134 @@ export type FlightResult = {
 };
 
 const CITY_TO_IATA: Record<string, string> = {
-  '???': 'DXB', '?????': 'CDG', '????': 'LHR', '???????': 'CAI', '??????': 'RUH',
-  '???': 'JED', '??????': 'DOH', '???????': 'IST', '???????': 'JFK', '?????': 'NRT',
-  '??????': 'CMN', '????? ???????': 'CMN', '?????': 'RAK', '????': 'TUN',
-  '???????': 'ALG', '?????': 'BEY', '????': 'AMM', '??????': 'AUH', '????': 'MCT',
-  '??????': 'KWI', '???????': 'BAH', '?????': 'BGW', '??????': 'TIP',
-  '???????': 'SVQ', '?????': 'MAD', '???????': 'BCN', '????': 'FCO',
-  '????????': 'AMS', '?????????': 'FRA', '??????': 'MXP', '?????': 'BER',
-  'dubai': 'DXB', 'paris': 'CDG', 'london': 'LHR', 'cairo': 'CAI', 'riyadh': 'RUH',
-  'jeddah': 'JED', 'doha': 'DOH', 'istanbul': 'IST', 'new york': 'JFK', 'newyork': 'JFK',
-  'tokyo': 'NRT', 'rabat': 'CMN', 'casablanca': 'CMN', 'marrakech': 'RAK', 'tunis': 'TUN',
-  'algiers': 'ALG', 'beirut': 'BEY', 'amman': 'AMM', 'abu dhabi': 'AUH', 'muscat': 'MCT',
-  'kuwait': 'KWI', 'bahrain': 'BAH', 'baghdad': 'BGW', 'amsterdam': 'AMS',
-  'frankfurt': 'FRA', 'madrid': 'MAD', 'rome': 'FCO', 'barcelona': 'BCN',
-  'singapore': 'SIN', 'bangkok': 'BKK', 'sydney': 'SYD', 'toronto': 'YYZ',
-  'los angeles': 'LAX', 'chicago': 'ORD', 'miami': 'MIA', 'moscow': 'SVO',
-  'beijing': 'PEK', 'shanghai': 'PVG', 'mumbai': 'BOM', 'delhi': 'DEL',
-  'seville': 'SVQ', 'sevilla': 'SVQ', 'tanger': 'TNG', 'tangier': 'TNG',
-  'londre': 'LHR', 'londres': 'LHR', 'moscou': 'SVO', 'milan': 'MXP',
-  'berlin': 'BER', 'athens': 'ATH', 'lisbon': 'LIS', 'vienna': 'VIE',
-  'prague': 'PRG', 'budapest': 'BUD', 'warsaw': 'WAW', 'zurich': 'ZRH',
-  'brussels': 'BRU', 'copenhagen': 'CPH', 'stockholm': 'ARN', 'oslo': 'OSL',
+  // Arabic city names
+  'dubai': 'DXB',
+  'paris': 'CDG',
+  'london': 'LHR',
+  'cairo': 'CAI',
+  'riyadh': 'RUH',
+  'jeddah': 'JED',
+  'doha': 'DOH',
+  'istanbul': 'IST',
+  'new york': 'JFK',
+  'tokyo': 'NRT',
+  'rabat': 'CMN',
+  'casablanca': 'CMN',
+  'marrakech': 'RAK',
+  'tunis': 'TUN',
+  'algiers': 'ALG',
+  'beirut': 'BEY',
+  'amman': 'AMM',
+  'abu dhabi': 'AUH',
+  'muscat': 'MCT',
+  'kuwait': 'KWI',
+  'bahrain': 'BAH',
+  'baghdad': 'BGW',
+  'tripoli': 'TIP',
+  'seville': 'SVQ',
+  'madrid': 'MAD',
+  'barcelona': 'BCN',
+  'rome': 'FCO',
+  'amsterdam': 'AMS',
+  'frankfurt': 'FRA',
+  'milan': 'MXP',
+  'berlin': 'BER',
+  // English variations
+  'dubai': 'DXB',
+  'paris': 'CDG',
+  'london': 'LHR',
+  'cairo': 'CAI',
+  'riyadh': 'RUH',
+  'jeddah': 'JED',
+  'doha': 'DOH',
+  'istanbul': 'IST',
+  'new york': 'JFK',
+  'newyork': 'JFK',
+  'tokyo': 'NRT',
+  'rabat': 'CMN',
+  'casablanca': 'CMN',
+  'marrakech': 'RAK',
+  'tunis': 'TUN',
+  'algiers': 'ALG',
+  'beirut': 'BEY',
+  'amman': 'AMM',
+  'abu dhabi': 'AUH',
+  'muscat': 'MCT',
+  'kuwait': 'KWI',
+  'bahrain': 'BAH',
+  'baghdad': 'BGW',
+  'amsterdam': 'AMS',
+  'frankfurt': 'FRA',
+  'madrid': 'MAD',
+  'rome': 'FCO',
+  'barcelona': 'BCN',
+  'singapore': 'SIN',
+  'bangkok': 'BKK',
+  'sydney': 'SYD',
+  'toronto': 'YYZ',
+  'los angeles': 'LAX',
+  'chicago': 'ORD',
+  'miami': 'MIA',
+  'moscow': 'SVO',
+  'beijing': 'PEK',
+  'shanghai': 'PVG',
+  'mumbai': 'BOM',
+  'delhi': 'DEL',
+  'seville': 'SVQ',
+  'sevilla': 'SVQ',
+  'tangier': 'TNG',
+  'tanger': 'TNG',
+  'londres': 'LHR',
+  'moscou': 'SVO',
+  'milan': 'MXP',
+  'berlin': 'BER',
+  'athens': 'ATH',
+  'lisbon': 'LIS',
+  'vienna': 'VIE',
+  'prague': 'PRG',
+  'budapest': 'BUD',
+  'warsaw': 'WAW',
+  'zurich': 'ZRH',
+  'brussels': 'BRU',
+  'copenhagen': 'CPH',
+  'stockholm': 'ARN',
+  'oslo': 'OSL',
+};
+
+const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
+  hotel: [
+    { name: 'Intui Travel', desc: 'Best hotel deals worldwide', url: 'https://intui.tpx.gr/kguAoKIU', icon: '' },
+  ],
+  taxi: [
+    { name: 'GetTransfer', desc: 'Airport & city transfers', url: 'https://gettransfer.tpx.gr/9poAnD5l', icon: '' },
+    { name: 'Kiwi Taxi', desc: 'Reliable taxi service', url: 'https://kiwitaxi.tpx.gr/Y6yrFeYN', icon: '' },
+    { name: 'LocalRent', desc: 'Car rental', url: 'https://localrent.tpx.gr/qr92Puo9', icon: '' },
+  ],
+  experience: [
+    { name: 'Klook', desc: 'Tours & experiences', url: 'https://klook.tpx.gr/vRUzaJbI', icon: '' },
+    { name: 'Tiqets', desc: 'Museums & attractions', url: 'https://tiqets.tpx.gr/ot4HK9Pf', icon: '' },
+    { name: 'WeGoTrip', desc: 'Audio tours', url: 'https://wegotrip.tpx.gr/DyN0pkVH', icon: '' },
+  ],
+  bus: [
+    { name: 'FlixBus', desc: 'Bus tickets across Europe', url: 'https://tpx.gr/n6krgEY3', icon: '' },
+  ],
+  cruise: [
+    { name: 'Sea Radar', desc: 'Cruise deals worldwide', url: 'https://searadar.tpx.gr/WC89iS5m', icon: '' },
+  ],
+  esim: [
+    { name: 'Yesim', desc: 'eSIM for travelers', url: 'https://yesim.tpx.gr/9gzdax7m', icon: '' },
+  ],
+  compensation: [
+    { name: 'Compensair', desc: 'Get compensation', url: 'https://compensair.tpx.gr/MGUDRrY2', icon: '' },
+    { name: 'AirHelp', desc: 'Get your refund', url: 'https://airhelp.tpx.gr/baeI5YIf', icon: '' },
+  ],
+  car: [
+    { name: 'EconomyBookings', desc: 'Best car rental prices', url: 'https://economybookings.tpx.gr/ONZ6dOjM', icon: '' },
+    { name: 'QEEQ', desc: 'Premium car rental', url: 'https://qeeq.tpx.gr/pTbTtERj', icon: '' },
+  ],
+  flight: [
+    { name: 'Aviasales', desc: 'Search all airlines', url: 'https://aviasales.tpx.gr/yQxrYmk7', icon: '' },
+  ],
 };
 
 const MARKER = '709105';
@@ -84,15 +191,21 @@ RULES:
 - Keep responses SHORT (2-3 sentences max)
 - ALWAYS output the correct block based on what user asks
 
- FOR FLIGHTS 
+=== FOR FLIGHTS ===
 When user asks about flights, extract origin + destination + date.
-If no date given, use ${new Date().toISOString().split('T')[0]}.
+If no date given, use ${today}.
 Output:
 <search>
 {"type":"flight","origin":"IATA","destination":"IATA","date":"YYYY-MM-DD"}
 </search>
 
-City  IATA: Dubai=DXB, Paris=CDG, London=LHR, Cairo=CAI, Riyadh=RUH, Casablanca=CMN, Rabat=CMN, Istanbul=IST, NYC=JFK, Tokyo=NRT, Madrid=MAD, Barcelona=BCN, Rome=FCO, Marrakech=RAK`;
+=== FOR HOTELS ===
+When user asks about hotels/accommodation, output:
+<links>
+[{"name":"Intui Travel","desc":"Best hotel deals","url":"https://intui.tpx.gr/kguAoKIU","icon":""}]
+</links>
+
+City -> IATA: Dubai=DXB, Paris=CDG, London=LHR, Cairo=CAI, Riyadh=RUH, Casablanca=CMN, Rabat=CMN, Istanbul=IST, NYC=JFK, Tokyo=NRT, Madrid=MAD, Barcelona=BCN, Rome=FCO, Marrakech=RAK`;
 }
 
 export function useFastamorChat(service: string, lang: string) {
@@ -154,7 +267,6 @@ export function useFastamorChat(service: string, lang: string) {
       setIsTyping(false);
       setShowSearchAnim(false);
 
-      //  Handle flight search
       if (searchMatch) {
         try {
           const searchData = JSON.parse(searchMatch[1].trim());
@@ -164,7 +276,6 @@ export function useFastamorChat(service: string, lang: string) {
           if (searchData.origin && searchData.destination) {
             setShowSearchAnim(false);
             
-            // ???? ????? ?????
             const affiliateUrl = `${AFFILIATE_BASE_URL}?origin=${searchData.origin}&destination=${searchData.destination}&marker=${MARKER}`;
             
             setDynamicLinks([{ 
@@ -176,11 +287,7 @@ export function useFastamorChat(service: string, lang: string) {
             setHasResults(true);
             
             const replyText = lang === 'ar' 
-              ? ` ????? ????? ?? ???? ?? ${searchData.origin} ??? ${searchData.destination} ??? ?????? ?????.`
-              : lang === 'fr'
-              ? ` Vous pouvez rechercher un vol de ${searchData.origin} à ${searchData.destination} via le lien ci-dessous.`
-              : lang === 'es'
-              ? ` Puedes buscar un vuelo de ${searchData.origin} a ${searchData.destination} mediante el siguiente enlace.`
+              ? ` You can search for flights from ${searchData.origin} to ${searchData.destination} using the link below.`
               : ` You can search for flights from ${searchData.origin} to ${searchData.destination} using the link below.`;
             
             const msg = {
@@ -196,7 +303,6 @@ export function useFastamorChat(service: string, lang: string) {
         }
       }
 
-      //  Handle service links
       if (linksMatch) {
         try {
           const links = JSON.parse(linksMatch[1].trim());
@@ -212,9 +318,9 @@ export function useFastamorChat(service: string, lang: string) {
       setShowSearchAnim(false);
       const fallbacks: Record<string, string> = {
         en: 'Sorry, connection issue. Please try again. ',
-        ar: '?????? ????? ?? ???????. ???? ??????. ',
-        fr: 'Désolé, problème de connexion. ',
-        es: 'Lo siento, error de conexión. ',
+        ar: 'Sorry, connection issue. Please try again. ',
+        fr: 'Sorry, connection issue. Please try again. ',
+        es: 'Sorry, connection issue. Please try again. ',
       };
       const msg = { role: 'assistant' as const, content: fallbacks[lang] || fallbacks.en };
       const updated = [...messagesRef.current, msg];
@@ -238,13 +344,13 @@ export function useFastamorChat(service: string, lang: string) {
 
 export function detectService(text: string): string {
   const l = text.toLowerCase();
-  if (/cruise|????|croisière|crucero/.test(l)) return 'cruise';
-  if (/bus|coach|?????|autobus/.test(l)) return 'bus';
-  if (/hotel|stay|????|?????|hôtel|alojamiento/.test(l)) return 'hotel';
-  if (/taxi|transfer|?????|???|transfert|traslado/.test(l)) return 'taxi';
-  if (/car|rent|?????|location|alquiler/.test(l)) return 'car';
-  if (/tour|experience|????|?????|visite|excursion/.test(l)) return 'experience';
-  if (/esim|sim|internet|??????/.test(l)) return 'esim';
-  if (/delay|cancel|compensation|?????|remboursement/.test(l)) return 'compensation';
+  if (/cruise|krooz|safina/.test(l)) return 'cruise';
+  if (/bus|coach|hafila/.test(l)) return 'bus';
+  if (/hotel|stay|fundoq/.test(l)) return 'hotel';
+  if (/taxi|transfer|sayara/.test(l)) return 'taxi';
+  if (/car|rent|sayara/.test(l)) return 'car';
+  if (/tour|experience|jawla/.test(l)) return 'experience';
+  if (/esim|sim|internet/.test(l)) return 'esim';
+  if (/delay|cancel|compensation/.test(l)) return 'compensation';
   return 'flight';
 }
