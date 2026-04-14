@@ -45,3 +45,5 @@ dist/
 public/artifacts/
 
 public/attached_assets/
+.vercel
+.env*.local
