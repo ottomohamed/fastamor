@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Plus, Edit3, Trash2, Eye, EyeOff, Newspaper, X, Check, Loader2 } from 'lucide-react';
 import { ArticleModal } from './ArticleModal';
@@ -30,21 +30,21 @@ export function NewsroomIntegrated({ onToast, siteLang }: NewsroomIntegratedProp
       setArticles(data || []);
     } catch (err) {
       console.error('Error loading articles:', err);
-      onToast(' خطأ في تحميل المقالات');
+      onToast(' ??? ?? ????? ????????');
     }
     setLoading(false);
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('هل أنت متأكد من حذف هذا المقال؟')) return;
+    if (!confirm('?? ??? ????? ?? ??? ??? ???????')) return;
     
     try {
       const { error } = await supabase.from('articles').delete().eq('id', id);
       if (error) throw error;
-      onToast(' تم حذف المقال');
+      onToast(' ?? ??? ??????');
       loadArticles();
     } catch (err) {
-      onToast(' خطأ في الحذف');
+      onToast(' ??? ?? ?????');
     }
   };
 
@@ -61,15 +61,15 @@ export function NewsroomIntegrated({ onToast, siteLang }: NewsroomIntegratedProp
         .eq('id', id);
       
       if (error) throw error;
-      onToast(newStatus === 'published' ? ' تم نشر المقال' : ' تم حفظ كمسودة');
+      onToast(newStatus === 'published' ? ' ?? ??? ??????' : ' ?? ??? ??????');
       loadArticles();
     } catch (err) {
-      onToast(' خطأ في تغيير الحالة');
+      onToast(' ??? ?? ????? ??????');
     }
   };
 
   const getTitle = (article: any) => {
-    return article.title?.[siteLang] || article.title?.en || 'بدون عنوان';
+    return article.title?.[siteLang] || article.title?.en || '???? ?????';
   };
 
   const getExcerpt = (article: any) => {
@@ -87,24 +87,24 @@ export function NewsroomIntegrated({ onToast, siteLang }: NewsroomIntegratedProp
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="font-serif font-black text-2xl text-foreground">إدارة المحتوى</h2>
+        <h2 className="font-serif font-black text-2xl text-foreground">????? ???????</h2>
         <button 
           onClick={() => setShowNewArticle(true)}
           className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl font-bold text-sm hover:bg-primary/90 transition-colors"
         >
-          <Plus size={16}/> مقال جديد
+          <Plus size={16}/> ???? ????
         </button>
       </div>
 
       {articles.length === 0 ? (
         <div className="bg-surface border border-border rounded-2xl p-12 text-center text-muted">
           <Newspaper size={48} className="mx-auto mb-3 opacity-30"/>
-          <p>لا توجد مقالات بعد</p>
+          <p>?? ???? ?????? ???</p>
           <button 
             onClick={() => setShowNewArticle(true)} 
             className="mt-3 text-primary font-bold hover:underline"
           >
-             اكتب أول مقال
+             ???? ??? ????
           </button>
         </div>
       ) : (
@@ -126,14 +126,14 @@ export function NewsroomIntegrated({ onToast, siteLang }: NewsroomIntegratedProp
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <span className={'text-xs px-2 py-0.5 rounded-full ' + (article.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700')}>
-                      {article.status === 'published' ? 'منشور' : 'مسودة'}
+                      {article.status === 'published' ? '?????' : '?????'}
                     </span>
                     <span className="text-xs text-muted">{article.author_slug}</span>
                     <span className="text-xs text-muted">
                       {new Date(article.created_at).toLocaleDateString('ar-EG')}
                     </span>
                     {article.views > 0 && (
-                      <span className="text-xs text-muted"> {article.views} مشاهدة</span>
+                      <span className="text-xs text-muted"> {article.views} ??????</span>
                     )}
                   </div>
                   <h3 className="font-bold text-foreground">{getTitle(article)}</h3>
@@ -145,20 +145,20 @@ export function NewsroomIntegrated({ onToast, siteLang }: NewsroomIntegratedProp
                       onClick={() => setEditingArticle(article)} 
                       className="text-primary text-sm font-medium flex items-center gap-1 hover:underline"
                     >
-                      <Edit3 size={14}/> تعديل
+                      <Edit3 size={14}/> ?????
                     </button>
                     <button 
                       onClick={() => handlePublish(article.id, article.status)} 
                       className="text-secondary text-sm font-medium flex items-center gap-1 hover:underline"
                     >
                       {article.status === 'published' ? <EyeOff size={14}/> : <Eye size={14}/>}
-                      {article.status === 'published' ? 'إخفاء' : 'نشر'}
+                      {article.status === 'published' ? '?????' : '???'}
                     </button>
                     <button 
                       onClick={() => handleDelete(article.id)} 
                       className="text-red-500 text-sm font-medium flex items-center gap-1 hover:underline"
                     >
-                      <Trash2 size={14}/> حذف
+                      <Trash2 size={14}/> ???
                     </button>
                   </div>
                 </div>
@@ -177,7 +177,7 @@ export function NewsroomIntegrated({ onToast, siteLang }: NewsroomIntegratedProp
           }}
           onSave={() => { 
             loadArticles(); 
-            onToast(' تم حفظ المقال'); 
+            onToast(' ?? ??? ??????'); 
           }}
           siteLang={siteLang}
         />

@@ -1,7 +1,7 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-// Aviasales Data API - البحث عن الرحلات
-// التوثيق: https://support.travelpayouts.com/hc/en-us/articles/360021770979
+// Aviasales Data API - ????? ?? ???????
+// ???????: https://support.travelpayouts.com/hc/en-us/articles/360021770979
 
 export async function POST(request: Request) {
   try {
@@ -19,10 +19,10 @@ export async function POST(request: Request) {
       }, { status: 500 });
     }
     
-    // تحويل التاريخ من YYYY-MM-DD إلى YYYY-MM (API يقبل شهر فقط للبحث الأوسع)
+    // ????? ??????? ?? YYYY-MM-DD ??? YYYY-MM (API ???? ??? ??? ????? ??????)
     const month = date ? date.substring(0, 7) : new Date().toISOString().substring(0, 7);
     
-    // بناء رابط API
+    // ???? ???? API
     const url = new URL('https://api.travelpayouts.com/aviasales/v3/prices_for_dates');
     url.searchParams.append('origin', origin.toUpperCase());
     url.searchParams.append('destination', destination.toUpperCase());
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     console.log(` Searching: ${origin}  ${destination} for ${month}`);
     
     const response = await fetch(url.toString(), {
-      headers: { 'Accept-Encoding': 'gzip' } // ضغط البيانات
+      headers: { 'Accept-Encoding': 'gzip' } // ??? ????????
     });
     
     if (!response.ok) {
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
         stops: flight.transfers === 0 ? 'Direct' : `${flight.transfers || 0} stop(s)`,
         price: flight.price,
         currency: currency.toUpperCase(),
-        // رابط الحجز المباشر (يضاف له https://www.aviasales.com)
+        // ???? ????? ??????? (???? ?? https://www.aviasales.com)
         booking_path: flight.link,
         affiliate_url: `https://aviasales.tpx.gr/yQxrYmk7?origin=${flight.origin}&destination=${flight.destination}&date=${month}`,
         expires_at: flight.expires_at
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
       });
     }
     
-    // إذا لم توجد نتائج، نعيد روابط إحالة كبديل
+    // ??? ?? ???? ?????? ???? ????? ????? ?????
     console.log(' No flights found, returning affiliate links');
     return NextResponse.json({
       success: false,
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
         url: 'https://aviasales.tpx.gr/yQxrYmk7',
         message: 'Service temporarily unavailable. Book directly through our partner.'
       }
-    }, { status: 200 }); // نرسل 200 عشان ما يظهر خطأ للمستخدم
+    }, { status: 200 }); // ???? 200 ???? ?? ???? ??? ????????
   }
 }
 
@@ -109,7 +109,7 @@ function getAirlineName(code: string): string {
     'EK': 'Emirates', 'QR': 'Qatar Airways', 'TK': 'Turkish Airlines',
     'EY': 'Etihad', 'MS': 'EgyptAir', 'SV': 'Saudia',
     'RJ': 'Royal Jordanian', 'ME': 'MEA', 'AT': 'Royal Air Maroc',
-    'TU': 'Tunisair', 'AH': 'Air Algérie', 'IB': 'Iberia',
+    'TU': 'Tunisair', 'AH': 'Air Alg�rie', 'IB': 'Iberia',
     'FR': 'Ryanair', 'U2': 'easyJet', 'W6': 'Wizz Air',
     'SU': 'Aeroflot', 'PC': 'Pegasus', 'FZ': 'flydubai',
     'G9': 'Air Arabia', 'J9': 'Jazeera Airways', 'KU': 'Kuwait Airways'

@@ -1,14 +1,14 @@
-﻿import express from 'express';
+import express from 'express';
 import cors from 'cors';
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
 
 const TOKEN = '48076067aa7fe645d28373eb715a346b';
-const MARKER = '709105';  // رقم الإحالة الخاص بك
+const MARKER = '709105';  // ??? ??????? ????? ??
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -28,19 +28,19 @@ app.post('/api/flights/search', async (req, res) => {
     
     if (data.success && data.data && data.data.length > 0) {
       const flights = data.data.map((flight, idx) => {
-        // بناء رابط الحجز مع إضافة marker
+        // ???? ???? ????? ?? ????? marker
         let bookingUrl = '';
         
         if (flight.link) {
-          // إضافة marker إلى الرابط المباشر
+          // ????? marker ??? ?????? ???????
           const separator = flight.link.includes('?') ? '&' : '?';
           bookingUrl = `https://www.aviasales.com${flight.link}${separator}marker=${MARKER}`;
         } else {
-          // رابط احتياطي مع marker
+          // ???? ??????? ?? marker
           bookingUrl = `https://www.aviasales.com/search/${origin}${destination}${month}?marker=${MARKER}`;
         }
         
-        // رابط الإحالة الرئيسي (آمن)
+        // ???? ??????? ??????? (???)
         const affiliateUrl = `https://aviasales.tpx.gr/yQxrYmk7?origin=${flight.origin}&destination=${flight.destination}&departure_date=${flight.departure_at?.split('T')[0] || month}&marker=${MARKER}`;
         
         return {
@@ -84,9 +84,11 @@ function getAirlineName(code) {
   return airlines[code] || code;
 }
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n Fastamor API Server running on http://localhost:${PORT}`);
   console.log(` Health: http://localhost:${PORT}/api/health`);
   console.log(` Flights: POST to http://localhost:${PORT}/api/flights/search`);
   console.log(` Marker: ${MARKER}\n`);
 });
+
+

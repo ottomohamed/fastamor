@@ -1,10 +1,10 @@
-﻿// api/flights/search.js
-// التوكن الثابت للتجربة
+// api/flights/search.js
+// ?????? ?????? ???????
 const TOKEN = '48076067aa7fe645d28373eb715a346b';
 const MARKER = '709105';
 
 export default async function handler(req, res) {
-  // إعدادات CORS
+  // ??????? CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     
     if (data.success && data.data && data.data.length > 0) {
       const flights = data.data.map((flight, idx) => {
-        // بناء رابط الحجز مع إضافة marker
+        // ???? ???? ????? ?? ????? marker
         let bookingUrl = '';
         if (flight.link) {
           const separator = flight.link.includes('?') ? '&' : '?';
