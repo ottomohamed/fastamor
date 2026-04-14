@@ -50,8 +50,8 @@ const CITY_TO_IATA: Record<string, string> = {
   'berlin': 'BER', 'athens': 'ATH', 'lisbon': 'LIS', 'vienna': 'VIE',
   'prague': 'PRG', 'budapest': 'BUD', 'warsaw': 'WAW', 'zurich': 'ZRH',
   'brussels': 'BRU', 'copenhagen': 'CPH', 'stockholm': 'ARN', 'oslo': 'OSL',
-  'dubai': 'DXB', 'sharjah': 'SHJ', 'fujairah': 'FJR',
-};
+  'dubai': 'DXB', 'sharjah': 'SHJ', 'fujairah': 'FJR'
+  };
 
 // Aviasales API Configuration
 const AVIA_TOKEN = import.meta.env.VITE_TRAVELPAYOUTS_TOKEN || '517b9f43b0fa448681c25b90fda7cf73';
@@ -91,8 +91,8 @@ const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
   ],
   flight: [
     { name: 'Aviasales', desc: 'Search all airlines', url: 'https://aviasales.tpx.gr/yQxrYmk7', icon: '' },
-  ],
-};
+  ]
+  };
 
 function getIATA(text: string): string | undefined {
   if (!text) return undefined;
@@ -248,15 +248,15 @@ export function useFastamorChat(service: string, lang: string) {
           'Content-Type': 'application/json',
           'x-api-key': apiKey,
           'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
-        },
+          'anthropic-dangerous-direct-browser-access': 'true'
+  },
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
           max_tokens: 512,
           system: getSystemPrompt(lang, service),
-          messages: updatedHistory.map(m => ({ role: m.role, content: m.content })),
-        }),
-      });
+          messages: updatedHistory.map(m => ({ role: m.role, content: m.content }))
+  })
+  });
 
       if (!response.ok) throw new Error(`API error ${response.status}`);
 
@@ -301,8 +301,8 @@ export function useFastamorChat(service: string, lang: string) {
                   lang === 'ar' ? ` وجدت ${flights.length} رحلة! أرخصها $${cheapest} ` :
                   lang === 'fr' ? ` ${flights.length} vol(s) trouvé(s)! Dès $${cheapest} ` :
                   lang === 'es' ? ` ${flights.length} vuelo(s)! Desde $${cheapest} ` :
-                  ` Found ${flights.length} flight(s)! From $${cheapest} `,
-              };
+                  ` Found ${flights.length} flight(s)! From $${cheapest} `
+  };
               const updated = [...withReply, msg];
               messagesRef.current = updated;
               setMessages(updated);
@@ -316,8 +316,8 @@ export function useFastamorChat(service: string, lang: string) {
                   lang === 'ar' ? `لم أجد رحلات متاحة. ابحث مباشرة عبر ` :
                   lang === 'fr' ? `Aucun vol trouvé. Recherchez directement sur ` :
                   lang === 'es' ? `No encontré vuelos. Busca directamente en ` :
-                  `No cached flights found. Search directly on `,
-              };
+                  `No cached flights found. Search directly on `
+  };
               const updated = [...withReply, msg];
               messagesRef.current = updated;
               setMessages(updated);
@@ -352,8 +352,8 @@ export function useFastamorChat(service: string, lang: string) {
         en: 'Sorry, connection issue. Please try again. ',
         ar: 'عذراً، مشكلة في الاتصال. حاول مجدداً. ',
         fr: 'Désolé, problème de connexion. ',
-        es: 'Lo siento, error de conexión. ',
-      };
+        es: 'Lo siento, error de conexión. '
+  };
       const msg = { role: 'assistant' as const, content: fallbacks[lang] || fallbacks.en };
       const updated = [...messagesRef.current, msg];
       messagesRef.current = updated;
@@ -386,3 +386,4 @@ export function detectService(text: string): string {
   if (/delay|cancel|compensation|تعويض|remboursement/.test(l)) return 'compensation';
   return 'flight';
 }
+
