@@ -110,7 +110,7 @@ export function useFastamorChat(service: string, lang: string) {
 
     try {
       const apiKey = import.meta.env.VITE_ANTHROPIC_KEY;
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('/api/claude', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -193,3 +193,4 @@ export function detectService(text: string): string {
   if (/tour/.test(l)) return 'experience';
   return 'flight';
 }
+
