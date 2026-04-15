@@ -23,6 +23,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const month = date ? date.substring(0, 7) : new Date().toISOString().substring(0, 7);
     const url = `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?origin=${origin}&destination=${destination}&departure_at=${month}&currency=usd&limit=20&token=${TOKEN}`;
     
+    console.log(`Fetching: ${url}`);
+    
     const response = await fetch(url);
     const data = await response.json();
     
