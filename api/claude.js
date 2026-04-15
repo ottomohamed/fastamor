@@ -1,6 +1,5 @@
-﻿import type { VercelRequest, VercelResponse } from '@vercel/node';
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+﻿// api/claude.js
+export default async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -18,6 +17,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const apiKey = process.env.VITE_ANTHROPIC_KEY;
     
     if (!apiKey) {
+      console.error('Claude API key not configured');
       return res.status(500).json({ error: 'Claude API key not configured' });
     }
     
