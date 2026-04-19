@@ -47,7 +47,7 @@ export default function BlogView() {
     let query = supabase
       .from('articles')
       .select('*')
-      .eq('status', 'published')
+      // .eq('status', 'published')
       .order('published_at', { ascending: false });
     if (category !== 'all') query = query.eq('category', category);
     const { data } = await query;
