@@ -46,7 +46,7 @@ export default function DestinationView({ slug }: { slug: string }) {
       .from('destinations')
       .select('*')
       .eq('slug', slug)
-      .eq('status', 'published')
+      // .eq('status', 'published')
       .single();
 
     if (dest) {
@@ -55,7 +55,7 @@ export default function DestinationView({ slug }: { slug: string }) {
         .from('articles')
         .select('id,slug,title_ar,title_en,featured_image,category')
         .eq('destination_id', dest.id)
-        .eq('status', 'published')
+        // .eq('status', 'published')
         .limit(6);
       setArticles(arts || []);
     }
