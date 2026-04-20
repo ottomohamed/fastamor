@@ -42,7 +42,6 @@ export type SearchData = {
   sort_by?: 'price' | 'duration' | 'quality';
 };
 
-// نوع جديد لـ AI Action Layer
 export type AIAction = {
   action: 'search_flights' | 'search_ferry' | 'search_taxi' | 'search_bus' | 'show_links';
   data: SearchData | AffiliateLink[];
@@ -142,7 +141,7 @@ const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
 };
 
 // ============================================
-// ADVANCED CACHE MANAGEMENT (Session-scoped with limits)
+// ADVANCED CACHE MANAGEMENT
 // ============================================
 interface CachedFlightResult {
   flights: FlightResult[] | FlexibleResult[];
@@ -158,11 +157,10 @@ interface SessionCache {
 
 const MAX_SESSIONS = 100;
 const sessionCaches = new Map<string, SessionCache>();
-const CACHE_TTL = 5 * 60 * 1000; // 5 دقائق
+const CACHE_TTL = 5 * 60 * 1000;
 const MAX_CACHE_SIZE = 100;
 
 function getSessionCache(sessionId: string): Map<string, CachedFlightResult> {
-  // تنظيف الجلسات القديمة إذا تجاوزنا الحد
   if (sessionCaches.size > MAX_SESSIONS) {
     const entries = Array.from(sessionCaches.entries());
     entries.sort((a, b) => a[1].lastAccess - b[1].lastAccess);
@@ -209,7 +207,6 @@ function cleanCacheIfNeeded(sessionId: string): void {
   }
 }
 
-// تنظيف الجلسات القديمة كل ساعة
 if (typeof window !== 'undefined') {
   setInterval(() => {
     const now = Date.now();
@@ -234,7 +231,7 @@ for (const [country, iata] of Object.entries(COUNTRY_TO_MAIN_AIRPORT)) {
 }
 
 // ============================================
-// SMART PARSERS (دعم صيغ متعددة)
+// SMART PARSERS
 // ============================================
 function parseDuration(durationStr: string): number {
   if (!durationStr) return 0;
@@ -242,13 +239,12 @@ function parseDuration(durationStr: string): number {
   const str = durationStr.toString().trim();
   let totalMinutes = 0;
   
-  // صيغ متعددة: 2h30m, 2h 30m, 2h30, 2:30, 2.5h
   const patterns = [
-    /(\d+(?:\.\d+)?)\s*h(?:ours?)?\s*(\d+(?:\.\d+)?)\s*m(?:in(?:utes?)?)?/i, // 2h 30m
-    /(\d+(?:\.\d+)?)\s*h(?:ours?)?\s*(\d+(?:\.\d+)?)/i, // 2h30
-    /(\d+(?:\.\d+)?):(\d+(?:\.\d+)?)/, // 2:30
-    /(\d+(?:\.\d+)?)\s*m(?:in(?:utes?)?)?/i, // 30m
-    /(\d+(?:\.\d+)?)\s*h(?:ours?)?/i, // 2h
+    /(\d+(?:\.\d+)?)\s*h(?:ours?)?\s*(\d+(?:\.\d+)?)\s*m(?:in(?:utes?)?)?/i,
+    /(\d+(?:\.\d+)?)\s*h(?:ours?)?\s*(\d+(?:\.\d+)?)/i,
+    /(\d+(?:\.\d+)?):(\d+(?:\.\d+)?)/,
+    /(\d+(?:\.\d+)?)\s*m(?:in(?:utes?)?)?/i,
+    /(\d+(?:\.\d+)?)\s*h(?:ours?)?/i,
   ];
   
   for (const pattern of patterns) {
@@ -285,7 +281,7 @@ function parseStops(stopsStr: string): number {
 }
 
 // ============================================
-// NORMALIZED SCORING (Dynamic Weights)
+// NORMALIZED SCORING
 // ============================================
 type NormalizedValues = {
   price: number;
@@ -342,7 +338,7 @@ function sortFlightsByScore(flights: FlightResult[], preference: 'cheap' | 'fast
 }
 
 // ============================================
-// AI RESPONSE PARSING (مع Validation قوي)
+// AI RESPONSE PARSING
 // ============================================
 function validateAndParseAIResponse(fullText: string): {
   success: boolean;
@@ -450,46 +446,66 @@ function buildDeepLink(type: string, from: string, to: string, date: string): st
 }
 
 // ============================================
-// SYSTEM PROMPT (AI Action Layer)
+// SYSTEM PROMPT (مصلح - يستخدم XML tags بدلاً من JSON)
 // ============================================
 function getSystemPrompt(lang: string, service: string): string {
   const today = new Date().toISOString().split('T')[0];
   const currency = getCurrency(lang);
   
-  return `You are Fastamor, a smart Moroccan travel concierge. Today: ${today}.
-Current service: ${service}
-Currency for display: ${currency}
+  const langRule = lang === 'ar' 
+    ? 'Respond in Moroccan Darija. Be friendly and helpful.'
+    : lang === 'fr' ? 'Respond in French. Be friendly and helpful.'
+    : lang === 'es' ? 'Respond in Spanish. Be friendly and helpful.'
+    : 'Respond in English. Be friendly and helpful.';
 
-IMPORTANT: You MUST respond with a JSON object in the following format. Do NOT add any text before or after the JSON.
+  return `You are Fastamor, a smart travel concierge. Today: ${today}.
 
-Response format:
-{
-  "action": "search_flights" | "search_ferry" | "search_taxi" | "search_bus" | "show_links",
-  "data": { ... },
-  "confidence": 0.0-1.0,
-  "fallback": "optional message if confidence is low"
-}
+${langRule}
 
-For search_flights (specific date):
-{"action":"search_flights","data":{"type":"flight","origin":"IATA","destination":"IATA","date":"YYYY-MM-DD"},"confidence":0.95}
+CRITICAL: You MUST respond using ONLY the XML tags below. NEVER output raw JSON. NEVER add text before or after the XML tags.
 
-For search_flights (flexible dates):
-{"action":"search_flights","data":{"type":"flight","origin":"IATA","destination":"IATA","date_from":"YYYY-MM-DD","date_to":"YYYY-MM-DD","flexible":true},"confidence":0.95}
+For a flight search with specific date, output EXACTLY this format:
+<search>{"type":"flight","origin":"IATA_CODE","destination":"IATA_CODE","date":"YYYY-MM-DD"}</search>
 
-For ferry/taxi/bus:
-{"action":"search_ferry","data":{"type":"ferry","from":"city_name","to":"city_name","date":"YYYY-MM-DD"},"confidence":0.95}
+For a flight search with flexible dates (when user says "this week", "this month", or no specific date), output EXACTLY this format:
+<search>{"type":"flight","origin":"IATA_CODE","destination":"IATA_CODE","date_from":"YYYY-MM-DD","date_to":"YYYY-MM-DD","flexible":true}</search>
 
-For links (hotels, transfers, tours):
-{"action":"show_links","data":[{"name":"Service Name","desc":"Description","url":"https://...","icon":"🚕"}],"confidence":0.95}
+For a ferry search, output:
+<search>{"type":"ferry","from":"city_name","to":"city_name","date":"YYYY-MM-DD"}</search>
 
-DATE RANGE RULES:
-- "this week" → date_from = today, date_to = today + 7 days
-- "this month" → date_from = today, date_to = today + 30 days
-- "next month" → date_from = today + 30 days, date_to = today + 60 days
-- "any day" → date_from = today, date_to = today + 90 days
-- "cheapest" → sort_by = "price"
+For a taxi/transfer search, output:
+<search>{"type":"taxi","from":"city_name","to":"city_name","date":"YYYY-MM-DD"}</search>
 
-RESPONSE STYLE: ${lang === 'ar' ? 'Use friendly Moroccan Darija' : 'Be friendly and helpful'}`;
+For a bus search, output:
+<search>{"type":"bus","from":"city_name","to":"city_name","date":"YYYY-MM-DD"}</search>
+
+For hotel/tour/activity links, output:
+<links>[{"name":"Service Name","desc":"Description","url":"https://...","icon":"🏨"}]</links>
+
+EXAMPLES:
+- User: "flight from Casablanca to Paris on April 25"
+  You: <search>{"type":"flight","origin":"CMN","destination":"CDG","date":"2026-04-25"}</search>
+
+- User: "cheapest flight to London this week"
+  You: <search>{"type":"flight","origin":"","destination":"LON","date_from":"2026-04-21","date_to":"2026-04-28","flexible":true}</search>
+
+- User: "ferry from Tangier to Algeciras tomorrow"
+  You: <search>{"type":"ferry","from":"Tangier","to":"Algeciras","date":"2026-04-22"}</search>
+
+- User: "رحلة من مدريد الى طنجة يوم 22 ابريل"
+  You: <search>{"type":"flight","origin":"MAD","destination":"TNG","date":"2026-04-22"}</search>
+
+- User: "فندق في الدار البيضاء"
+  You: <links>[{"name":"Intui Travel","desc":"Best hotels","url":"https://intui.tpx.gr/kguAoKIU","icon":"🏨"}]</links>
+
+REMEMBER: 
+- Output ONLY the <search> or <links> tag. NOTHING else.
+- Do NOT add any explanation, greeting, or extra text.
+- Do NOT output raw JSON without the XML tags.
+- For airports, use IATA codes (3 letters like CMN, CDG, MAD, TNG).
+- For cities in ferry/taxi/bus, use the city name as the user said it.
+
+Now respond with ONLY the appropriate XML tag.`;
 }
 
 // ============================================
@@ -855,8 +871,8 @@ export function useFastamorChat(service: string, lang: string) {
   const statusRef = useRef<ChatStatus>(status);
   const isProcessing = useRef(false);
   const messageQueue = useRef<QueuedMessage[]>([]);
+  const [isLoadingFlights, setIsLoadingFlights] = useState(false);
   
-  // إنشاء session ID فريد للمستخدم
   const [sessionId] = useState(() => {
     if (typeof window !== 'undefined') {
       let id = sessionStorage.getItem('fastamor_session_id');
@@ -869,16 +885,13 @@ export function useFastamorChat(service: string, lang: string) {
     return `server_${Date.now()}`;
   });
 
-  // تحديث statusRef عند تغيير status
   useEffect(() => {
     statusRef.current = status;
   }, [status]);
 
-  // محولات للتوافق مع الكود القديم
   const isTyping = status === 'typing';
   const showSearchAnim = status === 'searching';
 
-  // معالجة قائمة الانتظار
   const processQueue = useCallback(async () => {
     if (isProcessing.current || messageQueue.current.length === 0) return;
     
@@ -934,14 +947,12 @@ export function useFastamorChat(service: string, lang: string) {
       
       let action: AIAction | null = null;
       
-      // محاولة parse كـ JSON (AI Action Layer)
       try {
         const parsed = JSON.parse(fullText);
         if (parsed.action && ['search_flights', 'search_ferry', 'search_taxi', 'search_bus', 'show_links'].includes(parsed.action)) {
           action = parsed as AIAction;
         }
       } catch {
-        // Fallback: محاولة parse بالطريقة القديمة
         const { searchData, links, cleanText } = validateAndParseAIResponse(fullText);
         
         if (searchData) {
@@ -989,17 +1000,21 @@ export function useFastamorChat(service: string, lang: string) {
           }
           
           if (searchData.date_from && searchData.date_to && searchData.flexible) {
+            setIsLoadingFlights(true);
             handled = await handleFlexibleFlightFlow(
               action, lang, withReply,
               setFlightResults, setHasResults, setStatus,
               setMessages, messagesRef, sessionId
             );
+            setIsLoadingFlights(false);
           } else if (searchData.date) {
+            setIsLoadingFlights(true);
             handled = await handleSpecificDateFlightFlow(
               action, lang, withReply,
               setFlightResults, setHasResults, setStatus,
               setDynamicLinks, setMessages, messagesRef, sessionId
             );
+            setIsLoadingFlights(false);
           }
           break;
           
@@ -1083,6 +1098,7 @@ export function useFastamorChat(service: string, lang: string) {
     setErrorState({ hasError: false, message: '', retryCount: 0, lastError: undefined });
     messageQueue.current = [];
     isProcessing.current = false;
+    setIsLoadingFlights(false);
   }, []);
 
   return { 
@@ -1096,7 +1112,8 @@ export function useFastamorChat(service: string, lang: string) {
     clearChat,
     retryLastMessage,
     errorState,
-    status
+    status,
+    isLoadingFlights
   };
 }
 
