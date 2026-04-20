@@ -6,6 +6,8 @@ import { trackClick } from '@/lib/tracking';
 import { useFastamorChat, detectService } from '@/hooks/use-fastamor-chat';
 import type { FlightResult } from '@/hooks/use-fastamor-chat';
 import { useSpeech } from '@/hooks/use-speech';
+import { FlightResultsGrid } from '@/components/FlightResultsGrid';
+import { FlightSkeleton } from '@/components/FlightSkeleton';
 
 interface AppViewProps {
   onClose: () => void;
@@ -118,7 +120,16 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
   const t = I18N[lang as keyof typeof I18N] || I18N.en;
   const isRtl = lang === 'ar';
 
-  const { messages, isTyping, showSearchAnim, hasResults, dynamicLinks, flightResults, sendMessage, clearChat } = useFastamorChat(activeSvc || 'flight', lang);
+  const getCurrency = (lang: string) => {
+    switch (lang) {
+      case 'ar': return 'MAD';
+      case 'fr': return 'EUR';
+      case 'es': return 'EUR';
+      default: return 'USD';
+    }
+  };
+
+  const { messages, isTyping, showSearchAnim, hasResults, dynamicLinks, flightResults, sendMessage, clearChat, isLoadingFlights } = useFastamorChat(activeSvc || 'flight', lang);
   const { isListening, supported, listen, speak, cancelSpeech } = useSpeech(lang);
   const { search: autoSearch, clear: autoClear } = useAutocomplete(lang);
 
@@ -190,7 +201,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
 
       {/* ── LEFT SIDEBAR */}
       <aside className="hidden lg:flex flex-col w-72 h-full border-r border-[#e4e2dd] bg-[#fbf9f3] p-6 gap-5 overflow-y-auto">
-        {/* Logo */}
         <div className="flex items-center gap-2 mb-2">
           <img src="https://i.ibb.co/x8sSqTDj/1978.png" alt="Fastamor" className="h-9 w-auto"/>
           <div>
@@ -199,7 +209,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
           </div>
         </div>
 
-        {/* Services nav */}
         <nav className="flex flex-col gap-1">
           {SERVICES_NAV.map(svc => (
             <button key={svc.id} onClick={() => handleServiceSelect(svc.id)}
@@ -214,7 +223,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
           ))}
         </nav>
 
-        {/* Sponsor deals */}
         <div className="mt-2">
           <p className="text-[10px] font-bold text-[#6d7a77] uppercase tracking-widest mb-3">Partner Deals</p>
           <div className="space-y-3">
@@ -232,7 +240,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
           </div>
         </div>
 
-        {/* Footer */}
         <div className="mt-auto pt-4 border-t border-[#e4e2dd]">
           <div className="flex items-center gap-2 p-3 bg-[#e1f5ee] rounded-xl">
             <Sparkles size={14} className="text-[#00685f]"/>
@@ -247,7 +254,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
       {/* ── MAIN CHAT AREA */}
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
 
-        {/* Top bar */}
         <header className="flex items-center justify-between px-4 md:px-6 py-4 border-b border-[#e4e2dd] bg-white/80 backdrop-blur-sm shrink-0">
           <div className="flex items-center gap-3">
             <button onClick={onClose} className="p-2 rounded-full hover:bg-[#f0eee8] text-[#6d7a77] hover:text-[#1b1c19] transition-colors">
@@ -256,7 +262,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
             <div className="lg:hidden font-black text-lg text-[#1b1c19]">Fastamor</div>
           </div>
 
-          {/* Service pills — mobile */}
           <div className="flex lg:hidden gap-1 overflow-x-auto no-scrollbar">
             {SERVICES_NAV.slice(0, 4).map(svc => (
               <button key={svc.id} onClick={() => handleServiceSelect(svc.id)}
@@ -268,7 +273,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
             ))}
           </div>
 
-          {/* Language + close */}
           <div className="flex items-center gap-2">
             <div className="flex bg-[#f0eee8] rounded-full p-1 gap-0.5">
               {['en','ar','fr','es'].map(l => (
@@ -284,11 +288,9 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
           </div>
         </header>
 
-        {/* Chat messages */}
         <div className="flex-1 overflow-y-auto no-scrollbar px-4 md:px-8 py-6">
           <div className="max-w-2xl mx-auto space-y-4">
 
-            {/* Empty state */}
             {messages.length === 0 && !activeSvc && (
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-12">
                 <div className="flex items-center justify-center gap-2 text-[#00685f] text-xs font-bold tracking-widest uppercase mb-6">
@@ -314,7 +316,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
               </motion.div>
             )}
 
-            {/* Messages */}
             {messages.map((msg, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
                 className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -333,7 +334,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
               </motion.div>
             ))}
 
-            {/* Typing indicator */}
             {isTyping && (
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-[#e1f5ee] flex items-center justify-center shrink-0">
@@ -345,7 +345,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
               </div>
             )}
 
-            {/* Search animation */}
             {showSearchAnim && (
               <div className="flex justify-center py-2">
                 <div className="flex items-center gap-2 text-xs text-[#00685f] font-medium bg-[#e1f5ee] px-4 py-2 rounded-full">
@@ -355,14 +354,22 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
               </div>
             )}
 
-            {/* Flight results */}
-            {flightResults.length > 0 && (
-              <div className="space-y-2 mt-2">
-                {flightResults.map((f, i) => <FlightCard key={i} flight={f} lang={lang}/>)}
+            {/* Flight results - بطاقات احترافية */}
+            {isLoadingFlights && <FlightSkeleton />}
+
+            {!isLoadingFlights && flightResults.length > 0 && (
+              <div className="mt-4">
+                <FlightResultsGrid 
+                  flights={flightResults} 
+                  currency={getCurrency(lang)}
+                  onBook={(flight) => {
+                    trackClick(flight.booking_url);
+                    window.open(flight.booking_url, '_blank');
+                  }}
+                />
               </div>
             )}
 
-            {/* Dynamic links */}
             {hasResults && dynamicLinks.length > 0 && flightResults.length === 0 && (
               <div className="grid grid-cols-1 gap-2">
                 {dynamicLinks.map((link, i) => (
@@ -383,10 +390,8 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
           </div>
         </div>
 
-        {/* Input area */}
         <div className="shrink-0 px-4 md:px-8 py-4 bg-gradient-to-t from-[#fbf9f3] via-[#fbf9f3] to-transparent border-t border-[#e4e2dd]">
           <div className="max-w-2xl mx-auto">
-            {/* Quick service buttons */}
             {activeSvc && (
               <div className="hidden lg:flex gap-2 mb-3 overflow-x-auto no-scrollbar">
                 {SERVICES_NAV.map(svc => (
@@ -400,7 +405,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
               </div>
             )}
 
-            {/* Input */}
             <div className="relative">
               {showDropdown && suggestions.length > 0 && (
                 <AnimatePresence>
@@ -483,7 +487,6 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
           </ul>
         </div>
 
-        {/* Featured destination */}
         <div className="relative rounded-2xl overflow-hidden shadow-md group cursor-pointer"
           onClick={() => window.open('https://aviasales.tpx.gr/yQxrYmk7', '_blank')}>
           <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop"

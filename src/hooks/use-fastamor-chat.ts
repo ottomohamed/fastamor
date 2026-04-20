@@ -454,48 +454,42 @@ function buildDeepLink(type: string, from: string, to: string, date: string): st
 // ============================================
 function getSystemPrompt(lang: string, service: string): string {
   const today = new Date().toISOString().split('T')[0];
-  const langRule =
-    lang === 'ar' ? 'CRITICAL: Respond ONLY in Arabic. Keep it short and friendly.' :
-    lang === 'fr' ? 'CRITICAL: Respond ONLY in French. Keep it short and friendly.' :
-    lang === 'es' ? 'CRITICAL: Respond ONLY in Spanish. Keep it short and friendly.' :
-    'CRITICAL: Respond ONLY in English. Keep it short and friendly.';
-
-  return `You are Fastamor, a smart travel concierge. Today: ${today}.
-${langRule}
+  const currency = getCurrency(lang);
+  
+  return `You are Fastamor, a smart Moroccan travel concierge. Today: ${today}.
 Current service: ${service}
+Currency for display: ${currency}
 
-RULES:
-- Keep response to 1-2 sentences MAX
-- NEVER output raw JSON to the user
-- Always use XML tags for structured data
+IMPORTANT: You MUST respond with a JSON object in the following format. Do NOT add any text before or after the JSON.
 
-FOR FLIGHTS (extract origin + destination + date):
-<search>{"type":"flight","origin":"IATA","destination":"IATA","date":"YYYY-MM-DD"}</search>
+Response format:
+{
+  "action": "search_flights" | "search_ferry" | "search_taxi" | "search_bus" | "show_links",
+  "data": { ... },
+  "confidence": 0.0-1.0,
+  "fallback": "optional message if confidence is low"
+}
 
-FOR FLIGHTS (flexible/no date given):
-<search>{"type":"flight","origin":"IATA","destination":"IATA","date_from":"YYYY-MM-DD","date_to":"YYYY-MM-DD","flexible":true}</search>
+For search_flights (specific date):
+{"action":"search_flights","data":{"type":"flight","origin":"IATA","destination":"IATA","date":"YYYY-MM-DD"},"confidence":0.95}
 
-FOR FERRY:
-<search>{"type":"ferry","from":"city","to":"city","date":"YYYY-MM-DD"}</search>
+For search_flights (flexible dates):
+{"action":"search_flights","data":{"type":"flight","origin":"IATA","destination":"IATA","date_from":"YYYY-MM-DD","date_to":"YYYY-MM-DD","flexible":true},"confidence":0.95}
 
-FOR TAXI/TRANSFER:
-<search>{"type":"taxi","from":"city","to":"city","date":"YYYY-MM-DD"}</search>
+For ferry/taxi/bus:
+{"action":"search_ferry","data":{"type":"ferry","from":"city_name","to":"city_name","date":"YYYY-MM-DD"},"confidence":0.95}
 
-FOR BUS:
-<search>{"type":"bus","from":"city","to":"city","date":"YYYY-MM-DD"}</search>
+For links (hotels, transfers, tours):
+{"action":"show_links","data":[{"name":"Service Name","desc":"Description","url":"https://...","icon":"🚕"}],"confidence":0.95}
 
-FOR HOTELS:
-<links>[{"name":"Intui Travel","desc":"Best hotels","url":"https://intui.tpx.gr/kguAoKIU","icon":"🏨"}]</links>
+DATE RANGE RULES:
+- "this week" → date_from = today, date_to = today + 7 days
+- "this month" → date_from = today, date_to = today + 30 days
+- "next month" → date_from = today + 30 days, date_to = today + 60 days
+- "any day" → date_from = today, date_to = today + 90 days
+- "cheapest" → sort_by = "price"
 
-FOR TOURS:
-<links>[{"name":"Klook","desc":"Tours","url":"https://klook.tpx.gr/vRUzaJbI","icon":"🎡"},{"name":"Tiqets","desc":"Museums","url":"https://tiqets.tpx.gr/ot4HK9Pf","icon":"🎭"}]</links>
-
-DATE RULES:
-- "this week" → date_from=today, date_to=today+7, flexible=true
-- "this month" → date_from=today, date_to=today+30, flexible=true
-- "cheapest" or no date → use flexible=true with date_from=today, date_to=today+30
-
-${langRule}`;
+RESPONSE STYLE: ${lang === 'ar' ? 'Use friendly Moroccan Darija' : 'Be friendly and helpful'}`;
 }
 
 // ============================================
@@ -982,11 +976,7 @@ export function useFastamorChat(service: string, lang: string) {
         metadata: { confidence: action.confidence }
       });
       
-      // Show AI text response first, then search
-      const aiText = fullText.replace(/<search>[\s\S]*?<\/search>/g, '').replace(/<links>[\s\S]*?<\/links>/g, '').trim();
-      const withReply = [...updatedHistory, { role: 'assistant' as const, content: aiText || '...' }];
-      messagesRef.current = withReply;
-      setMessages([...withReply]);
+      const withReply = [...updatedHistory, { role: 'assistant', content: '' }];
       setStatus('searching');
       
       let handled = false;
