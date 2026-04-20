@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { trackSearch } from '@/lib/tracking';
+import { toAffiliateLink } from '@/lib/convertLinks';
 
 export type Message = { role: 'user' | 'assistant'; content: string; };
 export type AffiliateLink = { name: string; desc: string; url: string; icon: string; };
@@ -237,6 +238,18 @@ export function useFastamorChat(service: string, lang: string) {
       if (linksMatch) {
         try {
           const links = JSON.parse(linksMatch[1].trim());
+          
+          // تحويل الروابط تلقائياً إلى روابط عمولة
+          for (let i = 0; i < links.length; i++) {
+            if (links[i].url) {
+              try {
+                links[i].url = await toAffiliateLink(links[i].url);
+              } catch (e) {
+                console.warn('Failed to convert link:', links[i].url);
+              }
+            }
+          }
+          
           setDynamicLinks(links);
           setHasResults(true);
           trackSearch();
@@ -246,7 +259,20 @@ export function useFastamorChat(service: string, lang: string) {
       // ── Fallback service links
       if (!searchMatch && !linksMatch && service && service !== 'flight') {
         const links = SERVICE_LINKS[service];
-        if (links) { setDynamicLinks(links); setHasResults(true); }
+        if (links) {
+          // تحويل الروابط الثابتة تلقائياً إلى روابط عمولة
+          for (let i = 0; i < links.length; i++) {
+            if (links[i].url) {
+              try {
+                links[i].url = await toAffiliateLink(links[i].url);
+              } catch (e) {
+                console.warn('Failed to convert fallback link:', links[i].url);
+              }
+            }
+          }
+          setDynamicLinks(links);
+          setHasResults(true);
+        }
       }
 
     } catch (err) {
