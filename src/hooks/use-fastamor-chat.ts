@@ -1,10 +1,7 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { trackSearch } from '@/lib/tracking';
 import { toAffiliateLink } from '@/lib/convertLinks';
 
-// ============================================
-// TYPES - نظام أنواع متكامل
-// ============================================
 export type Message = { role: 'user' | 'assistant'; content: string; };
 export type AffiliateLink = { name: string; desc: string; url: string; icon: string; };
 export type FlightResult = {
@@ -14,104 +11,24 @@ export type FlightResult = {
   booking_url: string; gate: string; is_direct?: boolean;
 };
 
-export type ChatStatus = 'idle' | 'typing' | 'searching' | 'results' | 'error';
-
-export type FlexibleResult = {
-  date: string;
-  flights: FlightResult[];
-  cheapest: number;
-  hasFlights: boolean;
-};
-
-export type ScoreWeights = {
-  priceWeight: number;
-  stopsPenalty: number;
-  durationWeight: number;
-};
-
-export type SearchData = {
-  type: 'flight' | 'ferry' | 'taxi' | 'bus';
-  origin?: string;
-  destination?: string;
-  from?: string;
-  to?: string;
-  date?: string;
-  date_from?: string;
-  date_to?: string;
-  flexible?: boolean;
-  sort_by?: 'price' | 'duration' | 'quality';
-};
-
-export type AIAction = {
-  action: 'search_flights' | 'search_ferry' | 'search_taxi' | 'search_bus' | 'show_links';
-  data: SearchData | AffiliateLink[];
-  confidence: number;
-  fallback?: string;
-};
-
-export type ParsedDuration = {
-  minutes: number;
-  hours: number;
-  original: string;
-};
-
-export type AnalyticsEvent = {
-  type: 'search' | 'click' | 'conversion' | 'error' | 'flight_select' | 'ai_response';
-  service: string;
-  timestamp: number;
-  metadata?: Record<string, any>;
-};
-
-export type ErrorState = {
-  hasError: boolean;
-  message: string;
-  retryCount: number;
-  lastError?: string;
-};
-
-export type QueuedMessage = {
-  id: string;
-  content: string;
-  timestamp: number;
-};
-
-// ============================================
-// CONSTANTS & DICTIONARIES
-// ============================================
-const PORT_CODES: Record<string, string> = {
-  'الجزيرة الخضراء': 'ALG', 'algeciras': 'ALG',
-  'طنجة المتوسط': 'TNM', 'tanger med': 'TNM',
-  'طنجة المدينة': 'TAV', 'tanger ville': 'TAV',
-  'مالقة': 'MLG', 'malaga': 'MLG',
-  'الناظور': 'NAD', 'nador': 'NAD',
-  'سبتة': 'CEU', 'ceuta': 'CEU',
-  'المرية': 'ALM', 'almeria': 'ALM',
-  'برشلونة': 'BCN', 'barcelona': 'BCN',
-  'مرسيليا': 'MRS', 'marseille': 'MRS',
-  'جنوة': 'GOA', 'genoa': 'GOA',
-  'الحسيمة': 'AHU', 'al hoceima': 'AHU'
-};
-
-const COUNTRY_TO_MAIN_AIRPORT: Record<string, string> = {
-  'المغرب': 'CMN', 'morocco': 'CMN',
-  'فرنسا': 'CDG', 'france': 'CDG',
-  'اسبانيا': 'MAD', 'spain': 'MAD',
-  'بريطانيا': 'LHR', 'uk': 'LHR', 'united kingdom': 'LHR',
-  'ايطاليا': 'FCO', 'italy': 'FCO',
-  'المانيا': 'FRA', 'germany': 'FRA',
-  'هولندا': 'AMS', 'netherlands': 'AMS',
-  'بلجيكا': 'BRU', 'belgium': 'BRU',
-};
-
 const CITY_TO_IATA: Record<string, string> = {
   'دبي': 'DXB', 'باريس': 'CDG', 'لندن': 'LHR', 'القاهرة': 'CAI', 'الرياض': 'RUH',
   'جدة': 'JED', 'الدوحة': 'DOH', 'اسطنبول': 'IST', 'نيويورك': 'JFK', 'طوكيو': 'NRT',
   'الرباط': 'RBA', 'الدار البيضاء': 'CMN', 'مراكش': 'RAK', 'تونس': 'TUN',
   'الجزائر': 'ALG', 'بيروت': 'BEY', 'عمان': 'AMM', 'ابوظبي': 'AUH', 'مسقط': 'MCT',
-  'طنجة': 'TNG', 'مدريد': 'MAD', 'برشلونة': 'BCN', 'روما': 'FCO', 'اشبيلية': 'SVQ',
+  'الكويت': 'KWI', 'البحرين': 'BAH', 'بغداد': 'BGW', 'طنجة': 'TNG',
+  'مدريد': 'MAD', 'برشلونة': 'BCN', 'روما': 'FCO', 'اشبيلية': 'SVQ',
+  'امستردام': 'AMS', 'فرانكفورت': 'FRA', 'ميلان': 'MXP', 'برلين': 'BER',
+  'المغرب': 'CMN', 'فرنسا': 'CDG', 'اسبانيا': 'MAD', 'ايطاليا': 'FCO',
   'dubai': 'DXB', 'paris': 'CDG', 'london': 'LHR', 'cairo': 'CAI', 'riyadh': 'RUH',
-  'rabat': 'RBA', 'casablanca': 'CMN', 'marrakech': 'RAK', 'tangier': 'TNG', 'tanger': 'TNG',
-  'madrid': 'MAD', 'barcelona': 'BCN', 'rome': 'FCO', 'seville': 'SVQ', 'sevilla': 'SVQ'
+  'jeddah': 'JED', 'doha': 'DOH', 'istanbul': 'IST', 'new york': 'JFK', 'tokyo': 'NRT',
+  'rabat': 'RBA', 'casablanca': 'CMN', 'marrakech': 'RAK', 'tunis': 'TUN',
+  'algiers': 'ALG', 'beirut': 'BEY', 'amman': 'AMM', 'abu dhabi': 'AUH', 'muscat': 'MCT',
+  'tangier': 'TNG', 'tanger': 'TNG', 'madrid': 'MAD', 'barcelona': 'BCN',
+  'rome': 'FCO', 'seville': 'SVQ', 'sevilla': 'SVQ', 'amsterdam': 'AMS',
+  'frankfurt': 'FRA', 'milan': 'MXP', 'berlin': 'BER', 'singapore': 'SIN',
+  'bangkok': 'BKK', 'sydney': 'SYD', 'toronto': 'YYZ', 'los angeles': 'LAX',
+  'chicago': 'ORD', 'miami': 'MIA', 'moscow': 'SVO', 'londre': 'LHR', 'londres': 'LHR',
 };
 
 const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
@@ -120,18 +37,23 @@ const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
     { name: 'GetTransfer', desc: 'Airport & city transfers', url: 'https://gettransfer.tpx.gr/9poAnD5l', icon: '🚕' },
     { name: 'Kiwi Taxi', desc: 'Reliable taxi service', url: 'https://kiwitaxi.tpx.gr/Y6yrFeYN', icon: '🚖' },
     { name: 'LocalRent', desc: 'Car rental', url: 'https://localrent.tpx.gr/qr92Puo9', icon: '🚗' },
+    { name: 'EconomyBookings', desc: 'Cheap car rental', url: 'https://economybookings.tpx.gr/ONZ6dOjM', icon: '🚙' },
+    { name: 'QEEQ', desc: 'Premium car rental', url: 'https://qeeq.tpx.gr/pTbTtERj', icon: '🏎️' },
   ],
   experience: [
     { name: 'Klook', desc: 'Tours & experiences', url: 'https://klook.tpx.gr/vRUzaJbI', icon: '🎡' },
     { name: 'Tiqets', desc: 'Museums & attractions', url: 'https://tiqets.tpx.gr/ot4HK9Pf', icon: '🎭' },
+    { name: 'WeGoTrip', desc: 'Audio tours', url: 'https://wegotrip.tpx.gr/DyN0pkVH', icon: '🗺️' },
   ],
   bus: [{ name: 'FlixBus', desc: 'Bus tickets across Europe', url: 'https://tpx.gr/n6krgEY3', icon: '🚌' }],
-  ferry: [
-    { name: 'DirectFerries', desc: 'Spain/France/Italy → Morocco/Tunisia', url: 'https://www.directferries.com', icon: '🚢' },
-    { name: 'Balearia', desc: 'Spain → Morocco ferries', url: 'https://www.balearia.com', icon: '⛴️' },
-    { name: 'Sea Radar', desc: 'Cruise & ferry deals', url: 'https://searadar.tpx.gr/WC89iS5m', icon: '⛵' },
+  cruise: [
+    { name: 'Sea Radar', desc: 'Ferry & cruise deals', url: 'https://searadar.tpx.gr/WC89iS5m', icon: '🚢' },
+    { name: 'DirectFerries', desc: 'Spain/France → Morocco/Tunisia', url: 'https://www.directferries.com', icon: '⛴️' },
   ],
-  cruise: [{ name: 'Sea Radar', desc: 'Cruise deals worldwide', url: 'https://searadar.tpx.gr/WC89iS5m', icon: '🚢' }],
+  ferry: [
+    { name: 'Sea Radar', desc: 'Ferry routes Europe-Africa', url: 'https://searadar.tpx.gr/WC89iS5m', icon: '🚢' },
+    { name: 'DirectFerries', desc: 'Algeciras-Tanger, Marseille-Tunis...', url: 'https://www.directferries.com', icon: '⛴️' },
+  ],
   esim: [{ name: 'Yesim', desc: 'eSIM for travelers', url: 'https://yesim.tpx.gr/9gzdax7m', icon: '📱' }],
   compensation: [
     { name: 'Compensair', desc: 'Flight compensation', url: 'https://compensair.tpx.gr/MGUDRrY2', icon: '💰' },
@@ -140,277 +62,14 @@ const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
   flight: [{ name: 'Aviasales', desc: 'Search all airlines', url: 'https://aviasales.tpx.gr/yQxrYmk7', icon: '✈️' }],
 };
 
-// ============================================
-// ADVANCED CACHE MANAGEMENT
-// ============================================
-interface CachedFlightResult {
-  flights: FlightResult[] | FlexibleResult[];
-  timestamp: number;
-  hasDirectFlights?: boolean;
-  fallbackUrl?: string;
-}
-
-interface SessionCache {
-  cache: Map<string, CachedFlightResult>;
-  lastAccess: number;
-}
-
-const MAX_SESSIONS = 100;
-const sessionCaches = new Map<string, SessionCache>();
-const CACHE_TTL = 5 * 60 * 1000;
-const MAX_CACHE_SIZE = 100;
-
-function getSessionCache(sessionId: string): Map<string, CachedFlightResult> {
-  if (sessionCaches.size > MAX_SESSIONS) {
-    const entries = Array.from(sessionCaches.entries());
-    entries.sort((a, b) => a[1].lastAccess - b[1].lastAccess);
-    const toDelete = entries.slice(0, Math.floor(sessionCaches.size / 2));
-    for (const [id] of toDelete) {
-      sessionCaches.delete(id);
-      console.log(`🧹 Session ${id} cache cleaned due to session limit`);
-    }
-  }
-  
-  if (!sessionCaches.has(sessionId)) {
-    sessionCaches.set(sessionId, {
-      cache: new Map(),
-      lastAccess: Date.now()
-    });
-  }
-  
-  const session = sessionCaches.get(sessionId)!;
-  session.lastAccess = Date.now();
-  return session.cache;
-}
-
-function cleanCacheIfNeeded(sessionId: string): void {
-  const session = sessionCaches.get(sessionId);
-  if (!session) return;
-  
-  const cache = session.cache;
-  if (cache.size > MAX_CACHE_SIZE) {
-    console.log(`🧹 Cache limit reached for session ${sessionId}, cleaning...`);
-    const now = Date.now();
-    for (const [key, value] of cache.entries()) {
-      if (now - value.timestamp > CACHE_TTL * 2) {
-        cache.delete(key);
-      }
-    }
-    if (cache.size > MAX_CACHE_SIZE) {
-      const entries = Array.from(cache.entries());
-      const toDelete = entries.slice(0, Math.floor(cache.size / 2));
-      for (const [key] of toDelete) {
-        cache.delete(key);
-      }
-    }
-    session.lastAccess = Date.now();
-  }
-}
-
-if (typeof window !== 'undefined') {
-  setInterval(() => {
-    const now = Date.now();
-    for (const [sessionId, session] of sessionCaches.entries()) {
-      if (now - session.lastAccess > 60 * 60 * 1000) {
-        sessionCaches.delete(sessionId);
-        console.log(`🧹 Session ${sessionId} cache cleaned due to inactivity`);
-      }
-    }
-  }, 60 * 60 * 1000);
-}
-
-// ============================================
-// MAP FOR FAST LOOKUP
-// ============================================
-const CITY_TO_IATA_MAP = new Map<string, string>();
-for (const [city, iata] of Object.entries(CITY_TO_IATA)) {
-  CITY_TO_IATA_MAP.set(city.toLowerCase(), iata);
-}
-for (const [country, iata] of Object.entries(COUNTRY_TO_MAIN_AIRPORT)) {
-  CITY_TO_IATA_MAP.set(country.toLowerCase(), iata);
-}
-
-// ============================================
-// SMART PARSERS
-// ============================================
-function parseDuration(durationStr: string): number {
-  if (!durationStr) return 0;
-  
-  const str = durationStr.toString().trim();
-  let totalMinutes = 0;
-  
-  const patterns = [
-    /(\d+(?:\.\d+)?)\s*h(?:ours?)?\s*(\d+(?:\.\d+)?)\s*m(?:in(?:utes?)?)?/i,
-    /(\d+(?:\.\d+)?)\s*h(?:ours?)?\s*(\d+(?:\.\d+)?)/i,
-    /(\d+(?:\.\d+)?):(\d+(?:\.\d+)?)/,
-    /(\d+(?:\.\d+)?)\s*m(?:in(?:utes?)?)?/i,
-    /(\d+(?:\.\d+)?)\s*h(?:ours?)?/i,
-  ];
-  
-  for (const pattern of patterns) {
-    const match = str.match(pattern);
-    if (match) {
-      if (match[2]) {
-        totalMinutes += parseFloat(match[1]) * 60 + parseFloat(match[2]);
-      } else {
-        if (str.includes('m') || str.includes('min')) {
-          totalMinutes += parseFloat(match[1]);
-        } else if (str.includes('h') || pattern.toString().includes(':')) {
-          totalMinutes += parseFloat(match[1]) * 60;
-        } else {
-          totalMinutes += parseFloat(match[1]);
-        }
-      }
-      break;
-    }
-  }
-  
-  if (totalMinutes === 0 && /^\d+$/.test(str)) {
-    totalMinutes = parseInt(str);
-  }
-  
-  return totalMinutes;
-}
-
-function parseStops(stopsStr: string): number {
-  if (!stopsStr) return 0;
-  const str = stopsStr.toString().toLowerCase();
-  if (str === 'direct' || str === 'non-stop' || str === 'مباشر') return 0;
-  const match = str.match(/(\d+)/);
-  return match ? parseInt(match[1]) : 0;
-}
-
-// ============================================
-// NORMALIZED SCORING
-// ============================================
-type NormalizedValues = {
-  price: number;
-  stops: number;
-  duration: number;
-};
-
-function normalizeValues(flights: FlightResult[]): NormalizedValues[] {
-  if (flights.length === 0) return [];
-  
-  const prices = flights.map(f => f.price);
-  const stops = flights.map(f => parseStops(f.stops));
-  const durations = flights.map(f => parseDuration(f.duration));
-  
-  const minPrice = Math.min(...prices);
-  const maxPrice = Math.max(...prices);
-  const minStops = Math.min(...stops);
-  const maxStops = Math.max(...stops);
-  const minDuration = Math.min(...durations);
-  const maxDuration = Math.max(...durations);
-  
-  return flights.map((_, i) => ({
-    price: maxPrice === minPrice ? 0 : (prices[i] - minPrice) / (maxPrice - minPrice),
-    stops: maxStops === minStops ? 0 : (stops[i] - minStops) / (maxStops - minStops),
-    duration: maxDuration === minDuration ? 0 : (durations[i] - minDuration) / (maxDuration - minDuration)
-  }));
-}
-
-function calculateAdvancedScore(
-  normalized: NormalizedValues,
-  userPreference: 'cheap' | 'fast' | 'balanced' = 'balanced'
-): number {
-  const weights = {
-    cheap: { price: 0.7, stops: 0.15, duration: 0.15 },
-    fast: { price: 0.2, stops: 0.3, duration: 0.5 },
-    balanced: { price: 0.4, stops: 0.3, duration: 0.3 }
-  };
-  
-  const w = weights[userPreference];
-  return (normalized.price * w.price) + (normalized.stops * w.stops) + (normalized.duration * w.duration);
-}
-
-function sortFlightsByScore(flights: FlightResult[], preference: 'cheap' | 'fast' | 'balanced' = 'balanced'): FlightResult[] {
-  if (flights.length === 0) return flights;
-  
-  const normalized = normalizeValues(flights);
-  const scored = flights.map((flight, i) => ({
-    flight,
-    score: calculateAdvancedScore(normalized[i], preference)
-  }));
-  
-  scored.sort((a, b) => a.score - b.score);
-  return scored.map(s => s.flight);
-}
-
-// ============================================
-// AI RESPONSE PARSING
-// ============================================
-function validateAndParseAIResponse(fullText: string): {
-  success: boolean;
-  searchData?: SearchData;
-  links?: AffiliateLink[];
-  cleanText?: string;
-  error?: string;
-} {
-  try {
-    const searchMatch = fullText.match(/<search>([\s\S]*?)<\/search>/);
-    const linksMatch = fullText.match(/<links>([\s\S]*?)<\/links>/);
-    const cleanText = fullText
-      .replace(/<search>[\s\S]*?<\/search>/g, '')
-      .replace(/<links>[\s\S]*?<\/links>/g, '')
-      .trim();
-    
-    let searchData: SearchData | undefined;
-    let links: AffiliateLink[] | undefined;
-    
-    if (searchMatch) {
-      try {
-        const parsed = JSON.parse(searchMatch[1].trim());
-        if (parsed.type && ['flight', 'ferry', 'taxi', 'bus'].includes(parsed.type)) {
-          searchData = parsed as SearchData;
-        } else {
-          console.warn('Invalid search data type:', parsed.type);
-        }
-      } catch (e) {
-        console.error('Failed to parse search JSON:', e);
-      }
-    }
-    
-    if (linksMatch) {
-      try {
-        links = JSON.parse(linksMatch[1].trim()) as AffiliateLink[];
-      } catch (e) {
-        console.error('Failed to parse links JSON:', e);
-      }
-    }
-    
-    return {
-      success: !!(searchData || links),
-      searchData,
-      links,
-      cleanText: cleanText || undefined
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown parsing error'
-    };
-  }
-}
-
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-function getCurrency(lang: string): string {
-  switch (lang) {
-    case 'ar': return 'MAD';
-    case 'fr': return 'EUR';
-    case 'es': return 'EUR';
-    default: return 'USD';
-  }
-}
-
 function getIATA(text: string): string | undefined {
   if (!text) return undefined;
-  const trimmed = text.trim();
-  if (/^[A-Z]{3}$/.test(trimmed)) return trimmed;
-  const lower = trimmed.toLowerCase();
-  return CITY_TO_IATA_MAP.get(lower);
+  if (/^[A-Z]{3}$/.test(text.trim())) return text.trim();
+  const lower = text.toLowerCase().trim();
+  for (const [city, iata] of Object.entries(CITY_TO_IATA)) {
+    if (lower.includes(city.toLowerCase())) return iata;
+  }
+  return undefined;
 }
 
 function getDefaultDate(): string {
@@ -419,720 +78,245 @@ function getDefaultDate(): string {
   return d.toISOString().split('T')[0];
 }
 
-// ============================================
-// DEEP LINK BUILDER
-// ============================================
-function buildDeepLink(type: string, from: string, to: string, date: string): string {
-  const d = date || getDefaultDate();
-  const fLower = from.toLowerCase();
-  const tLower = to.toLowerCase();
-
-  if (type === 'ferry') {
-    const fromCode = PORT_CODES[fLower] || from;
-    const toCode = PORT_CODES[tLower] || to;
-    return `https://www.balearia.com/en/search-v2?origin=${fromCode}&destination=${toCode}&departure_date=${d}&passengers=1`;
-  }
-  
-  if (type === 'taxi' || type === 'transfer') {
-    const formattedDate = d.split('-').reverse().join('.'); 
-    return `https://gettransfer.com/en/selection?pickup_text=${encodeURIComponent(from)}&destination_text=${encodeURIComponent(to)}&date=${formattedDate}`;
-  }
-
-  if (type === 'bus') {
-    return `https://shop.flixbus.com/search?departureCity=${from}&arrivalCity=${to}&rideDate=${d.split('-').reverse().join('.')}`;
-  }
-
-  return '';
-}
-
-// ============================================
-// SYSTEM PROMPT (مصلح - يستخدم XML tags بدلاً من JSON)
-// ============================================
 function getSystemPrompt(lang: string, service: string): string {
   const today = new Date().toISOString().split('T')[0];
-  const currency = getCurrency(lang);
-  
-  const langRule = lang === 'ar' 
-    ? 'Respond in Moroccan Darija. Be friendly and helpful.'
-    : lang === 'fr' ? 'Respond in French. Be friendly and helpful.'
-    : lang === 'es' ? 'Respond in Spanish. Be friendly and helpful.'
-    : 'Respond in English. Be friendly and helpful.';
+  const langRule =
+    lang === 'ar' ? 'CRITICAL: Respond ONLY in Arabic. 1-2 sentences max.' :
+    lang === 'fr' ? 'CRITICAL: Respond ONLY in French. 1-2 sentences max.' :
+    lang === 'es' ? 'CRITICAL: Respond ONLY in Spanish. 1-2 sentences max.' :
+    'CRITICAL: Respond ONLY in English. 1-2 sentences max.';
 
   return `You are Fastamor, a smart travel concierge. Today: ${today}.
-
 ${langRule}
+Current service: ${service}
 
-CRITICAL: You MUST respond using ONLY the XML tags below. NEVER output raw JSON. NEVER add text before or after the XML tags.
+RULES:
+- NEVER output raw JSON to the user
+- Keep response to 1-2 sentences MAX
+- Always use XML tags for actions
 
-For a flight search with specific date, output EXACTLY this format:
-<search>{"type":"flight","origin":"IATA_CODE","destination":"IATA_CODE","date":"YYYY-MM-DD"}</search>
+FOR FLIGHTS (extract origin + destination + date):
+<search>{"type":"flight","origin":"IATA","destination":"IATA","date":"YYYY-MM-DD"}</search>
 
-For a flight search with flexible dates (when user says "this week", "this month", or no specific date), output EXACTLY this format:
-<search>{"type":"flight","origin":"IATA_CODE","destination":"IATA_CODE","date_from":"YYYY-MM-DD","date_to":"YYYY-MM-DD","flexible":true}</search>
+FOR FLIGHTS flexible (no specific date or user says "cheapest/this week/this month"):
+<search>{"type":"flight","origin":"IATA","destination":"IATA","date_from":"YYYY-MM-DD","date_to":"YYYY-MM-DD","flexible":true}</search>
 
-For a ferry search, output:
-<search>{"type":"ferry","from":"city_name","to":"city_name","date":"YYYY-MM-DD"}</search>
+FOR FERRY/BOAT:
+<search>{"type":"ferry","from":"city","to":"city","date":"YYYY-MM-DD"}</search>
 
-For a taxi/transfer search, output:
-<search>{"type":"taxi","from":"city_name","to":"city_name","date":"YYYY-MM-DD"}</search>
+FOR HOTELS:
+<links>[{"name":"Intui Travel","desc":"Best hotels","url":"https://intui.tpx.gr/kguAoKIU","icon":"🏨"}]</links>
 
-For a bus search, output:
-<search>{"type":"bus","from":"city_name","to":"city_name","date":"YYYY-MM-DD"}</search>
+FOR TRANSFERS/CAR:
+<links>[{"name":"GetTransfer","desc":"Airport transfers","url":"https://gettransfer.tpx.gr/9poAnD5l","icon":"🚕"},{"name":"LocalRent","desc":"Car rental","url":"https://localrent.tpx.gr/qr92Puo9","icon":"🚗"}]</links>
 
-For hotel/tour/activity links, output:
-<links>[{"name":"Service Name","desc":"Description","url":"https://...","icon":"🏨"}]</links>
+FOR TOURS:
+<links>[{"name":"Klook","desc":"Tours","url":"https://klook.tpx.gr/vRUzaJbI","icon":"🎡"},{"name":"Tiqets","desc":"Museums","url":"https://tiqets.tpx.gr/ot4HK9Pf","icon":"🎭"}]</links>
 
-EXAMPLES:
-- User: "flight from Casablanca to Paris on April 25"
-  You: <search>{"type":"flight","origin":"CMN","destination":"CDG","date":"2026-04-25"}</search>
+FOR BUS:
+<links>[{"name":"FlixBus","desc":"Bus tickets","url":"https://tpx.gr/n6krgEY3","icon":"🚌"}]</links>
 
-- User: "cheapest flight to London this week"
-  You: <search>{"type":"flight","origin":"","destination":"LON","date_from":"2026-04-21","date_to":"2026-04-28","flexible":true}</search>
+DATE RULES:
+- "this week" → date_from=today, date_to=today+7, flexible=true
+- "this month" / "cheapest" → date_from=today, date_to=today+30, flexible=true
+- No date mentioned → use specific date = today+7
 
-- User: "ferry from Tangier to Algeciras tomorrow"
-  You: <search>{"type":"ferry","from":"Tangier","to":"Algeciras","date":"2026-04-22"}</search>
-
-- User: "رحلة من مدريد الى طنجة يوم 22 ابريل"
-  You: <search>{"type":"flight","origin":"MAD","destination":"TNG","date":"2026-04-22"}</search>
-
-- User: "فندق في الدار البيضاء"
-  You: <links>[{"name":"Intui Travel","desc":"Best hotels","url":"https://intui.tpx.gr/kguAoKIU","icon":"🏨"}]</links>
-
-REMEMBER: 
-- Output ONLY the <search> or <links> tag. NOTHING else.
-- Do NOT add any explanation, greeting, or extra text.
-- Do NOT output raw JSON without the XML tags.
-- For airports, use IATA codes (3 letters like CMN, CDG, MAD, TNG).
-- For cities in ferry/taxi/bus, use the city name as the user said it.
-
-Now respond with ONLY the appropriate XML tag.`;
+${langRule}`;
 }
 
-// ============================================
-// FLIGHT SEARCH FUNCTIONS
-// ============================================
-async function searchFlights(
-  origin: string, 
-  destination: string, 
-  date: string, 
-  sessionId: string
-): Promise<{ 
-  flights: FlightResult[]; 
-  hasDirectFlights: boolean; 
-  fallbackUrl: string 
-}> {
-  const cacheKey = `${origin}-${destination}-${date}`;
-  const cache = getSessionCache(sessionId);
-  const cached = cache.get(cacheKey);
-  
-  if (cached && Date.now() - cached.timestamp < CACHE_TTL && cached.flights as FlightResult[]) {
-    console.log(`✅ Using cached results for ${cacheKey}`);
-    return { 
-      flights: cached.flights as FlightResult[], 
-      hasDirectFlights: cached.hasDirectFlights || false, 
-      fallbackUrl: cached.fallbackUrl || `https://aviasales.tpx.gr/yQxrYmk7` 
-    };
-  }
-
-  try {
-    const response = await fetch('/api/flights/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ origin, destination, date }),
-    });
-    const data = await response.json();
-    const result = { 
-      flights: data.flights || [], 
-      hasDirectFlights: data.has_direct || false, 
-      fallbackUrl: data.fallback_url 
-    };
-    
-    cache.set(cacheKey, {
-      flights: result.flights,
-      hasDirectFlights: result.hasDirectFlights,
-      fallbackUrl: result.fallbackUrl,
-      timestamp: Date.now()
-    });
-    
-    cleanCacheIfNeeded(sessionId);
-    return result;
-  } catch (error) {
-    console.error('Flight search error:', error);
-    return { flights: [], hasDirectFlights: false, fallbackUrl: `https://aviasales.tpx.gr/yQxrYmk7` };
-  }
-}
-
-async function searchFlexibleFlights(
-  origin: string, 
-  destination: string, 
-  dateFrom: string, 
-  dateTo: string,
-  sessionId: string
-): Promise<FlexibleResult[]> {
-  const cacheKey = `flex-${origin}-${destination}-${dateFrom}-${dateTo}`;
-  const cache = getSessionCache(sessionId);
-  const cached = cache.get(cacheKey);
-  
-  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-    console.log(`✅ Using cached flexible results for ${cacheKey}`);
-    return cached.flights as FlexibleResult[];
-  }
-
-  try {
-    const response = await fetch('/api/flights/search-range', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ origin, destination, date_from: dateFrom, date_to: dateTo }),
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      if (data.results && data.results.length > 0) {
-        const results: FlexibleResult[] = data.results;
-        results.sort((a, b) => a.cheapest - b.cheapest);
-        
-        cache.set(cacheKey, {
-          flights: results,
-          timestamp: Date.now()
-        });
-        cleanCacheIfNeeded(sessionId);
-        return results;
-      }
-    }
-  } catch (e) {
-    console.log('Range API not available, falling back to per-day search');
-  }
-
-  const dates: string[] = [];
-  const currentDate = new Date(dateFrom);
-  const endDate = new Date(dateTo);
-  
-  while (currentDate <= endDate && dates.length < 7) {
-    dates.push(currentDate.toISOString().split('T')[0]);
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-  
-  const results: FlexibleResult[] = await Promise.all(
-    dates.map(async (date) => {
-      const res = await searchFlights(origin, destination, date, sessionId);
-      return { 
-        date, 
-        flights: res.flights, 
-        cheapest: res.flights.length > 0 ? res.flights[0].price : Infinity,
-        hasFlights: res.flights.length > 0
-      };
-    })
-  );
-  
-  results.sort((a, b) => a.cheapest - b.cheapest);
-  
-  cache.set(cacheKey, {
-    flights: results,
-    timestamp: Date.now()
-  });
-  cleanCacheIfNeeded(sessionId);
-  
-  return results;
-}
-
-// ============================================
-// PARALLEL LINK CONVERSION
-// ============================================
-async function convertLinksInParallel(links: AffiliateLink[]): Promise<AffiliateLink[]> {
-  const conversionPromises = links.map(async (link) => {
-    if (!link.url) return link;
-    try {
-      const affiliateUrl = await toAffiliateLink(link.url);
-      return { ...link, url: affiliateUrl };
-    } catch (e) {
-      console.error('Failed to convert link:', link.url, e);
-      return link;
-    }
-  });
-  return Promise.all(conversionPromises);
-}
-
-// ============================================
-// ADVANCED ANALYTICS
-// ============================================
-function trackAdvancedEvent(event: AnalyticsEvent): void {
-  console.log('[Analytics]', event);
-  
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', event.type, {
-      event_category: event.service,
-      event_label: event.type,
-      value: event.timestamp,
-      ...event.metadata
-    });
-  }
-  
-  fetch('/api/analytics', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(event),
-    keepalive: true
-  }).catch(e => console.error('Analytics error:', e));
-}
-
-// ============================================
-// HANDLER FUNCTIONS
-// ============================================
-async function handleTransportFlow(
-  action: AIAction,
-  lang: string,
-  withReply: Message[],
-  setDynamicLinks: (links: AffiliateLink[]) => void,
-  setHasResults: (value: boolean) => void,
-  setStatus: (status: ChatStatus) => void,
-  setMessages: (messages: Message[]) => void,
-  messagesRef: React.MutableRefObject<Message[]>
-): Promise<boolean> {
-  const searchData = action.data as SearchData;
-  if (!searchData.from || !searchData.to) return false;
-  
-  const rawUrl = buildDeepLink(searchData.type, searchData.from, searchData.to, searchData.date || '');
-  if (!rawUrl) return false;
-  
-  const affUrl = await toAffiliateLink(rawUrl);
-  
-  let linkName = 'GetTransfer'; let icon = '🚕';
-  if (searchData.type === 'ferry') { linkName = 'Balearia'; icon = '🚢'; }
-  if (searchData.type === 'bus') { linkName = 'FlixBus'; icon = '🚌'; }
-
-  setDynamicLinks([{
-    name: linkName,
-    desc: `${searchData.from} → ${searchData.to}`,
-    url: affUrl,
-    icon: icon
-  }]);
-  setHasResults(true);
-  setStatus('results');
-  trackSearch();
-
-  const confirmMsg = lang === 'ar' 
-    ? `✅ هاك الهمزة اللي قلبتي عليها! رابط الحجز المباشر من ${searchData.from} إلى ${searchData.to} 👇`
-    : `✅ Here's your direct booking link from ${searchData.from} to ${searchData.to} 👇`;
-  
-  messagesRef.current = [...withReply, { role: 'assistant', content: confirmMsg }];
-  setMessages([...messagesRef.current]);
-  return true;
-}
-
-async function handleFlexibleFlightFlow(
-  action: AIAction,
-  lang: string,
-  withReply: Message[],
-  setFlightResults: (flights: FlightResult[]) => void,
-  setHasResults: (value: boolean) => void,
-  setStatus: (status: ChatStatus) => void,
-  setMessages: (messages: Message[]) => void,
-  messagesRef: React.MutableRefObject<Message[]>,
-  sessionId: string
-): Promise<boolean> {
-  const searchData = action.data as SearchData;
-  if (!searchData.date_from || !searchData.date_to || !searchData.flexible) return false;
-  if (!searchData.origin || !searchData.destination) return false;
-  
-  const flexibleResults = await searchFlexibleFlights(
-    searchData.origin, 
-    searchData.destination, 
-    searchData.date_from, 
-    searchData.date_to,
-    sessionId
-  );
-  
-  const bestResult = flexibleResults.find((r: FlexibleResult) => r.hasFlights);
-  if (bestResult && bestResult.flights.length > 0) {
-    const sortedFlights = sortFlightsByScore(bestResult.flights);
-    setFlightResults(sortedFlights);
-    setHasResults(true);
-    setStatus('results');
-    trackSearch();
-
-    const currency = getCurrency(lang);
-    const confirmMsg = lang === 'ar'
-      ? `✅ لقيت أرخص تذكرة فـ ${bestResult.date} من ${bestResult.cheapest} ${currency} 👇`
-      : `✅ Found cheapest ticket on ${bestResult.date} from ${bestResult.cheapest} ${currency} 👇`;
-    
-    messagesRef.current = [...withReply, { role: 'assistant', content: confirmMsg }];
-    setMessages([...messagesRef.current]);
-    return true;
-  }
-  
-  const noMsg = lang === 'ar'
-    ? `⚠️ ما لقيتش رحلات فهاد الفترة. جرب تاريخ آخر أو شوف البحث المباشر 👇`
-    : `⚠️ No flights found in this period. Try another date or search live 👇`;
-  messagesRef.current = [...withReply, { role: 'assistant', content: noMsg }];
-  setMessages([...messagesRef.current]);
-  setStatus('idle');
-  return true;
-}
-
-async function handleSpecificDateFlightFlow(
-  action: AIAction,
-  lang: string,
-  withReply: Message[],
-  setFlightResults: (flights: FlightResult[]) => void,
-  setHasResults: (value: boolean) => void,
-  setStatus: (status: ChatStatus) => void,
-  setDynamicLinks: (links: AffiliateLink[]) => void,
-  setMessages: (messages: Message[]) => void,
-  messagesRef: React.MutableRefObject<Message[]>,
-  sessionId: string
-): Promise<boolean> {
-  const searchData = action.data as SearchData;
-  if (!searchData.date || !searchData.origin || !searchData.destination) return false;
-  
-  const { flights, hasDirectFlights, fallbackUrl } = await searchFlights(
-    searchData.origin, searchData.destination, searchData.date, sessionId
-  );
-
-  if (flights.length > 0) {
-    const sortedFlights = sortFlightsByScore(flights);
-    setFlightResults(sortedFlights);
-    setHasResults(true);
-    setStatus('results');
-    trackSearch();
-
-    const directCount = sortedFlights.filter((f: FlightResult) => f.is_direct).length;
-    const cheapest = sortedFlights[0].price;
-    const currency = getCurrency(lang);
-
-    let confirmMsg = '';
-    if (lang === 'ar') {
-      confirmMsg = directCount > 0
-        ? `✅ وجدت ${directCount} رحلة مباشرة! أرخصها ${cheapest} ${currency} 👇`
-        : `⚠️ لا توجد رحلات مباشرة متاحة. أفضل الخيارات من ${cheapest} ${currency} 👇`;
-    } else {
-      confirmMsg = directCount > 0
-        ? `✅ Found ${directCount} direct flight(s)! From ${cheapest} ${currency} 👇`
-        : `⚠️ No direct flights. Best available from ${cheapest} ${currency} 👇`;
-    }
-
-    messagesRef.current = [...withReply, { role: 'assistant', content: confirmMsg }];
-    setMessages([...messagesRef.current]);
-    return true;
-  }
-  
-  const searchUrl = fallbackUrl || `https://www.aviasales.com/search/${searchData.origin}${searchData.destination}1?marker=709105`;
-  setDynamicLinks([{
-    name: 'Aviasales',
-    desc: `${searchData.origin} → ${searchData.destination}`,
-    url: searchUrl,
-    icon: '✈️'
-  }]);
-  setHasResults(true);
-  setStatus('results');
-  const noMsg = lang === 'ar'
-    ? `لم أجد رحلات مخزنة. ابحث مباشرة على Aviasales للنتائج الحية 👇`
-    : `No cached results. Search live on Aviasales 👇`;
-  messagesRef.current = [...withReply, { role: 'assistant', content: noMsg }];
-  setMessages([...messagesRef.current]);
-  return true;
-}
-
-async function handleLinksFlow(
-  action: AIAction,
-  withReply: Message[],
-  setDynamicLinks: (links: AffiliateLink[]) => void,
-  setHasResults: (value: boolean) => void,
-  setStatus: (status: ChatStatus) => void,
-  setMessages: (messages: Message[]) => void,
-  messagesRef: React.MutableRefObject<Message[]>
-): Promise<void> {
-  const links = action.data as AffiliateLink[];
-  if (!links || links.length === 0) return;
-  
-  const convertedLinks = await convertLinksInParallel(links);
-  setDynamicLinks(convertedLinks);
-  setHasResults(true);
-  setStatus('results');
-  trackSearch();
-}
-
-// ============================================
-// MAIN HOOK
-// ============================================
 export function useFastamorChat(service: string, lang: string) {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [status, setStatus] = useState<ChatStatus>('idle');
+  const [isTyping, setIsTyping] = useState(false);
+  const [showSearchAnim, setShowSearchAnim] = useState(false);
   const [hasResults, setHasResults] = useState(false);
   const [dynamicLinks, setDynamicLinks] = useState<AffiliateLink[]>([]);
   const [flightResults, setFlightResults] = useState<FlightResult[]>([]);
-  const [errorState, setErrorState] = useState<ErrorState>({
-    hasError: false,
-    message: '',
-    retryCount: 0,
-    lastError: undefined
-  });
-  
   const messagesRef = useRef<Message[]>([]);
-  const statusRef = useRef<ChatStatus>(status);
-  const isProcessing = useRef(false);
-  const messageQueue = useRef<QueuedMessage[]>([]);
-  const [isLoadingFlights, setIsLoadingFlights] = useState(false);
-  
-  const [sessionId] = useState(() => {
-    if (typeof window !== 'undefined') {
-      let id = sessionStorage.getItem('fastamor_session_id');
-      if (!id) {
-        id = `session_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-        sessionStorage.setItem('fastamor_session_id', id);
-      }
-      return id;
-    }
-    return `server_${Date.now()}`;
-  });
 
-  useEffect(() => {
-    statusRef.current = status;
-  }, [status]);
-
-  const isTyping = status === 'typing';
-  const showSearchAnim = status === 'searching';
-
-  const processQueue = useCallback(async () => {
-    if (isProcessing.current || messageQueue.current.length === 0) return;
-    
-    isProcessing.current = true;
-    const nextMessage = messageQueue.current.shift();
-    
-    if (nextMessage) {
-      try {
-        await sendMessageInternal(nextMessage.content);
-      } catch (error) {
-        console.error('Failed to process queued message:', error);
-        setErrorState(prev => ({
-          ...prev,
-          hasError: true,
-          message: error instanceof Error ? error.message : 'Unknown error',
-          lastError: String(error)
-        }));
-        setStatus('error');
-      }
-    }
-    
-    isProcessing.current = false;
-    
-    if (messageQueue.current.length > 0) {
-      setTimeout(() => processQueue(), 100);
-    }
-  }, []);
-
-  const sendMessageInternal = useCallback(async (content: string) => {
-    if (!content.trim()) return;
-
-    const newMsg: Message = { role: 'user', content };
-    const updatedHistory = [...messagesRef.current, newMsg];
-    messagesRef.current = updatedHistory;
-    setMessages([...updatedHistory]);
-    setStatus('typing');
-    setErrorState(prev => ({ ...prev, hasError: false }));
-
+  const searchFlights = async (origin: string, destination: string, date: string) => {
     try {
-      const response = await fetch('/api/claude', {
+      const res = await fetch('/api/flights/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ origin, destination, date }),
+      });
+      const data = await res.json();
+      return { flights: data.flights || [], hasDirect: data.has_direct || false, fallback: data.fallback_url };
+    } catch {
+      return { flights: [], hasDirect: false, fallback: 'https://aviasales.tpx.gr/yQxrYmk7' };
+    }
+  };
+
+  const searchFlexible = async (origin: string, destination: string, dateFrom: string, dateTo: string) => {
+    // Search the whole month at once using the cache endpoint
+    try {
+      const res = await fetch('/api/flights/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ origin, destination, date: dateFrom }),
+      });
+      const data = await res.json();
+      return { flights: data.flights || [], hasDirect: data.has_direct || false, fallback: data.fallback_url };
+    } catch {
+      return { flights: [], hasDirect: false, fallback: 'https://aviasales.tpx.gr/yQxrYmk7' };
+    }
+  };
+
+  const sendMessage = useCallback(async (content: string) => {
+    if (!content.trim() || isTyping) return;
+
+    const newMsg: Message = { role: 'user', content };
+    const updated = [...messagesRef.current, newMsg];
+    messagesRef.current = updated;
+    setMessages([...updated]);
+    setIsTyping(true);
+    setShowSearchAnim(true);
+
+    try {
+      const apiKey = import.meta.env.VITE_ANTHROPIC_KEY;
+      const res = await fetch('/api/claude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
           max_tokens: 512,
           system: getSystemPrompt(lang, service),
-          messages: updatedHistory.map(m => ({ role: m.role, content: m.content })),
+          messages: updated.map(m => ({ role: m.role, content: m.content })),
         }),
       });
 
-      const data = await response.json();
+      const data = await res.json();
       const fullText: string = data.content?.[0]?.text || '';
-      
-      let action: AIAction | null = null;
-      
-      try {
-        const parsed = JSON.parse(fullText);
-        if (parsed.action && ['search_flights', 'search_ferry', 'search_taxi', 'search_bus', 'show_links'].includes(parsed.action)) {
-          action = parsed as AIAction;
-        }
-      } catch {
-        const { searchData, links, cleanText } = validateAndParseAIResponse(fullText);
-        
-        if (searchData) {
-          action = {
-            action: `search_${searchData.type}` as AIAction['action'],
-            data: searchData,
-            confidence: 0.9
-          };
-        } else if (links) {
-          action = {
-            action: 'show_links',
-            data: links,
-            confidence: 0.9
-          };
-        } else if (cleanText) {
-          const withReply = [...updatedHistory, { role: 'assistant', content: cleanText }];
-          messagesRef.current = withReply;
-          setMessages([...withReply]);
-          setStatus('idle');
-          return;
-        }
-      }
-      
-      if (!action) {
-        throw new Error('Failed to parse AI response');
-      }
-      
-      trackAdvancedEvent({
-        type: 'ai_response',
-        service: action.action,
-        timestamp: Date.now(),
-        metadata: { confidence: action.confidence }
-      });
-      
-      const withReply = [...updatedHistory, { role: 'assistant', content: '' }];
-      setStatus('searching');
-      
-      let handled = false;
-      
-      switch (action.action) {
-        case 'search_flights':
-          const searchData = action.data as SearchData;
-          if (!searchData.date && !searchData.date_from) {
-            searchData.date = getDefaultDate();
+
+      // Extract XML tags
+      const searchMatch = fullText.match(/<search>([\s\S]*?)<\/search>/);
+      const linksMatch = fullText.match(/<links>([\s\S]*?)<\/links>/);
+      const cleanText = fullText
+        .replace(/<search>[\s\S]*?<\/search>/g, '')
+        .replace(/<links>[\s\S]*?<\/links>/g, '')
+        .trim();
+
+      // Show text reply first
+      const withReply = [...updated, { role: 'assistant' as const, content: cleanText || '...' }];
+      messagesRef.current = withReply;
+      setMessages([...withReply]);
+      setIsTyping(false);
+      setShowSearchAnim(false);
+
+      // Handle flight search
+      if (searchMatch) {
+        try {
+          const sd = JSON.parse(searchMatch[1].trim());
+
+          // Handle ferry
+          if (sd.type === 'ferry') {
+            const links = SERVICE_LINKS.ferry.map(l => ({ ...l }));
+            for (const link of links) link.url = await toAffiliateLink(link.url);
+            setDynamicLinks(links);
+            setHasResults(true);
+            trackSearch();
+            const msg = lang === 'ar'
+              ? `🚢 إليك أفضل خيارات العبارة من ${sd.from} إلى ${sd.to} 👇`
+              : `🚢 Here are ferry options from ${sd.from} to ${sd.to} 👇`;
+            messagesRef.current = [...withReply, { role: 'assistant', content: msg }];
+            setMessages([...messagesRef.current]);
+            return;
           }
-          
-          if (searchData.date_from && searchData.date_to && searchData.flexible) {
-            setIsLoadingFlights(true);
-            handled = await handleFlexibleFlightFlow(
-              action, lang, withReply,
-              setFlightResults, setHasResults, setStatus,
-              setMessages, messagesRef, sessionId
-            );
-            setIsLoadingFlights(false);
-          } else if (searchData.date) {
-            setIsLoadingFlights(true);
-            handled = await handleSpecificDateFlightFlow(
-              action, lang, withReply,
-              setFlightResults, setHasResults, setStatus,
-              setDynamicLinks, setMessages, messagesRef, sessionId
-            );
-            setIsLoadingFlights(false);
+
+          // Handle flight
+          if (sd.type === 'flight') {
+            if (sd.origin) { const i = getIATA(sd.origin); if (i) sd.origin = i; }
+            if (sd.destination) { const i = getIATA(sd.destination); if (i) sd.destination = i; }
+
+            if (!sd.origin || !sd.destination) return;
+
+            setShowSearchAnim(true);
+            let result;
+            if (sd.flexible && sd.date_from) {
+              result = await searchFlexible(sd.origin, sd.destination, sd.date_from, sd.date_to || getDefaultDate());
+            } else {
+              result = await searchFlights(sd.origin, sd.destination, sd.date || getDefaultDate());
+            }
+            setShowSearchAnim(false);
+
+            if (result.flights.length > 0) {
+              setFlightResults(result.flights);
+              setHasResults(true);
+              trackSearch();
+              const directCount = result.flights.filter((f: FlightResult) => f.is_direct).length;
+              const cheapest = result.flights[0].price;
+              const msg =
+                lang === 'ar' ? (directCount > 0 ? `✅ وجدت ${directCount} رحلة مباشرة! أرخصها $${cheapest} 👇` : `⚠️ لا رحلات مباشرة. أفضل الخيارات من $${cheapest} 👇`) :
+                lang === 'fr' ? (directCount > 0 ? `✅ ${directCount} vol(s) direct(s)! Dès $${cheapest} 👇` : `⚠️ Pas de vols directs. Dès $${cheapest} 👇`) :
+                lang === 'es' ? (directCount > 0 ? `✅ ¡${directCount} vuelo(s) directo(s)! Desde $${cheapest} 👇` : `⚠️ Sin vuelos directos. Desde $${cheapest} 👇`) :
+                (directCount > 0 ? `✅ Found ${directCount} direct flight(s)! From $${cheapest} 👇` : `⚠️ No direct flights. Best from $${cheapest} 👇`);
+              messagesRef.current = [...withReply, { role: 'assistant', content: msg }];
+              setMessages([...messagesRef.current]);
+            } else {
+              const url = result.fallback || `https://www.aviasales.com/search/${sd.origin}${sd.destination}1?marker=709105`;
+              setDynamicLinks([{ name: 'Aviasales', desc: `${sd.origin} → ${sd.destination}`, url, icon: '✈️' }]);
+              setHasResults(true);
+              const msg = lang === 'ar' ? `لم أجد رحلات. ابحث مباشرة 👇` : lang === 'fr' ? `Aucun vol. Cherchez directement 👇` : lang === 'es' ? `Sin vuelos. Busca directamente 👇` : `No cached flights. Search live 👇`;
+              messagesRef.current = [...withReply, { role: 'assistant', content: msg }];
+              setMessages([...messagesRef.current]);
+            }
           }
-          break;
-          
-        case 'search_ferry':
-        case 'search_taxi':
-        case 'search_bus':
-          handled = await handleTransportFlow(
-            action, lang, withReply,
-            setDynamicLinks, setHasResults, setStatus,
-            setMessages, messagesRef
-          );
-          break;
-          
-        case 'show_links':
-          await handleLinksFlow(
-            action, withReply,
-            setDynamicLinks, setHasResults, setStatus,
-            setMessages, messagesRef
-          );
-          handled = true;
-          break;
+        } catch (e) { console.error('Search parse error:', e); }
       }
-      
-      if (!handled) {
-        setStatus('idle');
+
+      // Handle links
+      if (linksMatch) {
+        try {
+          const links = JSON.parse(linksMatch[1].trim());
+          for (const link of links) {
+            if (link.url) link.url = await toAffiliateLink(link.url);
+          }
+          setDynamicLinks(links);
+          setHasResults(true);
+          trackSearch();
+        } catch { }
       }
-      
+
+      // Fallback service links
+      if (!searchMatch && !linksMatch && service && service !== 'flight') {
+        const links = (SERVICE_LINKS[service] || []).map(l => ({ ...l }));
+        if (links.length) {
+          for (const link of links) link.url = await toAffiliateLink(link.url);
+          setDynamicLinks(links);
+          setHasResults(true);
+        }
+      }
+
     } catch (err) {
-      console.error('SendMessage error:', err);
-      setErrorState(prev => ({
-        ...prev,
-        hasError: true,
-        message: err instanceof Error ? err.message : 'Unknown error',
-        lastError: String(err)
-      }));
-      setStatus('error');
-      
-      const errMsg = lang === 'ar' 
-        ? 'عذراً، مشكلة في الاتصال ولد البلاد. حاول مرة أخرى! 🔄'
-        : 'Sorry, something went wrong. Please try again! 🔄';
-      
-      messagesRef.current = [...messagesRef.current, { role: 'assistant', content: errMsg }];
+      setIsTyping(false);
+      setShowSearchAnim(false);
+      const msg = lang === 'ar' ? 'عذراً، مشكلة في الاتصال. 🔄' : lang === 'fr' ? 'Problème de connexion. 🔄' : lang === 'es' ? 'Error de conexión. 🔄' : 'Connection issue. Try again. 🔄';
+      messagesRef.current = [...messagesRef.current, { role: 'assistant', content: msg }];
       setMessages([...messagesRef.current]);
     }
-  }, [lang, service, sessionId]);
-
-  const sendMessage = useCallback(async (content: string) => {
-    if (!content.trim()) return;
-    
-    if (statusRef.current !== 'idle' || isProcessing.current) {
-      messageQueue.current.push({
-        id: `${Date.now()}_${Math.random()}`,
-        content,
-        timestamp: Date.now()
-      });
-      return;
-    }
-    
-    await processQueue();
-    await sendMessageInternal(content);
-  }, [processQueue, sendMessageInternal]);
-
-  const retryLastMessage = useCallback(async () => {
-    if (messagesRef.current.length > 0) {
-      const lastUserMessage = [...messagesRef.current].reverse().find(m => m.role === 'user');
-      if (lastUserMessage) {
-        setErrorState(prev => ({ ...prev, hasError: false, retryCount: prev.retryCount + 1 }));
-        await sendMessage(lastUserMessage.content);
-      }
-    }
-  }, [sendMessage]);
+  }, [isTyping, service, lang]);
 
   const clearChat = useCallback((greeting?: string) => {
     const initial: Message[] = greeting ? [{ role: 'assistant', content: greeting }] : [];
     messagesRef.current = initial;
     setMessages([...initial]);
     setFlightResults([]);
-    setDynamicLinks([]);
     setHasResults(false);
-    setStatus('idle');
-    setErrorState({ hasError: false, message: '', retryCount: 0, lastError: undefined });
-    messageQueue.current = [];
-    isProcessing.current = false;
-    setIsLoadingFlights(false);
+    setDynamicLinks([]);
   }, []);
 
-  return { 
-    messages, 
-    isTyping, 
-    showSearchAnim, 
-    hasResults, 
-    dynamicLinks, 
-    flightResults, 
-    sendMessage,
-    clearChat,
-    retryLastMessage,
-    errorState,
-    status,
-    isLoadingFlights
-  };
+  return { messages, isTyping, showSearchAnim, hasResults, dynamicLinks, flightResults, sendMessage, clearChat };
 }
 
-// ============================================
-// SERVICE DETECTION
-// ============================================
-export function detectServiceType(text: string): string {
+export function detectService(text: string): string {
   const l = text.toLowerCase();
-  
-  if (/car_rental|rental|كراء سيارة|rent a car|localrent|سيارة كراء/.test(l)) return 'car_rental';
-  if (/ferry|باخرة|عبارة|شقف|بابور|فيري|مركب|عبّارة/.test(l)) return 'ferry';
-  if (/taxi|transfer|تاكسي|نقل|transfert|traslado|طوموبيل|لوکاسيون|vito|grand taxi/.test(l)) return 'taxi';
-  if (/bus|coach|حافلة|بركاصة|ستيام|كار|فلوكس|بوس|اتوبيس/.test(l)) return 'bus';
-  if (/cruise|كروز|رحلة بحرية|سياحة بحرية/.test(l)) return 'cruise';
-  if (/hotel|فندق|لوطيل|بلاصا|فين نبيت|اقامة|ريزور/.test(l)) return 'hotel';
-  if (/tour|experience|جولة|تجربة|زيارة|معلم|متحف|سياحة/.test(l)) return 'experience';
-  if (/esim|sim|بيانات|انترنت|نت|واي فاي/.test(l)) return 'esim';
-  if (/delay|cancel|تعويض|تأخير|إلغاء|استرجاع|تعويضات/.test(l)) return 'compensation';
+  if (/ferry|باخرة|عبارة|بابور|فيري|بواخر/.test(l)) return 'ferry';
+  if (/cruise|كروز|رحلة بحرية/.test(l)) return 'cruise';
+  if (/bus|coach|حافلة|بركاصة|autobus/.test(l)) return 'bus';
+  if (/hotel|فندق|hôtel|alojamiento/.test(l)) return 'hotel';
+  if (/taxi|transfer|تاكسي|نقل|transfert|traslado|car|rent|سيارة|كراء/.test(l)) return 'taxi';
+  if (/tour|experience|جولة|تجربة|visite|excursion/.test(l)) return 'experience';
+  if (/esim|sim|internet|بيانات/.test(l)) return 'esim';
+  if (/delay|cancel|تعويض|تأخير|remboursement/.test(l)) return 'compensation';
   return 'flight';
 }
-
-export const detectService = detectServiceType;
