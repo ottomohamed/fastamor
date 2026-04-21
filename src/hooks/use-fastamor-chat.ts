@@ -1,6 +1,10 @@
+// 1. استيرادات المكتبات الخارجية
 import { useState, useCallback, useRef } from 'react';
+
+// 2. استيرادات المسارات المطلقة (الخاصة بالمشروع)
 import { trackSearch } from '@/lib/tracking';
 import { toAffiliateLink } from '@/lib/convertLinks';
+import { findPort, autoCorrectPortName } from '@/lib/ferryPorts';
 
 export type Message = { role: 'user' | 'assistant'; content: string; };
 export type AffiliateLink = { name: string; desc: string; url: string; icon: string; };
