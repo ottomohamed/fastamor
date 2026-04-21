@@ -4,6 +4,7 @@ import { useState, useCallback, useRef } from 'react';
 // 2. استيرادات المسارات المطلقة (الخاصة بالمشروع)
 import { trackSearch } from '@/lib/tracking';
 import { toAffiliateLink } from '@/lib/convertLinks';
+import { buildFerryBookingLink, isValidRoute, formatFerrySummary } from '@/lib/ferryBooking';
 import { findPort, autoCorrectPortName } from '@/lib/ferryPorts';
 
 export type Message = { role: 'user' | 'assistant'; content: string; };
