@@ -11,6 +11,18 @@ export type FlightResult = {
   booking_url: string; gate: string; is_direct?: boolean;
 };
 
+// ✅ إضافة جديدة: قاموس الموانئ للبواخر
+const PORT_CODES: Record<string, string> = {
+  'الجزيرة الخضراء': 'ALG', 'algeciras': 'ALG',
+  'طنجة المتوسط': 'TNM', 'tanger med': 'TNM',
+  'طنجة المدينة': 'TAV', 'tanger ville': 'TAV',
+  'مالقة': 'MLG', 'malaga': 'MLG',
+  'الناظور': 'NAD', 'nador': 'NAD',
+  'سبتة': 'CEU', 'ceuta': 'CEU',
+  'المرية': 'ALM', 'almeria': 'ALM',
+  'برشلونة': 'BCN', 'barcelona': 'BCN',
+};
+
 const CITY_TO_IATA: Record<string, string> = {
   'دبي': 'DXB', 'باريس': 'CDG', 'لندن': 'LHR', 'القاهرة': 'CAI', 'الرياض': 'RUH',
   'جدة': 'JED', 'الدوحة': 'DOH', 'اسطنبول': 'IST', 'نيويورك': 'JFK', 'طوكيو': 'NRT',
@@ -30,6 +42,7 @@ const CITY_TO_IATA: Record<string, string> = {
   'londre': 'LHR', 'londres': 'LHR', 'nueva york': 'JFK',
 };
 
+// ✅ إضافة جديدة: إضافة خدمة البواخر (Ferries)
 const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
   hotel: [{ name: 'Intui Travel', desc: 'Best hotel deals worldwide', url: 'https://intui.tpx.gr/kguAoKIU', icon: '🏨' }],
   taxi: [
@@ -45,6 +58,11 @@ const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
     { name: 'WeGoTrip', desc: 'Audio tours', url: 'https://wegotrip.tpx.gr/DyN0pkVH', icon: '🗺️' },
   ],
   bus: [{ name: 'FlixBus', desc: 'Bus tickets across Europe', url: 'https://tpx.gr/n6krgEY3', icon: '🚌' }],
+  // ✅ إضافة خدمة البواخر
+  ferry: [
+    { name: 'DirectFerries', desc: 'Spain/France/Italy → Morocco', url: 'https://www.directferries.com', icon: '🚢' },
+    { name: 'Balearia', desc: 'Spain → Morocco ferries', url: 'https://www.balearia.com', icon: '⛴️' },
+  ],
   cruise: [{ name: 'Sea Radar', desc: 'Cruise deals worldwide', url: 'https://searadar.tpx.gr/WC89iS5m', icon: '🚢' }],
   esim: [{ name: 'Yesim', desc: 'eSIM for travelers', url: 'https://yesim.tpx.gr/9gzdax7m', icon: '📱' }],
   compensation: [
@@ -70,6 +88,16 @@ function getDefaultDate(): string {
   return d.toISOString().split('T')[0];
 }
 
+// ✅ إضافة جديدة: دالة بناء روابط البواخر
+function buildFerryLink(from: string, to: string, date: string): string {
+  const d = date || getDefaultDate();
+  const fLower = from.toLowerCase();
+  const tLower = to.toLowerCase();
+  const fromCode = PORT_CODES[fLower] || from;
+  const toCode = PORT_CODES[tLower] || to;
+  return `https://www.balearia.com/en/search-v2?origin=${fromCode}&destination=${toCode}&departure_date=${d}&passengers=1`;
+}
+
 function getSystemPrompt(lang: string, service: string): string {
   const today = new Date().toISOString().split('T')[0];
   const langRule =
@@ -89,6 +117,10 @@ FLIGHT SEARCH RULES:
 <search>{"type":"flight","origin":"IATA","destination":"IATA","date":"YYYY-MM-DD"}</search>
 - Keep response to 1-2 sentences max
 
+FERRIES SEARCH RULES:
+- Extract from + to + date from user message
+- Output: <search>{"type":"ferry","from":"city_name","to":"city_name","date":"YYYY-MM-DD"}</search>
+
 HOTEL SEARCH: output:
 <links>[{"name":"Intui Travel","desc":"Best hotels","url":"https://intui.tpx.gr/kguAoKIU","icon":"🏨"}]</links>
 
@@ -100,6 +132,9 @@ TOURS/ACTIVITIES: output:
 
 BUS: output:
 <links>[{"name":"FlixBus","desc":"Bus tickets","url":"https://tpx.gr/n6krgEY3","icon":"🚌"}]</links>
+
+FERRIES: output:
+<links>[{"name":"DirectFerries","desc":"Ferry deals","url":"https://www.directferries.com","icon":"🚢"},{"name":"Balearia","desc":"Spain-Morocco ferries","url":"https://www.balearia.com","icon":"⛴️"}]</links>
 
 CRUISE: output:
 <links>[{"name":"Sea Radar","desc":"Cruises","url":"https://searadar.tpx.gr/WC89iS5m","icon":"🚢"}]</links>
@@ -172,63 +207,89 @@ export function useFastamorChat(service: string, lang: string) {
       if (searchMatch) {
         try {
           const searchData = JSON.parse(searchMatch[1].trim());
-          if (searchData.origin) { const i = getIATA(searchData.origin); if (i) searchData.origin = i; }
-          if (searchData.destination) { const i = getIATA(searchData.destination); if (i) searchData.destination = i; }
-          if (!searchData.date) searchData.date = getDefaultDate();
 
-          if (searchData.origin && searchData.destination) {
-            setShowSearchAnim(true);
-            const { flights, hasDirectFlights, fallbackUrl } = await searchFlights(
-              searchData.origin, searchData.destination, searchData.date
-            );
-            setShowSearchAnim(false);
-
-            if (flights.length > 0) {
-              setFlightResults(flights);
+          // ✅ إضافة جديدة: معالجة البواخر (Ferries)
+          if (searchData.type === 'ferry') {
+            const rawUrl = buildFerryLink(searchData.from, searchData.to, searchData.date);
+            if (rawUrl) {
+              const affUrl = await toAffiliateLink(rawUrl);
+              setDynamicLinks([{
+                name: 'Balearia',
+                desc: `${searchData.from} → ${searchData.to}`,
+                url: affUrl,
+                icon: '🚢'
+              }]);
               setHasResults(true);
               trackSearch();
 
-              const directCount = flights.filter((f: FlightResult) => f.is_direct).length;
-              const cheapest = flights[0].price;
-
-              let confirmMsg = '';
-              if (lang === 'ar') {
-                confirmMsg = directCount > 0
-                  ? `✅ وجدت ${directCount} رحلة مباشرة! أرخصها $${cheapest} 👇`
-                  : `⚠️ لا توجد رحلات مباشرة متاحة الآن. إليك أفضل الخيارات من $${cheapest} 👇`;
-              } else if (lang === 'fr') {
-                confirmMsg = directCount > 0
-                  ? `✅ ${directCount} vol(s) direct(s) trouvé(s)! Dès $${cheapest} 👇`
-                  : `⚠️ Pas de vols directs disponibles. Meilleures options dès $${cheapest} 👇`;
-              } else if (lang === 'es') {
-                confirmMsg = directCount > 0
-                  ? `✅ ¡${directCount} vuelo(s) directo(s)! Desde $${cheapest} 👇`
-                  : `⚠️ No hay vuelos directos disponibles. Mejores opciones desde $${cheapest} 👇`;
-              } else {
-                confirmMsg = directCount > 0
-                  ? `✅ Found ${directCount} direct flight(s)! From $${cheapest} 👇`
-                  : `⚠️ No direct flights in cache. Best available from $${cheapest} — or [search live on Aviasales](${fallbackUrl}) 👇`;
-              }
-
+              const confirmMsg = lang === 'ar' 
+                ? `✅ هاك رابط الحجز المباشر للباخرة من ${searchData.from} إلى ${searchData.to} 👇`
+                : `✅ Here's your ferry booking link from ${searchData.from} to ${searchData.to} 👇`;
+              
               messagesRef.current = [...withReply, { role: 'assistant', content: confirmMsg }];
               setMessages([...messagesRef.current]);
-            } else {
-              // No flights at all — give smart fallback
-              const searchUrl = fallbackUrl || `https://www.aviasales.com/search/${searchData.origin}${searchData.destination}1?marker=709105`;
-              setDynamicLinks([{
-                name: 'Aviasales',
-                desc: `${searchData.origin} → ${searchData.destination}`,
-                url: searchUrl,
-                icon: '✈️'
-              }]);
-              setHasResults(true);
-              const noMsg = lang === 'ar'
-                ? `لم أجد رحلات مخزنة. ابحث مباشرة على Aviasales للنتائج الحية 👇`
-                : lang === 'fr' ? `Aucun résultat en cache. Cherchez en direct sur Aviasales 👇`
-                : lang === 'es' ? `Sin resultados en caché. Busca en directo en Aviasales 👇`
-                : `No cached results. Search live on Aviasales for real-time flights 👇`;
-              messagesRef.current = [...withReply, { role: 'assistant', content: noMsg }];
-              setMessages([...messagesRef.current]);
+              return;
+            }
+          }
+
+          if (searchData.type === 'flight') {
+            if (searchData.origin) { const i = getIATA(searchData.origin); if (i) searchData.origin = i; }
+            if (searchData.destination) { const i = getIATA(searchData.destination); if (i) searchData.destination = i; }
+            if (!searchData.date) searchData.date = getDefaultDate();
+
+            if (searchData.origin && searchData.destination) {
+              setShowSearchAnim(true);
+              const { flights, hasDirectFlights, fallbackUrl } = await searchFlights(
+                searchData.origin, searchData.destination, searchData.date
+              );
+              setShowSearchAnim(false);
+
+              if (flights.length > 0) {
+                setFlightResults(flights);
+                setHasResults(true);
+                trackSearch();
+
+                const directCount = flights.filter((f: FlightResult) => f.is_direct).length;
+                const cheapest = flights[0].price;
+
+                let confirmMsg = '';
+                if (lang === 'ar') {
+                  confirmMsg = directCount > 0
+                    ? `✅ وجدت ${directCount} رحلة مباشرة! أرخصها $${cheapest} 👇`
+                    : `⚠️ لا توجد رحلات مباشرة متاحة الآن. إليك أفضل الخيارات من $${cheapest} 👇`;
+                } else if (lang === 'fr') {
+                  confirmMsg = directCount > 0
+                    ? `✅ ${directCount} vol(s) direct(s) trouvé(s)! Dès $${cheapest} 👇`
+                    : `⚠️ Pas de vols directs disponibles. Meilleures options dès $${cheapest} 👇`;
+                } else if (lang === 'es') {
+                  confirmMsg = directCount > 0
+                    ? `✅ ¡${directCount} vuelo(s) directo(s)! Desde $${cheapest} 👇`
+                    : `⚠️ No hay vuelos directos disponibles. Mejores opciones desde $${cheapest} 👇`;
+                } else {
+                  confirmMsg = directCount > 0
+                    ? `✅ Found ${directCount} direct flight(s)! From $${cheapest} 👇`
+                    : `⚠️ No direct flights in cache. Best available from $${cheapest} — or [search live on Aviasales](${fallbackUrl}) 👇`;
+                }
+
+                messagesRef.current = [...withReply, { role: 'assistant', content: confirmMsg }];
+                setMessages([...messagesRef.current]);
+              } else {
+                const searchUrl = fallbackUrl || `https://www.aviasales.com/search/${searchData.origin}${searchData.destination}1?marker=709105`;
+                setDynamicLinks([{
+                  name: 'Aviasales',
+                  desc: `${searchData.origin} → ${searchData.destination}`,
+                  url: searchUrl,
+                  icon: '✈️'
+                }]);
+                setHasResults(true);
+                const noMsg = lang === 'ar'
+                  ? `لم أجد رحلات مخزنة. ابحث مباشرة على Aviasales للنتائج الحية 👇`
+                  : lang === 'fr' ? `Aucun résultat en cache. Cherchez en direct sur Aviasales 👇`
+                  : lang === 'es' ? `Sin resultados en caché. Busca en directo en Aviasales 👇`
+                  : `No cached results. Search live on Aviasales for real-time flights 👇`;
+                messagesRef.current = [...withReply, { role: 'assistant', content: noMsg }];
+                setMessages([...messagesRef.current]);
+              }
             }
           }
         } catch (e) { console.error('Parse error:', e); }
@@ -301,6 +362,8 @@ export function useFastamorChat(service: string, lang: string) {
 
 export function detectService(text: string): string {
   const l = text.toLowerCase();
+  // ✅ إضافة جديدة: التعرف على البواخر بالدارجة
+  if (/ferry|باخرة|عبارة|شقف|بابور/.test(l)) return 'ferry';
   if (/cruise|كروز|croisière|crucero/.test(l)) return 'cruise';
   if (/bus|coach|حافلة|autobus/.test(l)) return 'bus';
   if (/hotel|فندق|hôtel|alojamiento/.test(l)) return 'hotel';
