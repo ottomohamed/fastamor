@@ -111,9 +111,15 @@ FERRIES SEARCH RULES:
 - Extract from + to + date from user message
 - Output: <search>{"type":"ferry","from":"city","to":"city","date":"YYYY-MM-DD"}</search>
 
+BUS/TRAIN SEARCH RULES:
+- Extract origin + destination + date from user message.
+- Output: <search>{"type":"bus","origin":"city_name","destination":"city_name","date":"YYYY-MM-DD"}</search>
+
+KLOOK/TOURS RULES:
+- If the user asks for tours or activities, output: <links>[{"name":"Klook","url":"https://klook.tpx.gr/vRUzaJbI"}]</links>
+
 HOTEL SEARCH: output <links>[{"name":"Intui Travel","url":"https://intui.tpx.gr/kguAoKIU","icon":""}]</links>
 TRANSFER: output <links>[{"name":"GetTransfer","url":"https://gettransfer.tpx.gr/9poAnD5l","icon":""}]</links>
-TOURS: output <links>[{"name":"Klook","url":"https://klook.tpx.gr/vRUzaJbI","icon":""}]</links>
 BUS: output <links>[{"name":"FlixBus","url":"https://tpx.gr/n6krgEY3","icon":""}]</links>
 FERRIES: output <links>[{"name":"Balearia","url":"https://www.balearia.com","icon":""}]</links>`;
 }
@@ -193,6 +199,37 @@ export function useFastamorChat(service: string, lang: string) {
             }
           }
 
+          // ✅ إضافة منطق البحث عن الحافلات والقطارات
+          if (searchData.type === "bus") {
+            const origin = searchData.origin;
+            const destination = searchData.destination;
+            const date = searchData.date || getDefaultDate();
+
+            // بناء رابط البحث لشركة FlixBus
+            const directUrl = `https://www.flixbus.com/search?departureCity=${encodeURIComponent(origin)}&arrivalCity=${encodeURIComponent(destination)}&rideDate=${date}`;
+            
+            // تحويله لرابط عميق (Deep Link) للربح من العمولة
+            const affiliateUrl = await toAffiliateLink(directUrl);
+
+            setDynamicLinks([{ 
+              name: "FlixBus", 
+              desc: `${origin} ↔️ ${destination}`, 
+              url: affiliateUrl, 
+              icon: "🚌" 
+            }]);
+
+            setHasResults(true);
+            trackSearch();
+
+            const confirmMsg = lang === "ar" 
+              ? `وجدت لك رحلات حافلات بين ${origin} و ${destination}` 
+              : `Found bus trips between ${origin} and ${destination}`;
+
+            messagesRef.current = [...messagesRef.current, { role: "assistant", content: confirmMsg }];
+            setMessages([...messagesRef.current]);
+            return;
+          }
+
           if (searchData.type === "flight") {
             if (searchData.origin) { const i = getIATA(searchData.origin); if (i) searchData.origin = i; }
             if (searchData.destination) { const i = getIATA(searchData.destination); if (i) searchData.destination = i; }
@@ -224,16 +261,19 @@ export function useFastamorChat(service: string, lang: string) {
         } catch (e) { console.error("Parse error:", e); }
       }
 
+      // ✅ تعديل معالجة الروابط (Links Processing)
       if (linksMatch) {
         try {
           const links = JSON.parse(linksMatch[1].trim());
-          for (const link of links) {
-            if (link.url) link.url = await toAffiliateLink(link.url);
-          }
-          setDynamicLinks(links);
+          // معالجة الروابط لتحويلها إلى Affiliate Links بشكل حي
+          const processedLinks = await Promise.all(links.map(async (link: any) => ({
+            ...link,
+            url: await toAffiliateLink(link.url)
+          })));
+          setDynamicLinks(processedLinks);
           setHasResults(true);
           trackSearch();
-        } catch { }
+        } catch (e) { console.error("Links parsing error:", e); }
       }
 
       if (!searchMatch && !linksMatch && service && service !== "flight") {
@@ -273,7 +313,7 @@ export function detectService(text: string): string {
   const l = text.toLowerCase();
   if (/ferry|bakhra/.test(l)) return "ferry";
   if (/cruise/.test(l)) return "cruise";
-  if (/bus/.test(l)) return "bus";
+  if (/bus|autobus|bus station/.test(l)) return "bus";
   if (/hotel/.test(l)) return "hotel";
   if (/taxi|transfer/.test(l)) return "taxi";
   if (/tour|experience/.test(l)) return "experience";
