@@ -9,8 +9,12 @@ interface Article {
   slug: string;
   title_ar: string;
   title_en: string;
+  title_es: string;   // ✅ أضف
+  title_fr: string;   // ✅ أضف
   excerpt_ar: string;
   excerpt_en: string;
+  excerpt_es: string; // ✅ أضف
+  excerpt_fr: string; // ✅ أضف
   category: string;
   featured_image: string | null;
   author_slug: string;
@@ -55,9 +59,27 @@ export default function BlogView() {
     setLoading(false);
   };
 
-  const title = (a: Article) => lang === 'ar' ? a.title_ar : a.title_en;
-  const excerpt = (a: Article) => lang === 'ar' ? a.excerpt_ar : a.excerpt_en;
-  const catLabel = (c: CATEGORIES[0]) => c[lang] || c.en;
+  // ✅ التعديل الأساسي: دعم جميع اللغات للعنوان
+  const getTitle = (a: Article) => {
+    switch (lang) {
+      case 'ar': return a.title_ar;
+      case 'es': return a.title_es;
+      case 'fr': return a.title_fr;
+      default: return a.title_en;
+    }
+  };
+
+  // ✅ التعديل الأساسي: دعم جميع اللغات للمقتطف
+  const getExcerpt = (a: Article) => {
+    switch (lang) {
+      case 'ar': return a.excerpt_ar;
+      case 'es': return a.excerpt_es;
+      case 'fr': return a.excerpt_fr;
+      default: return a.excerpt_en;
+    }
+  };
+
+  const catLabel = (c: typeof CATEGORIES[0]) => c[lang as keyof typeof c] || c.en;
 
   const featured = articles[0];
   const rest = articles.slice(1);
@@ -161,7 +183,7 @@ export default function BlogView() {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-3xl overflow-hidden border border-[#bcc9c6]/20 bg-white shadow-sm hover:shadow-xl transition-shadow">
                     {featured.featured_image ? (
                       <div className="relative h-72 lg:h-auto overflow-hidden">
-                        <img src={featured.featured_image} alt={title(featured)}
+                        <img src={featured.featured_image} alt={getTitle(featured)}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/10"/>
                       </div>
@@ -181,10 +203,10 @@ export default function BlogView() {
                           </span>
                         </div>
                         <h2 className="text-3xl md:text-4xl font-serif font-black text-[#1b1c19] leading-[1.15] mb-4 group-hover:text-[#00685f] transition-colors">
-                          {title(featured)}
+                          {getTitle(featured)}
                         </h2>
                         <p className="text-[#3d4947] leading-relaxed opacity-70 line-clamp-3 text-base">
-                          {excerpt(featured)}
+                          {getExcerpt(featured)}
                         </p>
                       </div>
                       <div className="flex items-center gap-2 mt-8 text-[#00685f] font-black text-xs uppercase tracking-widest group-hover:gap-3 transition-all">
@@ -206,7 +228,7 @@ export default function BlogView() {
                       <div className="bg-white border border-[#bcc9c6]/20 rounded-2xl overflow-hidden hover:shadow-lg transition-all h-full flex flex-col">
                         {article.featured_image ? (
                           <div className="h-52 overflow-hidden">
-                            <img src={article.featured_image} alt={title(article)}
+                            <img src={article.featured_image} alt={getTitle(article)}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                           </div>
                         ) : (
@@ -224,10 +246,10 @@ export default function BlogView() {
                             </span>
                           </div>
                           <h3 className="font-serif font-black text-[#1b1c19] text-lg leading-tight mb-2 group-hover:text-[#00685f] transition-colors line-clamp-2 flex-1">
-                            {title(article)}
+                            {getTitle(article)}
                           </h3>
                           <p className="text-[#6d7a77] text-sm line-clamp-2 mb-4 leading-relaxed">
-                            {excerpt(article)}
+                            {getExcerpt(article)}
                           </p>
                           <div className="flex items-center gap-1 text-[#00685f] text-[10px] font-black uppercase tracking-widest">
                             {lang === 'ar' ? 'اقرأ' : lang === 'fr' ? 'Lire' : lang === 'es' ? 'Leer' : 'Read'}

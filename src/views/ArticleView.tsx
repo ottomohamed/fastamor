@@ -10,10 +10,16 @@ interface Article {
   slug: string;
   title_ar: string;
   title_en: string;
+  title_es: string;
+  title_fr: string;
   body_ar: string;
   body_en: string;
+  body_es: string;
+  body_fr: string;
   excerpt_ar: string;
   excerpt_en: string;
+  excerpt_es: string;
+  excerpt_fr: string;
   category: string;
   featured_image: string | null;
   author_slug: string;
@@ -82,10 +88,33 @@ export default function ArticleView({ slug }: { slug: string }) {
     </div>
   );
 
+  // ✅ التعديل الأساسي: دعم جميع اللغات
+  const getTitle = () => {
+    switch (lang) {
+      case 'ar': return article.title_ar;
+      case 'es': return article.title_es;
+      case 'fr': return article.title_fr;
+      default: return article.title_en;
+    }
+  };
+
+  const getBody = () => {
+    switch (lang) {
+      case 'ar': return article.body_ar;
+      case 'es': return article.body_es;
+      case 'fr': return article.body_fr;
+      default: return article.body_en;
+    }
+  };
+
+  const getTags = () => {
+    return lang === 'ar' ? article.tags_ar : article.tags_en;
+  };
+
   const isRtl = lang === 'ar';
-  const title = isRtl ? article.title_ar : article.title_en;
-  const body = isRtl ? article.body_ar : article.body_en;
-  const tags = isRtl ? article.tags_ar : article.tags_en;
+  const title = getTitle();
+  const body = getBody();
+  const tags = getTags();
 
   return (
     <div className="min-h-screen bg-[#fbf9f3] selection:bg-teal-100" dir={isRtl ? 'rtl' : 'ltr'}>

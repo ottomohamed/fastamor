@@ -111,17 +111,18 @@ FERRIES SEARCH RULES:
 - Extract from + to + date from user message
 - Output: <search>{"type":"ferry","from":"city","to":"city","date":"YYYY-MM-DD"}</search>
 
-BUS/TRAIN SEARCH RULES:
+BUS/TRAIN SEARCH RULES - IMPORTANT:
 - Extract origin + destination + date from user message.
+- You MUST output a search tag, NOT a links tag.
 - Output: <search>{"type":"bus","origin":"city_name","destination":"city_name","date":"YYYY-MM-DD"}</search>
-
-KLOOK/TOURS RULES:
-- If the user asks for tours or activities, output: <links>[{"name":"Klook","url":"https://klook.tpx.gr/vRUzaJbI"}]</links>
+- Example: "bus from Madrid to Barcelona on 2025-04-25" → <search>{"type":"bus","origin":"Madrid","destination":"Barcelona","date":"2025-04-25"}</search>
 
 HOTEL SEARCH: output <links>[{"name":"Intui Travel","url":"https://intui.tpx.gr/kguAoKIU","icon":""}]</links>
 TRANSFER: output <links>[{"name":"GetTransfer","url":"https://gettransfer.tpx.gr/9poAnD5l","icon":""}]</links>
-BUS: output <links>[{"name":"FlixBus","url":"https://tpx.gr/n6krgEY3","icon":""}]</links>
-FERRIES: output <links>[{"name":"Balearia","url":"https://www.balearia.com","icon":""}]</links>`;
+TOURS: output <links>[{"name":"Klook","url":"https://klook.tpx.gr/vRUzaJbI","icon":""}]</links>
+FERRIES: output <links>[{"name":"Balearia","url":"https://www.balearia.com","icon":""}]</links>
+
+CRITICAL: For bus/train searches, ALWAYS use <search> tag with type "bus", never use <links> tag.`;
 }
 
 export function useFastamorChat(service: string, lang: string) {
@@ -189,42 +190,44 @@ export function useFastamorChat(service: string, lang: string) {
             const rawUrl = buildFerryLink(searchData.from, searchData.to, searchData.date);
             if (rawUrl) {
               const affUrl = await toAffiliateLink(rawUrl);
-              setDynamicLinks([{ name: "Balearia", desc: `${searchData.from}  ${searchData.to}`, url: affUrl, icon: "" }]);
+              setDynamicLinks([{ name: "Balearia", desc: `${searchData.from} → ${searchData.to}`, url: affUrl, icon: "⛴️" }]);
               setHasResults(true);
               trackSearch();
-              const confirmMsg = lang === "ar" ? " هاك رابط الحجز المباشر للباخرة" : " Here is your ferry booking link";
+              const confirmMsg = lang === "ar" ? "⛴️ هاك رابط الحجز المباشر للباخرة" : "⛴️ Here is your ferry booking link";
               messagesRef.current = [...withReply, { role: "assistant", content: confirmMsg }];
               setMessages([...messagesRef.current]);
               return;
             }
           }
 
-          // ✅ إضافة منطق البحث عن الحافلات والقطارات
+          // ✅ البحث عن الحافلات مع Deep Link المباشر
           if (searchData.type === "bus") {
-            const origin = searchData.origin;
-            const destination = searchData.destination;
+            const origin = encodeURIComponent(searchData.origin);
+            const destination = encodeURIComponent(searchData.destination);
             const date = searchData.date || getDefaultDate();
-
-            // بناء رابط البحث لشركة FlixBus
-            const directUrl = `https://www.flixbus.com/search?departureCity=${encodeURIComponent(origin)}&arrivalCity=${encodeURIComponent(destination)}&rideDate=${date}`;
             
-            // تحويله لرابط عميق (Deep Link) للربح من العمولة
+            // رابط FlixBus مع معلمات البحث المباشرة
+            const directUrl = `https://www.flixbus.com/search?departureCity=${origin}&arrivalCity=${destination}&rideDate=${date}&adult=1`;
+            
+            // تحويل إلى رابط عمولة
             const affiliateUrl = await toAffiliateLink(directUrl);
-
+            
+            console.log("Bus search URL:", affiliateUrl);
+            
             setDynamicLinks([{ 
               name: "FlixBus", 
-              desc: `${origin} ↔️ ${destination}`, 
+              desc: `${searchData.origin} → ${searchData.destination} • ${date}`, 
               url: affiliateUrl, 
               icon: "🚌" 
             }]);
-
+            
             setHasResults(true);
             trackSearch();
-
+            
             const confirmMsg = lang === "ar" 
-              ? `وجدت لك رحلات حافلات بين ${origin} و ${destination}` 
-              : `Found bus trips between ${origin} and ${destination}`;
-
+              ? `🚌 وجدت لك رحلات حافلات من ${searchData.origin} إلى ${searchData.destination} في ${date}\nاضغط على الرابط أدناه للحجز المباشر`
+              : `🚌 Found bus trips from ${searchData.origin} to ${searchData.destination} on ${date}\nClick the link below to book directly`;
+            
             messagesRef.current = [...messagesRef.current, { role: "assistant", content: confirmMsg }];
             setMessages([...messagesRef.current]);
             return;
@@ -245,14 +248,14 @@ export function useFastamorChat(service: string, lang: string) {
                 setHasResults(true);
                 trackSearch();
                 const cheapest = flights[0].price;
-                const confirmMsg = lang === "ar" ? ` وجدت رحلات أرخصها ${cheapest}$ ` : ` Found flights from ${cheapest}$ `;
+                const confirmMsg = lang === "ar" ? `✈️ وجدت رحلات أرخصها ${cheapest}$` : `✈️ Found flights from ${cheapest}$`;
                 messagesRef.current = [...withReply, { role: "assistant", content: confirmMsg }];
                 setMessages([...messagesRef.current]);
               } else {
                 const searchUrl = fallbackUrl || `https://www.aviasales.com/search/${searchData.origin}${searchData.destination}1?marker=709105`;
-                setDynamicLinks([{ name: "Aviasales", desc: `${searchData.origin}  ${searchData.destination}`, url: searchUrl, icon: "" }]);
+                setDynamicLinks([{ name: "Aviasales", desc: `${searchData.origin} → ${searchData.destination}`, url: searchUrl, icon: "✈️" }]);
                 setHasResults(true);
-                const noMsg = lang === "ar" ? "لم أجد رحلات مخزنة، ابحث مباشرة هنا " : "No cached results, search live here ";
+                const noMsg = lang === "ar" ? "لم أجد رحلات مخزنة، ابحث مباشرة هنا" : "No cached results, search live here";
                 messagesRef.current = [...withReply, { role: "assistant", content: noMsg }];
                 setMessages([...messagesRef.current]);
               }
@@ -261,7 +264,7 @@ export function useFastamorChat(service: string, lang: string) {
         } catch (e) { console.error("Parse error:", e); }
       }
 
-      // ✅ تعديل معالجة الروابط (Links Processing)
+      // ✅ معالجة الروابط (Links Processing) - للخدمات الأخرى
       if (linksMatch) {
         try {
           const links = JSON.parse(linksMatch[1].trim());
@@ -291,7 +294,7 @@ export function useFastamorChat(service: string, lang: string) {
       console.error("SendMessage error:", err);
       setIsTyping(false);
       setShowSearchAnim(false);
-      const errMsg = lang === "ar" ? "عذراً، مشكلة في الاتصال. " : "Connection issue. Please try again. ";
+      const errMsg = lang === "ar" ? "عذراً، مشكلة في الاتصال. الرجاء المحاولة مرة أخرى" : "Connection issue. Please try again.";
       messagesRef.current = [...messagesRef.current, { role: "assistant", content: errMsg }];
       setMessages([...messagesRef.current]);
     }
@@ -311,13 +314,13 @@ export function useFastamorChat(service: string, lang: string) {
 
 export function detectService(text: string): string {
   const l = text.toLowerCase();
-  if (/ferry|bakhra/.test(l)) return "ferry";
-  if (/cruise/.test(l)) return "cruise";
-  if (/bus|autobus|bus station/.test(l)) return "bus";
-  if (/hotel/.test(l)) return "hotel";
-  if (/taxi|transfer/.test(l)) return "taxi";
-  if (/tour|experience/.test(l)) return "experience";
-  if (/esim/.test(l)) return "esim";
-  if (/delay|cancel/.test(l)) return "compensation";
+  if (/ferry|bakhra|عبارة/.test(l)) return "ferry";
+  if (/cruise|كروز/.test(l)) return "cruise";
+  if (/bus|autobus|باص|حافلة/.test(l)) return "bus";
+  if (/hotel|فندق/.test(l)) return "hotel";
+  if (/taxi|transfer|تاكسي/.test(l)) return "taxi";
+  if (/tour|experience|جولة|رحلة سياحية/.test(l)) return "experience";
+  if (/esim|شريحة/.test(l)) return "esim";
+  if (/delay|cancel|تأخير|إلغاء/.test(l)) return "compensation";
   return "flight";
 }
