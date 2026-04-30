@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { supabase } from '@/lib/supabase';
 import { ArrowLeft, Star, DollarSign, MapPin, Calendar, Globe, ExternalLink } from 'lucide-react';
@@ -127,7 +127,7 @@ export default function DestinationView({ slug }: { slug: string }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main */}
           <div className="lg:col-span-2">
-            <p className="text-lg text-foreground leading-relaxed mb-8">{description}</p>
+<div className="text-lg text-foreground leading-relaxed mb-8 prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: description }} />
 
             {attractions?.length ? (
               <div className="mb-8">
