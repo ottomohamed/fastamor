@@ -17,7 +17,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   
   try {
     const { origin, destination, date } = req.body;
-    const TOKEN = process.env.TRAVELPAYOUTS_TOKEN || '48076067aa7fe645d28373eb715a346b';
+    const TOKEN = process.env.TRAVELPAYOUTS_TOKEN;
     const MARKER = process.env.TRAVELPAYOUTS_MARKER || '709105';
     
     const month = date ? date.substring(0, 7) : new Date().toISOString().substring(0, 7);

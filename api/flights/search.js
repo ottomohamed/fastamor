@@ -1,5 +1,5 @@
-const TOKEN = '48076067aa7fe645d28373eb715a346b';
-const MARKER = '709105';
+const TOKEN = process.env.TRAVELPAYOUTS_TOKEN;
+const MARKER = process.env.TRAVELPAYOUTS_MARKER || '709105';
 
 // Estimate max reasonable duration based on distance
 function getMaxReasonableDuration(origin, destination) {
@@ -26,7 +26,11 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { origin, destination, date } = req.body;
+    const origin = String(req.body?.origin || '').trim().toUpperCase();
+    const destination = String(req.body?.destination || '').trim().toUpperCase();
+    const date = typeof req.body?.date === 'string' ? req.body.date : '';
+    if (!TOKEN) return res.status(500).json({ error: 'Flight search not configured', flights: [] });
+    if (!/^[A-Z]{3}$/.test(origin || '') || !/^[A-Z]{3}$/.test(destination || '')) return res.status(400).json({ error: 'Invalid IATA codes', flights: [] });
     if (!origin || !destination) return res.status(400).json({ error: 'origin and destination required', flights: [] });
 
     const month = date ? date.substring(0, 7) : new Date().toISOString().substring(0, 7);

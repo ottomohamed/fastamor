@@ -1,21 +1,17 @@
-// api/statistics.js
+// api/statistics.js — affiliate earnings. Admin only (Supabase session required).
+import { applyCors, getSupabaseUser } from './_lib/guard.js';
+
 export default async function handler(req, res) {
-  // ??????? CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  
+  if (applyCors(req, res, 'POST, OPTIONS')) return;
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-  
+  const user = await getSupabaseUser(req);
+  if (!user) return res.status(401).json({ error: 'Unauthorized' });
+
   try {
     const token = process.env.TRAVELPAYOUTS_TOKEN;
-    const { date_from = "2026-04-01", date_to, campaign_id = 100 } = req.body;
+    const { date_from = "2026-04-01", date_to, campaign_id = 100 } = req.body || {};
     
     if (!token) {
       return res.status(500).json({ error: 'API token not configured' });
@@ -69,6 +65,6 @@ export default async function handler(req, res) {
     
   } catch (error) {
     console.error('Statistics API error:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: 'Statistics unavailable' });
   }
 }

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { supabase } from '@/lib/supabase';
+import { safeHtml } from '@/lib/sanitize';
+import { useDocumentMeta } from '@/hooks/use-document-meta';
 import { ArrowLeft, Eye, Heart, MapPin, ExternalLink, Plane } from 'lucide-react';
 import { trackClick } from '@/lib/tracking';
 import { motion } from 'framer-motion';
@@ -51,6 +53,15 @@ export default function ArticleView({ slug }: { slug: string }) {
   const [lang, setLang] = useState<'en' | 'ar' | 'fr' | 'es'>('en');
   const [liked, setLiked] = useState(false);
 
+  useDocumentMeta({
+    title: article ? ((article as any)[`title_${lang}`] || article.title_en || article.title_ar) : undefined,
+    description: article ? ((article as any)[`excerpt_${lang}`] || article.excerpt_en || article.excerpt_ar) : undefined,
+    image: article?.featured_image,
+    path: `/article/${slug}`,
+    lang,
+    type: 'article',
+  });
+
   useEffect(() => { loadArticle(); }, [slug]);
 
   const loadArticle = async () => {
@@ -59,7 +70,10 @@ export default function ArticleView({ slug }: { slug: string }) {
       .from('articles').select('*').eq('slug', slug).eq('status', 'published').single();
     if (data) {
       setArticle(data);
-      supabase.from('articles').update({ views: (data.views || 0) + 1 }).eq('id', data.id);
+      // Server-side increment (see supabase/migrations). Falls back to the legacy update until the migration is applied.
+      supabase.rpc('increment_article_views', { article_id: data.id }).then(({ error }) => {
+        if (error) supabase.from('articles').update({ views: (data.views || 0) + 1 }).eq('id', data.id);
+      });
     }
     setLoading(false);
   };
@@ -67,7 +81,8 @@ export default function ArticleView({ slug }: { slug: string }) {
   const handleLike = async () => {
     if (!article || liked) return;
     setLiked(true);
-    await supabase.from('articles').update({ likes: (article.likes || 0) + 1 }).eq('id', article.id);
+    const { error } = await supabase.rpc('increment_article_likes', { article_id: article.id });
+    if (error) await supabase.from('articles').update({ likes: (article.likes || 0) + 1 }).eq('id', article.id);
     setArticle({ ...article, likes: (article.likes || 0) + 1 });
   };
 
@@ -190,7 +205,7 @@ export default function ArticleView({ slug }: { slug: string }) {
                   lineHeight: 1.85,
                   fontFamily: "'Inter', sans-serif",
                 }}
-                dangerouslySetInnerHTML={{ __html: body || `<p>${isRtl ? 'المحتوى غير متوفر بهذه اللغة.' : 'Content not available in this language.'}</p>` }}
+                dangerouslySetInnerHTML={{ __html: body ? safeHtml(body) : `<p>${isRtl ? 'المحتوى غير متوفر بهذه اللغة.' : 'Content not available in this language.'}</p>` }}
               />
 
               {/* Tags */}
