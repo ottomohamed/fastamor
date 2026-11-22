@@ -47,3 +47,4 @@ public/artifacts/
 public/attached_assets/
 .vercel
 .env*.local
+api/_lib/template.generated.js
