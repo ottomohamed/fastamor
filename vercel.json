@@ -1,1 +1,87 @@
-{"routes":[{"src":"/api/(.*)","dest":"/api/$1"},{"src":"/[^.]+","dest":"/index.html"}]}
+{
+  "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    {
+      "source": "/",
+      "destination": "/api/render?type=home"
+    },
+    {
+      "source": "/article/:slug",
+      "destination": "/api/render?type=article&slug=:slug"
+    },
+    {
+      "source": "/destination/:slug",
+      "destination": "/api/render?type=destination&slug=:slug"
+    },
+    {
+      "source": "/blog",
+      "destination": "/api/render?type=blog"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/app.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/app(.html)?",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/destination/dubai-uae",
+      "destination": "/destination/dubai",
+      "permanent": true
+    },
+    {
+      "source": "/destination/france-paris",
+      "destination": "/destination/paris",
+      "permanent": true
+    },
+    {
+      "source": "/article/traveler-health-guide-avoiding-diseases",
+      "destination": "/article/travel-health-guide",
+      "permanent": true
+    },
+    {
+      "source": "/article/customs-guide-travel",
+      "destination": "/article/customs-regulations-guide",
+      "permanent": true
+    }
+  ]
+}

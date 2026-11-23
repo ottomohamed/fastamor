@@ -1,7 +1,7 @@
 // api/affiliate.js
 // Converts any travel URL to a Travelpayouts affiliate link
 
-const TOKEN = process.env.TRAVELPAYOUTS_TOKEN || '48076067aa7fe645d28373eb715a346b';
+const TOKEN = process.env.TRAVELPAYOUTS_TOKEN;
 const MARKER = process.env.TRAVELPAYOUTS_MARKER || '709105';
 const TRS = process.env.TRAVELPAYOUTS_TRS || '514622';
 

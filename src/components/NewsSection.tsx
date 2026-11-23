@@ -13,18 +13,13 @@ interface Article {
 const NewsSection: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const API_KEY = '7e328b21e3dc4c87a05a4073be5de111';
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        // فلتر السفر والطيران للمغرب
-        const query = encodeURIComponent('flights Morocco OR ferries Morocco OR سياحة المغرب');
-        const response = await fetch(
-          `https://newsapi.org/v2/everything?q=${query}&language=ar&sortBy=publishedAt&pageSize=3&apiKey=${API_KEY}`
-        );
+        const response = await fetch('/api/news');
         const data = await response.json();
-        if (data.status === 'ok') setArticles(data.articles);
+        if (Array.isArray(data.articles)) setArticles(data.articles);
       } catch (error) {
         console.error("Fastamor Radar Error:", error);
       } finally {

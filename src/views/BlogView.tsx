@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { supabase } from '@/lib/supabase';
+import { useDocumentMeta } from '@/hooks/use-document-meta';
 import { ArrowRight, Plane, MapPin, Eye, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -39,6 +40,11 @@ const CATEGORY_TAGS: Record<string, string> = {
 };
 
 export default function BlogView() {
+  useDocumentMeta({
+    title: 'Travel Blog — Guides, Tips & Itineraries',
+    description: 'Travel guides, destination tips and itineraries from Fastamor, your AI travel concierge.',
+    path: '/blog',
+  });
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [lang, setLang] = useState<'en' | 'ar' | 'fr' | 'es'>('en');

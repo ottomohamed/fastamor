@@ -95,35 +95,6 @@ function buildFerryLink(from: string, to: string, date: string): string {
   return `https://www.balearia.com/es/web/balearia-booking/funnel?origin=${encodedFrom}&destination=${encodedTo}`;
 }
 
-function getSystemPrompt(lang: string, service: string): string {
-  const today = new Date().toISOString().split("T")[0];
-  const langRule = lang === "ar" ? "Respond in Arabic." : lang === "fr" ? "Respond in French." : lang === "es" ? "Respond in Spanish." : "Respond in English.";
-
-  return `You are Fastamor, a smart travel concierge. Today: ${today}.
-${langRule}
-Current service: ${service}
-
-FLIGHT SEARCH RULES:
-- Extract origin + destination + date from user message
-- Output: <search>{"type":"flight","origin":"IATA","destination":"IATA","date":"YYYY-MM-DD"}</search>
-
-FERRIES SEARCH RULES:
-- Extract from + to + date from user message
-- Output: <search>{"type":"ferry","from":"city","to":"city","date":"YYYY-MM-DD"}</search>
-
-BUS/TRAIN SEARCH RULES - IMPORTANT:
-- Extract origin + destination + date from user message.
-- You MUST output a search tag, NOT a links tag.
-- Output: <search>{"type":"bus","origin":"city_name","destination":"city_name","date":"YYYY-MM-DD"}</search>
-- Example: "bus from Madrid to Barcelona on 2025-04-25" → <search>{"type":"bus","origin":"Madrid","destination":"Barcelona","date":"2025-04-25"}</search>
-
-HOTEL SEARCH: output <links>[{"name":"Intui Travel","url":"https://intui.tpx.gr/kguAoKIU","icon":""}]</links>
-TRANSFER: output <links>[{"name":"GetTransfer","url":"https://gettransfer.tpx.gr/9poAnD5l","icon":""}]</links>
-TOURS: output <links>[{"name":"Klook","url":"https://klook.tpx.gr/vRUzaJbI","icon":""}]</links>
-FERRIES: output <links>[{"name":"Balearia","url":"https://www.balearia.com","icon":""}]</links>
-
-CRITICAL: For bus/train searches, ALWAYS use <search> tag with type "bus", never use <links> tag.`;
-}
 
 export function useFastamorChat(service: string, lang: string) {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -163,9 +134,8 @@ export function useFastamorChat(service: string, lang: string) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 512,
-          system: getSystemPrompt(lang, service),
+          lang,
+          service,
           messages: updatedHistory.map(m => ({ role: m.role, content: m.content })),
         }),
       });

@@ -3,6 +3,7 @@ import { LandingView } from '@/views/LandingView';
 import { AppView } from '@/views/AppView';
 import { PrivacyView } from '@/views/PrivacyView';
 import AdminView from '@/views/AdminView';
+import AdminGate from '@/components/AdminGate';
 import { initTracking } from '@/lib/tracking';
 import { I18N } from '@/lib/data';
 
@@ -18,6 +19,7 @@ export default function FastamorMain() {
 
   useEffect(() => {
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
   }, [lang]);
 
   const handleOpenApp = (svc?: string) => {
@@ -52,7 +54,9 @@ export default function FastamorMain() {
         <PrivacyView onBack={() => { setView('landing'); window.scrollTo(0,0); }} />
       )}
       {view === 'admin' && (
-        <AdminView onClose={() => { setView('landing'); window.scrollTo(0,0); }} />
+        <AdminGate onClose={() => { setView('landing'); window.scrollTo(0,0); }}>
+          <AdminView onClose={() => { setView('landing'); window.scrollTo(0,0); }} />
+        </AdminGate>
       )}
     </>
   );

@@ -1,6 +1,8 @@
 ﻿import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { supabase } from '@/lib/supabase';
+import { safeHtml } from '@/lib/sanitize';
+import { useDocumentMeta } from '@/hooks/use-document-meta';
 import { ArrowLeft, Star, DollarSign, MapPin, Calendar, Globe, ExternalLink } from 'lucide-react';
 import { trackClick } from '@/lib/tracking';
 
@@ -37,6 +39,18 @@ export default function DestinationView({ slug }: { slug: string }) {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [lang, setLang] = useState<'en' | 'ar'>('en');
+
+  useDocumentMeta({
+    title: destination
+      ? (lang === 'ar'
+          ? `${destination.name_ar}، ${destination.country_ar} — دليل السفر`
+          : `${destination.name_en}, ${destination.country_en} — Travel Guide`)
+      : undefined,
+    description: destination ? (lang === 'ar' ? destination.description_ar : destination.description_en) : undefined,
+    image: destination?.image_url,
+    path: `/destination/${slug}`,
+    lang,
+  });
 
   useEffect(() => { loadData(); }, [slug]);
 
@@ -127,7 +141,7 @@ export default function DestinationView({ slug }: { slug: string }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main */}
           <div className="lg:col-span-2">
-<div className="text-lg text-foreground leading-relaxed mb-8 prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: description }} />
+<div className="text-lg text-foreground leading-relaxed mb-8 prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: safeHtml(description) }} />
 
             {attractions?.length ? (
               <div className="mb-8">

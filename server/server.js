@@ -7,8 +7,8 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-const TOKEN = '48076067aa7fe645d28373eb715a346b';
-const MARKER = '709105';  // ??? ??????? ????? ??
+const TOKEN = process.env.TRAVELPAYOUTS_TOKEN;
+const MARKER = process.env.TRAVELPAYOUTS_MARKER || '709105';  // ??? ??????? ????? ??
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
