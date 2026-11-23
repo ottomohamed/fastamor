@@ -50,7 +50,14 @@ function stampSubid(url, subid) {
   return url;
 }
 
+const ALL_SHORT = ['aviasales/yQxrYmk7','klook/vRUzaJbI','searadar/WC89iS5m','ticketnetwork/Nfh474HV','_/n6krgEY3','tiqets/ot4HK9Pf','gettransfer/9poAnD5l','wegotrip/DyN0pkVH','intui/kguAoKIU','economybookings/ONZ6dOjM','qeeq/pTbTtERj','yesim/9gzdax7m','kiwitaxi/Y6yrFeYN','localrent/qr92Puo9','compensair/MGUDRrY2','airhelp/baeI5YIf'];
+
 async function go(req, res) {
+  if (req.query.host === 'all' && req.query.debug === '1' && process.env.VERCEL_ENV === 'preview') {
+    const out = {};
+    await Promise.all(ALL_SHORT.map(async k => { const [h, c] = k.split('/'); try { const r = await resolveShort(h, c); out[k] = r.chain[r.chain.length - 1]; } catch (e) { out[k] = 'ERR ' + e.message; } }));
+    return res.json(out);
+  }
   const host = String(req.query.host || '');
   const code = String(req.query.code || '');
   const subid = String(req.query.s || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 60);
