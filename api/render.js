@@ -142,7 +142,7 @@ function alternatesFor(path, langs, defaultLang) {
 }
 
 const nav = lang =>
-  `<nav><a href="${urlFor('/', lang)}">Fastamor</a> · <a href="${urlFor('/blog', lang)}">${UI[lang].blog}</a> · <a href="${urlFor('/flights', lang)}">${UI[lang].flights}</a> · ` +
+  `<nav><a href="${urlFor('/', lang)}">Fastamor</a> · <a href="${urlFor('/blog', lang)}">${UI[lang].blog}</a> · <a href="${urlFor('/flights', lang)}">${UI[lang].flights}</a> · <a href="${urlFor('/car', lang)}">Fastamor Car</a> · ` +
   LANGS.filter(l => l !== lang).map(l => `<a href="${urlFor('/', l)}" hreflang="${l}">${l.toUpperCase()}</a>`).join(' ') +
   `</nav>`;
 

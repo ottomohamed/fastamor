@@ -45,6 +45,7 @@ export default async function handler(req, res) {
     ...group('/blog', LANGS, 'en', { changefreq: 'daily', priority: '0.8' }),
   ];
   urls.push(...group('/flights', LANGS, 'en', { changefreq: 'weekly', priority: '0.8' }));
+  urls.push(...group('/car', LANGS, 'en', { changefreq: 'weekly', priority: '0.9' }));
   try {
     const routes = await getRoutes();
     for (const [slug, r] of Object.entries(routes)) {

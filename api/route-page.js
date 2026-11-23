@@ -85,22 +85,22 @@ const bookUrl = (f, o, d) =>
 
 // ---------- i18n ----------
 const T = {
-  en: { fares: 'Latest fares found', date: 'Departure', airline: 'Airline', stops: 'Stops', price: 'From', direct: 'Direct', book: 'See deal',
+  en: { car: 'Rent a car on arrival', carText: 'Compare car rental at the destination airport with Fastamor Car.', fares: 'Latest fares found', date: 'Departure', airline: 'Airline', stops: 'Stops', price: 'From', direct: 'Direct', book: 'See deal',
         months: 'Cheapest fare by month', none: 'No fares found for this month', tips: 'Practical tips', faq: 'Frequently asked questions',
         cta: 'Search flights', note: 'Fares are the lowest one-way prices found by Aviasales users in the last days, in EUR. They change often and are not guaranteed.',
         updated: 'Updated', hub: 'Flights to Morocco: route guides', hubDesc: 'Route guides with the latest fares for flights between Europe and Morocco.',
         ask: 'Plan this trip with the Fastamor AI assistant', home: 'Home', routes: 'Flight routes', other: 'Other routes' },
-  ar: { fares: 'أحدث الأسعار التي وُجدت', date: 'تاريخ المغادرة', airline: 'شركة الطيران', stops: 'التوقفات', price: 'ابتداءً من', direct: 'مباشرة', book: 'عرض الرحلة',
+  ar: { car: 'اكترِ سيارة عند الوصول', carText: 'قارن أسعار كراء السيارات في مطار الوصول مع فاستامور كار.', fares: 'أحدث الأسعار التي وُجدت', date: 'تاريخ المغادرة', airline: 'شركة الطيران', stops: 'التوقفات', price: 'ابتداءً من', direct: 'مباشرة', book: 'عرض الرحلة',
         months: 'أرخص سعر حسب الشهر', none: 'لا توجد أسعار لهذا الشهر', tips: 'نصائح عملية', faq: 'الأسئلة الشائعة',
         cta: 'ابحث عن رحلات', note: 'الأسعار هي أقل أسعار الذهاب فقط التي وجدها مستخدمو Aviasales في الأيام الأخيرة باليورو، وهي تتغير باستمرار وغير مضمونة.',
         updated: 'آخر تحديث', hub: 'رحلات إلى المغرب: أدلة الخطوط', hubDesc: 'أدلة خطوط الطيران بين أوروبا والمغرب مع أحدث الأسعار.',
         ask: 'خطط لهذه الرحلة مع مساعد فاستامور الذكي', home: 'الرئيسية', routes: 'خطوط الطيران', other: 'خطوط أخرى' },
-  fr: { fares: 'Derniers prix trouvés', date: 'Départ', airline: 'Compagnie', stops: 'Escales', price: 'À partir de', direct: 'Direct', book: 'Voir l’offre',
+  fr: { car: 'Louer une voiture à l’arrivée', carText: 'Comparez la location de voiture à l’aéroport d’arrivée avec Fastamor Car.', fares: 'Derniers prix trouvés', date: 'Départ', airline: 'Compagnie', stops: 'Escales', price: 'À partir de', direct: 'Direct', book: 'Voir l’offre',
         months: 'Prix le plus bas par mois', none: 'Aucun prix trouvé pour ce mois', tips: 'Conseils pratiques', faq: 'Questions fréquentes',
         cta: 'Rechercher des vols', note: 'Prix aller simple les plus bas trouvés par les utilisateurs d’Aviasales ces derniers jours, en EUR. Ils changent souvent et ne sont pas garantis.',
         updated: 'Mis à jour', hub: 'Vols vers le Maroc : guides des lignes', hubDesc: 'Guides des lignes aériennes entre l’Europe et le Maroc avec les derniers prix.',
         ask: 'Préparez ce voyage avec l’assistant IA Fastamor', home: 'Accueil', routes: 'Lignes aériennes', other: 'Autres lignes' },
-  es: { fares: 'Últimas tarifas encontradas', date: 'Salida', airline: 'Aerolínea', stops: 'Escalas', price: 'Desde', direct: 'Directo', book: 'Ver oferta',
+  es: { car: 'Alquila un coche al llegar', carText: 'Compara el alquiler de coches en el aeropuerto de llegada con Fastamor Car.', fares: 'Últimas tarifas encontradas', date: 'Salida', airline: 'Aerolínea', stops: 'Escalas', price: 'Desde', direct: 'Directo', book: 'Ver oferta',
         months: 'Tarifa más baja por mes', none: 'No hay tarifas para este mes', tips: 'Consejos prácticos', faq: 'Preguntas frecuentes',
         cta: 'Buscar vuelos', note: 'Tarifas de solo ida más bajas encontradas por usuarios de Aviasales en los últimos días, en EUR. Cambian a menudo y no están garantizadas.',
         updated: 'Actualizado', hub: 'Vuelos a Marruecos: guías de rutas', hubDesc: 'Guías de rutas entre Europa y Marruecos con las últimas tarifas.',
@@ -199,6 +199,7 @@ async function routePage(slug, lang, template) {
     `<p><a class="cta" rel="nofollow sponsored noopener" target="_blank" href="${esc(searchUrl)}">${t.cta} ${esc(r.originName[lang] || r.originName.en)} → ${esc(r.destinationName[lang] || r.destinationName.en)}</a></p>` +
     (hasFares ? `<h2>${t.fares}</h2>${faresTable}<p class="note">${t.note} ${t.updated}: ${esc(fmtDate(fares.fetchedAt, lang))}</p>` : '') +
     (monthsTable ? `<h2>${t.months}</h2>${monthsTable}` : '') +
+    `<h2>${t.car}</h2><p>${t.carText}</p><p><a class="cta" href="${urlFor('/car', lang)}">Fastamor Car</a></p>` +
     (c.tips?.length ? `<h2>${t.tips}</h2><ul>${c.tips.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '') +
     (c.faq?.length ? `<h2>${t.faq}</h2>${c.faq.map(f => `<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('')}` : '') +
     `<p><a class="cta" href="${urlFor('/', lang)}">${t.ask}</a></p>` +
