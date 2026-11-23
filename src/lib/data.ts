@@ -1,13 +1,11 @@
 export const AFFILIATE_LINKS = [
   { name: "Aviasales", url: "https://aviasales.tpx.gr/yQxrYmk7" },
   { name: "Klook", url: "https://klook.tpx.gr/vRUzaJbI" },
-  { name: "Sea Radar", url: "https://searadar.tpx.gr/WC89iS5m" },
-  { name: "TicketNetwork", url: "https://ticketnetwork.tpx.gr/Nfh474HV" },
-  { name: "FlixBus", url: "https://tpx.gr/n6krgEY3" },
+  { name: "Welcome Pickups", url: "https://tpx.gr/n6krgEY3" },
   { name: "Tiqets", url: "https://tiqets.tpx.gr/ot4HK9Pf" },
   { name: "GetTransfer", url: "https://gettransfer.tpx.gr/9poAnD5l" },
   { name: "WeGoTrip", url: "https://wegotrip.tpx.gr/DyN0pkVH" },
-  { name: "Intui Travel", url: "https://intui.tpx.gr/kguAoKIU" },
+  { name: "Intui (transfers)", url: "https://intui.tpx.gr/kguAoKIU" },
   { name: "EconomyBookings", url: "https://economybookings.tpx.gr/ONZ6dOjM" },
   { name: "QEEQ", url: "https://qeeq.tpx.gr/pTbTtERj" },
   { name: "Yesim eSIM", url: "https://yesim.tpx.gr/9gzdax7m" },
@@ -41,7 +39,7 @@ export const SERVICES = {
     title: "Hotels",
     icon: "Building2",
     links: [
-      { name: "Intui Travel", url: "https://intui.tpx.gr/kguAoKIU", icon: "🏨", desc: "Best hotel deals worldwide" },
+      { name: "Booking.com", url: "https://www.booking.com/", icon: "🏨", desc: "Search hotels and apartments" },
     ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me your destination and dates. I'll find top hotels for you!",
@@ -56,8 +54,8 @@ export const SERVICES = {
     title: "Transfers & Cars",
     icon: "Car",
     links: [
-      { name: "GetTransfer", url: "https://gettransfer.tpx.gr/9poAnD5l", icon: "🚕", desc: "Airport transfers worldwide" },
-      { name: "Kiwi Taxi", url: "https://kiwitaxi.tpx.gr/Y6yrFeYN", icon: "🚖", desc: "Reliable taxi service" },
+      { name: "Kiwitaxi", url: "https://kiwitaxi.tpx.gr/Y6yrFeYN", icon: "🚕", desc: "Pre-booked airport transfers" },
+      { name: "Welcome Pickups", url: "https://tpx.gr/n6krgEY3", icon: "🚖", desc: "Airport pickups with a local driver" },
       { name: "LocalRent", url: "https://localrent.tpx.gr/qr92Puo9", icon: "🚗", desc: "Local car rental" },
       { name: "EconomyBookings", url: "https://economybookings.tpx.gr/ONZ6dOjM", icon: "🚙", desc: "Cheap car rental" },
       { name: "QEEQ", url: "https://qeeq.tpx.gr/pTbTtERj", icon: "🏎️", desc: "Premium car rental" },
@@ -78,8 +76,6 @@ export const SERVICES = {
       { name: "Klook", url: "https://klook.tpx.gr/vRUzaJbI", icon: "🎡", desc: "Amazing experiences worldwide" },
       { name: "Tiqets", url: "https://tiqets.tpx.gr/ot4HK9Pf", icon: "🎭", desc: "Museums & attractions" },
       { name: "WeGoTrip", url: "https://wegotrip.tpx.gr/DyN0pkVH", icon: "🗺️", desc: "Audio tours & guides" },
-      { name: "Intui Travel", url: "https://intui.tpx.gr/kguAoKIU", icon: "🎟️", desc: "Tours & experiences" },
-      { name: "TicketNetwork", url: "https://ticketnetwork.tpx.gr/Nfh474HV", icon: "🎪", desc: "Events & concerts" },
     ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me which city. I'll find amazing tours and experiences!",
@@ -94,8 +90,7 @@ export const SERVICES = {
     title: "Trains & Buses",
     icon: "Bus",
     links: [
-      { name: "FlixBus", url: "https://tpx.gr/n6krgEY3", icon: "🚌", desc: "Cheap bus tickets Europe" },
-      { name: "Intui Travel", url: "https://intui.tpx.gr/kguAoKIU", icon: "🚂", desc: "Trains & transport" },
+      { name: "Intui", url: "https://intui.tpx.gr/kguAoKIU", icon: "🚐", desc: "Transfers from the station or airport" },
     ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me your route and date. I'll find the cheapest tickets!",
@@ -110,7 +105,7 @@ export const SERVICES = {
     title: "Cruises",
     icon: "Ship",
     links: [
-      { name: "Sea Radar", url: "https://searadar.tpx.gr/WC89iS5m", icon: "⛵", desc: "Best cruise deals" },
+      { name: "Klook", url: "https://klook.tpx.gr/vRUzaJbI", icon: "⛵", desc: "Boat trips and day cruises" },
     ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me your preferred destination. I'll find the best cruise deals!",

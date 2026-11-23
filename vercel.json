@@ -65,6 +65,10 @@
       "destination": "/api/media?file=:file"
     },
     {
+      "source": "/go/:p",
+      "destination": "/api/affiliate?p=:p"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/app.html"
     }
@@ -165,6 +169,9 @@
       "includeFiles": "api/_data/**"
     },
     "api/car-page.js": {
+      "includeFiles": "api/_data/**"
+    },
+    "api/affiliate.js": {
       "includeFiles": "api/_data/**"
     }
   }

@@ -53,22 +53,22 @@ const CITY_TO_IATA: Record<string, string> = {
 };
 
 const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
-  hotel: [{ name: "Intui Travel", desc: "Best hotel deals worldwide", url: "https://intui.tpx.gr/kguAoKIU", icon: "" }],
+  hotel: [{ name: "Booking.com", desc: "Search hotels and apartments", url: "https://www.booking.com/", icon: "" }],
   taxi: [
-    { name: "GetTransfer", desc: "Airport & city transfers", url: "https://gettransfer.tpx.gr/9poAnD5l", icon: "" },
-    { name: "Kiwi Taxi", desc: "Reliable taxi service", url: "https://kiwitaxi.tpx.gr/Y6yrFeYN", icon: "" },
-    { name: "LocalRent", desc: "Car rental", url: "https://localrent.tpx.gr/qr92Puo9", icon: "" },
+    { name: "Kiwitaxi", desc: "Pre-booked airport transfers", url: "https://kiwitaxi.tpx.gr/Y6yrFeYN", icon: "" },
+    { name: "Welcome Pickups", desc: "Airport pickup with a local driver", url: "https://tpx.gr/n6krgEY3", icon: "" },
+    { name: "Economybookings", desc: "Compare car hire", url: "https://economybookings.tpx.gr/ONZ6dOjM", icon: "" },
   ],
   experience: [
     { name: "Klook", desc: "Tours & experiences", url: "https://klook.tpx.gr/vRUzaJbI", icon: "" },
     { name: "Tiqets", desc: "Museums & attractions", url: "https://tiqets.tpx.gr/ot4HK9Pf", icon: "" },
   ],
-  bus: [{ name: "FlixBus", desc: "Bus tickets across Europe", url: "https://tpx.gr/n6krgEY3", icon: "" }],
+  bus: [{ name: "Intui", desc: "Transfers from the station or airport", url: "https://intui.tpx.gr/kguAoKIU", icon: "" }],
   ferry: [
     { name: "DirectFerries", desc: "Spain/France/Italy  Morocco", url: "https://www.directferries.com", icon: "" },
     { name: "Balearia", desc: "Spain  Morocco ferries", url: "https://www.balearia.com", icon: "" },
   ],
-  cruise: [{ name: "Sea Radar", desc: "Cruise deals worldwide", url: "https://searadar.tpx.gr/WC89iS5m", icon: "" }],
+  cruise: [{ name: "Klook", desc: "Boat trips and day cruises", url: "https://klook.tpx.gr/vRUzaJbI", icon: "" }],
   esim: [{ name: "Yesim", desc: "eSIM for travelers", url: "https://yesim.tpx.gr/9gzdax7m", icon: "" }],
   compensation: [
     { name: "Compensair", desc: "Flight compensation", url: "https://compensair.tpx.gr/MGUDRrY2", icon: "" },

@@ -97,7 +97,7 @@ export function PrivacyView({ onBack }: PrivacyViewProps) {
                 Fastamor participates in the Travelpayouts affiliate program. When you click booking links on our platform, we may earn a commission at no extra cost to you. Our affiliate partners include:
               </p>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-                {['Aviasales', 'Intui Travel', 'Klook', 'Tiqets', 'GetTransfer', 'FlixBus', 'Sea Radar', 'Yesim eSIM', 'Compensair', 'AirHelp', 'LocalRent', 'EconomyBookings'].map(p => (
+                {['Aviasales', 'Klook', 'Tiqets', 'WeGoTrip', 'Kiwitaxi', 'Welcome Pickups', 'Intui', 'GetTransfer', 'Yesim eSIM', 'EconomyBookings', 'QEEQ', 'AutoEurope', 'LocalRent', 'Compensair', 'AirHelp'].map(p => (
                   <div key={p} className="px-3 py-2 bg-white border border-[#bcc9c6]/20 rounded-xl text-sm font-medium text-[#3d4947] text-center">
                     {p}
                   </div>

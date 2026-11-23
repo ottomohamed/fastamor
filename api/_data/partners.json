@@ -1,0 +1,16 @@
+{
+  "aviasales":       { "url": "https://www.aviasales.com/",      "short": "https://aviasales.tpx.gr/yQxrYmk7",       "service": "flights" },
+  "klook":           { "url": "https://www.klook.com/",          "short": "https://klook.tpx.gr/vRUzaJbI",           "service": "tours" },
+  "tiqets":          { "url": "https://www.tiqets.com/",         "short": "https://tiqets.tpx.gr/ot4HK9Pf",          "service": "attractions" },
+  "wegotrip":        { "url": "https://wegotrip.com/",           "short": "https://wegotrip.tpx.gr/DyN0pkVH",        "service": "audio-tours" },
+  "welcomepickups":  { "url": "https://www.welcomepickups.com/", "short": "https://tpx.gr/n6krgEY3",                 "service": "transfers" },
+  "kiwitaxi":        { "url": "https://kiwitaxi.com/",           "short": "https://kiwitaxi.tpx.gr/Y6yrFeYN",        "service": "transfers" },
+  "intui":           { "url": "https://intui.travel/",           "short": "https://intui.tpx.gr/kguAoKIU",           "service": "transfers" },
+  "gettransfer":     { "url": "https://gettransfer.com/",        "short": "https://gettransfer.tpx.gr/9poAnD5l",     "service": "transfers" },
+  "economybookings": { "url": "https://www.economybookings.com/","short": "https://economybookings.tpx.gr/ONZ6dOjM", "service": "car" },
+  "qeeq":            { "url": "https://www.qeeq.com/",           "short": "https://qeeq.tpx.gr/pTbTtERj",            "service": "car" },
+  "localrent":       { "url": "https://localrent.com/en/",       "short": "https://localrent.tpx.gr/qr92Puo9",       "service": "car" },
+  "yesim":           { "url": "https://yesim.tech/",             "short": "https://yesim.tpx.gr/9gzdax7m",           "service": "esim" },
+  "airhelp":         { "url": "https://www.airhelp.com/",        "short": "https://airhelp.tpx.gr/baeI5YIf",         "service": "compensation" },
+  "compensair":      { "url": "https://compensair.com/",         "short": "https://compensair.tpx.gr/MGUDRrY2",      "service": "compensation" }
+}

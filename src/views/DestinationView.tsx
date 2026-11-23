@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 import { safeHtml } from '@/lib/sanitize';
 import { useDocumentMeta } from '@/hooks/use-document-meta';
 import { ArrowLeft, Star, DollarSign, MapPin, Calendar, Globe, ExternalLink } from 'lucide-react';
-import { trackClick } from '@/lib/tracking';
+import { trackClick, aff, sid, hotelSearchUrl } from '@/lib/tracking';
 
 interface Destination {
   id: string;
@@ -103,8 +103,8 @@ export default function DestinationView({ slug, lang: urlLang = 'en' }: { slug: 
   const bestTime = lang === 'ar' ? destination.best_time_ar : destination.best_time_en;
   const attractions = lang === 'ar' ? destination.popular_attractions_ar : destination.popular_attractions_en;
 
-  const flightUrl = `https://aviasales.tpx.gr/yQxrYmk7`;
-  const hotelUrl = `https://intui.tpx.gr/kguAoKIU`;
+  const flightUrl = aff('https://aviasales.tpx.gr/yQxrYmk7', sid('dest', slug, 'fly', lang));
+  const hotelUrl = hotelSearchUrl(destination.name_en);
 
   return (
     <div className="min-h-screen bg-[#F7F8FC]" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
@@ -222,7 +222,7 @@ export default function DestinationView({ slug, lang: urlLang = 'en' }: { slug: 
             </div>
 
             {/* Book CTA */}
-            <a href={flightUrl} target="_blank" rel="noopener noreferrer"
+            <a href={flightUrl} target="_blank" rel="sponsored nofollow noopener"
               onClick={() => trackClick(flightUrl)}
               className="flex items-center gap-3 p-4 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors">
               <span className="text-2xl">✈️</span>
@@ -233,13 +233,13 @@ export default function DestinationView({ slug, lang: urlLang = 'en' }: { slug: 
               <ExternalLink size={16} className="ml-auto"/>
             </a>
 
-            <a href={hotelUrl} target="_blank" rel="noopener noreferrer"
+            <a href={hotelUrl} target="_blank" rel="nofollow noopener"
               onClick={() => trackClick(hotelUrl)}
               className="flex items-center gap-3 p-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors">
               <span className="text-2xl">🏨</span>
               <div>
                 <p className="font-bold">{t('فنادق في ' + name, 'Hotels in ' + name)}</p>
-                <p className="text-xs opacity-80">{t('أفضل العروض عبر Intui Travel', 'Best deals via Intui Travel')}</p>
+                <p className="text-xs opacity-80">{t('ابحث عن فنادق وشقق على Booking.com', 'Search hotels and apartments on Booking.com')}</p>
               </div>
               <ExternalLink size={16} className="ml-auto"/>
             </a>

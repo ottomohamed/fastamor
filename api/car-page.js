@@ -46,7 +46,8 @@ const WIDGETS = {
 function widget(key, lang) {
   const p = WIDGETS[key](lang);
   // Colour values are already URL-encoded (%23 = #); keep them as-is.
-  const qs = [`trs=${TRS}`, `shmarker=${MARKER}`, ...Object.entries(p).map(([k, v]) => `${k}=${v}`)].join('&');
+  // SubID in shmarker ("709105.<subid>") attributes bookings to this tab.
+  const qs = [`trs=${TRS}`, `shmarker=${MARKER}.car_${key}_${lang}`, ...Object.entries(p).map(([k, v]) => `${k}=${v}`)].join('&');
   return `<script async src="https://tpemd.com/content?${qs}" charset="utf-8"></script>`;
 }
 
