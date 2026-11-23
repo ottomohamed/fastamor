@@ -2,8 +2,10 @@
 // cached for a year at the edge and in browsers (file names are content hashes).
 import { get } from '@vercel/blob';
 import { blobAuth } from './_lib/blob-auth.js';
+import { migrateImages } from './_lib/migrate-images.js';
 
 export default async function handler(req, res) {
+  if (req.query.migrate === '1') return migrateImages(req, res); // preview-only tool
   const file = String(req.query.file || '');
   if (!/^[a-f0-9]{20}\.(jpg|png|webp|gif|avif)$/.test(file)) return res.status(404).end();
   const auth = blobAuth(req);

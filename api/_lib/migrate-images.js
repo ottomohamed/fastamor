@@ -10,7 +10,7 @@
 //
 // Usage (preview): GET /api/migrate-images?offset=0&limit=15  -> repeat with next offset.
 import { put, head } from '@vercel/blob';
-import { blobAuth } from './_lib/blob-auth.js';
+import { blobAuth } from './blob-auth.js';
 import { createHash } from 'node:crypto';
 
 const MIGRATE_HOSTS = /^(lh3\.googleusercontent\.com|i\.ibb\.co)$/i;
@@ -39,7 +39,7 @@ async function collectUrls() {
 
 const EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif', 'image/avif': 'avif' };
 
-export default async function handler(req, res) {
+export async function migrateImages(req, res) {
   if (process.env.VERCEL_ENV !== 'preview') return res.status(404).end();
   const auth = blobAuth(req);
   if (!auth) return res.status(500).json({ error: 'Blob store not connected', hasStoreId: !!process.env.BLOB_STORE_ID, hasOidcHeader: !!req.headers['x-vercel-oidc-token'] });
