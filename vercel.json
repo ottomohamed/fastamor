@@ -61,6 +61,10 @@
       "destination": "/api/car-page?lang=:lang"
     },
     {
+      "source": "/media/:file",
+      "destination": "/api/media?file=:file"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/app.html"
     }
