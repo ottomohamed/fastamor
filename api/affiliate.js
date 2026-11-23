@@ -18,16 +18,26 @@ const CODE = /^[A-Za-z0-9]{4,20}$/;
 async function resolveShort(host, code) {
   const key = `${host}/${code}`;
   if (resolved.has(key)) return resolved.get(key);
+  // Follow only the short-link hop(s) and stop at Travelpayouts' own click
+  // redirector (tp.media / *.travelpayouts.com). That hop records the click and
+  // creates a fresh click id per visitor, so we must never go past it or cache
+  // anything beyond it.
   let url = host === '_' ? `https://tpx.gr/${code}` : `https://${host}.tpx.gr/${code}`;
-  for (let i = 0; i < 4; i++) {
+  const chain = [url];
+  for (let i = 0; i < 3; i++) {
     const r = await fetch(url, { redirect: 'manual', headers: { 'User-Agent': 'Mozilla/5.0 FastamorGo' } });
     const loc = r.headers.get('location');
     if (!loc) break;
     url = new URL(loc, url).toString();
-    if (/^https:\/\/(tp\.media|c\d+\.travelpayouts\.com|tp\.st)\//.test(url) && /[?&]marker=/.test(url)) break;
+    chain.push(url);
+    const h = new URL(url).hostname;
+    if (!/(^|\.)tpx\.gr$|(^|\.)tp\.st$/.test(h)) break; // left the shortener
   }
-  resolved.set(key, url);
-  return url;
+  const h = new URL(url).hostname;
+  const ok = /(^|\.)(tp\.media|travelpayouts\.com|tp\.click)$/.test(h);
+  const out = { url: ok ? url : null, chain };
+  if (ok) resolved.set(key, out);
+  return out;
 }
 
 function stampSubid(url, subid) {
@@ -47,8 +57,13 @@ async function go(req, res) {
   if (!(SAFE.test(host) || host === '_') || !CODE.test(code)) return res.status(404).end();
   const short = host === '_' ? `https://tpx.gr/${code}` : `https://${host}.tpx.gr/${code}`;
   let target = short;
-  try { target = stampSubid(await resolveShort(host, code), subid); } catch {}
-  if (req.query.debug === '1' && process.env.VERCEL_ENV === 'preview') return res.json({ short, target });
+  let chain = [];
+  try {
+    const r = await resolveShort(host, code);
+    chain = r.chain;
+    if (r.url) target = stampSubid(r.url, subid);
+  } catch {}
+  if (req.query.debug === '1' && process.env.VERCEL_ENV === 'preview') return res.json({ short, target, chain });
   res.setHeader('Cache-Control', 'public, s-maxage=86400, max-age=0');
   res.setHeader('X-Robots-Tag', 'noindex, nofollow');
   res.setHeader('Referrer-Policy', 'no-referrer-when-downgrade');
