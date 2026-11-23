@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
+import { localizedPath, type Lang } from '@/lib/i18n-url';
+
 import { supabase } from '@/lib/supabase';
 import { safeHtml } from '@/lib/sanitize';
 import { useDocumentMeta } from '@/hooks/use-document-meta';
@@ -47,11 +49,24 @@ const CATEGORY_TAGS: Record<string, string> = {
   news: 'Travel News',
 };
 
-export default function ArticleView({ slug }: { slug: string }) {
+export default function ArticleView({ slug, lang: urlLang = 'en' }: { slug: string; lang?: Lang }) {
+  const [, setLocation] = useLocation();
+  const L = (p: string) => localizedPath(p, lang);
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
-  const [lang, setLang] = useState<'en' | 'ar' | 'fr' | 'es'>('en');
+  const lang = urlLang;
+  // Switching language navigates to that language's URL.
+  const setLang = (l: Lang) => setLocation(localizedPath(`/article/${slug}`, l));
   const [liked, setLiked] = useState(false);
+
+  // If this language has no real content for the article, move to one that does.
+  useEffect(() => {
+    if (!article) return;
+    const has = (l: Lang) => ((article as any)[`body_${l}`] || '').length >= 1500 && (article as any)[`title_${l}`];
+    if (has(lang)) return;
+    const alt = (['en', 'ar', 'fr', 'es'] as const).find(has);
+    if (alt) setLocation(localizedPath(`/article/${slug}`, alt), { replace: true });
+  }, [article, lang, slug]);
 
   useDocumentMeta({
     title: article ? ((article as any)[`title_${lang}`] || article.title_en || article.title_ar) : undefined,
@@ -99,7 +114,7 @@ export default function ArticleView({ slug }: { slug: string }) {
     <div className="min-h-screen bg-[#fbf9f3] flex flex-col items-center justify-center">
       <Plane size={40} className="text-[#bcc9c6] mb-6"/>
       <p className="text-2xl font-serif font-black text-[#1b1c19] mb-4">Story not found</p>
-      <Link href="/blog" className="text-[#00685f] font-bold text-sm hover:underline">← Back to Magazine</Link>
+      <Link href={L('/blog')} className="text-[#00685f] font-bold text-sm hover:underline">← Back to Magazine</Link>
     </div>
   );
 
@@ -138,12 +153,12 @@ export default function ArticleView({ slug }: { slug: string }) {
       <nav className="sticky top-0 z-40 bg-[#fbf9f3]/90 backdrop-blur-xl border-b border-[#bcc9c6]/20">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/blog" className="flex items-center gap-2 text-[#3d4947] hover:text-[#00685f] transition-colors font-bold text-sm">
+            <Link href={L('/blog')} className="flex items-center gap-2 text-[#3d4947] hover:text-[#00685f] transition-colors font-bold text-sm">
               <ArrowLeft size={16} className={isRtl ? 'rotate-180' : ''}/>
               <span className="hidden sm:block">Magazine</span>
             </Link>
             <span className="text-[#bcc9c6] hidden sm:block">·</span>
-            <Link href="/" className="font-serif text-xl font-black text-[#00685f] hidden sm:block">FASTAMOR</Link>
+            <Link href={L('/')} className="font-serif text-xl font-black text-[#00685f] hidden sm:block">FASTAMOR</Link>
           </div>
 
           <div className="flex items-center gap-3">
@@ -155,7 +170,7 @@ export default function ArticleView({ slug }: { slug: string }) {
                 </button>
               ))}
             </div>
-            <Link href="/" className="hidden sm:flex items-center gap-1.5 bg-[#0d9488] text-white px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider hover:bg-[#0f766e] transition-colors">
+            <Link href={L('/')} className="hidden sm:flex items-center gap-1.5 bg-[#0d9488] text-white px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider hover:bg-[#0f766e] transition-colors">
               <Plane size={12}/> Plan Trip
             </Link>
           </div>
@@ -246,7 +261,7 @@ export default function ArticleView({ slug }: { slug: string }) {
                 <p className="text-[#6d7a77] text-sm mb-6">
                   {isRtl ? 'دع مساعدنا الذكي يجد لك أفضل الأسعار فوراً' : 'Let our AI find the best deals instantly'}
                 </p>
-                <Link href="/" className="inline-flex items-center gap-2 bg-[#0d9488] text-white px-8 py-3.5 rounded-full font-bold text-sm hover:bg-[#0f766e] hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+                <Link href={L('/')} className="inline-flex items-center gap-2 bg-[#0d9488] text-white px-8 py-3.5 rounded-full font-bold text-sm hover:bg-[#0f766e] hover:shadow-xl transition-all transform hover:-translate-y-0.5">
                   🚀 {isRtl ? 'ابدأ البحث الآن' : 'Start Planning Now'}
                 </Link>
               </div>
@@ -290,7 +305,7 @@ export default function ArticleView({ slug }: { slug: string }) {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="font-serif text-xl font-black text-white">FASTAMOR</div>
           <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">© 2026 Fastamor. All Rights Reserved.</p>
-          <Link href="/blog" className="text-[10px] font-black uppercase tracking-widest text-[#0d9488] hover:text-white transition-colors">
+          <Link href={L('/blog')} className="text-[10px] font-black uppercase tracking-widest text-[#0d9488] hover:text-white transition-colors">
             ← Magazine
           </Link>
         </div>

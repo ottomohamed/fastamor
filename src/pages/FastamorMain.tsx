@@ -6,12 +6,20 @@ import AdminView from '@/views/AdminView';
 import AdminGate from '@/components/AdminGate';
 import { initTracking } from '@/lib/tracking';
 import { I18N } from '@/lib/data';
+import { useLocation } from 'wouter';
+import { isLang, localizedPath, type Lang } from '@/lib/i18n-url';
 
 type ViewState = 'landing' | 'app' | 'privacy' | 'admin';
 
-export default function FastamorMain() {
+export default function FastamorMain({ initialLang = 'en' }: { initialLang?: Lang }) {
   const [view, setView] = useState<ViewState>('landing');
-  const [lang, setLang] = useState('en');
+  const [lang, setLangState] = useState<string>(initialLang);
+  const [, setLocation] = useLocation();
+  // Changing the UI language also moves to the language's URL (/ar, /fr, /es).
+  const setLang = (l: string) => {
+    setLangState(l);
+    if (isLang(l)) setLocation(localizedPath('/', l), { replace: true });
+  };
   const [initialSvc, setInitialSvc] = useState<string>('');
   const [clicks, setClicks] = useState(0);
 

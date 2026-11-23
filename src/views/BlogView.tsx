@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
+import { localizedPath, type Lang } from '@/lib/i18n-url';
+
 import { supabase } from '@/lib/supabase';
 import { useDocumentMeta } from '@/hooks/use-document-meta';
 import { ArrowRight, Plane, MapPin, Eye, Clock } from 'lucide-react';
@@ -39,7 +41,8 @@ const CATEGORY_TAGS: Record<string, string> = {
   news: 'Travel News',
 };
 
-export default function BlogView() {
+export default function BlogView({ lang: urlLang = 'en' }: { lang?: Lang }) {
+  const [, setLocation] = useLocation();
   useDocumentMeta({
     title: 'Travel Blog — Guides, Tips & Itineraries',
     description: 'Travel guides, destination tips and itineraries from Fastamor, your AI travel concierge.',
@@ -47,7 +50,9 @@ export default function BlogView() {
   });
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
-  const [lang, setLang] = useState<'en' | 'ar' | 'fr' | 'es'>('en');
+  const lang = urlLang;
+  const setLang = (l: Lang) => setLocation(localizedPath('/blog', l));
+  const L = (p: string) => localizedPath(p, lang);
   const [category, setCategory] = useState('all');
 
   useEffect(() => { loadArticles(); }, [category]);
@@ -101,15 +106,15 @@ export default function BlogView() {
       {/* Navbar */}
       <nav className="sticky top-0 z-40 bg-[#fbf9f3]/90 backdrop-blur-xl border-b border-[#bcc9c6]/20">
         <div className="max-w-7xl mx-auto px-6 h-18 py-4 flex items-center justify-between">
-          <Link href="/" className="font-serif text-2xl font-black tracking-tighter text-[#00685f]">
+          <Link href={L('/')} className="font-serif text-2xl font-black tracking-tighter text-[#00685f]">
             FASTAMOR
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <Link href="/blog" className="text-xs font-black uppercase tracking-widest text-[#00685f] border-b-2 border-[#00685f] pb-0.5">
+            <Link href={L('/blog')} className="text-xs font-black uppercase tracking-widest text-[#00685f] border-b-2 border-[#00685f] pb-0.5">
               Magazine
             </Link>
-            <Link href="/" className="text-xs font-black uppercase tracking-widest text-[#3d4947] hover:text-[#00685f] transition-colors">
+            <Link href={L('/')} className="text-xs font-black uppercase tracking-widest text-[#3d4947] hover:text-[#00685f] transition-colors">
               AI Concierge
             </Link>
           </div>
@@ -123,7 +128,7 @@ export default function BlogView() {
                 </button>
               ))}
             </div>
-            <Link href="/" className="hidden sm:block bg-[#1b1c19] text-white px-5 py-2.5 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#00685f] transition-all">
+            <Link href={L('/')} className="hidden sm:block bg-[#1b1c19] text-white px-5 py-2.5 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#00685f] transition-all">
               ✈️ Plan Trip
             </Link>
           </div>
@@ -185,7 +190,7 @@ export default function BlogView() {
             {/* Featured */}
             {featured && (
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
-                <Link href={`/article/${featured.slug}`} className="block group">
+                <Link href={L(`/article/${featured.slug}`)} className="block group">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-3xl overflow-hidden border border-[#bcc9c6]/20 bg-white shadow-sm hover:shadow-xl transition-shadow">
                     {featured.featured_image ? (
                       <div className="relative h-72 lg:h-auto overflow-hidden">
@@ -230,7 +235,7 @@ export default function BlogView() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {rest.map((article, i) => (
                   <motion.div key={article.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
-                    <Link href={`/article/${article.slug}`} className="block group h-full">
+                    <Link href={L(`/article/${article.slug}`)} className="block group h-full">
                       <div className="bg-white border border-[#bcc9c6]/20 rounded-2xl overflow-hidden hover:shadow-lg transition-all h-full flex flex-col">
                         {article.featured_image ? (
                           <div className="h-52 overflow-hidden">
@@ -279,7 +284,7 @@ export default function BlogView() {
           <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">
             © 2026 Fastamor. Editorial Travel Intelligence.
           </p>
-          <Link href="/" className="text-[10px] font-black uppercase tracking-widest text-[#0d9488] hover:text-white transition-colors">
+          <Link href={L('/')} className="text-[10px] font-black uppercase tracking-widest text-[#0d9488] hover:text-white transition-colors">
             ✈️ AI Concierge →
           </Link>
         </div>

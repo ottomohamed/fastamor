@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
+import { localizedPath, isLang } from '@/lib/i18n-url';
+
 import { I18N, PARTNERS } from '@/lib/data';
 import { trackClick } from '@/lib/tracking';
 import { supabase } from '@/lib/supabase';
@@ -55,6 +57,7 @@ const CATEGORY_TAGS: Record<string, string> = {
 };
 
 export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrigger }: LandingViewProps) {
+  const L = (p: string) => localizedPath(p, isLang(lang) ? lang : 'en');
   const t = I18N[lang as keyof typeof I18N] || I18N.en;
   const isRtl = lang === 'ar';
 
@@ -119,7 +122,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
             <a href="#services" className="text-xs font-black uppercase tracking-widest text-[#3d4947] hover:text-[#00685f] transition-colors">
               {t.services}
             </a>
-            <Link href="/blog" className="text-xs font-black uppercase tracking-widest text-[#3d4947] hover:text-[#00685f] transition-colors">
+            <Link href={L('/blog')} className="text-xs font-black uppercase tracking-widest text-[#3d4947] hover:text-[#00685f] transition-colors">
               {isRtl ? 'كل المقالات' : 'All Stories'}
             </Link>
           </div>
@@ -210,7 +213,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
               {isRtl ? 'أحدث المقالات' : 'Latest Stories.'}
             </h2>
           </div>
-          <Link href="/blog"
+          <Link href={L('/blog')}
             className="hidden md:flex items-center gap-2 text-[#00685f] font-black text-xs uppercase tracking-widest hover:gap-3 transition-all">
             {isRtl ? 'كل المقالات' : 'All Stories'}
             <ArrowRight size={14} className={isRtl ? 'rotate-180' : ''}/>
@@ -237,7 +240,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Featured article */}
             {featured && (
-              <Link href={`/article/${featured.slug}`} className="lg:col-span-7 block group">
+              <Link href={L(`/article/${featured.slug}`)} className="lg:col-span-7 block group">
                 <div className="relative rounded-3xl overflow-hidden h-[420px] border border-[#bcc9c6]/20 bg-[#f0eee8]">
                   {featured.featured_image ? (
                     <img src={featured.featured_image} alt={title(featured)}
@@ -268,7 +271,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
             {/* Side articles */}
             <div className="lg:col-span-5 flex flex-col gap-4">
               {restArticles.map(article => (
-                <Link key={article.id} href={`/article/${article.slug}`} className="block group flex-1">
+                <Link key={article.id} href={L(`/article/${article.slug}`)} className="block group flex-1">
                   <div className="flex gap-4 bg-white border border-[#bcc9c6]/20 rounded-2xl p-4 hover:shadow-md transition-shadow h-full">
                     {article.featured_image ? (
                       <img src={article.featured_image} alt={title(article)}
@@ -291,7 +294,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
                 </Link>
               ))}
 
-              <Link href="/blog"
+              <Link href={L('/blog')}
                 className="flex items-center justify-center gap-2 py-4 border-2 border-dashed border-[#bcc9c6]/40 rounded-2xl text-[#6d7a77] hover:border-[#00685f] hover:text-[#00685f] transition-all font-black text-xs uppercase tracking-widest">
                 {isRtl ? 'كل المقالات' : 'View All Stories'} →
               </Link>
@@ -330,7 +333,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
               {destinations.map((dest, i) => (
-                <Link key={dest.id} href={`/destination/${dest.slug}`} className="block group">
+                <Link key={dest.id} href={L(`/destination/${dest.slug}`)} className="block group">
                   <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
                     className="relative rounded-2xl overflow-hidden h-48 bg-[#e1f5ee] border border-[#bcc9c6]/20">
                     {dest.image_url ? (
@@ -415,9 +418,9 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
             <div>
               <h4 className="text-white font-black mb-6 uppercase tracking-widest text-[10px]">{isRtl ? 'المجلة' : 'Magazine'}</h4>
               <ul className="space-y-3">
-                <li><Link href="/blog" className="text-sm hover:text-[#0d9488] transition-colors">{isRtl ? 'أحدث المقالات' : 'Latest Stories'}</Link></li>
-                <li><Link href="/blog" className="text-sm hover:text-[#0d9488] transition-colors">{isRtl ? 'الوجهات' : 'Destinations'}</Link></li>
-                <li><Link href="/blog" className="text-sm hover:text-[#0d9488] transition-colors">{isRtl ? 'نصائح السفر' : 'Travel Tips'}</Link></li>
+                <li><Link href={L('/blog')} className="text-sm hover:text-[#0d9488] transition-colors">{isRtl ? 'أحدث المقالات' : 'Latest Stories'}</Link></li>
+                <li><Link href={L('/blog')} className="text-sm hover:text-[#0d9488] transition-colors">{isRtl ? 'الوجهات' : 'Destinations'}</Link></li>
+                <li><Link href={L('/blog')} className="text-sm hover:text-[#0d9488] transition-colors">{isRtl ? 'نصائح السفر' : 'Travel Tips'}</Link></li>
               </ul>
             </div>
             <div>
