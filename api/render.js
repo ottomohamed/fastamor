@@ -17,14 +17,14 @@ async function getTemplate(req) {
     if (mod.default) return (templateCache = mod.default);
   } catch {}
   // 2) bundled dist file
-  for (const p of [path.join(process.cwd(), 'dist/index.html'), path.join(process.cwd(), 'index.html')]) {
+  for (const p of [path.join(process.cwd(), 'dist/app.html'), path.join(process.cwd(), 'dist/index.html')]) {
     try {
       const html = await readFile(p, 'utf8');
       if (html.includes('/assets/')) return (templateCache = html);
     } catch {}
   }
   // 3) the static shell from our own deployment
-  const r = await fetch(`https://${req.headers.host}/index.html`);
+  const r = await fetch(`https://${req.headers.host}/app.html`);
   return (templateCache = await r.text());
 }
 
