@@ -37,6 +37,22 @@
       "destination": "/api/render?type=blog&lang=:lang"
     },
     {
+      "source": "/flights",
+      "destination": "/api/route-page"
+    },
+    {
+      "source": "/flights/:route",
+      "destination": "/api/route-page?route=:route"
+    },
+    {
+      "source": "/:lang(ar|fr|es)/flights",
+      "destination": "/api/route-page?lang=:lang"
+    },
+    {
+      "source": "/:lang(ar|fr|es)/flights/:route",
+      "destination": "/api/route-page?lang=:lang&route=:route"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/app.html"
     }
@@ -119,5 +135,13 @@
       "destination": "/:lang/article/customs-regulations-guide",
       "permanent": true
     }
-  ]
+  ],
+  "functions": {
+    "api/route-page.js": {
+      "includeFiles": "api/_data/**"
+    },
+    "api/sitemap.js": {
+      "includeFiles": "api/_data/**"
+    }
+  }
 }

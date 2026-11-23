@@ -1,6 +1,7 @@
 // api/sitemap.js — dynamic sitemap with one entry per published language version
 // and xhtml:link hreflang alternates.
 import { LANGS, urlFor, articleLangs, destinationLangs } from './_lib/i18n.js';
+import { getRoutes, routeLangs } from './route-page.js';
 
 const SITE = 'https://www.fastamor.com';
 // Slugs that 301-redirect elsewhere (see vercel.json) must not be listed.
@@ -43,6 +44,14 @@ export default async function handler(req, res) {
     ...group('/', LANGS, 'en', { changefreq: 'daily', priority: '1.0' }),
     ...group('/blog', LANGS, 'en', { changefreq: 'daily', priority: '0.8' }),
   ];
+  urls.push(...group('/flights', LANGS, 'en', { changefreq: 'weekly', priority: '0.8' }));
+  try {
+    const routes = await getRoutes();
+    for (const [slug, r] of Object.entries(routes)) {
+      const langs = routeLangs(r);
+      if (langs.length) urls.push(...group(`/flights/${slug}`, langs, langs.includes('en') ? 'en' : langs[0], { changefreq: 'daily', priority: '0.9' }));
+    }
+  } catch {}
   for (const d of destinations) {
     if (!d.slug || REDIRECTED.has(d.slug)) continue;
     const langs = destinationLangs(d);

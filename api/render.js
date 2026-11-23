@@ -75,28 +75,28 @@ function sanitize(html) {
 import { LANGS, MIN_BODY, isLang, urlFor, articleLangs, destinationLangs } from './_lib/i18n.js';
 
 const UI = {
-  en: { blog: 'Blog', home: 'Home', guides: 'Travel guides', dests: 'Popular destinations', latest: 'Latest travel guides', attractions: 'Top attractions',
+  en: { flights: 'Flights to Morocco', blog: 'Blog', home: 'Home', guides: 'Travel guides', dests: 'Popular destinations', latest: 'Latest travel guides', attractions: 'Top attractions',
         homeTitle: 'AI Travel Concierge — Cheap Flights, Hotels & Travel Guides',
         homeDesc: 'Fastamor is your personal AI travel assistant: compare cheap flights, hotels, tours and transfers, and read practical travel guides.',
         homeH1: 'Fastamor — your AI travel concierge',
         homeP: 'Plan your trip in a conversation: Fastamor finds flights, hotels, tours and airport transfers and links you to the best offers.',
         blogTitle: 'Travel Blog — Guides, Tips & Itineraries', blogDesc: 'Travel guides, destination tips and itineraries from Fastamor, your AI travel concierge.', blogH1: 'Fastamor Travel Blog',
         guide: 'Travel Guide', nf: 'Page not found', nfP: 'Browse our travel guides' },
-  ar: { blog: 'المدونة', home: 'الرئيسية', guides: 'أدلة السفر', dests: 'وجهات مميزة', latest: 'أحدث أدلة السفر', attractions: 'أبرز المعالم',
+  ar: { flights: 'رحلات إلى المغرب', blog: 'المدونة', home: 'الرئيسية', guides: 'أدلة السفر', dests: 'وجهات مميزة', latest: 'أحدث أدلة السفر', attractions: 'أبرز المعالم',
         homeTitle: 'مساعد السفر الذكي — طيران رخيص وفنادق وأدلة سفر',
         homeDesc: 'فاستامور مساعدك الشخصي للسفر بالذكاء الاصطناعي: قارن أسعار الطيران والفنادق والجولات والنقل من المطار، واقرأ أدلة سفر عملية.',
         homeH1: 'فاستامور — مساعد السفر الذكي',
         homeP: 'خطط لرحلتك بمحادثة بسيطة: يبحث فاستامور عن الرحلات والفنادق والجولات والنقل من المطار ويوجهك إلى أفضل العروض.',
         blogTitle: 'مدونة السفر — أدلة ونصائح وبرامج رحلات', blogDesc: 'أدلة سفر ونصائح للوجهات وبرامج رحلات من فاستامور، مساعد السفر الذكي.', blogH1: 'مدونة فاستامور للسفر',
         guide: 'دليل السفر', nf: 'الصفحة غير موجودة', nfP: 'تصفح أدلة السفر' },
-  fr: { blog: 'Blog', home: 'Accueil', guides: 'Guides de voyage', dests: 'Destinations populaires', latest: 'Derniers guides de voyage', attractions: 'Incontournables',
+  fr: { flights: 'Vols vers le Maroc', blog: 'Blog', home: 'Accueil', guides: 'Guides de voyage', dests: 'Destinations populaires', latest: 'Derniers guides de voyage', attractions: 'Incontournables',
         homeTitle: 'Assistant de voyage IA — Vols pas chers, hôtels et guides',
         homeDesc: 'Fastamor est votre assistant de voyage IA : comparez vols pas chers, hôtels, activités et transferts, et lisez des guides pratiques.',
         homeH1: 'Fastamor — votre assistant de voyage IA',
         homeP: 'Planifiez votre voyage en conversant : Fastamor trouve vols, hôtels, activités et transferts aéroport et vous oriente vers les meilleures offres.',
         blogTitle: 'Blog voyage — Guides, conseils et itinéraires', blogDesc: 'Guides de voyage, conseils et itinéraires par Fastamor, votre assistant de voyage IA.', blogH1: 'Le blog voyage Fastamor',
         guide: 'Guide de voyage', nf: 'Page introuvable', nfP: 'Voir nos guides de voyage' },
-  es: { blog: 'Blog', home: 'Inicio', guides: 'Guías de viaje', dests: 'Destinos populares', latest: 'Últimas guías de viaje', attractions: 'Imprescindibles',
+  es: { flights: 'Vuelos a Marruecos', blog: 'Blog', home: 'Inicio', guides: 'Guías de viaje', dests: 'Destinos populares', latest: 'Últimas guías de viaje', attractions: 'Imprescindibles',
         homeTitle: 'Asistente de viajes con IA — Vuelos baratos, hoteles y guías',
         homeDesc: 'Fastamor es tu asistente de viajes con IA: compara vuelos baratos, hoteles, actividades y traslados, y lee guías prácticas.',
         homeH1: 'Fastamor — tu asistente de viajes con IA',
@@ -142,7 +142,7 @@ function alternatesFor(path, langs, defaultLang) {
 }
 
 const nav = lang =>
-  `<nav><a href="${urlFor('/', lang)}">Fastamor</a> · <a href="${urlFor('/blog', lang)}">${UI[lang].blog}</a> · ` +
+  `<nav><a href="${urlFor('/', lang)}">Fastamor</a> · <a href="${urlFor('/blog', lang)}">${UI[lang].blog}</a> · <a href="${urlFor('/flights', lang)}">${UI[lang].flights}</a> · ` +
   LANGS.filter(l => l !== lang).map(l => `<a href="${urlFor('/', l)}" hreflang="${l}">${l.toUpperCase()}</a>`).join(' ') +
   `</nav>`;
 
