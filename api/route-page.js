@@ -106,6 +106,11 @@ const T = {
         updated: 'Actualizado', hub: 'Vuelos a Marruecos: guías de rutas', hubDesc: 'Guías de rutas entre Europa y Marruecos con las últimas tarifas.',
         ask: 'Planifica este viaje con el asistente IA de Fastamor', home: 'Inicio', routes: 'Rutas de vuelo', other: 'Otras rutas' },
 };
+const AIRLINES = { AT: 'Royal Air Maroc', '3O': 'Air Arabia Maroc', TO: 'Transavia France', HV: 'Transavia', FR: 'Ryanair', U2: 'easyJet', EC: 'easyJet Europe',
+  VY: 'Vueling', IB: 'Iberia', I2: 'Iberia Express', UX: 'Air Europa', V7: 'Volotea', AF: 'Air France', KL: 'KLM', SN: 'Brussels Airlines', TB: 'TUI fly Belgium',
+  OR: 'TUI fly Netherlands', X3: 'TUI fly', EW: 'Eurowings', LH: 'Lufthansa', W6: 'Wizz Air', W4: 'Wizz Air Malta', BJ: 'Nouvelair', TU: 'Tunisair', AH: 'Air Algérie',
+  TP: 'TAP Air Portugal', AZ: 'ITA Airways', LX: 'Swiss', TK: 'Turkish Airlines', PC: 'Pegasus', BY: 'TUI Airways', LS: 'Jet2', DY: 'Norwegian' };
+const airline = c => AIRLINES[c] || c || '';
 const LOCALE = { en: 'en-GB', ar: 'ar-MA', fr: 'fr-FR', es: 'es-ES' };
 const fmtDate = (iso, lang) => { try { return new Date(iso).toLocaleDateString(LOCALE[lang], { day: 'numeric', month: 'short', year: 'numeric' }); } catch { return iso.slice(0, 10); } };
 const fmtMonth = (ym, lang) => { try { return new Date(`${ym}-01T00:00:00Z`).toLocaleDateString(LOCALE[lang], { month: 'long', year: 'numeric', timeZone: 'UTC' }); } catch { return ym; } };
@@ -174,7 +179,7 @@ async function routePage(slug, lang, template) {
   const faresTable = hasFares
     ? `<table><thead><tr><th>${t.date}</th><th>${t.airline}</th><th>${t.stops}</th><th>${t.price}</th><th></th></tr></thead><tbody>` +
       fares.cheapest.map(f =>
-        `<tr><td>${esc(fmtDate(f.departure_at, lang))}</td><td>${esc(f.airline || '')}</td><td>${f.transfers ? esc(f.transfers) : t.direct}</td>` +
+        `<tr><td>${esc(fmtDate(f.departure_at, lang))}</td><td>${esc(airline(f.airline))}</td><td>${f.transfers ? esc(f.transfers) : t.direct}</td>` +
         `<td><strong>${esc(eur(f.price, lang))}</strong></td><td><a class="btn" rel="nofollow sponsored noopener" target="_blank" href="${esc(bookUrl(f, o, d))}">${t.book}</a></td></tr>`
       ).join('') + `</tbody></table>`
     : '';
@@ -186,7 +191,6 @@ async function routePage(slug, lang, template) {
     : '';
 
   const others = Object.entries(routes).filter(([s, x]) => s !== slug && routeLangs(x).includes(lang)).slice(0, 12);
-  const low = hasFares ? Math.min(...fares.cheapest.map(f => f.price)) : null;
 
   const body =
     `<div class="rp"><nav><a href="${urlFor('/', lang)}">Fastamor</a><a href="${urlFor('/flights', lang)}">${t.routes}</a>` +
@@ -208,8 +212,6 @@ async function routePage(slug, lang, template) {
       { '@type': 'ListItem', position: 3, name: c.title, item: url } ] },
     ...(c.faq?.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: lang,
       mainEntity: c.faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }] : []),
-    ...(low ? [{ '@context': 'https://schema.org', '@type': 'Product', name: c.title, description: c.description,
-      offers: { '@type': 'AggregateOffer', priceCurrency: 'EUR', lowPrice: low, offerCount: fares.cheapest.length } }] : []),
   ];
 
   return {
