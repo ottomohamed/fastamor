@@ -1,5 +1,6 @@
 // api/migrate-images.js — one-off copy of externally hosted images (temporary
-// lh3.googleusercontent.com links) into Fastamor's own Vercel Blob store.
+// lh3.googleusercontent.com links) into Fastamor's own private Vercel Blob store,
+// served from https://www.fastamor.com/media/<hash>.<ext> by api/media.js.
 //
 // Safety:
 // - Runs only on Vercel *preview* deployments, which are behind Vercel
@@ -9,6 +10,7 @@
 //
 // Usage (preview): GET /api/migrate-images?offset=0&limit=15  -> repeat with next offset.
 import { put, head } from '@vercel/blob';
+import { blobAuth } from './_lib/blob-auth.js';
 import { createHash } from 'node:crypto';
 
 const MIGRATE_HOSTS = /^(lh3\.googleusercontent\.com|i\.ibb\.co)$/i;
@@ -39,7 +41,8 @@ const EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'im
 
 export default async function handler(req, res) {
   if (process.env.VERCEL_ENV !== 'preview') return res.status(404).end();
-  if (!process.env.BLOB_READ_WRITE_TOKEN) return res.status(500).json({ error: 'Blob store not connected' });
+  const auth = blobAuth(req);
+  if (!auth) return res.status(500).json({ error: 'Blob store not connected', hasStoreId: !!process.env.BLOB_STORE_ID, hasOidcHeader: !!req.headers['x-vercel-oidc-token'] });
 
   const all = await collectUrls();
   const offset = Math.max(0, parseInt(req.query.offset || '0', 10));
@@ -56,14 +59,14 @@ export default async function handler(req, res) {
       const type = (r.headers.get('content-type') || 'image/jpeg').split(';')[0];
       if (!type.startsWith('image/')) throw new Error(`not an image: ${type}`);
       const pathname = `media/${id}.${EXT[type] || 'jpg'}`;
-      let blobUrl;
       try {
-        blobUrl = (await head(pathname)).url; // already copied
+        await head(pathname, auth); // already copied
       } catch {
         const buf = Buffer.from(await r.arrayBuffer());
-        blobUrl = (await put(pathname, buf, { access: 'public', contentType: type, addRandomSuffix: false, cacheControlMaxAge: 31536000 })).url;
+        await put(pathname, buf, { access: 'private', contentType: type, addRandomSuffix: false, allowOverwrite: true, cacheControlMaxAge: 31536000, ...auth });
       }
-      mapping[url] = blobUrl;
+      // Served by api/media.js from our own domain.
+      mapping[url] = `https://www.fastamor.com/${pathname}`;
     } catch (e) {
       failed[url] = String(e.message || e);
     }
