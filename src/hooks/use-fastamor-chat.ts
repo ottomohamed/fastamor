@@ -102,6 +102,16 @@ function cityFromCode(code?: string): string | undefined {
   return undefined;
 }
 
+/** Arabic city name for a code (first Arabic-script entry in CITY_TO_IATA). */
+function arabicCityFromCode(code?: string): string | undefined {
+  if (!code) return undefined;
+  const c = AIRPORT_TO_CITY[code] || code;
+  for (const [city, iata] of Object.entries(CITY_TO_IATA)) {
+    if (iata === c && /[\u0600-\u06FF]/.test(city)) return city;
+  }
+  return undefined;
+}
+
 function getDefaultDate(): string {
   const d = new Date();
   d.setDate(d.getDate() + 7);
@@ -240,7 +250,8 @@ export function useFastamorChat(service: string, lang: string) {
               if (rawDest) {
                 const city = cityFromCode(searchData.destination) || cityFromCode(rawDest.toUpperCase()) || rawDest;
                 // The model sometimes sends an airport code (e.g. FCO): show the city name instead.
-                setTripDest({ name: /^[A-Za-z]{3}$/.test(rawDest) ? city : rawDest, city });
+                const shown = /^[A-Za-z]{3}$/.test(rawDest) ? city : rawDest;
+                setTripDest({ name: lang === 'ar' ? (arabicCityFromCode(searchData.destination) || shown) : shown, city });
               }
               if (flights.length > 0) {
                 setFlightResults(flights);
@@ -254,7 +265,7 @@ export function useFastamorChat(service: string, lang: string) {
                 const searchUrl = fallbackUrl || `https://www.aviasales.com/search/${searchData.origin}${searchData.destination}1?marker=709105`;
                 setDynamicLinks([{ name: "Aviasales", desc: `${searchData.origin} → ${searchData.destination}`, url: searchUrl, icon: "✈️" }]);
                 setHasResults(true);
-                const noMsg = lang === "ar" ? "لم أجد رحلات مخزنة، ابحث مباشرة هنا" : "No cached results, search live here";
+                const noMsg = lang === "ar" ? "اطّلع على الأسعار الحالية لهذه الرحلة مباشرة على Aviasales." : lang === "fr" ? "Voyez les prix actuels de ce trajet directement sur Aviasales." : lang === "es" ? "Consulta los precios actuales de este trayecto directamente en Aviasales." : "See live prices for this route on Aviasales.";
                 messagesRef.current = [...withReply, { role: "assistant", content: noMsg }];
                 setMessages([...messagesRef.current]);
               }
