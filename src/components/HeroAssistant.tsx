@@ -52,6 +52,11 @@ const COPY: Record<L, {
   },
 };
 
+const AIRLINES: Record<string, string> = { AT: 'Royal Air Maroc', '3O': 'Air Arabia', TO: 'Transavia', HV: 'Transavia', FR: 'Ryanair', U2: 'easyJet', EC: 'easyJet',
+  VY: 'Vueling', IB: 'Iberia', UX: 'Air Europa', V7: 'Volotea', AF: 'Air France', KL: 'KLM', SN: 'Brussels Airlines', TB: 'TUI fly', EW: 'Eurowings',
+  LH: 'Lufthansa', W6: 'Wizz Air', TK: 'Turkish Airlines', PC: 'Pegasus', EK: 'Emirates', QR: 'Qatar Airways', MS: 'EgyptAir', SV: 'Saudia', FZ: 'flydubai' };
+const airlineName = (c: string) => AIRLINES[c] || c;
+
 const TABS = [
   { id: 'flight', Icon: Plane },
   { id: 'ferry', Icon: Ship },
@@ -220,7 +225,7 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
                     <div className="flex-1 min-w-0">
                       <div className="font-extrabold text-[15px] truncate">{f.origin} → {f.destination}</div>
                       <div className="text-xs text-[#14204A]/60 truncate">
-                        {f.airline} · {f.departure_time} · {f.is_direct || f.stops === '0' ? c.direct : c.stops(f.stops)}
+                        {airlineName(f.airline)} · {f.departure_time} · {f.is_direct || f.stops === '0' ? c.direct : c.stops(f.stops)}
                       </div>
                     </div>
                     <div className="text-end">
