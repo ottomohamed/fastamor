@@ -1,4 +1,5 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
+import { langFromPath, type Lang } from "@/lib/i18n-url";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,32 +21,40 @@ function LoadingSpinner() {
   );
 }
 
-function Router() {
+function LangRoutes({ lang, base }: { lang: Lang; base: string }) {
   return (
     <Switch>
-      <Route path="/" component={FastamorMain} />
-      <Route path="/blog">
+      <Route path={`${base}/blog`}>
         <Suspense fallback={<LoadingSpinner />}>
-          <BlogView />
+          <BlogView lang={lang} />
         </Suspense>
       </Route>
-      <Route path="/article/:slug">
+      <Route path={`${base}/article/:slug`}>
         {(params) => (
           <Suspense fallback={<LoadingSpinner />}>
-            <ArticleView slug={params.slug} />
+            <ArticleView key={`${lang}-${params.slug}`} slug={params.slug} lang={lang} />
           </Suspense>
         )}
       </Route>
-      <Route path="/destination/:slug">
+      <Route path={`${base}/destination/:slug`}>
         {(params) => (
           <Suspense fallback={<LoadingSpinner />}>
-            <DestinationView slug={params.slug} />
+            <DestinationView key={`${lang}-${params.slug}`} slug={params.slug} lang={lang} />
           </Suspense>
         )}
+      </Route>
+      <Route path={base || '/'}>
+        <FastamorMain initialLang={lang} />
       </Route>
       <Route component={NotFound} />
     </Switch>
   );
+}
+
+function Router() {
+  const [location] = useLocation();
+  const lang = langFromPath(location);
+  return <LangRoutes lang={lang} base={lang === 'en' ? '' : `/${lang}`} />;
 }
 
 function App() {

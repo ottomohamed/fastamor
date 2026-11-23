@@ -1,5 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
+import { localizedPath, type Lang } from '@/lib/i18n-url';
+
 import { supabase } from '@/lib/supabase';
 import { safeHtml } from '@/lib/sanitize';
 import { useDocumentMeta } from '@/hooks/use-document-meta';
@@ -34,11 +36,15 @@ interface Article {
   category: string;
 }
 
-export default function DestinationView({ slug }: { slug: string }) {
+export default function DestinationView({ slug, lang: urlLang = 'en' }: { slug: string; lang?: Lang }) {
+  const [, setLocation] = useLocation();
   const [destination, setDestination] = useState<Destination | null>(null);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
-  const [lang, setLang] = useState<'en' | 'ar'>('en');
+  // Destinations exist in English and Arabic; fr/es fall back to English.
+  const lang: 'en' | 'ar' = urlLang === 'ar' ? 'ar' : 'en';
+  const setLang = (l: 'en' | 'ar') => setLocation(localizedPath(`/destination/${slug}`, l));
+  const L = (p: string) => localizedPath(p, lang);
 
   useDocumentMeta({
     title: destination
@@ -87,7 +93,7 @@ export default function DestinationView({ slug }: { slug: string }) {
   if (!destination) return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
       <p className="text-2xl font-black mb-4">Destination not found</p>
-      <Link href="/blog" className="text-primary hover:underline">← Back</Link>
+      <Link href={L('/blog')} className="text-primary hover:underline">← Back</Link>
     </div>
   );
 
@@ -105,7 +111,7 @@ export default function DestinationView({ slug }: { slug: string }) {
       {/* Header */}
       <header className="bg-white border-b border-black/10 sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <Link href="/blog" className="flex items-center gap-2 text-sm text-muted hover:text-foreground">
+          <Link href={L('/blog')} className="flex items-center gap-2 text-sm text-muted hover:text-foreground">
             <ArrowLeft size={16} className={lang === 'ar' ? 'rotate-180' : ''}/>
             {t('الوجهات', 'Destinations')}
           </Link>
@@ -163,7 +169,7 @@ export default function DestinationView({ slug }: { slug: string }) {
                 <h2 className="text-xl font-black mb-4">{t('مقالات عن ' + name, 'Articles about ' + name)}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {articles.map(article => (
-                    <Link key={article.id} href={`/article/${article.slug}`} className="block group">
+                    <Link key={article.id} href={L(`/article/${article.slug}`)} className="block group">
                       <div className="rounded-xl overflow-hidden border border-border bg-white hover:shadow-md transition-shadow">
                         {article.featured_image && (
                           <img src={article.featured_image} alt="" className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500"/>
@@ -241,7 +247,7 @@ export default function DestinationView({ slug }: { slug: string }) {
             {/* AI Chat promo */}
             <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl text-center">
               <p className="font-bold text-sm mb-2">{t('خطط لرحلتك بالذكاء الاصطناعي', 'Plan your trip with AI')}</p>
-              <Link href="/" className="inline-flex items-center gap-1 text-primary text-sm font-medium hover:underline">
+              <Link href={L('/')} className="inline-flex items-center gap-1 text-primary text-sm font-medium hover:underline">
                 {t('تحدث مع فاستامور', 'Chat with Fastamor')} →
               </Link>
             </div>

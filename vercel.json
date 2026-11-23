@@ -21,6 +21,22 @@
       "destination": "/api/render?type=blog"
     },
     {
+      "source": "/:lang(ar|fr|es)",
+      "destination": "/api/render?type=home&lang=:lang"
+    },
+    {
+      "source": "/:lang(ar|fr|es)/article/:slug",
+      "destination": "/api/render?type=article&lang=:lang&slug=:slug"
+    },
+    {
+      "source": "/:lang(ar|fr|es)/destination/:slug",
+      "destination": "/api/render?type=destination&lang=:lang&slug=:slug"
+    },
+    {
+      "source": "/:lang(ar|fr|es)/blog",
+      "destination": "/api/render?type=blog&lang=:lang"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/app.html"
     }
@@ -81,6 +97,26 @@
     {
       "source": "/article/customs-guide-travel",
       "destination": "/article/customs-regulations-guide",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(ar|fr|es)/destination/dubai-uae",
+      "destination": "/:lang/destination/dubai",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(ar|fr|es)/destination/france-paris",
+      "destination": "/:lang/destination/paris",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(ar|fr|es)/article/traveler-health-guide-avoiding-diseases",
+      "destination": "/:lang/article/travel-health-guide",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(ar|fr|es)/article/customs-guide-travel",
+      "destination": "/:lang/article/customs-regulations-guide",
       "permanent": true
     }
   ]

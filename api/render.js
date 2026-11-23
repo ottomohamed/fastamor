@@ -72,21 +72,52 @@ function sanitize(html) {
     });
 }
 
-function pick(row, field, lang) {
-  return row[`${field}_${lang}`] || row[`${field}_en`] || row[`${field}_ar`] || '';
-}
+import { LANGS, MIN_BODY, isLang, urlFor, articleLangs, destinationLangs } from './_lib/i18n.js';
 
-function render(template, { title, description, url, image, lang = 'en', type = 'website', jsonLd, body, status }) {
+const UI = {
+  en: { blog: 'Blog', home: 'Home', guides: 'Travel guides', dests: 'Popular destinations', latest: 'Latest travel guides', attractions: 'Top attractions',
+        homeTitle: 'AI Travel Concierge — Cheap Flights, Hotels & Travel Guides',
+        homeDesc: 'Fastamor is your personal AI travel assistant: compare cheap flights, hotels, tours and transfers, and read practical travel guides.',
+        homeH1: 'Fastamor — your AI travel concierge',
+        homeP: 'Plan your trip in a conversation: Fastamor finds flights, hotels, tours and airport transfers and links you to the best offers.',
+        blogTitle: 'Travel Blog — Guides, Tips & Itineraries', blogDesc: 'Travel guides, destination tips and itineraries from Fastamor, your AI travel concierge.', blogH1: 'Fastamor Travel Blog',
+        guide: 'Travel Guide', nf: 'Page not found', nfP: 'Browse our travel guides' },
+  ar: { blog: 'المدونة', home: 'الرئيسية', guides: 'أدلة السفر', dests: 'وجهات مميزة', latest: 'أحدث أدلة السفر', attractions: 'أبرز المعالم',
+        homeTitle: 'مساعد السفر الذكي — طيران رخيص وفنادق وأدلة سفر',
+        homeDesc: 'فاستامور مساعدك الشخصي للسفر بالذكاء الاصطناعي: قارن أسعار الطيران والفنادق والجولات والنقل من المطار، واقرأ أدلة سفر عملية.',
+        homeH1: 'فاستامور — مساعد السفر الذكي',
+        homeP: 'خطط لرحلتك بمحادثة بسيطة: يبحث فاستامور عن الرحلات والفنادق والجولات والنقل من المطار ويوجهك إلى أفضل العروض.',
+        blogTitle: 'مدونة السفر — أدلة ونصائح وبرامج رحلات', blogDesc: 'أدلة سفر ونصائح للوجهات وبرامج رحلات من فاستامور، مساعد السفر الذكي.', blogH1: 'مدونة فاستامور للسفر',
+        guide: 'دليل السفر', nf: 'الصفحة غير موجودة', nfP: 'تصفح أدلة السفر' },
+  fr: { blog: 'Blog', home: 'Accueil', guides: 'Guides de voyage', dests: 'Destinations populaires', latest: 'Derniers guides de voyage', attractions: 'Incontournables',
+        homeTitle: 'Assistant de voyage IA — Vols pas chers, hôtels et guides',
+        homeDesc: 'Fastamor est votre assistant de voyage IA : comparez vols pas chers, hôtels, activités et transferts, et lisez des guides pratiques.',
+        homeH1: 'Fastamor — votre assistant de voyage IA',
+        homeP: 'Planifiez votre voyage en conversant : Fastamor trouve vols, hôtels, activités et transferts aéroport et vous oriente vers les meilleures offres.',
+        blogTitle: 'Blog voyage — Guides, conseils et itinéraires', blogDesc: 'Guides de voyage, conseils et itinéraires par Fastamor, votre assistant de voyage IA.', blogH1: 'Le blog voyage Fastamor',
+        guide: 'Guide de voyage', nf: 'Page introuvable', nfP: 'Voir nos guides de voyage' },
+  es: { blog: 'Blog', home: 'Inicio', guides: 'Guías de viaje', dests: 'Destinos populares', latest: 'Últimas guías de viaje', attractions: 'Imprescindibles',
+        homeTitle: 'Asistente de viajes con IA — Vuelos baratos, hoteles y guías',
+        homeDesc: 'Fastamor es tu asistente de viajes con IA: compara vuelos baratos, hoteles, actividades y traslados, y lee guías prácticas.',
+        homeH1: 'Fastamor — tu asistente de viajes con IA',
+        homeP: 'Planifica tu viaje conversando: Fastamor encuentra vuelos, hoteles, actividades y traslados y te lleva a las mejores ofertas.',
+        blogTitle: 'Blog de viajes — Guías, consejos e itinerarios', blogDesc: 'Guías de viaje, consejos e itinerarios de Fastamor, tu asistente de viajes con IA.', blogH1: 'El blog de viajes de Fastamor',
+        guide: 'Guía de viaje', nf: 'Página no encontrada', nfP: 'Ver nuestras guías de viaje' },
+};
+
+function render(template, { title, description, url, image, lang = 'en', type = 'website', jsonLd, body, status, alternates }) {
   const fullTitle = title.length <= 50 ? `${title} | Fastamor` : title;
   const desc = text(description).slice(0, 160);
   const head = [
     `<title>${esc(fullTitle)}</title>`,
     `<meta name="description" content="${esc(desc)}" />`,
     `<link rel="canonical" href="${esc(url)}" />`,
+    ...(alternates || []).map(a => `<link rel="alternate" hreflang="${a.hreflang}" href="${esc(a.href)}" />`),
     `<meta property="og:title" content="${esc(fullTitle)}" />`,
     `<meta property="og:description" content="${esc(desc)}" />`,
     `<meta property="og:url" content="${esc(url)}" />`,
     `<meta property="og:type" content="${type}" />`,
+    `<meta property="og:locale" content="${{ en: 'en_US', ar: 'ar_AR', fr: 'fr_FR', es: 'es_ES' }[lang]}" />`,
     `<meta property="og:image" content="${esc(image || DEFAULT_IMAGE)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     status === 404 ? `<meta name="robots" content="noindex" />` : '',
@@ -99,86 +130,117 @@ function render(template, { title, description, url, image, lang = 'en', type = 
     .replace(/<meta name="description"[^>]*>/, '')
     .replace(/<meta property="og:(title|description|type|image)"[^>]*>/g, '')
     .replace(/<meta name="twitter:card"[^>]*>/, '')
+    .replace(/<link rel="alternate" hreflang="x-default"[^>]*>/, '')
     .replace('</head>', `    ${head}\n  </head>`)
     .replace('<div id="root"></div>', `<div id="root">${body}</div>`);
 }
 
-const shellNav = `<nav><a href="/">Fastamor</a> · <a href="/blog">Blog</a></nav>`;
+function alternatesFor(path, langs, defaultLang) {
+  const list = langs.map(l => ({ hreflang: l, href: `${SITE}${urlFor(path, l)}` }));
+  list.push({ hreflang: 'x-default', href: `${SITE}${urlFor(path, defaultLang)}` });
+  return list;
+}
 
-async function articlePage(slug) {
+const nav = lang =>
+  `<nav><a href="${urlFor('/', lang)}">Fastamor</a> · <a href="${urlFor('/blog', lang)}">${UI[lang].blog}</a> · ` +
+  LANGS.filter(l => l !== lang).map(l => `<a href="${urlFor('/', l)}" hreflang="${l}">${l.toUpperCase()}</a>`).join(' ') +
+  `</nav>`;
+
+const redirect = to => ({ redirect: to });
+
+async function articlePage(slug, lang) {
   const rows = await rest('articles', `select=*&slug=eq.${encodeURIComponent(slug)}&status=eq.published&limit=1`);
   const a = rows?.[0];
   if (!a) return null;
-  const lang = a.body_en ? 'en' : 'ar';
-  const title = pick(a, 'title', lang);
-  const excerpt = pick(a, 'excerpt', lang);
-  const url = `${SITE}/article/${encodeURIComponent(a.slug)}`;
+  const langs = articleLangs(a);
+  if (!langs.length) return null;
+  const defaultLang = langs.includes('en') ? 'en' : langs[0];
+  const path = `/article/${encodeURIComponent(a.slug)}`;
+  if (!langs.includes(lang)) return redirect(urlFor(path, defaultLang));
+  const title = a[`title_${lang}`];
+  const excerpt = a[`excerpt_${lang}`] || '';
+  const url = `${SITE}${urlFor(path, lang)}`;
   return {
-    title, description: excerpt || text(pick(a, 'body', lang)), url, image: a.featured_image, lang, type: 'article',
+    title, description: excerpt || text(a[`body_${lang}`]), url, image: a.featured_image, lang, type: 'article',
+    alternates: alternatesFor(path, langs, defaultLang),
     jsonLd: {
-      '@context': 'https://schema.org', '@type': 'Article', headline: title, description: text(excerpt).slice(0, 300),
+      '@context': 'https://schema.org', '@type': 'Article', headline: title, inLanguage: lang, description: text(excerpt).slice(0, 300),
       image: a.featured_image || DEFAULT_IMAGE, datePublished: a.published_at, dateModified: a.updated_at || a.published_at,
       mainEntityOfPage: url, author: { '@type': 'Organization', name: 'Fastamor' },
       publisher: { '@type': 'Organization', name: 'Fastamor', logo: { '@type': 'ImageObject', url: DEFAULT_IMAGE } },
     },
-    body: `${shellNav}<article><h1>${esc(title)}</h1>${excerpt ? `<p>${esc(text(excerpt))}</p>` : ''}${sanitize(pick(a, 'body', lang))}</article>`,
+    body: `${nav(lang)}<article><h1>${esc(title)}</h1>${excerpt ? `<p>${esc(text(excerpt))}</p>` : ''}${sanitize(a[`body_${lang}`])}</article>`,
   };
 }
 
-async function destinationPage(slug) {
+async function destinationPage(slug, lang) {
   const rows = await rest('destinations', `select=*&slug=eq.${encodeURIComponent(slug)}&limit=1`);
   const d = rows?.[0];
   if (!d) return null;
-  const lang = d.description_en ? 'en' : 'ar';
-  const name = pick(d, 'name', lang);
-  const country = pick(d, 'country', lang);
-  const desc = pick(d, 'description', lang);
+  const langs = destinationLangs(d);
+  if (!langs.length) return null;
+  const defaultLang = langs.includes('en') ? 'en' : langs[0];
+  const path = `/destination/${encodeURIComponent(d.slug)}`;
+  if (!langs.includes(lang)) return redirect(urlFor(path, defaultLang));
+  const name = d[`name_${lang}`];
+  const country = d[`country_${lang}`] || '';
+  const desc = d[`description_${lang}`];
   const attractions = d[`popular_attractions_${lang}`] || [];
-  const arts = (await rest('articles', `select=slug,title_en,title_ar&destination_id=eq.${encodeURIComponent(d.id)}&status=eq.published&limit=12`)) || [];
-  const url = `${SITE}/destination/${encodeURIComponent(d.slug)}`;
-  const title = lang === 'ar' ? `${name}، ${country} — دليل السفر` : `${name}, ${country} — Travel Guide`;
+  const arts = (await rest('articles', `select=slug,title_${lang}&destination_id=eq.${encodeURIComponent(d.id)}&status=eq.published&limit=12`)) || [];
+  const url = `${SITE}${urlFor(path, lang)}`;
+  const title = lang === 'ar' ? `${name}${country ? `، ${country}` : ''} — ${UI.ar.guide}` : `${name}${country ? `, ${country}` : ''} — ${UI.en.guide}`;
   return {
-    title, description: desc, url, image: d.image_url, lang,
+    title, description: desc, url, image: d.image_url, lang, alternates: alternatesFor(path, langs, defaultLang),
     jsonLd: { '@context': 'https://schema.org', '@type': 'TouristDestination', name, description: text(desc).slice(0, 300), image: d.image_url || DEFAULT_IMAGE, url },
     body:
-      `${shellNav}<main><h1>${esc(title)}</h1>${sanitize(desc)}` +
-      (Array.isArray(attractions) && attractions.length ? `<h2>${lang === 'ar' ? 'أبرز المعالم' : 'Top attractions'}</h2><ul>${attractions.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '') +
-      (arts.length ? `<h2>${lang === 'ar' ? 'مقالات' : 'Guides'}</h2><ul>${arts.map(x => `<li><a href="/article/${esc(x.slug)}">${esc(x.title_en || x.title_ar)}</a></li>`).join('')}</ul>` : '') +
+      `${nav(lang)}<main><h1>${esc(title)}</h1>${sanitize(desc)}` +
+      (Array.isArray(attractions) && attractions.length ? `<h2>${UI[lang].attractions}</h2><ul>${attractions.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '') +
+      (arts.filter(x => x[`title_${lang}`]).length
+        ? `<h2>${UI[lang].guides}</h2><ul>${arts.filter(x => x[`title_${lang}`]).map(x => `<li><a href="${urlFor(`/article/${esc(x.slug)}`, lang)}">${esc(x[`title_${lang}`])}</a></li>`).join('')}</ul>`
+        : '') +
       `</main>`,
   };
 }
 
-async function homePage() {
-  const arts = (await rest('articles', 'select=slug,title_en,title_ar&status=eq.published&order=published_at.desc&limit=12')) || [];
-  const dests = (await rest('destinations', 'select=slug,name_en,name_ar&limit=100')) || [];
+// Articles that have a publishable version in `lang` (titles only for listing).
+async function listArticles(lang, limit) {
+  const rows = (await rest('articles', `select=slug,title_${lang},excerpt_${lang},body_${lang}&status=eq.published&order=published_at.desc&limit=${limit}`)) || [];
+  return rows.filter(a => (a[`body_${lang}`] || '').length >= MIN_BODY && a[`title_${lang}`]);
+}
+async function listDestinations(lang) {
+  const dl = lang === 'ar' ? 'ar' : 'en';
+  const rows = (await rest('destinations', `select=slug,name_${dl}&limit=100`)) || [];
+  return { dl, rows: rows.filter(d => d[`name_${dl}`] && !['dubai-uae', 'france-paris'].includes(d.slug)) };
+}
+
+async function homePage(lang) {
+  const t = UI[lang];
+  const arts = (await listArticles(lang, 60)).slice(0, 12);
+  const { dl, rows: dests } = await listDestinations(lang);
   return {
-    title: 'AI Travel Concierge — Cheap Flights, Hotels & Travel Guides',
-    description: 'Fastamor is your personal AI travel assistant: compare cheap flights, hotels, tours and transfers, and read practical travel guides.',
-    url: `${SITE}/`,
-    jsonLd: { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Fastamor', url: `${SITE}/` },
+    title: t.homeTitle, description: t.homeDesc, url: `${SITE}${urlFor('/', lang)}`, lang,
+    alternates: alternatesFor('/', LANGS, 'en'),
+    jsonLd: { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Fastamor', url: `${SITE}${urlFor('/', lang)}`, inLanguage: lang },
     body:
-      `${shellNav}<main><h1>Fastamor — your AI travel concierge</h1>` +
-      `<p>Plan your trip in a conversation: Fastamor finds flights, hotels, tours and airport transfers and links you to the best offers.</p>` +
-      `<h2>Popular destinations</h2><ul>` +
-      dests.filter(d => !['dubai-uae', 'france-paris'].includes(d.slug)).map(d => `<li><a href="/destination/${esc(d.slug)}">${esc(d.name_en || d.name_ar)}</a></li>`).join('') +
-      `</ul><h2>Latest travel guides</h2><ul>` +
-      arts.map(a => `<li><a href="/article/${esc(a.slug)}">${esc(a.title_en || a.title_ar)}</a></li>`).join('') +
-      `</ul></main>`,
+      `${nav(lang)}<main><h1>${esc(t.homeH1)}</h1><p>${esc(t.homeP)}</p>` +
+      `<h2>${t.dests}</h2><ul>${dests.map(d => `<li><a href="${urlFor(`/destination/${esc(d.slug)}`, dl)}">${esc(d[`name_${dl}`])}</a></li>`).join('')}</ul>` +
+      (arts.length ? `<h2>${t.latest}</h2><ul>${arts.map(a => `<li><a href="${urlFor(`/article/${esc(a.slug)}`, lang)}">${esc(a[`title_${lang}`])}</a></li>`).join('')}</ul>` : '') +
+      `</main>`,
   };
 }
 
-async function blogPage() {
-  const arts = (await rest('articles', 'select=slug,title_en,title_ar,excerpt_en,excerpt_ar&status=eq.published&order=published_at.desc&limit=100')) || [];
-  const dests = (await rest('destinations', 'select=slug,name_en,name_ar&limit=100')) || [];
+async function blogPage(lang) {
+  const t = UI[lang];
+  const arts = await listArticles(lang, 200);
+  const { dl, rows: dests } = await listDestinations(lang);
   return {
-    title: 'Travel Blog — Guides, Tips & Itineraries',
-    description: 'Travel guides, destination tips and itineraries from Fastamor, your AI travel concierge.',
-    url: `${SITE}/blog`,
+    title: t.blogTitle, description: t.blogDesc, url: `${SITE}${urlFor('/blog', lang)}`, lang,
+    alternates: alternatesFor('/blog', LANGS, 'en'),
     body:
-      `${shellNav}<main><h1>Fastamor Travel Blog</h1><ul>` +
-      arts.map(a => `<li><a href="/article/${esc(a.slug)}">${esc(a.title_en || a.title_ar)}</a> — ${esc(text(a.excerpt_en || a.excerpt_ar).slice(0, 140))}</li>`).join('') +
-      `</ul><h2>Destinations</h2><ul>` +
-      dests.filter(d => !['dubai-uae', 'france-paris'].includes(d.slug)).map(d => `<li><a href="/destination/${esc(d.slug)}">${esc(d.name_en || d.name_ar)}</a></li>`).join('') +
+      `${nav(lang)}<main><h1>${esc(t.blogH1)}</h1><ul>` +
+      arts.map(a => `<li><a href="${urlFor(`/article/${esc(a.slug)}`, lang)}">${esc(a[`title_${lang}`])}</a> — ${esc(text(a[`excerpt_${lang}`]).slice(0, 140))}</li>`).join('') +
+      `</ul><h2>${t.dests}</h2><ul>` +
+      dests.map(d => `<li><a href="${urlFor(`/destination/${esc(d.slug)}`, dl)}">${esc(d[`name_${dl}`])}</a></li>`).join('') +
       `</ul></main>`,
   };
 }
@@ -186,6 +248,7 @@ async function blogPage() {
 export default async function handler(req, res) {
   const type = String(req.query.type || '');
   const slug = String(req.query.slug || '').slice(0, 200);
+  const lang = isLang(req.query.lang) ? req.query.lang : 'en';
   let template;
   try {
     template = await getTemplate(req);
@@ -194,18 +257,24 @@ export default async function handler(req, res) {
   }
 
   let page = null;
-  if (type === 'article' && slug) page = await articlePage(slug);
-  else if (type === 'destination' && slug) page = await destinationPage(slug);
-  else if (type === 'blog') page = await blogPage();
-  else if (type === 'home') page = await homePage();
+  if (type === 'article' && slug) page = await articlePage(slug, lang);
+  else if (type === 'destination' && slug) page = await destinationPage(slug, lang);
+  else if (type === 'blog') page = await blogPage(lang);
+  else if (type === 'home') page = await homePage(lang);
+
+  if (page?.redirect) {
+    res.setHeader('Cache-Control', 's-maxage=600');
+    res.setHeader('Location', page.redirect);
+    return res.status(301).end();
+  }
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   if (!page) {
     res.setHeader('Cache-Control', 's-maxage=300');
     return res.status(404).send(
       render(template, {
-        title: 'Page not found', description: 'This page does not exist.', url: `${SITE}/`, status: 404,
-        body: `${shellNav}<main><h1>404 — Page not found</h1><p><a href="/blog">Browse our travel guides</a></p></main>`,
+        title: UI[lang].nf, description: UI[lang].nf, url: `${SITE}${urlFor('/', lang)}`, status: 404, lang,
+        body: `${nav(lang)}<main><h1>404 — ${esc(UI[lang].nf)}</h1><p><a href="${urlFor('/blog', lang)}">${esc(UI[lang].nfP)}</a></p></main>`,
       })
     );
   }
