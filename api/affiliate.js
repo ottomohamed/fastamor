@@ -6,79 +6,62 @@ const MARKER = process.env.TRAVELPAYOUTS_MARKER || '709105';
 const TRS = process.env.TRAVELPAYOUTS_TRS || '514622';
 
 // ---------------------------------------------------------------------------
-// GET /go/:host/:code?s=<subid>  (rewritten to /api/affiliate?host=&code=&s=)
-// Resolves a Travelpayouts short link (https://<host>.tpx.gr/<code>) to its long
-// tp.media form and stamps the SubID into the marker ("709105.<subid>", the
-// format Travelpayouts documents), so every click is attributed to a page/feature.
-// Resolutions are cached in memory and the 302 is cached at the edge for a day.
-const resolved = new Map();
-const SAFE = /^[a-z0-9-]{1,40}$/;
-const CODE = /^[A-Za-z0-9]{4,20}$/;
+// GET /go/:partner?s=<subid>[&to=<url on the partner's site>]
+//   (rewritten to /api/affiliate?p=:partner)
+// Asks the Travelpayouts Links API for a partner link carrying our SubID, so each
+// click is attributed to the page/feature that produced it (Reports -> group by
+// SubID). Links are cached in memory and the 302 at the edge; if the API is
+// unavailable we fall back to the plain short link, so the user never hits an error.
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 
-async function resolveShort(host, code) {
-  const key = `${host}/${code}`;
-  if (resolved.has(key)) return resolved.get(key);
-  // Follow only the short-link hop(s) and stop at Travelpayouts' own click
-  // redirector (tp.media / *.travelpayouts.com). That hop records the click and
-  // creates a fresh click id per visitor, so we must never go past it or cache
-  // anything beyond it.
-  let url = host === '_' ? `https://tpx.gr/${code}` : `https://${host}.tpx.gr/${code}`;
-  const chain = [url];
-  for (let i = 0; i < 3; i++) {
-    const r = await fetch(url, { redirect: 'manual', headers: { 'User-Agent': 'Mozilla/5.0 FastamorGo' } });
-    const loc = r.headers.get('location');
-    if (!loc) break;
-    url = new URL(loc, url).toString();
-    chain.push(url);
-    const h = new URL(url).hostname;
-    if (!/(^|\.)tpx\.gr$|(^|\.)tp\.st$/.test(h)) break; // left the shortener
+const PARTNERS = JSON.parse(readFileSync(path.join(process.cwd(), 'api/_data/partners.json'), 'utf8'));
+
+const linkCache = new Map();
+
+async function partnerLink(partner, subid, to) {
+  const p = PARTNERS[partner];
+  const key = `${partner}|${subid}|${to || ''}`;
+  if (linkCache.has(key)) return linkCache.get(key);
+  let url = p.short;
+  if (TOKEN && (subid || to)) {
+    const r = await fetch('https://api.travelpayouts.com/links/v1/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Access-Token': TOKEN },
+      body: JSON.stringify({ trs: Number(TRS), marker: Number(MARKER), shorten: true,
+        links: [{ url: to || p.url, ...(subid ? { sub_id: subid } : {}) }] }),
+    });
+    const data = await r.json().catch(() => null);
+    const l = data?.result?.links?.[0];
+    if (l?.code === 'success' && l.partner_url) url = l.partner_url;
   }
-  const h = new URL(url).hostname;
-  const ok = /(^|\.)(tp\.media|travelpayouts\.com|tp\.click)$/.test(h);
-  const out = { url: ok ? url : null, chain };
-  if (ok) resolved.set(key, out);
-  return out;
-}
-
-function stampSubid(url, subid) {
-  if (!subid) return url;
-  try {
-    const u = new URL(url);
-    const m = u.searchParams.get('marker');
-    if (m && /^\d+$/.test(m)) { u.searchParams.set('marker', `${m}.${subid}`); return u.toString(); }
-  } catch {}
+  linkCache.set(key, url);
   return url;
 }
 
-const ALL_SHORT = ['aviasales/yQxrYmk7','klook/vRUzaJbI','searadar/WC89iS5m','ticketnetwork/Nfh474HV','_/n6krgEY3','tiqets/ot4HK9Pf','gettransfer/9poAnD5l','wegotrip/DyN0pkVH','intui/kguAoKIU','economybookings/ONZ6dOjM','qeeq/pTbTtERj','yesim/9gzdax7m','kiwitaxi/Y6yrFeYN','localrent/qr92Puo9','compensair/MGUDRrY2','airhelp/baeI5YIf'];
-
 async function go(req, res) {
-  if (req.query.host === 'all' && req.query.debug === '1' && process.env.VERCEL_ENV === 'preview') {
-    const out = {};
-    await Promise.all(ALL_SHORT.map(async k => { const [h, c] = k.split('/'); try { const r = await resolveShort(h, c); out[k] = r.chain[r.chain.length - 1]; } catch (e) { out[k] = 'ERR ' + e.message; } }));
-    return res.json(out);
-  }
-  const host = String(req.query.host || '');
-  const code = String(req.query.code || '');
+  const partner = String(req.query.p || '').toLowerCase();
+  if (!Object.hasOwn(PARTNERS, partner)) return res.status(404).end();
   const subid = String(req.query.s || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 60);
-  if (!(SAFE.test(host) || host === '_') || !CODE.test(code)) return res.status(404).end();
-  const short = host === '_' ? `https://tpx.gr/${code}` : `https://${host}.tpx.gr/${code}`;
-  let target = short;
-  let chain = [];
-  try {
-    const r = await resolveShort(host, code);
-    chain = r.chain;
-    if (r.url) target = stampSubid(r.url, subid);
-  } catch {}
-  if (req.query.debug === '1' && process.env.VERCEL_ENV === 'preview') return res.json({ short, target, chain });
+  // Deep links are only allowed on the partner's own domain.
+  let to = '';
+  if (req.query.to) {
+    try {
+      const u = new URL(String(req.query.to));
+      const base = new URL(PARTNERS[partner].url).hostname.replace(/^www\./, '');
+      if (u.protocol === 'https:' && (u.hostname === base || u.hostname.endsWith('.' + base))) to = u.toString();
+    } catch {}
+  }
+  let target = PARTNERS[partner].short;
+  try { target = await partnerLink(partner, subid, to); } catch {}
+  if (req.query.debug === '1' && process.env.VERCEL_ENV === 'preview') return res.json({ partner, subid, to, target });
   res.setHeader('Cache-Control', 'public, s-maxage=86400, max-age=0');
   res.setHeader('X-Robots-Tag', 'noindex, nofollow');
-  res.setHeader('Referrer-Policy', 'no-referrer-when-downgrade');
   return res.redirect(302, target);
 }
 
 export default async function handler(req, res) {
-  if (req.method === 'GET' && req.query.host) return go(req, res);
+  if (req.method === 'GET' && req.query.p) return go(req, res);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
