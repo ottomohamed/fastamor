@@ -5,6 +5,10 @@
       "destination": "/api/sitemap"
     },
     {
+      "source": "/",
+      "destination": "/api/render?type=home"
+    },
+    {
       "source": "/article/:slug",
       "destination": "/api/render?type=article&slug=:slug"
     },
@@ -47,6 +51,18 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/destination/dubai-uae",
+      "destination": "/destination/dubai",
+      "permanent": true
+    },
+    {
+      "source": "/destination/france-paris",
+      "destination": "/destination/paris",
+      "permanent": true
     }
   ]
 }

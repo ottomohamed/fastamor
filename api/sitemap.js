@@ -1,5 +1,7 @@
 // api/sitemap.js — dynamic sitemap built from published content in Supabase.
 const SITE = 'https://www.fastamor.com';
+// Slugs that 301-redirect elsewhere (see vercel.json) must not be listed.
+const REDIRECTED = new Set(['dubai-uae', 'france-paris']);
 
 async function fetchRows(table, select, filter = '') {
   const url = process.env.VITE_SUPABASE_URL;
@@ -31,7 +33,7 @@ export default async function handler(req, res) {
   const urls = [
     { loc: `${SITE}/`, changefreq: 'daily', priority: '1.0' },
     { loc: `${SITE}/blog`, changefreq: 'daily', priority: '0.8' },
-    ...destinations.filter(d => d.slug).map(d => ({
+    ...destinations.filter(d => d.slug && !REDIRECTED.has(d.slug)).map(d => ({
       loc: `${SITE}/destination/${encodeURIComponent(d.slug)}`, lastmod: day(d.updated_at), changefreq: 'weekly', priority: '0.8',
     })),
     ...articles.filter(a => a.slug).map(a => ({

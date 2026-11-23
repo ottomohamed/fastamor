@@ -148,6 +148,25 @@ async function destinationPage(slug) {
   };
 }
 
+async function homePage() {
+  const arts = (await rest('articles', 'select=slug,title_en,title_ar&status=eq.published&order=published_at.desc&limit=12')) || [];
+  const dests = (await rest('destinations', 'select=slug,name_en,name_ar&limit=100')) || [];
+  return {
+    title: 'AI Travel Concierge — Cheap Flights, Hotels & Travel Guides',
+    description: 'Fastamor is your personal AI travel assistant: compare cheap flights, hotels, tours and transfers, and read practical travel guides.',
+    url: `${SITE}/`,
+    jsonLd: { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Fastamor', url: `${SITE}/` },
+    body:
+      `${shellNav}<main><h1>Fastamor — your AI travel concierge</h1>` +
+      `<p>Plan your trip in a conversation: Fastamor finds flights, hotels, tours and airport transfers and links you to the best offers.</p>` +
+      `<h2>Popular destinations</h2><ul>` +
+      dests.filter(d => !['dubai-uae', 'france-paris'].includes(d.slug)).map(d => `<li><a href="/destination/${esc(d.slug)}">${esc(d.name_en || d.name_ar)}</a></li>`).join('') +
+      `</ul><h2>Latest travel guides</h2><ul>` +
+      arts.map(a => `<li><a href="/article/${esc(a.slug)}">${esc(a.title_en || a.title_ar)}</a></li>`).join('') +
+      `</ul></main>`,
+  };
+}
+
 async function blogPage() {
   const arts = (await rest('articles', 'select=slug,title_en,title_ar,excerpt_en,excerpt_ar&status=eq.published&order=published_at.desc&limit=100')) || [];
   const dests = (await rest('destinations', 'select=slug,name_en,name_ar&limit=100')) || [];
@@ -159,7 +178,7 @@ async function blogPage() {
       `${shellNav}<main><h1>Fastamor Travel Blog</h1><ul>` +
       arts.map(a => `<li><a href="/article/${esc(a.slug)}">${esc(a.title_en || a.title_ar)}</a> — ${esc(text(a.excerpt_en || a.excerpt_ar).slice(0, 140))}</li>`).join('') +
       `</ul><h2>Destinations</h2><ul>` +
-      dests.map(d => `<li><a href="/destination/${esc(d.slug)}">${esc(d.name_en || d.name_ar)}</a></li>`).join('') +
+      dests.filter(d => !['dubai-uae', 'france-paris'].includes(d.slug)).map(d => `<li><a href="/destination/${esc(d.slug)}">${esc(d.name_en || d.name_ar)}</a></li>`).join('') +
       `</ul></main>`,
   };
 }
@@ -178,6 +197,7 @@ export default async function handler(req, res) {
   if (type === 'article' && slug) page = await articlePage(slug);
   else if (type === 'destination' && slug) page = await destinationPage(slug);
   else if (type === 'blog') page = await blogPage();
+  else if (type === 'home') page = await homePage();
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   if (!page) {
