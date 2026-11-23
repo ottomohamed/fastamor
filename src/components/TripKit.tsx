@@ -23,7 +23,7 @@ export function TripKit({ dest, lang, page }: { dest: TripDest; lang: string; pa
   const c = COPY[l];
   const show = dest.name;
   const items = [
-    { key: 'hotel', icon: '🏨', name: c.hotel, desc: c.hotelD(show), url: hotelSearchUrl(dest.city), rel: 'nofollow noopener' },
+    { key: 'hotel', icon: '🏨', name: c.hotel, desc: c.hotelD(show), url: hotelSearchUrl(dest.city, sid(page, 'tripkit-hotel', l), dest.checkin), rel: 'sponsored nofollow noopener' },
     { key: 'esim', icon: '📶', name: c.esim, desc: c.esimD, url: aff('https://yesim.tpx.gr/9gzdax7m', sid(page, 'tripkit-esim', l)), rel: 'sponsored nofollow noopener' },
     { key: 'transfer', icon: '🚕', name: c.transfer, desc: c.transferD, url: aff('https://kiwitaxi.tpx.gr/Y6yrFeYN', sid(page, 'tripkit-transfer', l)), rel: 'sponsored nofollow noopener' },
     { key: 'tours', icon: '🎟️', name: c.tours, desc: c.toursD(show), url: aff('https://klook.tpx.gr/vRUzaJbI', sid(page, 'tripkit-tours', l)), rel: 'sponsored nofollow noopener' },

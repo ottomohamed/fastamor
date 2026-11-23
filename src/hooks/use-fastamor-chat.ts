@@ -7,7 +7,7 @@ import { findPort, autoCorrectPortName } from '@/lib/ferryPorts';
 export type Message = { role: 'user' | 'assistant'; content: string; };
 export type AffiliateLink = { name: string; desc: string; url: string; icon: string; };
 /** name: as the user wrote it (for display); city: English city name (for partner searches). */
-export type TripDest = { name: string; city: string };
+export type TripDest = { name: string; city: string; checkin?: string };
 export type FlightResult = {
   id: string; airline: string; airline_logo: string;
   origin: string; destination: string; departure_time: string;
@@ -55,7 +55,7 @@ const CITY_TO_IATA: Record<string, string> = {
 };
 
 const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
-  hotel: [{ name: "Booking.com", desc: "Search hotels and apartments", url: "https://www.booking.com/", icon: "" }],
+  hotel: [{ name: "Hotels (Stay22)", desc: "Hotels and apartments, best price across sites", url: "https://www.stay22.com/allez/booking?aid=fastamor&link=https%3A%2F%2Fwww.booking.com%2F", icon: "" }],
   taxi: [
     { name: "Kiwitaxi", desc: "Pre-booked airport transfers", url: "https://kiwitaxi.tpx.gr/Y6yrFeYN", icon: "" },
     { name: "Welcome Pickups", desc: "Airport pickup with a local driver", url: "https://tpx.gr/n6krgEY3", icon: "" },
@@ -251,7 +251,7 @@ export function useFastamorChat(service: string, lang: string) {
                 const city = cityFromCode(searchData.destination) || cityFromCode(rawDest.toUpperCase()) || rawDest;
                 // The model sometimes sends an airport code (e.g. FCO): show the city name instead.
                 const shown = /^[A-Za-z]{3}$/.test(rawDest) ? city : rawDest;
-                setTripDest({ name: lang === 'ar' ? (arabicCityFromCode(searchData.destination) || shown) : shown, city });
+                setTripDest({ name: lang === 'ar' ? (arabicCityFromCode(searchData.destination) || shown) : shown, city, checkin: searchData.date });
               }
               if (flights.length > 0) {
                 setFlightResults(flights);

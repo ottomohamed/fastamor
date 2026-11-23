@@ -39,7 +39,7 @@ export const SERVICES = {
     title: "Hotels",
     icon: "Building2",
     links: [
-      { name: "Booking.com", url: "https://www.booking.com/", icon: "🏨", desc: "Search hotels and apartments" },
+      { name: "Hotels (Stay22)", url: "https://www.stay22.com/allez/booking?aid=fastamor&link=https%3A%2F%2Fwww.booking.com%2F", icon: "🏨", desc: "Hotels and apartments, best price across sites" },
     ],
     greetings: {
       en: "Hi! I'm Fastamor. Tell me your destination and dates. I'll find top hotels for you!",
