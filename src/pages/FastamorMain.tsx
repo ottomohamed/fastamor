@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { LandingView } from '@/views/LandingView';
-import { AppView } from '@/views/AppView';
-import { PrivacyView } from '@/views/PrivacyView';
-import AdminView from '@/views/AdminView';
-import AdminGate from '@/components/AdminGate';
+
+// Loaded on demand: not needed for the first paint of the homepage.
+const AppView = lazy(() => import('@/views/AppView').then(m => ({ default: m.AppView })));
+const PrivacyView = lazy(() => import('@/views/PrivacyView').then(m => ({ default: m.PrivacyView })));
+const AdminView = lazy(() => import('@/views/AdminView'));
+const AdminGate = lazy(() => import('@/components/AdminGate'));
 import { initTracking } from '@/lib/tracking';
 import { I18N } from '@/lib/data';
 import { useLocation } from 'wouter';
@@ -48,7 +50,7 @@ export default function FastamorMain({ initialLang = 'en' }: { initialLang?: Lan
   };
 
   return (
-    <>
+    <Suspense fallback={<div className="min-h-screen bg-surface" aria-busy="true" />}>
       {view === 'landing' && (
         <LandingView onOpenApp={handleOpenApp} lang={lang} setLang={setLang}
           onOpenPrivacy={() => { setView('privacy'); window.scrollTo(0,0); }}
@@ -66,6 +68,6 @@ export default function FastamorMain({ initialLang = 'en' }: { initialLang?: Lan
           <AdminView onClose={() => { setView('landing'); window.scrollTo(0,0); }} />
         </AdminGate>
       )}
-    </>
+    </Suspense>
   );
 }

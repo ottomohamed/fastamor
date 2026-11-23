@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plane, Building2, Ticket, Car, Bus, Ship, ArrowLeft, Mic, Send, ExternalLink, MapPin, Sparkles, Globe } from 'lucide-react';
 import { I18N, SERVICES, AFFILIATE_LINKS } from '@/lib/data';
-import { trackClick } from '@/lib/tracking';
+import { openTracked, trackClick } from '@/lib/tracking';
 import { useFastamorChat, detectService } from '@/hooks/use-fastamor-chat';
 import type { FlightResult } from '@/hooks/use-fastamor-chat';
 import { useSpeech } from '@/hooks/use-speech';
@@ -80,7 +80,7 @@ function FlightCard({ flight, lang }: { flight: FlightResult; lang: string }) {
         </div>
         <div className="text-right shrink-0">
           <div className="text-2xl font-black text-[#1b1c19]">${flight.price}</div>
-          <button onClick={() => { trackClick(flight.booking_url); window.open(flight.booking_url, '_blank'); }}
+          <button onClick={() => { openTracked(flight.booking_url); }}
             className="mt-1 bg-[#00685f] text-white text-xs font-bold px-3 py-2 rounded-xl hover:bg-[#005049] transition-colors flex items-center gap-1">
             {bookLabel} <ExternalLink size={10}/>
           </button>
@@ -186,7 +186,7 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex" style={{ background: '#fbf9f3', fontFamily: "'Inter', sans-serif" }} dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="fixed inset-0 z-50 flex" style={{ background: '#fbf9f3' }} dir={isRtl ? 'rtl' : 'ltr'}>
 
       {/* ── LEFT SIDEBAR */}
       <aside className="hidden lg:flex flex-col w-72 h-full border-r border-[#e4e2dd] bg-[#fbf9f3] p-6 gap-5 overflow-y-auto">
@@ -219,7 +219,7 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
           <p className="text-[10px] font-bold text-[#6d7a77] uppercase tracking-widest mb-3">Partner Deals</p>
           <div className="space-y-3">
             {SIDEBAR_LINKS.map(link => (
-              <button key={link.name} onClick={() => { trackClick(link.url); window.open(link.url, '_blank'); }}
+              <button key={link.name} onClick={() => { openTracked(link.url); }}
                 className="w-full flex items-center gap-3 p-3 bg-white border border-[#e4e2dd] rounded-xl hover:shadow-sm transition-all text-left group">
                 <span className="text-xl">{link.icon}</span>
                 <div className="flex-1 min-w-0">
@@ -296,7 +296,7 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
                   Voyager Concierge
                   <div className="w-8 h-px bg-[#00685f]"/>
                 </div>
-                <h2 className="text-3xl font-black text-[#1b1c19] mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <h2 className="text-3xl font-black text-[#1b1c19] mb-3">
                   {greetings[lang] || greetings.en}
                 </h2>
                 <p className="text-[#6d7a77] text-sm max-w-md mx-auto mb-10">{subtitles[lang] || subtitles.en}</p>
@@ -366,7 +366,7 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
             {hasResults && dynamicLinks.length > 0 && flightResults.length === 0 && (
               <div className="grid grid-cols-1 gap-2">
                 {dynamicLinks.map((link, i) => (
-                  <button key={i} onClick={() => { trackClick(link.url); window.open(link.url, '_blank'); }}
+                  <button key={i} onClick={() => { openTracked(link.url); }}
                     className="flex items-center gap-3 p-4 bg-white border border-[#e4e2dd] rounded-xl hover:border-[#00685f] hover:bg-[#e1f5ee] transition-all text-left group shadow-sm">
                     <span className="text-xl">{link.icon}</span>
                     <div className="flex-1 min-w-0">
@@ -453,7 +453,7 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
       {/* ── RIGHT PANEL */}
       <aside className="hidden xl:flex w-80 h-full border-l border-[#e4e2dd] bg-[#f5f3ee] p-6 flex-col gap-6 overflow-y-auto">
         <div>
-          <h2 className="text-2xl font-black text-[#00685f] mb-2 leading-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <h2 className="text-2xl font-black text-[#00685f] mb-2 leading-tight">
             Your Digital Curator
           </h2>
           <p className="text-sm text-[#3d4947] leading-relaxed">
@@ -490,7 +490,7 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
             alt="Dubai" className="w-full h-44 object-cover group-hover:scale-110 transition-transform duration-700"/>
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
             <p className="text-white/70 text-[10px] uppercase tracking-widest font-bold mb-1">Spotlight</p>
-            <h3 className="text-white text-base font-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <h3 className="text-white text-base font-black">
               {lang === 'ar' ? 'اكتشف دبي 2026' : 'Discover Dubai 2026'}
             </h3>
           </div>

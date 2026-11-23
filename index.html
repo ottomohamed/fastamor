@@ -13,16 +13,18 @@
     <meta property="og:image" content="https://i.ibb.co/x8sSqTDj/1978.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="alternate" hreflang="x-default" href="https://www.fastamor.com/" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;600;800;900&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
-    <script data-noptimize="1" data-cfasync="false" data-no-defer="1">
-      (function () {
-        var script = document.createElement("script");
-        script.async = 1;
-        script.src = 'https://tp-em.com/NTE0NjIy.js?t=514622';
-        document.head.appendChild(script);
-      })();
+    <link rel="preload" href="/fonts/cairo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/fonts/cairo.css">
+    <script>
+      // Travelpayouts Drive: load after the page is interactive so it never blocks start-up.
+      window.addEventListener('load', function () {
+        (window.requestIdleCallback || function (f) { setTimeout(f, 1500); })(function () {
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://tp-em.com/NTE0NjIy.js?t=514622';
+          document.head.appendChild(s);
+        });
+      });
     </script>
   </head>
   <body class="bg-[#FFFDF7] m-0 p-0">

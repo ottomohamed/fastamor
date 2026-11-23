@@ -5,6 +5,7 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { LANGS, isLang, urlFor } from './_lib/i18n.js';
+import { staticShell } from './_lib/static-shell.js';
 
 const SITE = 'https://www.fastamor.com';
 const IMAGE = 'https://i.ibb.co/x8sSqTDj/1978.png';
@@ -23,24 +24,24 @@ async function getTemplate(req) {
   if (templateCache) return templateCache;
   try {
     const mod = await import('./_lib/template.generated.js');
-    if (mod.default) return (templateCache = mod.default);
+    if (mod.default) return (templateCache = staticShell(mod.default));
   } catch {}
   const r = await fetch(`https://${req.headers.host}/app.html`);
-  return (templateCache = await r.text());
+  return (templateCache = staticShell(await r.text()));
 }
 
 // Travelpayouts widgets (campaign_id / promo_id from the account's widget builder).
 const WL = { en: 'en', ar: 'ar', fr: 'fr', es: 'es' };
 const BRAND = { bg: '%2314204A', button: '%23F2A93B' };
 const WIDGETS = {
-  economy: l => ({ campaign_id: 10, promo_id: 4480, locale: WL[l], powered_by: 'true', border_radius: 12, plain: 'true', show_logo: 'true',
+  economy: l => ({ campaign_id: 10, promo_id: 4480, locale: WL[l], powered_by: 'false', border_radius: 12, plain: 'true', show_logo: 'true',
     color_background: BRAND.bg, color_button: BRAND.button, color_text: '%23ffffff', color_input_text: '%23000000', color_button_text: '%2314204A' }),
-  qeeq: l => ({ campaign_id: 172, promo_id: 4850, locale: WL[l], powered_by: 'true' }),
-  autoeurope: l => ({ campaign_id: 143, promo_id: 4362, locale: WL[l], powered_by: 'true', border_radius: 12, plain: 'true', show_logo: 'true',
+  qeeq: l => ({ campaign_id: 172, promo_id: 4850, locale: WL[l], powered_by: 'false' }),
+  autoeurope: l => ({ campaign_id: 143, promo_id: 4362, locale: WL[l], powered_by: 'false', border_radius: 12, plain: 'true', show_logo: 'true',
     color_background: BRAND.bg, color_button: BRAND.button }),
-  getrentacar: l => ({ campaign_id: 222, promo_id: 8813, locale: l === 'en' ? 'en-US' : WL[l], powered_by: 'true' }),
-  localrent: l => ({ campaign_id: 87, promo_id: 4322, lang: WL[l], powered_by: 'true', width: 100, background: 'light', logo: 'true', header: 'true', border: 'true', footer: 'true' }),
-  bikes: l => ({ campaign_id: 57, promo_id: 5472, locale: WL[l], powered_by: 'true', border_radius: 12, plain: 'true', color_background: '%23ffffff', color_button: '%233550C8' }),
+  getrentacar: l => ({ campaign_id: 222, promo_id: 8813, locale: l === 'en' ? 'en-US' : WL[l], powered_by: 'false' }),
+  localrent: l => ({ campaign_id: 87, promo_id: 4322, lang: WL[l], powered_by: 'false', width: 100, background: 'light', logo: 'true', header: 'true', border: 'true', footer: 'true' }),
+  bikes: l => ({ campaign_id: 57, promo_id: 5472, locale: WL[l], powered_by: 'false', border_radius: 12, plain: 'true', color_background: '%23ffffff', color_button: '%233550C8' }),
 };
 function widget(key, lang) {
   const p = WIDGETS[key](lang);
@@ -50,7 +51,7 @@ function widget(key, lang) {
 }
 
 const CSS = `<style>
-.fc{font-family:Cairo,Inter,system-ui,sans-serif;color:#14204A;line-height:1.65}
+body{margin:0}.fc{font-family:Cairo,system-ui,sans-serif;color:#14204A;line-height:1.65}
 .fc-hero{background:#14204A;color:#fff;padding:52px 20px 120px}
 .fc-wrap{max-width:1040px;margin:0 auto}
 .fc nav a{color:#c9d3ff;text-decoration:none;font-weight:700;margin-inline-end:14px;font-size:14px}
@@ -65,7 +66,7 @@ const CSS = `<style>
 .fc-tabs button{border:2px solid #E1E4F0;background:#fff;color:#14204A;border-radius:999px;padding:8px 14px;font:700 14px Cairo,Inter,sans-serif;cursor:pointer}
 .fc-tabs button[aria-selected=true]{background:#3550C8;border-color:#3550C8;color:#fff}
 .fc-tabs button:focus-visible{outline:3px solid #F2A93B;outline-offset:2px}
-.fc-panel{min-height:120px}.fc-panel[hidden]{display:none}
+.fc-panel{min-height:400px}.fc-panel[hidden]{display:none}
 .fc-sec{margin-top:52px}.fc-sec h2{font-size:24px;font-weight:800;margin:0 0 14px}
 .fc-air{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
 .fc-air li{border:1px solid #E1E4F0;background:#fff;border-radius:10px;padding:8px 12px;font-weight:700;font-size:14px}
