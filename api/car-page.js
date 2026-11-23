@@ -79,8 +79,8 @@ const CSS = `<style>
 .fc-disc{font-size:13px;color:#6b7280;margin-top:36px}
 </style>`;
 
-// Localrent is left out: its widget is fixed to Georgia and not relevant for Morocco.
-const TAB_ORDER = ['economy', 'qeeq', 'autoeurope', 'getrentacar', 'bikes'];
+// Localrent's widget is fixed to Georgia, so it comes last and is labelled as such.
+const TAB_ORDER = ['economy', 'qeeq', 'autoeurope', 'getrentacar', 'bikes', 'localrent'];
 
 async function render(lang, template) {
   const all = await getContent();
@@ -92,7 +92,7 @@ async function render(lang, template) {
 
   const tabs =
     `<div class="fc-tabs" role="tablist">` +
-    TAB_ORDER.map((k, i) => `<button role="tab" id="t-${k}" aria-controls="p-${k}" aria-selected="${i === 0}" data-k="${k}">${esc(c.providers[k].split(':')[0])}</button>`).join('') +
+    TAB_ORDER.map((k, i) => `<button role="tab" id="t-${k}" aria-controls="p-${k}" aria-selected="${i === 0}" data-k="${k}">${esc(k === 'localrent' ? 'Localrent (GE)' : c.providers[k].split(':')[0])}</button>`).join('') +
     `</div>` +
     TAB_ORDER.map((k, i) =>
       `<div class="fc-panel" role="tabpanel" id="p-${k}" aria-labelledby="t-${k}"${i === 0 ? '' : ' hidden'}>` +

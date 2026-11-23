@@ -1,126 +1,330 @@
 {
-  "en": {
-    "title": "Fastamor Car: compare car rental in Morocco and Europe",
-    "description": "Compare car hire at Moroccan and European airports in one place: prices from several rental sites, what you need to rent, deposits, insurance and driving tips.",
-    "h1": "Fastamor Car",
-    "lead": "Compare car rental from several booking sites in one place. Pick up at the airport, drive to the family, and know the deposit and insurance before you pay.",
-    "compare": "Compare prices",
-    "compareNote": "Each form searches a different rental site. Prices and conditions differ, so it is worth checking two or three before booking.",
-    "providers": { "economy": "Economybookings: worldwide, many local suppliers", "qeeq": "QEEQ: large comparison of agencies", "autoeurope": "Auto Europe: popular for European pick-ups", "getrentacar": "GetRentacar: local agencies, no-deposit offers in some countries", "localrent": "Localrent: local rental companies", "bikes": "Scooters and motorbikes" },
-    "airportsTitle": "Pick up a car at a Moroccan airport",
-    "airports": ["Casablanca Mohammed V (CMN)", "Marrakech Menara (RAK)", "Agadir Al Massira (AGA)", "Tangier Ibn Battouta (TNG)", "Nador Al Aroui (NDR)", "Oujda Angads (OUD)", "Fès Saïss (FEZ)", "Rabat-Salé (RBA)"],
-    "guideTitle": "Renting a car in Morocco: what to know",
-    "guide": [
-      ["Documents", "You need a valid driving licence, a passport or national ID card, and usually a credit card in the main driver's name. Some agencies ask for an International Driving Permit with a foreign licence: check the rental conditions before you book."],
-      ["Deposit", "Most agencies block a deposit on a credit card when you collect the car. The amount depends on the car and the insurance you choose, and debit cards are often not accepted. Read this line carefully when you compare offers."],
-      ["Insurance", "Basic cover usually comes with a high excess. Full cover or excess insurance reduces what you pay if the car is damaged. Compare the total price including insurance, not just the daily rate."],
-      ["Age", "Many agencies require drivers to be at least 21 or 23 and to have held their licence for one to two years. Young drivers may pay a surcharge."],
-      ["On the road", "Morocco drives on the right. Typical limits are 120 km/h on motorways, 100 km/h on main roads and 60 km/h in towns, and speed checks are frequent. Motorways have tolls, so keep some cash or a card. Fill up before long stretches in the south and in the mountains."],
-      ["Summer and Eid", "In July, August and around Eid, demand from families visiting Morocco is very high. Book early, especially at Nador, Oujda, Tangier and Al Hoceima, where fleets are smaller."]
-    ],
-    "faq": [
-      ["Can I rent a car at the airport and return it in another city?", "Yes, many agencies allow one-way rentals within Morocco, sometimes with an extra fee. Tick 'different return location' in the search form to see the price."],
-      ["Do I need a credit card?", "Usually yes, for the deposit. Some offers accept debit cards or have a low deposit: the conditions are shown before you book."],
-      ["Can I take the rental car across to Spain?", "Rental cars normally cannot leave Morocco. If you need to cross by ferry, check with the agency first; most do not allow it."],
-      ["What is the cheapest time to rent?", "Outside summer, Eid and school holidays. Prices are often lower from October to March, except for the Christmas period."],
-      ["Is it better to book in advance?", "Yes. Booking a few weeks ahead gives more choice and usually better prices, and it is essential for summer."]
-    ],
-    "assistant": "Ask the Fastamor assistant",
-    "assistantText": "Tell the assistant your dates, airport and number of passengers, and it will find the flight, the car and the transfer.",
-    "flights": "Flights to Morocco",
-    "disclosure": "Fastamor earns a commission when you book through these forms, at no extra cost to you."
+ "en": {
+  "title": "Fastamor Car: compare car rental worldwide in one place",
+  "description": "Compare car hire from several rental sites worldwide: airport pick-ups, deposits, insurance, fuel policy and cross-border rules explained before you book.",
+  "h1": "Fastamor Car",
+  "lead": "Compare car rental from several booking sites in one place, at airports and city centres around the world. Know the deposit, insurance and fuel policy before you pay.",
+  "compare": "Compare prices",
+  "compareNote": "Each form searches a different rental site. Prices and conditions differ, so it is worth checking two or three before booking.",
+  "providers": {
+   "economy": "Economybookings: worldwide, many local suppliers",
+   "qeeq": "QEEQ: large global comparison of agencies",
+   "autoeurope": "Auto Europe: strong in Europe and North America",
+   "getrentacar": "GetRentacar: local agencies, no-deposit offers in some countries",
+   "localrent": "Localrent: local rental companies (Georgia)",
+   "bikes": "Scooters and motorbikes"
   },
-  "ar": {
-    "title": "فاستامور كار: قارن أسعار كراء السيارات في المغرب وأوروبا",
-    "description": "قارن أسعار كراء السيارات في مطارات المغرب وأوروبا من عدة مواقع في مكان واحد، مع الوثائق المطلوبة والضمان والتأمين ونصائح القيادة.",
-    "h1": "فاستامور كار",
-    "lead": "قارن أسعار كراء السيارات من عدة مواقع حجز في مكان واحد. استلم سيارتك من المطار واذهب مباشرة إلى العائلة، واعرف قيمة الضمان والتأمين قبل الدفع.",
-    "compare": "قارن الأسعار",
-    "compareNote": "كل نموذج يبحث في موقع كراء مختلف، والأسعار والشروط تختلف بينها، لذلك يستحق الأمر مقارنة موقعين أو ثلاثة قبل الحجز.",
-    "providers": { "economy": "Economybookings: تغطية عالمية ووكالات محلية كثيرة", "qeeq": "QEEQ: مقارنة واسعة بين الوكالات", "autoeurope": "Auto Europe: مناسب للاستلام في أوروبا", "getrentacar": "GetRentacar: وكالات محلية وعروض بدون ضمان في بعض الدول", "localrent": "Localrent: شركات كراء محلية", "bikes": "دراجات نارية وسكوتر" },
-    "airportsTitle": "استلم سيارتك من أحد مطارات المغرب",
-    "airports": ["الدار البيضاء محمد الخامس (CMN)", "مراكش المنارة (RAK)", "أكادير المسيرة (AGA)", "طنجة ابن بطوطة (TNG)", "الناظور العروي (NDR)", "وجدة أنكاد (OUD)", "فاس سايس (FEZ)", "الرباط سلا (RBA)"],
-    "guideTitle": "كراء سيارة في المغرب: ما يجب معرفته",
-    "guide": [
-      ["الوثائق", "تحتاج إلى رخصة سياقة سارية، وجواز سفر أو بطاقة تعريف وطنية، وغالباً بطاقة ائتمان باسم السائق الرئيسي. بعض الوكالات تطلب رخصة سياقة دولية مع الرخص الأجنبية، فتحقق من شروط الكراء قبل الحجز."],
-      ["الضمان (الكوسيون)", "تحجز أغلب الوكالات مبلغ ضمان على بطاقة الائتمان عند استلام السيارة، ويختلف المبلغ حسب نوع السيارة والتأمين المختار، وكثيراً ما لا تُقبل بطاقات الخصم. اقرأ هذا السطر جيداً عند المقارنة."],
-      ["التأمين", "التأمين الأساسي يأتي عادة مع مبلغ تحمّل مرتفع، والتأمين الشامل يقلل ما ستدفعه في حال وقوع ضرر. قارن السعر الإجمالي مع التأمين، لا السعر اليومي وحده."],
-      ["السن", "تشترط وكالات كثيرة ألا يقل عمر السائق عن 21 أو 23 سنة، وأن تكون لديه رخصة منذ سنة أو سنتين، وقد يدفع السائقون الشباب رسوماً إضافية."],
-      ["على الطريق", "القيادة في المغرب على اليمين. السرعة القصوى المعتادة 120 كم/س على الطرق السيارة و100 كم/س على الطرق الوطنية و60 كم/س داخل المدن، والمراقبة متكررة. الطرق السيارة مؤدى عنها، فاحتفظ ببعض النقود أو بطاقة. املأ الخزان قبل المسافات الطويلة في الجنوب والجبال."],
-      ["الصيف والعيد", "في يوليو وغشت وفترة العيد يرتفع الطلب كثيراً بسبب زيارة العائلات للمغرب. احجز مبكراً، خصوصاً في الناظور ووجدة وطنجة والحسيمة حيث عدد السيارات أقل."]
-    ],
-    "faq": [
-      ["هل يمكن استلام السيارة من المطار وإرجاعها في مدينة أخرى؟", "نعم، تسمح وكالات كثيرة بذلك داخل المغرب، أحياناً مقابل رسوم إضافية. اختر «مكان إرجاع مختلف» في نموذج البحث لترى السعر."],
-      ["هل أحتاج إلى بطاقة ائتمان؟", "غالباً نعم من أجل الضمان. بعض العروض تقبل بطاقات الخصم أو لها ضمان منخفض، والشروط تظهر قبل الحجز."],
-      ["هل يمكنني العبور بالسيارة المكتراة إلى إسبانيا؟", "عادةً لا يُسمح للسيارات المكتراة بمغادرة المغرب. إن احتجت إلى العبور بالباخرة فاسأل الوكالة أولاً، وأغلبها لا يسمح بذلك."],
-      ["متى يكون الكراء أرخص؟", "خارج الصيف والعيد والعطل المدرسية، والأسعار غالباً أدنى من أكتوبر إلى مارس باستثناء فترة رأس السنة."],
-      ["هل الأفضل الحجز مسبقاً؟", "نعم، الحجز قبل بضعة أسابيع يمنحك خيارات أكثر وأسعاراً أفضل عادة، وهو ضروري في الصيف."]
-    ],
-    "assistant": "اسأل مساعد فاستامور",
-    "assistantText": "أخبر المساعد بتواريخك والمطار وعدد المسافرين، وسيجد لك الرحلة والسيارة والنقل.",
-    "flights": "رحلات إلى المغرب",
-    "disclosure": "يحصل فاستامور على عمولة عند الحجز من خلال هذه النماذج، دون أي تكلفة إضافية عليك."
+  "airportsTitle": "Popular places to rent a car",
+  "airports": [
+   "Spain: Málaga, Barcelona, Palma",
+   "Italy: Rome, Milan, Sicily",
+   "France: Paris, Nice",
+   "Portugal: Lisbon, Faro",
+   "Greece: Athens, Crete",
+   "Turkey: Istanbul, Antalya",
+   "UAE: Dubai, Abu Dhabi",
+   "USA: Orlando, Los Angeles, Miami",
+   "Morocco: Marrakech, Casablanca",
+   "Georgia: Tbilisi, Batumi"
+  ],
+  "guideTitle": "Renting a car abroad: what to know",
+  "guide": [
+   [
+    "Documents",
+    "You need a valid driving licence, a passport or ID card, and usually a credit card in the main driver's name. Some countries and agencies also require an International Driving Permit: check the rental conditions and the official rules of the country before you book."
+   ],
+   [
+    "Deposit",
+    "Most agencies block a deposit on a credit card at pick-up. The amount depends on the car and the insurance, and debit cards are often refused. Read this line carefully when you compare offers."
+   ],
+   [
+    "Insurance",
+    "Basic cover usually comes with a high excess. Full cover or separate excess insurance reduces what you pay if the car is damaged. Compare the total price with insurance, not only the daily rate."
+   ],
+   [
+    "Fuel policy",
+    "'Full to full' is usually the fairest: you pick up and return the car with a full tank. Pre-paid fuel policies often cost more."
+   ],
+   [
+    "Driving side and rules",
+    "Most countries drive on the right, but the UK, Ireland, Cyprus, Malta, Japan, Australia and several others drive on the left. Some countries charge motorway tolls or require a vignette sticker. Check before you set off."
+   ],
+   [
+    "Crossing borders",
+    "Taking a rental car into another country is often restricted or costs extra, and one-way international returns can be expensive. Declare your route when you book."
+   ]
+  ],
+  "faq": [
+   [
+    "Can I return the car in another city?",
+    "Usually yes within the same country, sometimes with a one-way fee. Tick 'different return location' in the search form to see the price."
+   ],
+   [
+    "Do I need a credit card?",
+    "Usually yes, for the deposit. Some offers accept debit cards or have a low deposit: the conditions are shown before you book."
+   ],
+   [
+    "Do I need an International Driving Permit?",
+    "It depends on the country and on your licence. Check the destination's official rules and the agency's conditions before you book."
+   ],
+   [
+    "When is car hire cheapest?",
+    "Outside school holidays and the destination's peak season. Booking a few weeks ahead usually gives more choice and better prices."
+   ],
+   [
+    "Is it cheaper to pick up at the airport or in town?",
+    "Airport pick-ups are convenient but sometimes include an airport surcharge. Compare both in the search form."
+   ]
+  ],
+  "assistant": "Ask the Fastamor assistant",
+  "assistantText": "Tell the assistant your destination, dates and number of passengers, and it will find the flight, the car and the transfer.",
+  "flights": "Flight routes",
+  "disclosure": "Fastamor earns a commission when you book through these forms, at no extra cost to you."
+ },
+ "ar": {
+  "title": "فاستامور كار: قارن أسعار كراء السيارات حول العالم في مكان واحد",
+  "description": "قارن أسعار كراء السيارات من عدة مواقع حول العالم: الاستلام من المطار، والضمان، والتأمين، وسياسة الوقود، وقواعد عبور الحدود قبل الحجز.",
+  "h1": "فاستامور كار",
+  "lead": "قارن أسعار كراء السيارات من عدة مواقع حجز في مكان واحد، في المطارات ومراكز المدن حول العالم، واعرف الضمان والتأمين وسياسة الوقود قبل الدفع.",
+  "compare": "قارن الأسعار",
+  "compareNote": "كل نموذج يبحث في موقع كراء مختلف، والأسعار والشروط تختلف بينها، لذلك يستحق الأمر مقارنة موقعين أو ثلاثة قبل الحجز.",
+  "providers": {
+   "economy": "Economybookings: تغطية عالمية ووكالات محلية كثيرة",
+   "qeeq": "QEEQ: مقارنة عالمية واسعة بين الوكالات",
+   "autoeurope": "Auto Europe: قوي في أوروبا وأمريكا الشمالية",
+   "getrentacar": "GetRentacar: وكالات محلية وعروض بدون ضمان في بعض الدول",
+   "localrent": "Localrent: شركات كراء محلية (جورجيا)",
+   "bikes": "دراجات نارية وسكوتر"
   },
-  "fr": {
-    "title": "Fastamor Car : comparer la location de voiture au Maroc et en Europe",
-    "description": "Comparez la location de voiture dans les aéroports du Maroc et d'Europe : prix de plusieurs sites, documents, caution, assurance et conseils de conduite.",
-    "h1": "Fastamor Car",
-    "lead": "Comparez la location de voiture sur plusieurs sites au même endroit. Récupérez la voiture à l'aéroport, roulez vers la famille, et connaissez la caution et l'assurance avant de payer.",
-    "compare": "Comparer les prix",
-    "compareNote": "Chaque formulaire interroge un site de location différent. Les prix et conditions varient : comparez-en deux ou trois avant de réserver.",
-    "providers": { "economy": "Economybookings : couverture mondiale, nombreux loueurs locaux", "qeeq": "QEEQ : large comparateur d'agences", "autoeurope": "Auto Europe : apprécié pour les prises en charge en Europe", "getrentacar": "GetRentacar : agences locales, offres sans caution dans certains pays", "localrent": "Localrent : loueurs locaux", "bikes": "Scooters et motos" },
-    "airportsTitle": "Récupérer une voiture dans un aéroport marocain",
-    "airports": ["Casablanca Mohammed V (CMN)", "Marrakech Ménara (RAK)", "Agadir Al Massira (AGA)", "Tanger Ibn Battouta (TNG)", "Nador Al Aroui (NDR)", "Oujda Angads (OUD)", "Fès Saïss (FEZ)", "Rabat-Salé (RBA)"],
-    "guideTitle": "Louer une voiture au Maroc : l'essentiel",
-    "guide": [
-      ["Documents", "Il faut un permis valide, un passeport ou une carte nationale, et le plus souvent une carte de crédit au nom du conducteur principal. Certaines agences demandent un permis international avec un permis étranger : vérifiez les conditions avant de réserver."],
-      ["Caution", "La plupart des agences bloquent une caution sur une carte de crédit au moment de la prise en charge. Le montant dépend de la voiture et de l'assurance, et les cartes de débit sont souvent refusées. Lisez bien cette ligne en comparant."],
-      ["Assurance", "La couverture de base comporte en général une franchise élevée. Une assurance tous risques ou un rachat de franchise réduit ce que vous payez en cas de dégâts. Comparez le prix total avec l'assurance, pas seulement le tarif journalier."],
-      ["Âge", "Beaucoup d'agences exigent au moins 21 ou 23 ans et un à deux ans de permis. Les jeunes conducteurs peuvent payer un supplément."],
-      ["Sur la route", "Au Maroc, on roule à droite. Les limites habituelles sont 120 km/h sur autoroute, 100 km/h sur route et 60 km/h en ville, et les contrôles sont fréquents. Les autoroutes sont à péage. Faites le plein avant les longues portions dans le Sud et en montagne."],
-      ["Été et Aïd", "En juillet, en août et autour de l'Aïd, la demande des familles qui rentrent au Maroc est très forte. Réservez tôt, surtout à Nador, Oujda, Tanger et Al Hoceïma, où les flottes sont plus petites."]
-    ],
-    "faq": [
-      ["Puis-je prendre la voiture à l'aéroport et la rendre dans une autre ville ?", "Oui, beaucoup d'agences acceptent les allers simples au Maroc, parfois avec un supplément. Cochez « lieu de restitution différent » dans le formulaire pour voir le prix."],
-      ["Faut-il une carte de crédit ?", "En général oui, pour la caution. Certaines offres acceptent les cartes de débit ou ont une caution réduite : les conditions s'affichent avant la réservation."],
-      ["Puis-je passer en Espagne avec la voiture de location ?", "Les voitures de location ne peuvent normalement pas quitter le Maroc. Si vous devez traverser en ferry, demandez d'abord à l'agence : la plupart refusent."],
-      ["Quand la location est-elle la moins chère ?", "Hors été, Aïd et vacances scolaires. Les prix sont souvent plus bas d'octobre à mars, sauf pendant les fêtes de fin d'année."],
-      ["Vaut-il mieux réserver à l'avance ?", "Oui. Réserver quelques semaines avant donne plus de choix et souvent de meilleurs prix, et c'est indispensable pour l'été."]
-    ],
-    "assistant": "Demander à l'assistant Fastamor",
-    "assistantText": "Donnez vos dates, l'aéroport et le nombre de passagers à l'assistant : il trouve le vol, la voiture et le transfert.",
-    "flights": "Vols vers le Maroc",
-    "disclosure": "Fastamor perçoit une commission quand vous réservez via ces formulaires, sans coût supplémentaire pour vous."
+  "airportsTitle": "وجهات شائعة لكراء السيارات",
+  "airports": [
+   "إسبانيا: مالقة، برشلونة، بالما",
+   "إيطاليا: روما، ميلانو، صقلية",
+   "فرنسا: باريس، نيس",
+   "البرتغال: لشبونة، فارو",
+   "اليونان: أثينا، كريت",
+   "تركيا: إسطنبول، أنطاليا",
+   "الإمارات: دبي، أبوظبي",
+   "الولايات المتحدة: أورلاندو، لوس أنجلوس، ميامي",
+   "المغرب: مراكش، الدار البيضاء",
+   "جورجيا: تبليسي، باتومي"
+  ],
+  "guideTitle": "كراء سيارة في الخارج: ما يجب معرفته",
+  "guide": [
+   [
+    "الوثائق",
+    "تحتاج إلى رخصة سياقة سارية، وجواز سفر أو بطاقة هوية، وغالباً بطاقة ائتمان باسم السائق الرئيسي. بعض الدول والوكالات تشترط أيضاً رخصة سياقة دولية، فتحقق من شروط الكراء والقواعد الرسمية للبلد قبل الحجز."
+   ],
+   [
+    "الضمان",
+    "تحجز أغلب الوكالات مبلغ ضمان على بطاقة الائتمان عند الاستلام، ويختلف المبلغ حسب السيارة والتأمين، وكثيراً ما لا تُقبل بطاقات الخصم. اقرأ هذا السطر جيداً عند المقارنة."
+   ],
+   [
+    "التأمين",
+    "التأمين الأساسي يأتي عادة مع مبلغ تحمّل مرتفع، والتأمين الشامل أو تأمين التحمّل المستقل يقلل ما ستدفعه عند وقوع ضرر. قارن السعر الإجمالي مع التأمين، لا السعر اليومي وحده."
+   ],
+   [
+    "سياسة الوقود",
+    "سياسة «ممتلئ إلى ممتلئ» هي الأعدل عادة: تستلم السيارة بخزان ممتلئ وتعيدها كذلك. أما الوقود المدفوع مسبقاً فغالباً أغلى."
+   ],
+   [
+    "جهة القيادة والقواعد",
+    "تُقاد السيارات على اليمين في أغلب الدول، لكن المملكة المتحدة وأيرلندا وقبرص ومالطا واليابان وأستراليا ودولاً أخرى تقود على اليسار. وبعض الدول تفرض رسوماً على الطرق السيارة أو ملصق «فينييت». تحقق قبل الانطلاق."
+   ],
+   [
+    "عبور الحدود",
+    "الخروج بالسيارة المكتراة إلى بلد آخر غالباً مقيّد أو بتكلفة إضافية، وإرجاعها في بلد آخر قد يكون مكلفاً. صرّح بمسارك عند الحجز."
+   ]
+  ],
+  "faq": [
+   [
+    "هل يمكن إرجاع السيارة في مدينة أخرى؟",
+    "غالباً نعم داخل نفس البلد، أحياناً مقابل رسوم. اختر «مكان إرجاع مختلف» في نموذج البحث لترى السعر."
+   ],
+   [
+    "هل أحتاج إلى بطاقة ائتمان؟",
+    "غالباً نعم من أجل الضمان. بعض العروض تقبل بطاقات الخصم أو لها ضمان منخفض، والشروط تظهر قبل الحجز."
+   ],
+   [
+    "هل أحتاج إلى رخصة سياقة دولية؟",
+    "يعتمد ذلك على البلد وعلى رخصتك. راجع القواعد الرسمية للوجهة وشروط الوكالة قبل الحجز."
+   ],
+   [
+    "متى يكون الكراء أرخص؟",
+    "خارج العطل المدرسية وموسم الذروة في الوجهة. الحجز قبل بضعة أسابيع يمنحك عادة خيارات أكثر وأسعاراً أفضل."
+   ],
+   [
+    "هل الاستلام من المطار أغلى من المدينة؟",
+    "الاستلام من المطار مريح لكنه قد يتضمن رسوماً إضافية. قارن الخيارين في نموذج البحث."
+   ]
+  ],
+  "assistant": "اسأل مساعد فاستامور",
+  "assistantText": "أخبر المساعد بوجهتك وتواريخك وعدد المسافرين، وسيجد لك الرحلة والسيارة والنقل.",
+  "flights": "خطوط الطيران",
+  "disclosure": "يحصل فاستامور على عمولة عند الحجز من خلال هذه النماذج، دون أي تكلفة إضافية عليك."
+ },
+ "fr": {
+  "title": "Fastamor Car : comparez la location de voiture dans le monde",
+  "description": "Comparez la location de voiture sur plusieurs sites dans le monde : aéroports, caution, assurance, carburant et passage de frontière expliqués avant de réserver.",
+  "h1": "Fastamor Car",
+  "lead": "Comparez la location de voiture sur plusieurs sites au même endroit, en aéroport et en ville partout dans le monde. Connaissez la caution, l'assurance et la politique carburant avant de payer.",
+  "compare": "Comparer les prix",
+  "compareNote": "Chaque formulaire interroge un site de location différent. Les prix et conditions varient : comparez-en deux ou trois avant de réserver.",
+  "providers": {
+   "economy": "Economybookings : couverture mondiale, nombreux loueurs locaux",
+   "qeeq": "QEEQ : grand comparateur mondial",
+   "autoeurope": "Auto Europe : fort en Europe et en Amérique du Nord",
+   "getrentacar": "GetRentacar : agences locales, offres sans caution dans certains pays",
+   "localrent": "Localrent : loueurs locaux (Géorgie)",
+   "bikes": "Scooters et motos"
   },
-  "es": {
-    "title": "Fastamor Car: compara alquiler de coches en Marruecos y Europa",
-    "description": "Compara el alquiler de coches en aeropuertos de Marruecos y Europa: precios de varias webs, documentos, depósito, seguro y consejos para conducir.",
-    "h1": "Fastamor Car",
-    "lead": "Compara el alquiler de coches de varias webs en un solo lugar. Recoge el coche en el aeropuerto, conduce hasta la familia y conoce el depósito y el seguro antes de pagar.",
-    "compare": "Comparar precios",
-    "compareNote": "Cada formulario busca en una web de alquiler distinta. Los precios y las condiciones cambian: compara dos o tres antes de reservar.",
-    "providers": { "economy": "Economybookings: cobertura mundial y muchas agencias locales", "qeeq": "QEEQ: amplio comparador de agencias", "autoeurope": "Auto Europe: popular para recogidas en Europa", "getrentacar": "GetRentacar: agencias locales, ofertas sin depósito en algunos países", "localrent": "Localrent: empresas de alquiler locales", "bikes": "Scooters y motos" },
-    "airportsTitle": "Recoge un coche en un aeropuerto de Marruecos",
-    "airports": ["Casablanca Mohammed V (CMN)", "Marrakech Menara (RAK)", "Agadir Al Massira (AGA)", "Tánger Ibn Battouta (TNG)", "Nador Al Aroui (NDR)", "Uchda Angads (OUD)", "Fez Saïss (FEZ)", "Rabat-Salé (RBA)"],
-    "guideTitle": "Alquilar un coche en Marruecos: lo esencial",
-    "guide": [
-      ["Documentos", "Necesitas un carné de conducir válido, pasaporte o documento nacional, y normalmente una tarjeta de crédito a nombre del conductor principal. Algunas agencias piden permiso internacional con un carné extranjero: revisa las condiciones antes de reservar."],
-      ["Depósito", "La mayoría de las agencias bloquea un depósito en la tarjeta de crédito al recoger el coche. El importe depende del coche y del seguro, y las tarjetas de débito a menudo no se aceptan. Lee bien esta línea al comparar."],
-      ["Seguro", "La cobertura básica suele tener una franquicia alta. Un seguro a todo riesgo reduce lo que pagas si hay daños. Compara el precio total con seguro, no solo la tarifa diaria."],
-      ["Edad", "Muchas agencias exigen al menos 21 o 23 años y uno o dos años de carné. Los conductores jóvenes pueden pagar un suplemento."],
-      ["En la carretera", "En Marruecos se conduce por la derecha. Los límites habituales son 120 km/h en autopista, 100 km/h en carretera y 60 km/h en ciudad, y los controles son frecuentes. Las autopistas son de peaje. Llena el depósito antes de los tramos largos en el sur y la montaña."],
-      ["Verano y Aid", "En julio, agosto y alrededor del Aid, la demanda de las familias que visitan Marruecos es muy alta. Reserva pronto, sobre todo en Nador, Uchda, Tánger y Alhucemas, donde hay menos coches."]
-    ],
-    "faq": [
-      ["¿Puedo recoger el coche en el aeropuerto y devolverlo en otra ciudad?", "Sí, muchas agencias permiten alquileres de ida dentro de Marruecos, a veces con un suplemento. Marca «otro lugar de devolución» en el formulario para ver el precio."],
-      ["¿Necesito tarjeta de crédito?", "Normalmente sí, para el depósito. Algunas ofertas aceptan tarjeta de débito o tienen un depósito bajo: las condiciones aparecen antes de reservar."],
-      ["¿Puedo cruzar a España con el coche de alquiler?", "Los coches de alquiler normalmente no pueden salir de Marruecos. Si necesitas cruzar en ferri, pregunta antes a la agencia: la mayoría no lo permite."],
-      ["¿Cuándo es más barato alquilar?", "Fuera del verano, el Aid y las vacaciones escolares. Los precios suelen ser más bajos de octubre a marzo, salvo en Navidad."],
-      ["¿Es mejor reservar con antelación?", "Sí. Reservar unas semanas antes da más opciones y normalmente mejores precios, y es imprescindible en verano."]
-    ],
-    "assistant": "Pregunta al asistente de Fastamor",
-    "assistantText": "Dile al asistente tus fechas, el aeropuerto y el número de pasajeros: encuentra el vuelo, el coche y el traslado.",
-    "flights": "Vuelos a Marruecos",
-    "disclosure": "Fastamor recibe una comisión cuando reservas con estos formularios, sin coste adicional para ti."
-  }
+  "airportsTitle": "Destinations populaires pour louer une voiture",
+  "airports": [
+   "Espagne : Málaga, Barcelone, Palma",
+   "Italie : Rome, Milan, Sicile",
+   "France : Paris, Nice",
+   "Portugal : Lisbonne, Faro",
+   "Grèce : Athènes, Crète",
+   "Turquie : Istanbul, Antalya",
+   "Émirats : Dubaï, Abou Dhabi",
+   "États-Unis : Orlando, Los Angeles, Miami",
+   "Maroc : Marrakech, Casablanca",
+   "Géorgie : Tbilissi, Batoumi"
+  ],
+  "guideTitle": "Louer une voiture à l'étranger : l'essentiel",
+  "guide": [
+   [
+    "Documents",
+    "Il faut un permis valide, un passeport ou une carte d'identité, et le plus souvent une carte de crédit au nom du conducteur principal. Certains pays et agences exigent aussi un permis international : vérifiez les conditions et les règles officielles du pays avant de réserver."
+   ],
+   [
+    "Caution",
+    "La plupart des agences bloquent une caution sur une carte de crédit à la prise en charge. Le montant dépend de la voiture et de l'assurance, et les cartes de débit sont souvent refusées."
+   ],
+   [
+    "Assurance",
+    "La couverture de base comporte en général une franchise élevée. Une assurance tous risques ou un rachat de franchise réduit ce que vous payez en cas de dégâts. Comparez le prix total avec l'assurance."
+   ],
+   [
+    "Carburant",
+    "« Plein-plein » est en général la formule la plus juste : vous prenez et rendez la voiture avec le plein. Le carburant prépayé coûte souvent plus cher."
+   ],
+   [
+    "Côté de conduite et règles",
+    "On roule à droite dans la plupart des pays, mais à gauche au Royaume-Uni, en Irlande, à Chypre, à Malte, au Japon, en Australie et ailleurs. Certains pays ont des péages ou une vignette obligatoire. Vérifiez avant de partir."
+   ],
+   [
+    "Passer une frontière",
+    "Sortir du pays avec une voiture de location est souvent limité ou payant, et un retour dans un autre pays peut coûter cher. Indiquez votre itinéraire à la réservation."
+   ]
+  ],
+  "faq": [
+   [
+    "Puis-je rendre la voiture dans une autre ville ?",
+    "En général oui dans le même pays, parfois avec des frais d'abandon. Cochez « lieu de restitution différent » pour voir le prix."
+   ],
+   [
+    "Faut-il une carte de crédit ?",
+    "En général oui, pour la caution. Certaines offres acceptent les cartes de débit ou ont une caution réduite : les conditions s'affichent avant la réservation."
+   ],
+   [
+    "Faut-il un permis international ?",
+    "Cela dépend du pays et de votre permis. Vérifiez les règles officielles de la destination et les conditions de l'agence."
+   ],
+   [
+    "Quand la location est-elle la moins chère ?",
+    "Hors vacances scolaires et haute saison de la destination. Réserver quelques semaines avant donne souvent plus de choix et de meilleurs prix."
+   ],
+   [
+    "Aéroport ou centre-ville : lequel est moins cher ?",
+    "L'aéroport est pratique mais inclut parfois une surcharge. Comparez les deux dans le formulaire."
+   ]
+  ],
+  "assistant": "Demander à l'assistant Fastamor",
+  "assistantText": "Donnez votre destination, vos dates et le nombre de passagers à l'assistant : il trouve le vol, la voiture et le transfert.",
+  "flights": "Lignes aériennes",
+  "disclosure": "Fastamor perçoit une commission quand vous réservez via ces formulaires, sans coût supplémentaire pour vous."
+ },
+ "es": {
+  "title": "Fastamor Car: compara el alquiler de coches en todo el mundo",
+  "description": "Compara el alquiler de coches de varias webs en todo el mundo: aeropuertos, depósito, seguro, combustible y cruce de fronteras explicados antes de reservar.",
+  "h1": "Fastamor Car",
+  "lead": "Compara el alquiler de coches de varias webs en un solo lugar, en aeropuertos y ciudades de todo el mundo. Conoce el depósito, el seguro y la política de combustible antes de pagar.",
+  "compare": "Comparar precios",
+  "compareNote": "Cada formulario busca en una web de alquiler distinta. Los precios y las condiciones cambian: compara dos o tres antes de reservar.",
+  "providers": {
+   "economy": "Economybookings: cobertura mundial y muchas agencias locales",
+   "qeeq": "QEEQ: gran comparador mundial",
+   "autoeurope": "Auto Europe: fuerte en Europa y Norteamérica",
+   "getrentacar": "GetRentacar: agencias locales, ofertas sin depósito en algunos países",
+   "localrent": "Localrent: empresas locales (Georgia)",
+   "bikes": "Scooters y motos"
+  },
+  "airportsTitle": "Destinos populares para alquilar coche",
+  "airports": [
+   "España: Málaga, Barcelona, Palma",
+   "Italia: Roma, Milán, Sicilia",
+   "Francia: París, Niza",
+   "Portugal: Lisboa, Faro",
+   "Grecia: Atenas, Creta",
+   "Turquía: Estambul, Antalya",
+   "EAU: Dubái, Abu Dabi",
+   "EE. UU.: Orlando, Los Ángeles, Miami",
+   "Marruecos: Marrakech, Casablanca",
+   "Georgia: Tiflis, Batumi"
+  ],
+  "guideTitle": "Alquilar un coche en el extranjero: lo esencial",
+  "guide": [
+   [
+    "Documentos",
+    "Necesitas un carné válido, pasaporte o documento de identidad, y normalmente una tarjeta de crédito a nombre del conductor principal. Algunos países y agencias exigen además el permiso internacional: revisa las condiciones y las normas oficiales del país antes de reservar."
+   ],
+   [
+    "Depósito",
+    "La mayoría de las agencias bloquea un depósito en la tarjeta de crédito al recoger el coche. El importe depende del coche y del seguro, y las tarjetas de débito a menudo no se aceptan."
+   ],
+   [
+    "Seguro",
+    "La cobertura básica suele tener una franquicia alta. Un seguro a todo riesgo o un seguro de franquicia reduce lo que pagas si hay daños. Compara el precio total con seguro."
+   ],
+   [
+    "Combustible",
+    "«Lleno-lleno» suele ser lo más justo: recoges y devuelves el coche con el depósito lleno. El combustible prepagado suele salir más caro."
+   ],
+   [
+    "Lado de conducción y normas",
+    "En la mayoría de los países se conduce por la derecha, pero en Reino Unido, Irlanda, Chipre, Malta, Japón, Australia y otros, por la izquierda. Algunos países cobran peajes o exigen viñeta. Compruébalo antes de salir."
+   ],
+   [
+    "Cruzar fronteras",
+    "Salir del país con un coche de alquiler suele estar limitado o tener coste extra, y devolverlo en otro país puede ser caro. Indica tu ruta al reservar."
+   ]
+  ],
+  "faq": [
+   [
+    "¿Puedo devolver el coche en otra ciudad?",
+    "Normalmente sí dentro del mismo país, a veces con una tasa. Marca «otro lugar de devolución» para ver el precio."
+   ],
+   [
+    "¿Necesito tarjeta de crédito?",
+    "Normalmente sí, para el depósito. Algunas ofertas aceptan débito o tienen un depósito bajo: las condiciones aparecen antes de reservar."
+   ],
+   [
+    "¿Necesito permiso internacional de conducir?",
+    "Depende del país y de tu carné. Revisa las normas oficiales del destino y las condiciones de la agencia."
+   ],
+   [
+    "¿Cuándo es más barato alquilar?",
+    "Fuera de las vacaciones escolares y de la temporada alta del destino. Reservar unas semanas antes suele dar más opciones y mejores precios."
+   ],
+   [
+    "¿Aeropuerto o ciudad: qué es más barato?",
+    "El aeropuerto es cómodo pero a veces tiene un recargo. Compara ambos en el formulario."
+   ]
+  ],
+  "assistant": "Pregunta al asistente de Fastamor",
+  "assistantText": "Dile al asistente tu destino, fechas y número de pasajeros: encuentra el vuelo, el coche y el traslado.",
+  "flights": "Rutas de vuelo",
+  "disclosure": "Fastamor recibe una comisión cuando reservas con estos formularios, sin coste adicional para ti."
+ }
 }
