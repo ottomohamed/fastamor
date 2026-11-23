@@ -65,6 +65,10 @@
       "destination": "/api/media?file=:file"
     },
     {
+      "source": "/go/:host/:code",
+      "destination": "/api/affiliate?host=:host&code=:code"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/app.html"
     }
