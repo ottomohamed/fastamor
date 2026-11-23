@@ -7,6 +7,10 @@ import { safeHtml } from '@/lib/sanitize';
 import { useDocumentMeta } from '@/hooks/use-document-meta';
 import { ArrowLeft, Eye, Heart, MapPin, ExternalLink, Plane } from 'lucide-react';
 import { trackClick, aff, sid } from '@/lib/tracking';
+import { TripKit } from '@/components/TripKit';
+import ARTICLE_DEST from '../../api/_data/article-dest.json';
+
+type DestEntry = { city: string; name: Record<string, string> };
 
 interface Article {
   id: string;
@@ -141,9 +145,19 @@ export default function ArticleView({ slug, lang: urlLang = 'en' }: { slug: stri
   const title = getTitle();
   const body = getBody();
   const tags = getTags();
+  const destEntry = (ARTICLE_DEST as unknown as Record<string, DestEntry>)[slug];
+  const tripDest = destEntry ? { name: destEntry.name[lang] || destEntry.name.en, city: destEntry.city } : null;
+  const kitPage = sid('art', slug);
+  const PLAN: Record<string, { label: (d?: string) => string; cta: string; note: string }> = {
+    en: { label: d => d ? `Planning a trip to ${d}?` : 'Planning a trip?', cta: 'Ask the AI', note: 'Partner links: Fastamor may earn a commission, at no extra cost to you.' },
+    ar: { label: d => d ? `تخطط لرحلة إلى ${d}؟` : 'تخطط لرحلة؟', cta: 'اسأل المساعد', note: 'روابط شركاء: قد يحصل فاستامور على عمولة دون أي تكلفة إضافية عليك.' },
+    fr: { label: d => d ? `Vous préparez un voyage en ${d.replace(/^(la |le |l’)/, '')} ?` : 'Vous préparez un voyage ?', cta: 'Demander à l’IA', note: 'Liens partenaires : Fastamor peut percevoir une commission, sans surcoût pour vous.' },
+    es: { label: d => d ? `¿Planeas un viaje a ${d}?` : '¿Planeas un viaje?', cta: 'Pregunta a la IA', note: 'Enlaces de socios: Fastamor puede recibir una comisión, sin coste adicional para ti.' },
+  };
+  const plan = PLAN[lang] || PLAN.en;
 
   return (
-    <div className="min-h-screen bg-[#F7F8FC] selection:bg-indigo-100" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-[#F7F8FC] selection:bg-indigo-100 pb-16 lg:pb-0" dir={isRtl ? 'rtl' : 'ltr'}>
 
       {/* Navbar */}
       <nav className="sticky top-0 z-40 bg-[#F7F8FC]/90 backdrop-blur-xl border-b border-[#E1E4F0]/20">
@@ -214,6 +228,12 @@ export default function ArticleView({ slug, lang: urlLang = 'en' }: { slug: stri
                 className="prose prose-lg max-w-[68ch] text-ink prose-headings:font-extrabold prose-headings:text-ink prose-h2:text-[1.6rem] prose-h2:mt-12 prose-h3:mt-8 prose-a:text-brand prose-li:my-1 prose-img:rounded-2xl prose-table:text-base"
                 dangerouslySetInnerHTML={{ __html: body ? safeHtml(body) : `<p>${isRtl ? 'المحتوى غير متوفر بهذه اللغة.' : 'Content not available in this language.'}</p>` }}
               />
+
+              {/* Trip kit for this article's destination (hotel, eSIM, transfer, tours) */}
+              <div className="mt-12 max-w-[68ch] rounded-2xl bg-[#EEF0F8] p-4 sm:p-5">
+                <TripKit dest={tripDest} lang={lang} page={kitPage} wide />
+                <p className="mt-3 text-xs text-[#5B6488]">{plan.note}</p>
+              </div>
 
               {/* Tags */}
               {tags?.length ? (
@@ -290,6 +310,12 @@ export default function ArticleView({ slug, lang: urlLang = 'en' }: { slug: stri
             </div>
           </aside>
         </div>
+      </div>
+
+      {/* Mobile: sticky "plan this trip" bar */}
+      <div className="lg:hidden fixed inset-x-0 bottom-0 z-40 bg-white/95 backdrop-blur border-t border-[#E1E4F0] px-4 py-2.5 flex items-center justify-between gap-3">
+        <span className="text-sm font-bold text-[#14204A] truncate">{plan.label(tripDest?.name)}</span>
+        <Link href={L('/')} className="shrink-0 rounded-full bg-[#3550C8] text-white px-4 py-2 text-sm font-bold">{plan.cta}</Link>
       </div>
 
       {/* Footer */}

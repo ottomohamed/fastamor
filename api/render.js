@@ -73,6 +73,35 @@ function sanitize(html) {
 }
 
 import { LANGS, MIN_BODY, isLang, urlFor, articleLangs, destinationLangs } from './_lib/i18n.js';
+// ---------- trip kit for articles (same links as the SPA's TripKit) ----------
+let destMap = null;
+async function articleDest(slug) {
+  if (!destMap) {
+    try { destMap = JSON.parse(await readFile(path.join(process.cwd(), 'api/_data/article-dest.json'), 'utf8')); }
+    catch { destMap = {}; }
+  }
+  return destMap[slug] || null;
+}
+const KIT = {
+  en: { t: d => d ? `Plan your trip to ${d}` : 'Before you travel', hotel: 'Hotels', esim: 'Mobile data (eSIM)', transfer: 'Airport transfer', tours: 'Tours & tickets', car: 'Car hire', note: 'Partner links: Fastamor may earn a commission, at no extra cost to you.' },
+  ar: { t: d => d ? `خطط لرحلتك إلى ${d}` : 'قبل أن تسافر', hotel: 'فنادق', esim: 'إنترنت الهاتف (eSIM)', transfer: 'النقل من المطار', tours: 'جولات وتذاكر', car: 'كراء سيارة', note: 'روابط شركاء: قد يحصل فاستامور على عمولة دون أي تكلفة إضافية عليك.' },
+  fr: { t: d => d ? `Préparez votre voyage : ${d}` : 'Avant de partir', hotel: 'Hôtels', esim: 'Données mobiles (eSIM)', transfer: 'Transfert aéroport', tours: 'Visites & billets', car: 'Location de voiture', note: 'Liens partenaires : Fastamor peut percevoir une commission, sans surcoût pour vous.' },
+  es: { t: d => d ? `Planifica tu viaje: ${d}` : 'Antes de viajar', hotel: 'Hoteles', esim: 'Datos móviles (eSIM)', transfer: 'Traslado aeropuerto', tours: 'Tours y entradas', car: 'Alquiler de coche', note: 'Enlaces de socios: Fastamor puede recibir una comisión, sin coste adicional para ti.' },
+};
+async function tripKitHtml(slug, lang) {
+  const d = await articleDest(slug);
+  const k = KIT[lang] || KIT.en;
+  const sub = item => `art-${slug}_tripkit-${item}_${lang}`.slice(0, 60);
+  const go = (partner, item) => `/go/${partner}?s=${encodeURIComponent(sub(item))}`;
+  const a = (href, label) => `<li><a href="${esc(href)}" rel="sponsored nofollow noopener" target="_blank">${esc(label)}</a></li>`;
+  const links = d
+    ? a(`https://www.stay22.com/allez/roam?aid=fastamor&campaign=${encodeURIComponent(sub('hotel'))}&address=${encodeURIComponent(d.city)}`, k.hotel) +
+      a(go('yesim', 'esim'), k.esim) + a(go('kiwitaxi', 'transfer'), k.transfer) + a(go('klook', 'tours'), k.tours)
+    : a(go('yesim', 'esim'), k.esim) + a(go('kiwitaxi', 'transfer'), k.transfer) + `<li><a href="${urlFor('/car', lang)}">${esc(k.car)}</a></li>`;
+  const name = d ? (d.name[lang] || d.name.en) : '';
+  return `<aside><h2>${esc(k.t(name))}</h2><ul>${links}</ul><p>${esc(k.note)}</p></aside>`;
+}
+
 
 const UI = {
   en: { flights: 'Flights to Morocco', blog: 'Blog', home: 'Home', guides: 'Travel guides', dests: 'Popular destinations', latest: 'Latest travel guides', attractions: 'Top attractions',
@@ -170,7 +199,7 @@ async function articlePage(slug, lang) {
       mainEntityOfPage: url, author: { '@type': 'Organization', name: 'Fastamor' },
       publisher: { '@type': 'Organization', name: 'Fastamor', logo: { '@type': 'ImageObject', url: DEFAULT_IMAGE } },
     },
-    body: `${nav(lang)}<article><h1>${esc(title)}</h1>${excerpt ? `<p>${esc(text(excerpt))}</p>` : ''}${sanitize(a[`body_${lang}`])}</article>`,
+    body: `${nav(lang)}<article><h1>${esc(title)}</h1>${excerpt ? `<p>${esc(text(excerpt))}</p>` : ''}${sanitize(a[`body_${lang}`])}${await tripKitHtml(a.slug || slug, lang)}</article>`,
   };
 }
 

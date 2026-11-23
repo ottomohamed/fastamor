@@ -173,6 +173,9 @@
     },
     "api/affiliate.js": {
       "includeFiles": "api/_data/**"
+    },
+    "api/render.js": {
+      "includeFiles": "api/_data/**"
     }
   }
 }

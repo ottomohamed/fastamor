@@ -1,0 +1,14 @@
+{
+  "_comment": "Destination for each article: 'city' is sent to hotel search (Stay22), 'name' is shown to readers per language. Articles not listed get the generic trip kit (eSIM, transfer, car hire).",
+  "italy-travel-guide":            { "city": "Rome, Italy",          "name": { "en": "Italy",       "ar": "إيطاليا",   "fr": "l’Italie",   "es": "Italia" } },
+  "vatican-city-guide":            { "city": "Rome, Italy",          "name": { "en": "Rome",        "ar": "روما",      "fr": "Rome",       "es": "Roma" } },
+  "italian-cuisine-art":           { "city": "Rome, Italy",          "name": { "en": "Italy",       "ar": "إيطاليا",   "fr": "l’Italie",   "es": "Italia" } },
+  "spain-mediterranean-treasure":  { "city": "Seville, Spain",       "name": { "en": "Spain",       "ar": "إسبانيا",   "fr": "l’Espagne",  "es": "España" } },
+  "portugal-travel-guide":         { "city": "Lisbon, Portugal",     "name": { "en": "Portugal",    "ar": "البرتغال",  "fr": "le Portugal","es": "Portugal" } },
+  "france-festivals":              { "city": "Paris, France",        "name": { "en": "France",      "ar": "فرنسا",     "fr": "la France",  "es": "Francia" } },
+  "uae-luxury-hotels":             { "city": "Dubai, United Arab Emirates", "name": { "en": "Dubai", "ar": "دبي",      "fr": "Dubaï",      "es": "Dubái" } },
+  "china-shopping-guide":          { "city": "Shanghai, China",      "name": { "en": "China",       "ar": "الصين",     "fr": "la Chine",   "es": "China" } },
+  "mexico-festivals":              { "city": "Mexico City, Mexico",  "name": { "en": "Mexico",      "ar": "المكسيك",   "fr": "le Mexique", "es": "México" } },
+  "morocco-magic-of-the-east":     { "city": "Marrakech, Morocco",   "name": { "en": "Morocco",     "ar": "المغرب",    "fr": "le Maroc",   "es": "Marruecos" } },
+  "moroccan-cuisine-maghreb-table":{ "city": "Marrakech, Morocco",   "name": { "en": "Morocco",     "ar": "المغرب",    "fr": "le Maroc",   "es": "Marruecos" } }
+}
