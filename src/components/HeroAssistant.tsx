@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Plane, Building2, Ship, Car, Smartphone, Ticket, Send, Maximize2, RotateCcw } from 'lucide-react';
+import { Plane, Building2, Ship, Car, Smartphone, Ticket, Send, Maximize2, RotateCcw, Mic, Square, Volume2, VolumeX } from 'lucide-react';
+import { useVoice } from '@/hooks/use-voice';
 import { useFastamorChat, detectService } from '@/hooks/use-fastamor-chat';
 import { trackClick } from '@/lib/tracking';
 
@@ -9,6 +10,7 @@ const COPY: Record<L, {
   h1: string; sub: string; placeholder: string; send: string; full: string; reset: string;
   passenger: string; from: string; stubTitle: string; stubEmpty: string; typing: string; book: string; open: string;
   chips: string[]; tabs: Record<string, string>; direct: string; stops: (n: string) => string;
+  mic: string; micStop: string; listening: string; voiceOn: string; voiceOff: string; micDenied: string; noSpeech: string;
 }> = {
   en: {
     h1: 'Tell me where you’re going.',
@@ -19,6 +21,8 @@ const COPY: Record<L, {
     chips: ['Flight from Paris to Casablanca in January', 'Ferry from Algeciras to Tanger Med in July', 'Hotel in Marrakech for 3 nights', 'eSIM for a week in Morocco'],
     tabs: { flight: 'Flights', hotel: 'Hotels', ferry: 'Ferries', taxi: 'Transfers', experience: 'Tours', esim: 'eSIM' },
     direct: 'Direct', stops: n => `${n} stop(s)`,
+    mic: 'Speak your question', micStop: 'Stop listening', listening: 'Listening… speak now', voiceOn: 'Read replies aloud', voiceOff: 'Stop reading replies aloud',
+    micDenied: 'Microphone access is blocked. Allow it in your browser settings, then try again.', noSpeech: 'I didn’t hear anything. Tap the microphone and speak.',
   },
   ar: {
     h1: 'قل لي إلى أين تسافر.',
@@ -29,6 +33,8 @@ const COPY: Record<L, {
     chips: ['رحلة من باريس إلى الدار البيضاء في يناير', 'باخرة من الجزيرة الخضراء إلى طنجة المتوسط في يوليو', 'فندق في مراكش لثلاث ليالٍ', 'شريحة eSIM لأسبوع في المغرب'],
     tabs: { flight: 'طيران', hotel: 'فنادق', ferry: 'بواخر', taxi: 'نقل', experience: 'جولات', esim: 'eSIM' },
     direct: 'مباشرة', stops: n => `توقف: ${n}`,
+    mic: 'اسأل بصوتك', micStop: 'إيقاف الاستماع', listening: 'أستمع إليك… تكلم الآن', voiceOn: 'قراءة الردود بصوت مسموع', voiceOff: 'إيقاف قراءة الردود',
+    micDenied: 'الوصول إلى الميكروفون محظور. اسمح به من إعدادات المتصفح ثم أعد المحاولة.', noSpeech: 'لم أسمع شيئاً. اضغط على الميكروفون وتكلم.',
   },
   fr: {
     h1: 'Dites-moi où vous partez.',
@@ -39,6 +45,8 @@ const COPY: Record<L, {
     chips: ['Vol de Paris à Casablanca en janvier', 'Ferry d’Algésiras à Tanger Med en juillet', 'Hôtel à Marrakech, 3 nuits', 'eSIM pour une semaine au Maroc'],
     tabs: { flight: 'Vols', hotel: 'Hôtels', ferry: 'Ferries', taxi: 'Transferts', experience: 'Activités', esim: 'eSIM' },
     direct: 'Direct', stops: n => `${n} escale(s)`,
+    mic: 'Posez votre question à voix haute', micStop: 'Arrêter l’écoute', listening: 'Je vous écoute… parlez maintenant', voiceOn: 'Lire les réponses à voix haute', voiceOff: 'Arrêter la lecture des réponses',
+    micDenied: 'L’accès au micro est bloqué. Autorisez-le dans les réglages du navigateur, puis réessayez.', noSpeech: 'Je n’ai rien entendu. Touchez le micro et parlez.',
   },
   es: {
     h1: 'Dime adónde vas.',
@@ -49,6 +57,8 @@ const COPY: Record<L, {
     chips: ['Vuelo de Madrid a Casablanca en enero', 'Ferri de Algeciras a Tánger Med en julio', 'Hotel en Marrakech, 3 noches', 'eSIM para una semana en Marruecos'],
     tabs: { flight: 'Vuelos', hotel: 'Hoteles', ferry: 'Ferris', taxi: 'Traslados', experience: 'Actividades', esim: 'eSIM' },
     direct: 'Directo', stops: n => `${n} escala(s)`,
+    mic: 'Haz tu pregunta en voz alta', micStop: 'Dejar de escuchar', listening: 'Te escucho… habla ahora', voiceOn: 'Leer las respuestas en voz alta', voiceOff: 'Dejar de leer las respuestas',
+    micDenied: 'El acceso al micrófono está bloqueado. Permítelo en los ajustes del navegador y vuelve a intentarlo.', noSpeech: 'No he oído nada. Toca el micrófono y habla.',
   },
 };
 
@@ -79,6 +89,18 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
   const [pending, setPending] = useState<string | null>(null);
   const { messages, isTyping, showSearchAnim, dynamicLinks, flightResults, sendMessage, clearChat } = useFastamorChat(service, l);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [voiceReplies, setVoiceReplies] = useState(false);
+  const voice = useVoice(l, text => { setVoiceReplies(true); submit(text); });
+  const spokenUpTo = useRef(0);
+
+  // Read new assistant replies aloud when voice replies are on.
+  useEffect(() => {
+    if (!voiceReplies || !voice.canSpeak) { spokenUpTo.current = messages.length; return; }
+    const fresh = messages.slice(spokenUpTo.current).filter(m => m.role === 'assistant');
+    spokenUpTo.current = messages.length;
+    if (fresh.length) voice.speak(fresh.map(m => m.content).join('. '));
+  }, [messages, voiceReplies]);
+
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Send after the service state has updated, so the request uses the right service.
@@ -123,7 +145,10 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
         @keyframes fa-print{from{clip-path:inset(0 0 100% 0);transform:translateY(-6px)}to{clip-path:inset(0 0 0 0);transform:none}}
         .fa-dot{animation:fa-blink 1.2s infinite both}.fa-dot:nth-child(2){animation-delay:.2s}.fa-dot:nth-child(3){animation-delay:.4s}
         @keyframes fa-blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
-        @media (prefers-reduced-motion:reduce){.fa-print,.fa-dot{animation:none}}
+        @media (max-width:639px){.fa-tabs{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);scrollbar-width:none}[dir=rtl] .fa-tabs{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent)}}
+        .fa-listening{box-shadow:0 0 0 0 rgba(53,80,200,.55);animation:fa-pulse 1.4s infinite}
+        @keyframes fa-pulse{0%{box-shadow:0 0 0 0 rgba(53,80,200,.55)}70%{box-shadow:0 0 0 14px rgba(53,80,200,0)}100%{box-shadow:0 0 0 0 rgba(53,80,200,0)}}
+        @media (prefers-reduced-motion:reduce){.fa-print,.fa-dot,.fa-listening{animation:none}}
         .fa-hero textarea:focus-visible,.fa-hero button:focus-visible,.fa-hero a:focus-visible{outline:3px solid #F2A93B;outline-offset:2px}
       `}</style>
 
@@ -138,7 +163,7 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
           {/* Main part: conversation */}
           <div className="flex flex-col min-h-[360px] min-w-0">
             <div className="flex items-center justify-between gap-3 px-5 pt-4 pb-3 border-b border-[#E7E9F2]">
-              <div className="flex gap-1 overflow-x-auto" role="tablist" aria-label={c.from}>
+              <div className="fa-tabs flex gap-1 overflow-x-auto min-w-0 flex-1" role="tablist" aria-label={c.from}>
                 {TABS.map(({ id, Icon }) => (
                   <button key={id} role="tab" aria-selected={service === id}
                     onClick={() => setService(id)}
@@ -147,13 +172,20 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
                   </button>
                 ))}
               </div>
-              <div className="hidden sm:flex items-center gap-1 shrink-0">
+              <div className="flex items-center gap-1 shrink-0">
+                {voice.canSpeak && (
+                  <button onClick={() => { if (voiceReplies) voice.stopSpeaking(); setVoiceReplies(v => !v); }}
+                    className={`p-2 rounded-full hover:bg-[#EEF0F8] ${voiceReplies ? 'text-[#3550C8]' : 'text-[#14204A]/60'}`}
+                    aria-pressed={voiceReplies} aria-label={voiceReplies ? c.voiceOff : c.voiceOn} title={voiceReplies ? c.voiceOff : c.voiceOn}>
+                    {voiceReplies ? <Volume2 size={16} /> : <VolumeX size={16} />}
+                  </button>
+                )}
                 {started && (
                   <button onClick={() => clearChat()} className="p-2 rounded-full text-[#14204A]/60 hover:bg-[#EEF0F8]" aria-label={c.reset} title={c.reset}>
                     <RotateCcw size={16} />
                   </button>
                 )}
-                <button onClick={() => onOpenApp(service)} className="p-2 rounded-full text-[#14204A]/60 hover:bg-[#EEF0F8]" aria-label={c.full} title={c.full}>
+                <button onClick={() => onOpenApp(service)} className="hidden sm:inline-flex p-2 rounded-full text-[#14204A]/60 hover:bg-[#EEF0F8]" aria-label={c.full} title={c.full}>
                   <Maximize2 size={16} />
                 </button>
               </div>
@@ -191,16 +223,28 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
 
             <form onSubmit={e => { e.preventDefault(); submit(input); }} className="flex items-end gap-2 px-4 pb-4 pt-2">
               <label className="sr-only" htmlFor="fa-q">{c.placeholder}</label>
-              <textarea id="fa-q" ref={inputRef} rows={1} value={input}
+              <textarea id="fa-q" ref={inputRef} rows={1} value={voice.listening ? voice.interim : input} readOnly={voice.listening}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(input); } }}
-                placeholder={c.placeholder}
-                className="flex-1 min-w-0 resize-none rounded-2xl bg-[#F1F2F8] px-4 py-3.5 text-[16px] font-semibold placeholder:text-[#14204A]/40 focus:outline-none" />
-              <button type="submit" disabled={!input.trim() || isTyping}
+                placeholder={voice.listening ? c.listening : c.placeholder}
+                className="flex-1 min-w-0 resize-none rounded-2xl placeholder-shown:whitespace-nowrap placeholder-shown:overflow-hidden placeholder-shown:text-ellipsis bg-[#F1F2F8] px-4 py-3.5 text-[16px] font-semibold placeholder:text-[#14204A]/40 focus:outline-none" />
+              {voice.canListen && (
+                <button type="button" onClick={() => (voice.listening ? voice.stop() : voice.start())} disabled={isTyping}
+                  aria-pressed={voice.listening} aria-label={voice.listening ? c.micStop : c.mic} title={voice.listening ? c.micStop : c.mic}
+                  className={`fa-mic shrink-0 grid place-items-center w-[52px] h-[52px] rounded-2xl transition-colors disabled:opacity-50 ${voice.listening ? 'bg-[#3550C8] text-white fa-listening' : 'bg-[#EEF0F8] text-[#3550C8] hover:bg-[#E1E4F5]'}`}>
+                  {voice.listening ? <Square size={18} fill="currentColor" aria-hidden /> : <Mic size={21} aria-hidden />}
+                </button>
+              )}
+              <button type="submit" disabled={!input.trim() || isTyping || voice.listening}
                 className="shrink-0 flex items-center gap-2 rounded-2xl bg-[#F2A93B] text-[#14204A] font-extrabold px-5 py-3.5 disabled:opacity-50 hover:bg-[#f5b85a] transition-colors">
                 <Send size={17} className={isRtl ? 'rotate-180' : ''} aria-hidden /> <span className="hidden sm:inline">{c.send}</span><span className="sr-only sm:hidden">{c.send}</span>
               </button>
             </form>
+            {voice.error && (
+              <p role="status" className="px-5 pb-3 -mt-1 text-sm font-semibold text-[#B4441B]">
+                {voice.error === 'denied' ? c.micDenied : c.noSpeech}
+              </p>
+            )}
           </div>
 
           {/* Perforation; ticket notches on wide screens */}
