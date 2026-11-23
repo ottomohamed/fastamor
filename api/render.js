@@ -76,28 +76,28 @@ import { LANGS, MIN_BODY, isLang, urlFor, articleLangs, destinationLangs } from 
 
 const UI = {
   en: { flights: 'Flights to Morocco', blog: 'Blog', home: 'Home', guides: 'Travel guides', dests: 'Popular destinations', latest: 'Latest travel guides', attractions: 'Top attractions',
-        homeTitle: 'AI Travel Concierge — Cheap Flights, Hotels & Travel Guides',
+        homeTitle: 'Fastamor: AI travel assistant for flights, hotels & car hire',
         homeDesc: 'Fastamor is your personal AI travel assistant: compare cheap flights, hotels, tours and transfers, and read practical travel guides.',
         homeH1: 'Fastamor — your AI travel concierge',
         homeP: 'Plan your trip in a conversation: Fastamor finds flights, hotels, tours and airport transfers and links you to the best offers.',
         blogTitle: 'Travel Blog — Guides, Tips & Itineraries', blogDesc: 'Travel guides, destination tips and itineraries from Fastamor, your AI travel concierge.', blogH1: 'Fastamor Travel Blog',
         guide: 'Travel Guide', nf: 'Page not found', nfP: 'Browse our travel guides' },
   ar: { flights: 'رحلات إلى المغرب', blog: 'المدونة', home: 'الرئيسية', guides: 'أدلة السفر', dests: 'وجهات مميزة', latest: 'أحدث أدلة السفر', attractions: 'أبرز المعالم',
-        homeTitle: 'مساعد السفر الذكي — طيران رخيص وفنادق وأدلة سفر',
+        homeTitle: 'فاستامور: مساعد السفر الذكي للطيران والفنادق وكراء السيارات',
         homeDesc: 'فاستامور مساعدك الشخصي للسفر بالذكاء الاصطناعي: قارن أسعار الطيران والفنادق والجولات والنقل من المطار، واقرأ أدلة سفر عملية.',
         homeH1: 'فاستامور — مساعد السفر الذكي',
         homeP: 'خطط لرحلتك بمحادثة بسيطة: يبحث فاستامور عن الرحلات والفنادق والجولات والنقل من المطار ويوجهك إلى أفضل العروض.',
         blogTitle: 'مدونة السفر — أدلة ونصائح وبرامج رحلات', blogDesc: 'أدلة سفر ونصائح للوجهات وبرامج رحلات من فاستامور، مساعد السفر الذكي.', blogH1: 'مدونة فاستامور للسفر',
         guide: 'دليل السفر', nf: 'الصفحة غير موجودة', nfP: 'تصفح أدلة السفر' },
   fr: { flights: 'Vols vers le Maroc', blog: 'Blog', home: 'Accueil', guides: 'Guides de voyage', dests: 'Destinations populaires', latest: 'Derniers guides de voyage', attractions: 'Incontournables',
-        homeTitle: 'Assistant de voyage IA — Vols pas chers, hôtels et guides',
+        homeTitle: 'Fastamor : assistant de voyage IA, vols, hôtels et voitures',
         homeDesc: 'Fastamor est votre assistant de voyage IA : comparez vols pas chers, hôtels, activités et transferts, et lisez des guides pratiques.',
         homeH1: 'Fastamor — votre assistant de voyage IA',
         homeP: 'Planifiez votre voyage en conversant : Fastamor trouve vols, hôtels, activités et transferts aéroport et vous oriente vers les meilleures offres.',
         blogTitle: 'Blog voyage — Guides, conseils et itinéraires', blogDesc: 'Guides de voyage, conseils et itinéraires par Fastamor, votre assistant de voyage IA.', blogH1: 'Le blog voyage Fastamor',
         guide: 'Guide de voyage', nf: 'Page introuvable', nfP: 'Voir nos guides de voyage' },
   es: { flights: 'Vuelos a Marruecos', blog: 'Blog', home: 'Inicio', guides: 'Guías de viaje', dests: 'Destinos populares', latest: 'Últimas guías de viaje', attractions: 'Imprescindibles',
-        homeTitle: 'Asistente de viajes con IA — Vuelos baratos, hoteles y guías',
+        homeTitle: 'Fastamor: asistente de viajes con IA, vuelos, hoteles y coches',
         homeDesc: 'Fastamor es tu asistente de viajes con IA: compara vuelos baratos, hoteles, actividades y traslados, y lee guías prácticas.',
         homeH1: 'Fastamor — tu asistente de viajes con IA',
         homeP: 'Planifica tu viaje conversando: Fastamor encuentra vuelos, hoteles, actividades y traslados y te lleva a las mejores ofertas.',
@@ -106,7 +106,8 @@ const UI = {
 };
 
 function render(template, { title, description, url, image, lang = 'en', type = 'website', jsonLd, body, status, alternates }) {
-  const fullTitle = title.length <= 50 ? `${title} | Fastamor` : title;
+  // Always carry the brand: append it when it fits in ~60 chars, unless already present.
+  const fullTitle = /fastamor|فاستامور/i.test(title) ? title : (title.length <= 49 ? `${title} | Fastamor` : title);
   const desc = text(description).slice(0, 160);
   const head = [
     `<title>${esc(fullTitle)}</title>`,

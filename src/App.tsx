@@ -1,8 +1,5 @@
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { langFromPath, type Lang } from "@/lib/i18n-url";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import FastamorMain from "@/pages/FastamorMain";
 import NotFound from "@/pages/not-found";
 import { lazy, Suspense } from "react";
@@ -10,8 +7,6 @@ import { lazy, Suspense } from "react";
 const BlogView = lazy(() => import("@/views/BlogView"));
 const ArticleView = lazy(() => import("@/views/ArticleView"));
 const DestinationView = lazy(() => import("@/views/DestinationView"));
-
-const queryClient = new QueryClient();
 
 function LoadingSpinner() {
   return (
@@ -59,14 +54,9 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <WouterRouter>
-          <Router />
-        </WouterRouter>
-        <Toaster />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <WouterRouter>
+      <Router />
+    </WouterRouter>
   );
 }
 

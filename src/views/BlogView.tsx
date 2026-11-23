@@ -5,7 +5,6 @@ import { localizedPath, type Lang } from '@/lib/i18n-url';
 import { supabase } from '@/lib/supabase';
 import { useDocumentMeta } from '@/hooks/use-document-meta';
 import { ArrowRight, Plane, MapPin, Eye, Clock } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 interface Article {
   id: string;
@@ -96,40 +95,40 @@ export default function BlogView({ lang: urlLang = 'en' }: { lang?: Lang }) {
   const rest = articles.slice(1);
 
   return (
-    <div className="min-h-screen bg-[#fbf9f3] selection:bg-teal-100" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-[#F7F8FC] selection:bg-indigo-100" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
 
       {/* Announcement bar */}
-      <div className="bg-[#0d9488] text-white text-center py-2.5 text-[10px] font-black uppercase tracking-[0.2em]">
-        ✦ The Fastamor Travel Magazine — Expert guides, hotel reviews & AI-powered trip planning ✦
+      <div className="bg-[#3550C8] text-white text-center py-2.5 text-xs font-black">
+        The Fastamor Travel Magazine — Expert guides, hotel reviews & AI-powered trip planning
       </div>
 
       {/* Navbar */}
-      <nav className="sticky top-0 z-40 bg-[#fbf9f3]/90 backdrop-blur-xl border-b border-[#bcc9c6]/20">
+      <nav className="sticky top-0 z-40 bg-[#F7F8FC]/90 backdrop-blur-xl border-b border-[#E1E4F0]/20">
         <div className="max-w-7xl mx-auto px-6 h-18 py-4 flex items-center justify-between">
-          <Link href={L('/')} className="font-serif text-2xl font-black tracking-tighter text-[#00685f]">
+          <Link href={L('/')} className="font-serif text-2xl font-black tracking-tighter text-[#3550C8]">
             FASTAMOR
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <Link href={L('/blog')} className="text-xs font-black uppercase tracking-widest text-[#00685f] border-b-2 border-[#00685f] pb-0.5">
+            <Link href={L('/blog')} className="text-xs font-black text-[#3550C8] border-b-2 border-[#3550C8] pb-0.5">
               Magazine
             </Link>
-            <Link href={L('/')} className="text-xs font-black uppercase tracking-widest text-[#3d4947] hover:text-[#00685f] transition-colors">
+            <Link href={L('/')} className="text-xs font-black text-[#353D5C] hover:text-[#3550C8] transition-colors">
               AI Concierge
             </Link>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex bg-[#f5f2e9] rounded-full p-1 border border-[#bcc9c6]/20">
+            <div className="flex bg-[#f5f2e9] rounded-full p-1 border border-[#E1E4F0]/20">
               {(['en','ar','fr','es'] as const).map(l => (
                 <button key={l} onClick={() => setLang(l)}
-                  className={`px-3 py-1 text-[10px] font-black uppercase rounded-full transition-all ${lang === l ? 'bg-[#00685f] text-white shadow' : 'text-[#3d4947] hover:text-[#00685f]'}`}>
+                  className={`px-3 py-1 text-xs font-black rounded-full transition-all ${lang === l ? 'bg-[#3550C8] text-white shadow' : 'text-[#353D5C] hover:text-[#3550C8]'}`}>
                   {l}
                 </button>
               ))}
             </div>
-            <Link href={L('/')} className="hidden sm:block bg-[#1b1c19] text-white px-5 py-2.5 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#00685f] transition-all">
-              ✈️ Plan Trip
+            <Link href={L('/')} className="hidden sm:block bg-[#14204A] text-white px-5 py-2.5 rounded-full font-bold text-xs hover:bg-[#3550C8] transition-all">
+              Plan Trip
             </Link>
           </div>
         </div>
@@ -137,13 +136,13 @@ export default function BlogView({ lang: urlLang = 'en' }: { lang?: Lang }) {
 
       {/* Hero header */}
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-10">
-        <div className="inline-block px-3 py-1 bg-teal-50 text-[#00685f] text-[10px] font-black uppercase tracking-[0.2em] mb-6 rounded-full">
+        <div className="inline-block px-3 py-1 bg-teal-50 text-[#3550C8] text-xs font-black mb-6 rounded-full">
           Travel Magazine
         </div>
-        <h1 className="text-5xl md:text-7xl font-serif font-black text-[#1b1c19] leading-[1.05] tracking-tighter mb-4">
+        <h1 className="text-5xl md:text-7xl font-serif font-black text-[#14204A] leading-[1.05] tracking-tighter mb-4">
           {lang === 'ar' ? 'مجلة السفر' : lang === 'fr' ? 'Le Magazine' : lang === 'es' ? 'La Revista' : 'The Magazine.'}
         </h1>
-        <p className="text-[#3d4947] text-lg font-medium opacity-70 max-w-xl">
+        <p className="text-[#353D5C] text-lg font-medium opacity-70 max-w-xl">
           {lang === 'ar' ? 'أدلة وجهات حصرية، مراجعات فنادق، ونصائح سفر من خبرائنا حول العالم' :
            lang === 'fr' ? 'Guides exclusifs, critiques d\'hôtels et conseils de voyage par nos experts' :
            lang === 'es' ? 'Guías exclusivas, reseñas de hoteles y consejos de viaje de nuestros expertos' :
@@ -153,13 +152,13 @@ export default function BlogView({ lang: urlLang = 'en' }: { lang?: Lang }) {
 
       {/* Category filter */}
       <div className="max-w-7xl mx-auto px-6 mb-10">
-        <div className="flex gap-2 flex-wrap border-b border-[#bcc9c6]/20 pb-4">
+        <div className="flex gap-2 flex-wrap border-b border-[#E1E4F0]/20 pb-4">
           {CATEGORIES.map(cat => (
             <button key={cat.id} onClick={() => setCategory(cat.id)}
-              className={`px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-wider transition-all ${
+              className={`px-5 py-2 rounded-full text-[11px] font-black tracking-wider transition-all ${
                 category === cat.id
-                  ? 'bg-[#1b1c19] text-white'
-                  : 'text-[#3d4947] hover:text-[#1b1c19] hover:bg-[#f0eee8]'
+                  ? 'bg-[#14204A] text-white'
+                  : 'text-[#353D5C] hover:text-[#14204A] hover:bg-[#EEF0F8]'
               }`}>
               {catLabel(cat)}
             </button>
@@ -171,17 +170,17 @@ export default function BlogView({ lang: urlLang = 'en' }: { lang?: Lang }) {
         {loading ? (
           <div className="flex items-center justify-center py-32">
             <div className="flex flex-col items-center gap-4">
-              <div className="w-8 h-8 border-2 border-[#00685f] border-t-transparent rounded-full animate-spin"/>
-              <p className="text-[10px] text-[#6d7a77] uppercase tracking-widest font-bold">Curating stories...</p>
+              <div className="w-8 h-8 border-2 border-[#3550C8] border-t-transparent rounded-full animate-spin"/>
+              <p className="text-xs text-[#5B6488] font-bold">Curating stories...</p>
             </div>
           </div>
         ) : articles.length === 0 ? (
           <div className="text-center py-32">
-            <Plane size={40} className="mx-auto mb-6 text-[#bcc9c6]"/>
-            <p className="text-[#1b1c19] font-black text-xl mb-2">
+            <Plane size={40} className="mx-auto mb-6 text-[#14204A]/60"/>
+            <p className="text-[#14204A] font-black text-xl mb-2">
               {lang === 'ar' ? 'لا توجد مقالات بعد' : 'No stories yet'}
             </p>
-            <p className="text-[#6d7a77] text-sm">
+            <p className="text-[#5B6488] text-sm">
               {lang === 'ar' ? 'ابدأ بكتابة مقالاتك من لوحة التحكم' : 'Start writing from the admin panel'}
             </p>
           </div>
@@ -189,9 +188,9 @@ export default function BlogView({ lang: urlLang = 'en' }: { lang?: Lang }) {
           <>
             {/* Featured */}
             {featured && (
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
+              <div className="fa-rise mb-16">
                 <Link href={L(`/article/${featured.slug}`)} className="block group">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-3xl overflow-hidden border border-[#bcc9c6]/20 bg-white shadow-sm hover:shadow-xl transition-shadow">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-3xl overflow-hidden border border-[#E1E4F0]/20 bg-white shadow-sm hover:shadow-xl transition-shadow">
                     {featured.featured_image ? (
                       <div className="relative h-72 lg:h-auto overflow-hidden">
                         <img src={featured.featured_image} alt={getTitle(featured)}
@@ -199,77 +198,77 @@ export default function BlogView({ lang: urlLang = 'en' }: { lang?: Lang }) {
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/10"/>
                       </div>
                     ) : (
-                      <div className="h-72 lg:h-auto bg-[#e1f5ee] flex items-center justify-center">
-                        <Plane size={48} className="text-[#00685f] opacity-30"/>
+                      <div className="h-72 lg:h-auto bg-[#EEF0F8] flex items-center justify-center">
+                        <Plane size={48} className="text-[#3550C8] opacity-30"/>
                       </div>
                     )}
                     <div className="p-8 md:p-12 flex flex-col justify-between">
                       <div>
                         <div className="flex items-center gap-3 mb-6">
-                          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00685f] bg-teal-50 px-3 py-1 rounded-full">
+                          <span className="text-xs font-black text-[#3550C8] bg-teal-50 px-3 py-1 rounded-full">
                             {CATEGORY_TAGS[featured.category] || 'Story'}
                           </span>
-                          <span className="text-[10px] text-[#6d7a77] flex items-center gap-1 font-medium">
+                          <span className="text-xs text-[#5B6488] flex items-center gap-1 font-medium">
                             <Eye size={10}/> {featured.views || 0}
                           </span>
                         </div>
-                        <h2 className="text-3xl md:text-4xl font-serif font-black text-[#1b1c19] leading-[1.15] mb-4 group-hover:text-[#00685f] transition-colors">
+                        <h2 className="text-3xl md:text-4xl font-serif font-black text-[#14204A] leading-[1.15] mb-4 group-hover:text-[#3550C8] transition-colors">
                           {getTitle(featured)}
                         </h2>
-                        <p className="text-[#3d4947] leading-relaxed opacity-70 line-clamp-3 text-base">
+                        <p className="text-[#353D5C] leading-relaxed opacity-70 line-clamp-3 text-base">
                           {getExcerpt(featured)}
                         </p>
                       </div>
-                      <div className="flex items-center gap-2 mt-8 text-[#00685f] font-black text-xs uppercase tracking-widest group-hover:gap-3 transition-all">
+                      <div className="flex items-center gap-2 mt-8 text-[#3550C8] font-black text-xs group-hover:gap-3 transition-all">
                         {lang === 'ar' ? 'اقرأ المقال' : lang === 'fr' ? 'Lire l\'article' : lang === 'es' ? 'Leer artículo' : 'Read Story'}
                         <ArrowRight size={14} className={lang === 'ar' ? 'rotate-180' : ''}/>
                       </div>
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             )}
 
             {/* Grid */}
             {rest.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {rest.map((article, i) => (
-                  <motion.div key={article.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
+                  <div className="fa-rise" key={article.id} style={{ animationDelay: `${(i * 0.05)}s` }}>
                     <Link href={L(`/article/${article.slug}`)} className="block group h-full">
-                      <div className="bg-white border border-[#bcc9c6]/20 rounded-2xl overflow-hidden hover:shadow-lg transition-all h-full flex flex-col">
+                      <div className="bg-white border border-[#E1E4F0]/20 rounded-2xl overflow-hidden hover:shadow-lg transition-all h-full flex flex-col">
                         {article.featured_image ? (
                           <div className="h-52 overflow-hidden">
                             <img src={article.featured_image} alt={getTitle(article)}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                           </div>
                         ) : (
-                          <div className="h-52 bg-[#f0eee8] flex items-center justify-center">
-                            <MapPin size={32} className="text-[#bcc9c6]"/>
+                          <div className="h-52 bg-[#EEF0F8] flex items-center justify-center">
+                            <MapPin size={32} className="text-[#14204A]/60"/>
                           </div>
                         )}
                         <div className="p-6 flex flex-col flex-1">
                           <div className="flex items-center justify-between mb-3">
-                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#00685f] bg-teal-50 px-2 py-0.5 rounded-full">
+                            <span className="text-xs font-black text-[#3550C8] bg-teal-50 px-2 py-0.5 rounded-full">
                               {CATEGORY_TAGS[article.category] || 'Story'}
                             </span>
-                            <span className="text-[10px] text-[#bcc9c6] font-medium">
+                            <span className="text-xs text-[#14204A]/60 font-medium">
                               {new Date(article.published_at).toLocaleDateString()}
                             </span>
                           </div>
-                          <h3 className="font-serif font-black text-[#1b1c19] text-lg leading-tight mb-2 group-hover:text-[#00685f] transition-colors line-clamp-2 flex-1">
+                          <h3 className="font-serif font-black text-[#14204A] text-lg leading-tight mb-2 group-hover:text-[#3550C8] transition-colors line-clamp-2 flex-1">
                             {getTitle(article)}
                           </h3>
-                          <p className="text-[#6d7a77] text-sm line-clamp-2 mb-4 leading-relaxed">
+                          <p className="text-[#5B6488] text-sm line-clamp-2 mb-4 leading-relaxed">
                             {getExcerpt(article)}
                           </p>
-                          <div className="flex items-center gap-1 text-[#00685f] text-[10px] font-black uppercase tracking-widest">
+                          <div className="flex items-center gap-1 text-[#3550C8] text-xs font-black">
                             {lang === 'ar' ? 'اقرأ' : lang === 'fr' ? 'Lire' : lang === 'es' ? 'Leer' : 'Read'}
                             <ArrowRight size={10} className={lang === 'ar' ? 'rotate-180' : ''}/>
                           </div>
                         </div>
                       </div>
                     </Link>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             )}
@@ -278,14 +277,14 @@ export default function BlogView({ lang: urlLang = 'en' }: { lang?: Lang }) {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#1b1c19] text-[#bcc9c6] py-12 px-6">
+      <footer className="bg-[#14204A] text-[#14204A]/60 py-12 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="font-serif text-xl font-black text-white">FASTAMOR</div>
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">
+          <p className="text-xs font-black opacity-40">
             © 2026 Fastamor. Editorial Travel Intelligence.
           </p>
-          <Link href={L('/')} className="text-[10px] font-black uppercase tracking-widest text-[#0d9488] hover:text-white transition-colors">
-            ✈️ AI Concierge →
+          <Link href={L('/')} className="text-xs font-black text-[#3550C8] hover:text-white transition-colors">
+            AI Concierge →
           </Link>
         </div>
       </footer>

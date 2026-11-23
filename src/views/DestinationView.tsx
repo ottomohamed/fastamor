@@ -85,13 +85,13 @@ export default function DestinationView({ slug, lang: urlLang = 'en' }: { slug: 
   const t = (ar: string, en: string) => lang === 'ar' ? ar : en;
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FFFDF7]">
+    <div className="min-h-screen flex items-center justify-center bg-[#F7F8FC]">
       <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"/>
     </div>
   );
 
   if (!destination) return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#F7F8FC]">
       <p className="text-2xl font-black mb-4">Destination not found</p>
       <Link href={L('/blog')} className="text-primary hover:underline">← Back</Link>
     </div>
@@ -107,7 +107,7 @@ export default function DestinationView({ slug, lang: urlLang = 'en' }: { slug: 
   const hotelUrl = `https://intui.tpx.gr/kguAoKIU`;
 
   return (
-    <div className="min-h-screen bg-[#FFFDF7]" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-[#F7F8FC]" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
       {/* Header */}
       <header className="bg-white border-b border-black/10 sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">

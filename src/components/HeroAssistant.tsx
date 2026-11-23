@@ -135,7 +135,7 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
     <section
       className="fa-hero relative overflow-hidden text-white"
       dir={isRtl ? 'rtl' : 'ltr'}
-      style={{ backgroundColor: '#14204A', backgroundImage: ZELLIGE, fontFamily: 'Cairo, Inter, system-ui, sans-serif' }}
+      style={{ backgroundColor: '#14204A', backgroundImage: ZELLIGE }}
     >
       <style>{`
         .fa-hero ::selection{background:#F2A93B;color:#14204A}
@@ -162,7 +162,7 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
         {/* Boarding pass */}
         <div className="fa-pass mt-10 grid lg:grid-cols-[1fr_2px_340px] bg-white text-[#14204A] rounded-[22px] shadow-[0_30px_80px_-20px_rgba(0,0,0,.55)] overflow-hidden">
           {/* Main part: conversation */}
-          <div className="flex flex-col min-h-[360px] min-w-0">
+          <div className="flex flex-col lg:min-h-[300px] min-w-0">
             <div className="flex items-center justify-between gap-3 px-5 pt-4 pb-3 border-b border-[#E7E9F2]">
               <div className="fa-tabs flex gap-1 overflow-x-auto min-w-0 flex-1" role="tablist" aria-label={c.from}>
                 {TABS.map(({ id, Icon }) => (
@@ -228,7 +228,7 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(input); } }}
                 placeholder={voice.listening ? c.listening : c.placeholder}
-                className="flex-1 min-w-0 resize-none rounded-2xl placeholder-shown:whitespace-nowrap placeholder-shown:overflow-hidden placeholder-shown:text-ellipsis bg-[#F1F2F8] px-4 py-3.5 text-[16px] font-semibold placeholder:text-[#14204A]/40 focus:outline-none" />
+                className="flex-1 min-w-0 resize-none rounded-2xl placeholder-shown:whitespace-nowrap placeholder-shown:overflow-hidden placeholder-shown:text-ellipsis bg-[#F1F2F8] px-4 py-3.5 text-[16px] font-semibold placeholder:text-[#14204A]/60 focus:outline-none" />
               {voice.canListen && (
                 <button type="button" onClick={() => (voice.listening ? voice.stop() : voice.start())} disabled={isTyping}
                   aria-pressed={voice.listening} aria-label={voice.listening ? c.micStop : c.mic} title={voice.listening ? c.micStop : c.mic}
@@ -237,7 +237,7 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
                 </button>
               )}
               <button type="submit" disabled={!input.trim() || isTyping || voice.listening}
-                className="shrink-0 flex items-center gap-2 rounded-2xl bg-[#F2A93B] text-[#14204A] font-extrabold px-5 py-3.5 disabled:opacity-50 hover:bg-[#f5b85a] transition-colors">
+                className="shrink-0 flex items-center gap-2 rounded-2xl bg-[#F2A93B] text-[#14204A] font-extrabold px-5 py-3.5 disabled:bg-[#E1E4F0] disabled:text-[#14204A]/60 hover:bg-[#f5b85a] transition-colors">
                 <Send size={17} className={isRtl ? 'rotate-180' : ''} aria-hidden /> <span className="hidden sm:inline">{c.send}</span><span className="sr-only sm:hidden">{c.send}</span>
               </button>
             </form>
@@ -255,10 +255,10 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
           </div>
 
           {/* Stub: results */}
-          <aside className="bg-[#F7F8FC] px-5 py-5 flex flex-col" aria-label={c.stubTitle}>
+          <aside className={`bg-[#F7F8FC] px-5 py-5 flex-col ${hasStub ? 'flex' : 'hidden lg:flex'}`} aria-label={c.stubTitle}>
             <div className="flex items-baseline justify-between">
               <h2 className="text-lg font-extrabold">{c.stubTitle}</h2>
-              <span className="text-xs font-bold text-[#14204A]/50">FASTAMOR</span>
+              <span className="text-xs font-bold text-[#14204A]/70">FASTAMOR</span>
             </div>
 
             {!hasStub && <p className="mt-3 text-[15px] text-[#14204A]/60 leading-relaxed">{c.stubEmpty}</p>}

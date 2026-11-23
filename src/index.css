@@ -1,1 +1,21 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Cairo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Cairo", system-ui, sans-serif;
+  --font-display: "Cairo", system-ui, sans-serif;
+  --color-ink: #14204A;
+  --color-brand: #3550C8;
+  --color-accent: #F2A93B;
+  --color-surface: #F7F8FC;
+  --color-line: #E1E4F0;
+}
+
+html { font-family: var(--font-sans); }
+:focus-visible { outline: 3px solid #F2A93B; outline-offset: 2px; }
+.prose { line-height: 1.75; }
+[dir=rtl] .prose { line-height: 1.9; }
+.fa-rise { animation: fa-rise .4s both; }
+@keyframes fa-rise { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { .fa-rise { animation: none; } }

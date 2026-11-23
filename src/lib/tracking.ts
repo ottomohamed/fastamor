@@ -11,25 +11,23 @@ export function getActiveRef() {
   return localStorage.getItem('sj_ref') || "";
 }
 
-// الحل: استخدام <a> مؤقت بدل window.open لتجاوز Popup Blocker
-export function trackClick(url?: string) {
+/** Adds the visitor's referral sub-id (if any) to an affiliate URL. */
+export function withSubid(url: string): string {
+  const ref = getActiveRef();
+  return ref ? `${url}${url.includes('?') ? '&' : '?'}subid=${encodeURIComponent(ref)}` : url;
+}
+
+/** Counts an outbound affiliate click. Does NOT navigate: use it in onClick of a real <a href>. */
+export function trackClick(_url?: string) {
   const current = parseInt(localStorage.getItem('py_clicks') || '0', 10);
   localStorage.setItem('py_clicks', (current + 1).toString());
-
-  if (url) {
-    const ref = getActiveRef();
-    const finalUrl = ref ? `${url}${url.includes('?') ? '&' : '?'}subid=${encodeURIComponent(ref)}` : url;
-    
-    // استخدام <a> مؤقت - يتجاوز Popup Blocker دائماً
-    const a = document.createElement('a');
-    a.href = finalUrl;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
   return true;
+}
+
+/** For buttons (not links): counts the click and opens the affiliate URL once, in a new tab. */
+export function openTracked(url: string) {
+  trackClick(url);
+  window.open(withSubid(url), '_blank', 'noopener');
 }
 
 export function trackSearch() {

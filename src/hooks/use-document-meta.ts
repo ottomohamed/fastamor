@@ -38,7 +38,7 @@ const strip = (s: string) => s.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').tri
 export function useDocumentMeta({ title, description, image, path, lang, type = 'website' }: Meta) {
   useEffect(() => {
     if (!title) return;
-    const fullTitle = title.length <= 50 ? `${title} | Fastamor` : title;
+    const fullTitle = /fastamor|فاستامور/i.test(title) ? title : (title.length <= 49 ? `${title} | Fastamor` : title);
     const desc = strip(description || '').slice(0, 160);
     const url = `${SITE}${path || window.location.pathname}`;
     document.title = fullTitle;

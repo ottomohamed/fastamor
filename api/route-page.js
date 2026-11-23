@@ -7,6 +7,7 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { LANGS, isLang, urlFor } from './_lib/i18n.js';
+import { staticShell } from './_lib/static-shell.js';
 
 const SITE = 'https://www.fastamor.com';
 const DEFAULT_IMAGE = 'https://i.ibb.co/x8sSqTDj/1978.png';
@@ -30,10 +31,10 @@ async function getTemplate(req) {
   if (templateCache) return templateCache;
   try {
     const mod = await import('./_lib/template.generated.js');
-    if (mod.default) return (templateCache = mod.default);
+    if (mod.default) return (templateCache = staticShell(mod.default));
   } catch {}
   const r = await fetch(`https://${req.headers.host}/app.html`);
-  return (templateCache = await r.text());
+  return (templateCache = staticShell(await r.text()));
 }
 
 const esc = s =>
@@ -117,13 +118,13 @@ const fmtMonth = (ym, lang) => { try { return new Date(`${ym}-01T00:00:00Z`).toL
 const eur = (n, lang) => { try { return new Intl.NumberFormat(LOCALE[lang], { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n); } catch { return `${n} €`; } };
 
 const CSS = `<style>
-.rp{max-width:860px;margin:0 auto;padding:24px 18px 64px;font-family:Inter,Cairo,system-ui,sans-serif;color:#1b1c19;line-height:1.65}
-.rp nav{font-size:14px;margin-bottom:18px}.rp nav a{color:#00685f;text-decoration:none;margin-inline-end:10px}
+body{margin:0;background:#F7F8FC}.rp{max-width:1040px;margin:0 auto;padding:24px 18px 64px;font-family:Cairo,system-ui,sans-serif;color:#14204A;line-height:1.65}.rp .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rp nav{font-size:14px;margin-bottom:18px}.rp nav a{color:#3550C8;text-decoration:none;margin-inline-end:10px}
 .rp h1{font-size:30px;line-height:1.25;margin:8px 0 12px;font-weight:900}.rp h2{font-size:21px;margin:34px 0 12px;font-weight:800}
 .rp p{margin:0 0 12px}.rp table{width:100%;border-collapse:collapse;font-size:15px;background:#fff;border-radius:12px;overflow:hidden}
-.rp th,.rp td{padding:10px 12px;border-bottom:1px solid #eee;text-align:start}.rp th{background:#f5f2e9;font-weight:700}
-.rp .cta{display:inline-block;background:#0d9488;color:#fff;padding:12px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin:6px 0}
-.rp .btn{color:#0d9488;font-weight:700;text-decoration:none}.rp .note{font-size:13px;color:#6b7280}
+.rp th,.rp td{padding:10px 12px;border-bottom:1px solid #eee;text-align:start}.rp th{background:#EEF0F8;font-weight:700}
+.rp .cta{display:inline-block;background:#3550C8;color:#fff;padding:12px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin:6px 0}
+.rp .btn{color:#3550C8;font-weight:700;text-decoration:none}.rp .note{font-size:13px;color:#6b7280}
 .rp ul{padding-inline-start:20px}.rp details{background:#fff;border:1px solid #eee;border-radius:10px;padding:10px 14px;margin:8px 0}
 .rp summary{font-weight:700;cursor:pointer}.rp .grid{display:flex;flex-wrap:wrap;gap:8px}.rp .grid a{background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:6px 12px;text-decoration:none;color:#1b1c19;font-size:14px}
 </style>`;
@@ -139,6 +140,8 @@ function shell(template, { lang, title, description, url, alternates, jsonLd, bo
     `<meta property="og:url" content="${esc(url)}" />`,
     `<meta property="og:type" content="website" />`,
     `<meta property="og:image" content="${DEFAULT_IMAGE}" />`,
+    `<meta property="og:locale" content="${{ en: 'en_US', ar: 'ar_AR', fr: 'fr_FR', es: 'es_ES' }[lang]}" />`,
+    `<meta name="twitter:card" content="summary_large_image" />`,
     robots ? `<meta name="robots" content="${robots}" />` : '',
     ...(jsonLd || []).map(j => `<script type="application/ld+json">${JSON.stringify(j).replace(/</g, '\\u003c')}</script>`),
     CSS,
@@ -177,11 +180,11 @@ async function routePage(slug, lang, template) {
   const searchUrl = bookUrl(null, o, d);
 
   const faresTable = hasFares
-    ? `<table><thead><tr><th>${t.date}</th><th>${t.airline}</th><th>${t.stops}</th><th>${t.price}</th><th></th></tr></thead><tbody>` +
+    ? `<div class="tw"><table><thead><tr><th>${t.date}</th><th>${t.airline}</th><th>${t.stops}</th><th>${t.price}</th><th></th></tr></thead><tbody>` +
       fares.cheapest.map(f =>
         `<tr><td>${esc(fmtDate(f.departure_at, lang))}</td><td>${esc(airline(f.airline))}</td><td>${f.transfers ? esc(f.transfers) : t.direct}</td>` +
         `<td><strong>${esc(eur(f.price, lang))}</strong></td><td><a class="btn" rel="nofollow sponsored noopener" target="_blank" href="${esc(bookUrl(f, o, d))}">${t.book}</a></td></tr>`
-      ).join('') + `</tbody></table>`
+      ).join('') + `</tbody></table></div>`
     : '';
   const monthRows = fares.byMonth.filter(m => m.fare);
   const monthsTable = monthRows.length
