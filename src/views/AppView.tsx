@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plane, Building2, Ticket, Car, Bus, Ship, ArrowLeft, Mic, Send, ExternalLink, MapPin, Sparkles, Globe } from 'lucide-react';
 import { I18N, SERVICES, AFFILIATE_LINKS } from '@/lib/data';
-import { openTracked, trackClick } from '@/lib/tracking';
+import { openTracked, trackClick, sid } from '@/lib/tracking';
 import { useFastamorChat, detectService } from '@/hooks/use-fastamor-chat';
 import type { FlightResult } from '@/hooks/use-fastamor-chat';
 import { useSpeech } from '@/hooks/use-speech';
@@ -80,7 +80,7 @@ function FlightCard({ flight, lang }: { flight: FlightResult; lang: string }) {
         </div>
         <div className="text-right shrink-0">
           <div className="text-2xl font-black text-[#1b1c19]">${flight.price}</div>
-          <button onClick={() => { openTracked(flight.booking_url); }}
+          <button onClick={() => { openTracked(flight.booking_url, sid('app', 'flightcard')); }}
             className="mt-1 bg-[#00685f] text-white text-xs font-bold px-3 py-2 rounded-xl hover:bg-[#005049] transition-colors flex items-center gap-1">
             {bookLabel} <ExternalLink size={10}/>
           </button>
@@ -101,9 +101,9 @@ const SERVICES_NAV = [
 
 const SIDEBAR_LINKS = [
   { name: 'Aviasales', desc: 'Best flight deals', url: 'https://aviasales.tpx.gr/yQxrYmk7', icon: '✈️', color: 'from-orange-500 to-amber-400' },
-  { name: 'Intui Travel', desc: 'Top hotel offers', url: 'https://intui.tpx.gr/kguAoKIU', icon: '🏨', color: 'from-blue-500 to-cyan-400' },
+  { name: 'Yesim eSIM', desc: 'Mobile data abroad', url: 'https://yesim.tpx.gr/9gzdax7m', icon: '📶', color: 'from-blue-500 to-cyan-400' },
   { name: 'Klook', desc: 'Amazing experiences', url: 'https://klook.tpx.gr/vRUzaJbI', icon: '🎡', color: 'from-red-500 to-pink-400' },
-  { name: 'GetTransfer', desc: 'Airport transfers', url: 'https://gettransfer.tpx.gr/9poAnD5l', icon: '🚕', color: 'from-yellow-500 to-orange-400' },
+  { name: 'Kiwitaxi', desc: 'Airport transfers', url: 'https://kiwitaxi.tpx.gr/Y6yrFeYN', icon: '🚕', color: 'from-yellow-500 to-orange-400' },
 ];
 
 export function AppView({ onClose, initialService, lang, setLang }: AppViewProps) {
@@ -216,10 +216,10 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
 
         {/* Sponsor deals */}
         <div className="mt-2">
-          <p className="text-[10px] font-bold text-[#6d7a77] uppercase tracking-widest mb-3">Partner Deals</p>
+          <p className="text-xs font-bold text-[#6d7a77] mb-3">{lang === 'ar' ? 'عروض الشركاء' : lang === 'fr' ? 'Offres partenaires' : lang === 'es' ? 'Ofertas de socios' : 'Partner deals'}</p>
           <div className="space-y-3">
             {SIDEBAR_LINKS.map(link => (
-              <button key={link.name} onClick={() => { openTracked(link.url); }}
+              <button key={link.name} onClick={() => { openTracked(link.url, sid('app', 'sidebar', link.name, lang)); }}
                 className="w-full flex items-center gap-3 p-3 bg-white border border-[#e4e2dd] rounded-xl hover:shadow-sm transition-all text-left group">
                 <span className="text-xl">{link.icon}</span>
                 <div className="flex-1 min-w-0">
@@ -366,7 +366,7 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
             {hasResults && dynamicLinks.length > 0 && flightResults.length === 0 && (
               <div className="grid grid-cols-1 gap-2">
                 {dynamicLinks.map((link, i) => (
-                  <button key={i} onClick={() => { openTracked(link.url); }}
+                  <button key={i} onClick={() => { openTracked(link.url, sid('app', activeSvc || 'chat', link.name, lang)); }}
                     className="flex items-center gap-3 p-4 bg-white border border-[#e4e2dd] rounded-xl hover:border-[#00685f] hover:bg-[#e1f5ee] transition-all text-left group shadow-sm">
                     <span className="text-xl">{link.icon}</span>
                     <div className="flex-1 min-w-0">
@@ -485,7 +485,7 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
 
         {/* Featured destination */}
         <div className="relative rounded-2xl overflow-hidden shadow-md group cursor-pointer"
-          onClick={() => window.open('https://aviasales.tpx.gr/yQxrYmk7', '_blank')}>
+          onClick={() => openTracked('https://aviasales.tpx.gr/yQxrYmk7', sid('app', 'spotlight-dubai', lang))}>
           <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop"
             alt="Dubai" className="w-full h-44 object-cover group-hover:scale-110 transition-transform duration-700"/>
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">

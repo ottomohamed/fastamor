@@ -3,13 +3,13 @@ import { Plane, Building2, Ship, Car, Smartphone, Ticket, Send, Maximize2, Rotat
 import { localizedPath, isLang } from '@/lib/i18n-url';
 import { useVoice } from '@/hooks/use-voice';
 import { useFastamorChat, detectService } from '@/hooks/use-fastamor-chat';
-import { trackClick } from '@/lib/tracking';
+import { trackClick, aff, sid } from '@/lib/tracking';
 
 type L = 'en' | 'ar' | 'fr' | 'es';
 
 const COPY: Record<L, {
   h1: string; sub: string; placeholder: string; send: string; full: string; reset: string;
-  passenger: string; from: string; stubTitle: string; stubEmpty: string; typing: string; book: string; open: string;
+  passenger: string; from: string; stubTitle: string; stubEmpty: string; typing: string; book: string; open: string; disclosure: string;
   chips: string[]; tabs: Record<string, string>; direct: string; stops: (n: string) => string;
   carLink: string; mic: string; micStop: string; listening: string; voiceOn: string; voiceOff: string; micDenied: string; noSpeech: string;
 }> = {
@@ -18,7 +18,7 @@ const COPY: Record<L, {
     sub: 'Ask in your own words. Fastamor finds the flight, the ferry, the hotel and the ride from the airport.',
     placeholder: 'e.g. London to Dubai in March', send: 'Search', full: 'Open full screen', reset: 'New trip',
     passenger: 'Passenger', from: 'Your trip', stubTitle: 'Results', stubEmpty: 'Fares and booking links appear here as soon as I find them.',
-    typing: 'Looking for the best options…', book: 'Book', open: 'Open',
+    typing: 'Looking for the best options…', book: 'Book', open: 'Open', disclosure: 'Prices can change. Fastamor may earn a commission from partners, at no extra cost to you.',
     chips: ['Flight from London to Dubai in March', 'Weekend in Rome for two', 'Car rental in Málaga for a week', 'eSIM for 10 days in Japan'],
     tabs: { flight: 'Flights', hotel: 'Hotels', ferry: 'Ferries', taxi: 'Transfers', experience: 'Tours', esim: 'eSIM' },
     direct: 'Direct', stops: n => `${n} stop(s)`,
@@ -30,7 +30,7 @@ const COPY: Record<L, {
     sub: 'اكتب بكلماتك. فاستامور يجد لك الطيران والباخرة والفندق والنقل من المطار.',
     placeholder: 'مثال: من الرياض إلى إسطنبول في مارس', send: 'ابحث', full: 'ملء الشاشة', reset: 'رحلة جديدة',
     passenger: 'المسافر', from: 'رحلتك', stubTitle: 'النتائج', stubEmpty: 'ستظهر هنا الأسعار وروابط الحجز فور العثور عليها.',
-    typing: 'أبحث عن أفضل الخيارات…', book: 'احجز', open: 'افتح',
+    typing: 'أبحث عن أفضل الخيارات…', book: 'احجز', open: 'افتح', disclosure: 'الأسعار قابلة للتغيير. قد يحصل فاستامور على عمولة من الشركاء دون أي تكلفة إضافية عليك.',
     chips: ['رحلة من الرياض إلى إسطنبول في مارس', 'عطلة نهاية أسبوع في دبي لشخصين', 'كراء سيارة في مالقة لأسبوع', 'شريحة eSIM لعشرة أيام في اليابان'],
     tabs: { flight: 'طيران', hotel: 'فنادق', ferry: 'بواخر', taxi: 'نقل', experience: 'جولات', esim: 'eSIM' },
     direct: 'مباشرة', stops: n => `توقف: ${n}`,
@@ -42,7 +42,7 @@ const COPY: Record<L, {
     sub: 'Écrivez avec vos mots. Fastamor trouve le vol, le ferry, l’hôtel et le transfert depuis l’aéroport.',
     placeholder: 'ex. Paris – New York en mai', send: 'Rechercher', full: 'Plein écran', reset: 'Nouveau voyage',
     passenger: 'Passager', from: 'Votre voyage', stubTitle: 'Résultats', stubEmpty: 'Les prix et liens de réservation apparaissent ici dès que je les trouve.',
-    typing: 'Je cherche les meilleures options…', book: 'Réserver', open: 'Ouvrir',
+    typing: 'Je cherche les meilleures options…', book: 'Réserver', open: 'Ouvrir', disclosure: 'Les prix peuvent changer. Fastamor peut percevoir une commission des partenaires, sans surcoût pour vous.',
     chips: ['Vol de Paris à New York en mai', 'Week-end à Lisbonne pour deux', 'Location de voiture en Sicile, une semaine', 'eSIM pour 10 jours au Japon'],
     tabs: { flight: 'Vols', hotel: 'Hôtels', ferry: 'Ferries', taxi: 'Transferts', experience: 'Activités', esim: 'eSIM' },
     direct: 'Direct', stops: n => `${n} escale(s)`,
@@ -54,7 +54,7 @@ const COPY: Record<L, {
     sub: 'Escribe con tus palabras. Fastamor encuentra el vuelo, el ferri, el hotel y el traslado desde el aeropuerto.',
     placeholder: 'p. ej. Madrid a Roma en abril', send: 'Buscar', full: 'Pantalla completa', reset: 'Nuevo viaje',
     passenger: 'Pasajero', from: 'Tu viaje', stubTitle: 'Resultados', stubEmpty: 'Los precios y enlaces de reserva aparecen aquí en cuanto los encuentro.',
-    typing: 'Buscando las mejores opciones…', book: 'Reservar', open: 'Abrir',
+    typing: 'Buscando las mejores opciones…', book: 'Reservar', open: 'Abrir', disclosure: 'Los precios pueden cambiar. Fastamor puede recibir una comisión de los socios, sin coste adicional para ti.',
     chips: ['Vuelo de Madrid a Roma en abril', 'Fin de semana en París para dos', 'Alquiler de coche en Lisboa, una semana', 'eSIM para 10 días en Japón'],
     tabs: { flight: 'Vuelos', hotel: 'Hoteles', ferry: 'Ferris', taxi: 'Traslados', experience: 'Actividades', esim: 'eSIM' },
     direct: 'Directo', stops: n => `${n} escala(s)`,
@@ -275,7 +275,7 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
                     </div>
                     <div className="text-end">
                       <div className="font-extrabold text-[17px]">{Math.round(f.price)} {f.currency === 'USD' || f.currency === 'usd' ? '$' : f.currency}</div>
-                      <a href={f.booking_url} target="_blank" rel="nofollow sponsored noopener" onClick={() => trackClick(f.booking_url)}
+                      <a href={aff(f.booking_url, sid('home', 'ai-flight', l))} target="_blank" rel="nofollow sponsored noopener" onClick={() => trackClick(f.booking_url)}
                         className="text-sm font-extrabold text-[#3550C8] hover:underline">{c.book}</a>
                     </div>
                   </li>
@@ -287,7 +287,7 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
               <ul className="fa-print mt-3 space-y-2">
                 {dynamicLinks.map((d, i) => (
                   <li key={i}>
-                    <a href={d.url} target="_blank" rel="nofollow sponsored noopener" onClick={() => trackClick(d.url)}
+                    <a href={aff(d.url, sid('home', 'ai', service, d.name, l))} target="_blank" rel="nofollow sponsored noopener" onClick={() => trackClick(d.url)}
                       className="flex items-center gap-3 bg-white rounded-xl border border-[#E7E9F2] px-3.5 py-3 hover:border-[#3550C8] transition-colors">
                       <span className="text-xl" aria-hidden>{d.icon}</span>
                       <span className="flex-1 min-w-0">
@@ -299,6 +299,10 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
                   </li>
                 ))}
               </ul>
+            )}
+
+            {(flightResults.length > 0 || dynamicLinks.length > 0) && (
+              <p className="mt-3 text-xs leading-relaxed text-[#14204A]/60">{c.disclosure}</p>
             )}
           </aside>
         </div>

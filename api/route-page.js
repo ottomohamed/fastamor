@@ -81,8 +81,10 @@ async function getFares(origin, destination) {
   return data;
 }
 
-const bookUrl = (f, o, d) =>
-  f?.link ? `https://www.aviasales.com${f.link}${f.link.includes('?') ? '&' : '?'}marker=${MARKER}` : `https://www.aviasales.com/search/${o}${d}1?marker=${MARKER}`;
+// SubID in the marker ("709105.<subid>") attributes each booking to the page and table.
+const subMarker = sub => (sub ? `${MARKER}.${String(sub).toLowerCase().replace(/[^a-z0-9_-]+/g, '-').slice(0, 60)}` : MARKER);
+const bookUrl = (f, o, d, sub) =>
+  f?.link ? `https://www.aviasales.com${f.link}${f.link.includes('?') ? '&' : '?'}marker=${subMarker(sub)}` : `https://www.aviasales.com/search/${o}${d}1?marker=${subMarker(sub)}`;
 
 // ---------- i18n ----------
 const T = {
@@ -177,20 +179,20 @@ async function routePage(slug, lang, template) {
   const fares = await getFares(o, d);
   const hasFares = fares.cheapest.length > 0;
   const url = SITE + urlFor(p, lang);
-  const searchUrl = bookUrl(null, o, d);
+  const searchUrl = bookUrl(null, o, d, `route-${slug}_search_${lang}`);
 
   const faresTable = hasFares
     ? `<div class="tw"><table><thead><tr><th>${t.date}</th><th>${t.airline}</th><th>${t.stops}</th><th>${t.price}</th><th></th></tr></thead><tbody>` +
       fares.cheapest.map(f =>
         `<tr><td>${esc(fmtDate(f.departure_at, lang))}</td><td>${esc(airline(f.airline))}</td><td>${f.transfers ? esc(f.transfers) : t.direct}</td>` +
-        `<td><strong>${esc(eur(f.price, lang))}</strong></td><td><a class="btn" rel="nofollow sponsored noopener" target="_blank" href="${esc(bookUrl(f, o, d))}">${t.book}</a></td></tr>`
+        `<td><strong>${esc(eur(f.price, lang))}</strong></td><td><a class="btn" rel="nofollow sponsored noopener" target="_blank" href="${esc(bookUrl(f, o, d, `route-${slug}_fares_${lang}`))}">${t.book}</a></td></tr>`
       ).join('') + `</tbody></table></div>`
     : '';
   const monthRows = fares.byMonth.filter(m => m.fare);
   const monthsTable = monthRows.length
     ? `<table><tbody>` + fares.byMonth.map(m =>
         `<tr><td>${esc(fmtMonth(m.month, lang))}</td><td>${m.fare ? `<strong>${esc(eur(m.fare.price, lang))}</strong>` : `<span class="note">${t.none}</span>`}</td>` +
-        `<td>${m.fare ? `<a class="btn" rel="nofollow sponsored noopener" target="_blank" href="${esc(bookUrl(m.fare, o, d))}">${t.book}</a>` : ''}</td></tr>`).join('') + `</tbody></table>`
+        `<td>${m.fare ? `<a class="btn" rel="nofollow sponsored noopener" target="_blank" href="${esc(bookUrl(m.fare, o, d, `route-${slug}_months_${lang}`))}">${t.book}</a>` : ''}</td></tr>`).join('') + `</tbody></table>`
     : '';
 
   const others = Object.entries(routes).filter(([s, x]) => s !== slug && routeLangs(x).includes(lang)).slice(0, 12);

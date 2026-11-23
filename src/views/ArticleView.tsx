@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 import { safeHtml } from '@/lib/sanitize';
 import { useDocumentMeta } from '@/hooks/use-document-meta';
 import { ArrowLeft, Eye, Heart, MapPin, ExternalLink, Plane } from 'lucide-react';
-import { trackClick } from '@/lib/tracking';
+import { trackClick, aff, sid } from '@/lib/tracking';
 
 interface Article {
   id: string;
@@ -35,9 +35,9 @@ interface Article {
 
 const AFFILIATE_SIDEBAR = [
   { name: 'Aviasales', tagline: 'Cheapest Flights', url: 'https://aviasales.tpx.gr/yQxrYmk7', emoji: '✈️', bg: 'bg-orange-50 border-orange-100', text: 'text-orange-700' },
-  { name: 'Intui Travel', tagline: 'Best Hotel Deals', url: 'https://intui.tpx.gr/kguAoKIU', emoji: '🏨', bg: 'bg-blue-50 border-blue-100', text: 'text-blue-700' },
+  { name: 'Yesim eSIM', tagline: 'Mobile data abroad', url: 'https://yesim.tpx.gr/9gzdax7m', emoji: '📶', bg: 'bg-blue-50 border-blue-100', text: 'text-blue-700' },
   { name: 'Klook', tagline: 'Tours & Activities', url: 'https://klook.tpx.gr/vRUzaJbI', emoji: '🎡', bg: 'bg-red-50 border-red-100', text: 'text-red-700' },
-  { name: 'GetTransfer', tagline: 'Airport Transfers', url: 'https://gettransfer.tpx.gr/9poAnD5l', emoji: '🚕', bg: 'bg-yellow-50 border-yellow-100', text: 'text-yellow-700' },
+  { name: 'Kiwitaxi', tagline: 'Airport Transfers', url: 'https://kiwitaxi.tpx.gr/Y6yrFeYN', emoji: '🚕', bg: 'bg-yellow-50 border-yellow-100', text: 'text-yellow-700' },
 ];
 
 const CATEGORY_TAGS: Record<string, string> = {
@@ -268,7 +268,7 @@ export default function ArticleView({ slug, lang: urlLang = 'en' }: { slug: stri
               </p>
 
               {AFFILIATE_SIDEBAR.map(item => (
-                <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                <a key={item.name} href={aff(item.url, sid('art', slug, 'sidebar', item.name, lang))} target="_blank" rel="sponsored nofollow noopener"
                   onClick={() => trackClick(item.url)}
                   className={`flex items-center gap-4 p-4 rounded-2xl border ${item.bg} hover:shadow-md transition-all group`}>
                   <span className="text-3xl">{item.emoji}</span>
