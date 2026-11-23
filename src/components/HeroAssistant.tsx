@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Plane, Building2, Ship, Car, Smartphone, Ticket, Send, Maximize2, RotateCcw, Mic, Square, Volume2, VolumeX } from 'lucide-react';
+import { Plane, Building2, Ship, Car, Smartphone, Ticket, Send, Maximize2, RotateCcw, Mic, Square, Volume2, VolumeX, KeyRound } from 'lucide-react';
+import { localizedPath, isLang } from '@/lib/i18n-url';
 import { useVoice } from '@/hooks/use-voice';
 import { useFastamorChat, detectService } from '@/hooks/use-fastamor-chat';
 import { trackClick } from '@/lib/tracking';
@@ -10,7 +11,7 @@ const COPY: Record<L, {
   h1: string; sub: string; placeholder: string; send: string; full: string; reset: string;
   passenger: string; from: string; stubTitle: string; stubEmpty: string; typing: string; book: string; open: string;
   chips: string[]; tabs: Record<string, string>; direct: string; stops: (n: string) => string;
-  mic: string; micStop: string; listening: string; voiceOn: string; voiceOff: string; micDenied: string; noSpeech: string;
+  carLink: string; mic: string; micStop: string; listening: string; voiceOn: string; voiceOff: string; micDenied: string; noSpeech: string;
 }> = {
   en: {
     h1: 'Tell me where you’re going.',
@@ -21,7 +22,7 @@ const COPY: Record<L, {
     chips: ['Flight from Paris to Casablanca in January', 'Ferry from Algeciras to Tanger Med in July', 'Hotel in Marrakech for 3 nights', 'eSIM for a week in Morocco'],
     tabs: { flight: 'Flights', hotel: 'Hotels', ferry: 'Ferries', taxi: 'Transfers', experience: 'Tours', esim: 'eSIM' },
     direct: 'Direct', stops: n => `${n} stop(s)`,
-    mic: 'Speak your question', micStop: 'Stop listening', listening: 'Listening… speak now', voiceOn: 'Read replies aloud', voiceOff: 'Stop reading replies aloud',
+    carLink: 'Need a car when you land? Compare rentals on Fastamor Car', mic: 'Speak your question', micStop: 'Stop listening', listening: 'Listening… speak now', voiceOn: 'Read replies aloud', voiceOff: 'Stop reading replies aloud',
     micDenied: 'Microphone access is blocked. Allow it in your browser settings, then try again.', noSpeech: 'I didn’t hear anything. Tap the microphone and speak.',
   },
   ar: {
@@ -33,7 +34,7 @@ const COPY: Record<L, {
     chips: ['رحلة من باريس إلى الدار البيضاء في يناير', 'باخرة من الجزيرة الخضراء إلى طنجة المتوسط في يوليو', 'فندق في مراكش لثلاث ليالٍ', 'شريحة eSIM لأسبوع في المغرب'],
     tabs: { flight: 'طيران', hotel: 'فنادق', ferry: 'بواخر', taxi: 'نقل', experience: 'جولات', esim: 'eSIM' },
     direct: 'مباشرة', stops: n => `توقف: ${n}`,
-    mic: 'اسأل بصوتك', micStop: 'إيقاف الاستماع', listening: 'أستمع إليك… تكلم الآن', voiceOn: 'قراءة الردود بصوت مسموع', voiceOff: 'إيقاف قراءة الردود',
+    carLink: 'تحتاج سيارة عند الوصول؟ قارن أسعار الكراء في فاستامور كار', mic: 'اسأل بصوتك', micStop: 'إيقاف الاستماع', listening: 'أستمع إليك… تكلم الآن', voiceOn: 'قراءة الردود بصوت مسموع', voiceOff: 'إيقاف قراءة الردود',
     micDenied: 'الوصول إلى الميكروفون محظور. اسمح به من إعدادات المتصفح ثم أعد المحاولة.', noSpeech: 'لم أسمع شيئاً. اضغط على الميكروفون وتكلم.',
   },
   fr: {
@@ -45,7 +46,7 @@ const COPY: Record<L, {
     chips: ['Vol de Paris à Casablanca en janvier', 'Ferry d’Algésiras à Tanger Med en juillet', 'Hôtel à Marrakech, 3 nuits', 'eSIM pour une semaine au Maroc'],
     tabs: { flight: 'Vols', hotel: 'Hôtels', ferry: 'Ferries', taxi: 'Transferts', experience: 'Activités', esim: 'eSIM' },
     direct: 'Direct', stops: n => `${n} escale(s)`,
-    mic: 'Posez votre question à voix haute', micStop: 'Arrêter l’écoute', listening: 'Je vous écoute… parlez maintenant', voiceOn: 'Lire les réponses à voix haute', voiceOff: 'Arrêter la lecture des réponses',
+    carLink: 'Besoin d’une voiture à l’arrivée ? Comparez sur Fastamor Car', mic: 'Posez votre question à voix haute', micStop: 'Arrêter l’écoute', listening: 'Je vous écoute… parlez maintenant', voiceOn: 'Lire les réponses à voix haute', voiceOff: 'Arrêter la lecture des réponses',
     micDenied: 'L’accès au micro est bloqué. Autorisez-le dans les réglages du navigateur, puis réessayez.', noSpeech: 'Je n’ai rien entendu. Touchez le micro et parlez.',
   },
   es: {
@@ -57,7 +58,7 @@ const COPY: Record<L, {
     chips: ['Vuelo de Madrid a Casablanca en enero', 'Ferri de Algeciras a Tánger Med en julio', 'Hotel en Marrakech, 3 noches', 'eSIM para una semana en Marruecos'],
     tabs: { flight: 'Vuelos', hotel: 'Hoteles', ferry: 'Ferris', taxi: 'Traslados', experience: 'Actividades', esim: 'eSIM' },
     direct: 'Directo', stops: n => `${n} escala(s)`,
-    mic: 'Haz tu pregunta en voz alta', micStop: 'Dejar de escuchar', listening: 'Te escucho… habla ahora', voiceOn: 'Leer las respuestas en voz alta', voiceOff: 'Dejar de leer las respuestas',
+    carLink: '¿Necesitas coche al llegar? Compara en Fastamor Car', mic: 'Haz tu pregunta en voz alta', micStop: 'Dejar de escuchar', listening: 'Te escucho… habla ahora', voiceOn: 'Leer las respuestas en voz alta', voiceOff: 'Dejar de leer las respuestas',
     micDenied: 'El acceso al micrófono está bloqueado. Permítelo en los ajustes del navegador y vuelve a intentarlo.', noSpeech: 'No he oído nada. Toca el micrófono y habla.',
   },
 };
@@ -301,6 +302,10 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
             )}
           </aside>
         </div>
+        <a href={localizedPath('/car', isLang(l) ? l : 'en')}
+          className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold px-4 py-2 transition-colors">
+          <KeyRound size={16} aria-hidden /> {c.carLink}
+        </a>
       </div>
     </section>
   );

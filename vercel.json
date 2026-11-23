@@ -53,6 +53,14 @@
       "destination": "/api/route-page?lang=:lang&route=:route"
     },
     {
+      "source": "/car",
+      "destination": "/api/car-page"
+    },
+    {
+      "source": "/:lang(ar|fr|es)/car",
+      "destination": "/api/car-page?lang=:lang"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/app.html"
     }
@@ -141,6 +149,9 @@
       "includeFiles": "api/_data/**"
     },
     "api/sitemap.js": {
+      "includeFiles": "api/_data/**"
+    },
+    "api/car-page.js": {
       "includeFiles": "api/_data/**"
     }
   }

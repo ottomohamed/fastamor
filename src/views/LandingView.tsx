@@ -124,6 +124,10 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
             <Link href={L('/blog')} className="text-xs font-black uppercase tracking-widest text-[#3d4947] hover:text-[#00685f] transition-colors">
               {isRtl ? 'كل المقالات' : 'All Stories'}
             </Link>
+            {/* Server-rendered page: full navigation, not a SPA route */}
+            <a href={L('/car')} className="text-xs font-black tracking-widest bg-[#14204A] text-white px-3 py-1.5 rounded-full hover:bg-[#3550C8] transition-colors">
+              Fastamor Car
+            </a>
           </div>
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex bg-[#f5f2e9] rounded-full p-1 border border-[#bcc9c6]/20">
