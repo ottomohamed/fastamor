@@ -192,7 +192,7 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
       <aside className="hidden lg:flex flex-col w-72 h-full border-r border-[#e4e2dd] bg-[#fbf9f3] p-6 gap-5 overflow-y-auto">
         {/* Logo */}
         <div className="flex items-center gap-2 mb-2">
-          <img src="https://i.ibb.co/x8sSqTDj/1978.png" alt="Fastamor" className="h-9 w-auto"/>
+          <img src="/media/6172d55e66bb86428408.png" alt="Fastamor" width="36" height="36" className="h-9 w-auto"/>
           <div>
             <div className="font-black text-lg text-[#1b1c19] tracking-tight">Fastamor</div>
             <div className="text-[10px] text-[#6d7a77] font-medium tracking-wider uppercase">AI Travel Concierge</div>
@@ -486,7 +486,7 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
         {/* Featured destination */}
         <div className="relative rounded-2xl overflow-hidden shadow-md group cursor-pointer"
           onClick={() => window.open('https://aviasales.tpx.gr/yQxrYmk7', '_blank')}>
-          <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop"
+          <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop"
             alt="Dubai" className="w-full h-44 object-cover group-hover:scale-110 transition-transform duration-700"/>
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
             <p className="text-white/70 text-[10px] uppercase tracking-widest font-bold mb-1">Spotlight</p>

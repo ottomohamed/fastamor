@@ -126,7 +126,7 @@ export default function DestinationView({ slug, lang: urlLang = 'en' }: { slug: 
       {/* Hero */}
       {destination.image_url && (
         <div className="relative h-80 overflow-hidden">
-          <img src={destination.image_url} alt={name} className="w-full h-full object-cover"/>
+          <img src={destination.image_url} alt={name} className="w-full h-full object-cover" fetchPriority="high" decoding="async"/>
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"/>
           <div className="absolute bottom-6 left-6 right-6 text-white">
             <p className="text-sm font-medium opacity-80 flex items-center gap-1">
@@ -172,7 +172,7 @@ export default function DestinationView({ slug, lang: urlLang = 'en' }: { slug: 
                     <Link key={article.id} href={L(`/article/${article.slug}`)} className="block group">
                       <div className="rounded-xl overflow-hidden border border-border bg-white hover:shadow-md transition-shadow">
                         {article.featured_image && (
-                          <img src={article.featured_image} alt="" className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500"/>
+                          <img loading="lazy" decoding="async" src={article.featured_image} alt="" className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500"/>
                         )}
                         <div className="p-3">
                           <h3 className="font-bold text-sm group-hover:text-primary transition-colors line-clamp-2">

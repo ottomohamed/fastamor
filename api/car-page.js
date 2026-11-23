@@ -8,7 +8,7 @@ import { LANGS, isLang, urlFor } from './_lib/i18n.js';
 import { staticShell } from './_lib/static-shell.js';
 
 const SITE = 'https://www.fastamor.com';
-const IMAGE = 'https://i.ibb.co/x8sSqTDj/1978.png';
+const IMAGE = 'https://www.fastamor.com/media/6172d55e66bb86428408.png';
 const TRS = process.env.TRAVELPAYOUTS_TRS || '514622';
 const MARKER = process.env.TRAVELPAYOUTS_MARKER || process.env.TP_MARKER || '709105';
 
