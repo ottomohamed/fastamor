@@ -63,6 +63,16 @@
       "source": "/destination/france-paris",
       "destination": "/destination/paris",
       "permanent": true
+    },
+    {
+      "source": "/article/traveler-health-guide-avoiding-diseases",
+      "destination": "/article/travel-health-guide",
+      "permanent": true
+    },
+    {
+      "source": "/article/customs-guide-travel",
+      "destination": "/article/customs-regulations-guide",
+      "permanent": true
     }
   ]
 }

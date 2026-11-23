@@ -77,7 +77,7 @@ function pick(row, field, lang) {
 }
 
 function render(template, { title, description, url, image, lang = 'en', type = 'website', jsonLd, body, status }) {
-  const fullTitle = `${title} | Fastamor`;
+  const fullTitle = title.length <= 50 ? `${title} | Fastamor` : title;
   const desc = text(description).slice(0, 160);
   const head = [
     `<title>${esc(fullTitle)}</title>`,
