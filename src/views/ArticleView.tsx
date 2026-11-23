@@ -176,7 +176,7 @@ export default function ArticleView({ slug, lang: urlLang = 'en' }: { slug: stri
       {/* Hero image */}
       {article.featured_image && (
         <div className="relative h-[50vh] overflow-hidden">
-          <img src={article.featured_image} alt={title} className="w-full h-full object-cover"/>
+          <img src={article.featured_image} alt={title} className="w-full h-full object-cover" fetchPriority="high" decoding="async"/>
           <div className="absolute inset-0 bg-gradient-to-t from-[#F7F8FC] via-black/20 to-transparent"/>
         </div>
       )}

@@ -238,7 +238,7 @@ export default function BlogView({ lang: urlLang = 'en' }: { lang?: Lang }) {
                       <div className="bg-white border border-[#E1E4F0]/20 rounded-2xl overflow-hidden hover:shadow-lg transition-all h-full flex flex-col">
                         {article.featured_image ? (
                           <div className="h-52 overflow-hidden">
-                            <img src={article.featured_image} alt={getTitle(article)}
+                            <img loading="lazy" decoding="async" src={article.featured_image} alt={getTitle(article)}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                           </div>
                         ) : (

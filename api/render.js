@@ -6,7 +6,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const SITE = 'https://www.fastamor.com';
-const DEFAULT_IMAGE = 'https://i.ibb.co/x8sSqTDj/1978.png';
+const DEFAULT_IMAGE = 'https://www.fastamor.com/media/6172d55e66bb86428408.png';
 
 let templateCache = null;
 async function getTemplate(req) {

@@ -240,7 +240,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
               <Link href={L(`/article/${featured.slug}`)} className="lg:col-span-7 block group">
                 <div className="relative rounded-3xl overflow-hidden h-[420px] border border-[#E1E4F0]/20 bg-[#EEF0F8]">
                   {featured.featured_image ? (
-                    <img src={featured.featured_image} alt={title(featured)}
+                    <img loading="lazy" decoding="async" src={featured.featured_image} alt={title(featured)}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                   ) : (
                     <div className="w-full h-full bg-[#EEF0F8] flex items-center justify-center">
@@ -271,7 +271,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
                 <Link key={article.id} href={L(`/article/${article.slug}`)} className="block group flex-1">
                   <div className="flex gap-4 bg-white border border-[#E1E4F0]/20 rounded-2xl p-4 hover:shadow-md transition-shadow h-full">
                     {article.featured_image ? (
-                      <img src={article.featured_image} alt={title(article)}
+                      <img loading="lazy" decoding="async" src={article.featured_image} alt={title(article)}
                         className="w-24 h-24 object-cover rounded-xl shrink-0 group-hover:scale-105 transition-transform duration-500"/>
                     ) : (
                       <div className="w-24 h-24 bg-[#EEF0F8] rounded-xl shrink-0 flex items-center justify-center">
@@ -332,7 +332,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
                   <div
                     className="fa-rise relative rounded-2xl overflow-hidden h-48 bg-[#EEF0F8] border border-[#E1E4F0]/20" style={{ animationDelay: `${(i * 0.05)}s` }}>
                     {dest.image_url ? (
-                      <img src={dest.image_url} alt={destName(dest)}
+                      <img loading="lazy" decoding="async" src={dest.image_url} alt={destName(dest)}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"/>
                     ) : (
                       <div className="w-full h-full bg-[#EEF0F8] flex items-center justify-center">
@@ -370,7 +370,7 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
           ].map(({ svc, img, icon, label }) => (
             <button key={svc} onClick={() => onOpenApp(svc)}
               className="group relative h-72 rounded-3xl overflow-hidden bg-[#f5f2e9] border border-[#E1E4F0]/20 transition-all hover:shadow-2xl">
-              <img src={img} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-all duration-700" alt={label}/>
+              <img loading="lazy" decoding="async" src={img} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-all duration-700" alt={label}/>
               <div className="absolute inset-0 bg-gradient-to-t from-[#14204A]/90 via-[#14204A]/20 to-transparent"/>
               <div className="absolute bottom-6 left-6">
                 <div className="w-9 h-9 rounded-full bg-[#3550C8] text-white flex items-center justify-center mb-3 shadow-xl group-hover:scale-110 transition-transform">{icon}</div>
