@@ -6,6 +6,8 @@ import { findPort, autoCorrectPortName } from '@/lib/ferryPorts';
 
 export type Message = { role: 'user' | 'assistant'; content: string; };
 export type AffiliateLink = { name: string; desc: string; url: string; icon: string; };
+/** name: as the user wrote it (for display); city: English city name (for partner searches). */
+export type TripDest = { name: string; city: string };
 export type FlightResult = {
   id: string; airline: string; airline_logo: string;
   origin: string; destination: string; departure_time: string;
@@ -90,6 +92,16 @@ function getIATA(text: string): string | undefined {
   return undefined;
 }
 
+/** English city name for a city/airport code, from the first Latin-script entry in CITY_TO_IATA. */
+function cityFromCode(code?: string): string | undefined {
+  if (!code) return undefined;
+  const c = AIRPORT_TO_CITY[code] || code;
+  for (const [city, iata] of Object.entries(CITY_TO_IATA)) {
+    if (iata === c && /^[a-z .'-]+$/.test(city)) return city.replace(/\b\w/g, ch => ch.toUpperCase());
+  }
+  return undefined;
+}
+
 function getDefaultDate(): string {
   const d = new Date();
   d.setDate(d.getDate() + 7);
@@ -112,6 +124,8 @@ export function useFastamorChat(service: string, lang: string) {
   const [hasResults, setHasResults] = useState(false);
   const [dynamicLinks, setDynamicLinks] = useState<AffiliateLink[]>([]);
   const [flightResults, setFlightResults] = useState<FlightResult[]>([]);
+  // Destination of the current trip, used by the trip kit (hotel, eSIM, transfer, tours).
+  const [tripDest, setTripDest] = useState<TripDest | null>(null);
   const messagesRef = useRef<Message[]>([]);
 
   const searchFlights = async (origin: string, destination: string, date: string) => {
@@ -213,6 +227,7 @@ export function useFastamorChat(service: string, lang: string) {
           }
 
           if (searchData.type === "flight") {
+            const rawDest = String(searchData.destination || '').trim();
             if (searchData.origin) { const i = getIATA(searchData.origin); if (i) searchData.origin = i; }
             if (searchData.destination) { const i = getIATA(searchData.destination); if (i) searchData.destination = i; }
             if (!searchData.date) searchData.date = getDefaultDate();
@@ -222,6 +237,7 @@ export function useFastamorChat(service: string, lang: string) {
               const { flights, hasDirectFlights, fallbackUrl } = await searchFlights(searchData.origin, searchData.destination, searchData.date);
               setShowSearchAnim(false);
 
+              if (rawDest) setTripDest({ name: rawDest, city: cityFromCode(searchData.destination) || rawDest });
               if (flights.length > 0) {
                 setFlightResults(flights);
                 setHasResults(true);
@@ -286,9 +302,10 @@ export function useFastamorChat(service: string, lang: string) {
     setFlightResults([]);
     setHasResults(false);
     setDynamicLinks([]);
+    setTripDest(null);
   }, []);
 
-  return { messages, isTyping, showSearchAnim, hasResults, dynamicLinks, flightResults, sendMessage, clearChat };
+  return { messages, isTyping, showSearchAnim, hasResults, dynamicLinks, flightResults, tripDest, sendMessage, clearChat };
 }
 
 export function detectService(text: string): string {

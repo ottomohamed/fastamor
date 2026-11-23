@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plane, Building2, Ticket, Car, Bus, Ship, ArrowLeft, Mic, Send, ExternalLink, MapPin, Sparkles, Globe } from 'lucide-react';
 import { I18N, SERVICES, AFFILIATE_LINKS } from '@/lib/data';
 import { openTracked, trackClick, sid } from '@/lib/tracking';
+import { TripKit } from '@/components/TripKit';
 import { useFastamorChat, detectService } from '@/hooks/use-fastamor-chat';
 import type { FlightResult } from '@/hooks/use-fastamor-chat';
 import { useSpeech } from '@/hooks/use-speech';
@@ -118,7 +119,7 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
   const t = I18N[lang as keyof typeof I18N] || I18N.en;
   const isRtl = lang === 'ar';
 
-  const { messages, isTyping, showSearchAnim, hasResults, dynamicLinks, flightResults, sendMessage, clearChat } = useFastamorChat(activeSvc || 'flight', lang);
+  const { messages, isTyping, showSearchAnim, hasResults, dynamicLinks, flightResults, tripDest, sendMessage, clearChat } = useFastamorChat(activeSvc || 'flight', lang);
   const { isListening, supported, listen, speak, cancelSpeech } = useSpeech(lang);
   const { search: autoSearch, clear: autoClear } = useAutocomplete(lang);
 
@@ -361,6 +362,9 @@ export function AppView({ onClose, initialService, lang, setLang }: AppViewProps
                 {flightResults.map((f, i) => <FlightCard key={i} flight={f} lang={lang}/>)}
               </div>
             )}
+
+            {/* Trip kit: hotel, eSIM, transfer, tours for the same destination */}
+            {tripDest && hasResults && <TripKit dest={tripDest} lang={lang} page="app" />}
 
             {/* Dynamic links */}
             {hasResults && dynamicLinks.length > 0 && flightResults.length === 0 && (

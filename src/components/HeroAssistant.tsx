@@ -4,6 +4,7 @@ import { localizedPath, isLang } from '@/lib/i18n-url';
 import { useVoice } from '@/hooks/use-voice';
 import { useFastamorChat, detectService } from '@/hooks/use-fastamor-chat';
 import { trackClick, aff, sid } from '@/lib/tracking';
+import { TripKit } from './TripKit';
 
 type L = 'en' | 'ar' | 'fr' | 'es';
 
@@ -88,7 +89,7 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
   const [service, setService] = useState<string>('flight');
   const [input, setInput] = useState('');
   const [pending, setPending] = useState<string | null>(null);
-  const { messages, isTyping, showSearchAnim, dynamicLinks, flightResults, sendMessage, clearChat } = useFastamorChat(service, l);
+  const { messages, isTyping, showSearchAnim, dynamicLinks, flightResults, tripDest, sendMessage, clearChat } = useFastamorChat(service, l);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [voiceReplies, setVoiceReplies] = useState(false);
   const voice = useVoice(l, text => { setVoiceReplies(true); submit(text); });
@@ -299,6 +300,10 @@ export function HeroAssistant({ lang, onOpenApp }: { lang: string; onOpenApp: (s
                   </li>
                 ))}
               </ul>
+            )}
+
+            {tripDest && (flightResults.length > 0 || dynamicLinks.length > 0) && (
+              <TripKit dest={tripDest} lang={l} page="home" />
             )}
 
             {(flightResults.length > 0 || dynamicLinks.length > 0) && (
