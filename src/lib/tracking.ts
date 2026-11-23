@@ -82,9 +82,15 @@ export function aff(url: string, subid: string): string {
   if (!url) return url;
   const partner = SHORT_TO_PARTNER[url.replace(/\/$/, '')];
   if (partner) return goUrl(partner, subid);
-  // Aviasales deep links carry our marker directly: marker=709105 -> 709105.<subid>
   try {
     const u = new URL(url);
+    // Stay22 Allez links: our aid + a campaign label per page/feature.
+    if (/(^|\.)stay22\.com$/.test(u.hostname) && u.pathname.startsWith('/allez/')) {
+      u.searchParams.set('aid', STAY22_AID);
+      u.searchParams.set('campaign', subid);
+      return u.toString();
+    }
+    // Aviasales deep links carry our marker directly: marker=709105 -> 709105.<subid>
     const m = u.searchParams.get('marker');
     if (m && /^\d+$/.test(m) && /aviasales|jetradar|tp\.media/.test(u.hostname)) {
       u.searchParams.set('marker', `${m}.${subid}`);
@@ -94,7 +100,14 @@ export function aff(url: string, subid: string): string {
   return url;
 }
 
-/** Hotel search until a hotel affiliate program is approved (non-affiliate, but genuinely useful). */
-export function hotelSearchUrl(city?: string): string {
-  return city ? `https://www.booking.com/searchresults.html?ss=${encodeURIComponent(city)}` : 'https://www.booking.com/';
+/** Stay22 affiliate ID (Allez links: https://dev.stay22.com/docs/allez). */
+export const STAY22_AID = 'fastamor';
+
+/** Hotel search for a destination via Stay22 Allez (it picks the best OTA for each user). */
+export function hotelSearchUrl(city?: string, subid = 'hotel', checkin?: string): string {
+  const q = new URLSearchParams({ aid: STAY22_AID, campaign: subid });
+  if (city) q.set('address', city);
+  else q.set('link', 'https://www.booking.com/');
+  if (checkin && /^\d{4}-\d{2}-\d{2}$/.test(checkin)) q.set('checkin', checkin);
+  return `https://www.stay22.com/allez/${city ? 'roam' : 'booking'}?${q.toString()}`;
 }

@@ -22,7 +22,7 @@ BUS/TRAIN SEARCH RULES - IMPORTANT:
 - Output: <search>{"type":"bus","origin":"city_name","destination":"city_name","date":"YYYY-MM-DD"}</search>
 - Example: "bus from Madrid to Barcelona on 2025-04-25" → <search>{"type":"bus","origin":"Madrid","destination":"Barcelona","date":"2025-04-25"}</search>
 
-HOTEL SEARCH: output <links>[{"name":"Booking.com","url":"https://www.booking.com/searchresults.html?ss=CITY","icon":""}]</links> (replace CITY with the destination city, URL-encoded). Give 2-3 tips on which area to stay in.
+HOTEL SEARCH: output <links>[{"name":"Hotels in CITY","url":"https://www.stay22.com/allez/roam?aid=fastamor&address=CITY","icon":""}]</links> (replace CITY with the destination city and country, URL-encoded, e.g. Rome%20Italy). Give 2-3 tips on which area to stay in.
 TRANSFER: output <links>[{"name":"Kiwitaxi","url":"https://kiwitaxi.tpx.gr/Y6yrFeYN","icon":""},{"name":"Welcome Pickups","url":"https://tpx.gr/n6krgEY3","icon":""}]</links>
 TOURS: output <links>[{"name":"Klook","url":"https://klook.tpx.gr/vRUzaJbI","icon":""}]</links>
 FERRIES: output <links>[{"name":"Balearia","url":"https://www.balearia.com","icon":""}]</links>
