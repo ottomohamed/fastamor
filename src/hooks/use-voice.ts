@@ -65,6 +65,22 @@ export function useVoice(lang: string, onFinal: (text: string) => void) {
     return () => window.speechSynthesis.removeEventListener?.('voiceschanged', load);
   }, [canSpeak]);
 
+  // Only speak when the device has a voice for the language; reading Arabic with
+  // e.g. a Spanish voice produces gibberish. (Many desktop systems lack Arabic voices.)
+  const voiceFor = useCallback(
+    (l: string) => {
+      const prefs = VOICE_LANGS[l] || [l];
+      const norm = (x: string) => x.toLowerCase().replace('_', '-');
+      return (
+        prefs.map(p => voices.find(v => norm(v.lang) === p.toLowerCase())).find(Boolean) ||
+        voices.find(v => norm(v.lang).startsWith(l)) ||
+        null
+      );
+    },
+    [voices]
+  );
+  const hasVoice = canSpeak && !!voiceFor(lang);
+
   const stopSpeaking = useCallback(() => {
     if (canSpeak) window.speechSynthesis.cancel();
     setSpeaking(false);
@@ -121,21 +137,19 @@ export function useVoice(lang: string, onFinal: (text: string) => void) {
       const clean = speakable(text);
       if (!clean) return;
       const l = textLang || detectTextLang(clean, lang);
+      const voice = voiceFor(l);
+      if (!voice) return;
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(clean);
-      const prefs = VOICE_LANGS[l] || [l];
-      u.lang = prefs[0];
-      const voice =
-        prefs.map(p => voices.find(v => v.lang.toLowerCase() === p.toLowerCase())).find(Boolean) ||
-        voices.find(v => v.lang.toLowerCase().startsWith(l));
-      if (voice) u.voice = voice;
+      u.lang = voice.lang;
+      u.voice = voice;
       u.rate = 1;
       u.onstart = () => setSpeaking(true);
       u.onend = () => setSpeaking(false);
       u.onerror = () => setSpeaking(false);
       window.speechSynthesis.speak(u);
     },
-    [canSpeak, lang, voices]
+    [canSpeak, lang, voiceFor]
   );
 
   useEffect(() => () => {
@@ -143,5 +157,5 @@ export function useVoice(lang: string, onFinal: (text: string) => void) {
     if (canSpeak) window.speechSynthesis.cancel();
   }, [canSpeak]);
 
-  return { canListen, canSpeak, listening, interim, speaking, error, start, stop, speak, stopSpeaking };
+  return { canListen, canSpeak: hasVoice, listening, interim, speaking, error, start, stop, speak, stopSpeaking };
 }
