@@ -38,13 +38,18 @@ const PORT_CODES: Record<string, string> = {
   "algiers": "ALG",
 };
 
+// City codes (all airports of a city) give the fare API the most results.
 const CITY_TO_IATA: Record<string, string> = {
-  "dubai": "DXB", "paris": "CDG", "london": "LHR", "cairo": "CAI", "riyadh": "RUH",
-  "jeddah": "JED", "doha": "DOH", "istanbul": "IST", "new york": "JFK", "tokyo": "NRT",
-  "rabat": "RBA", "casablanca": "CMN", "marrakech": "RAK", "tunis": "TUN",
-  "algiers": "ALG", "beirut": "BEY", "amman": "AMM", "abu dhabi": "AUH", "muscat": "MCT",
-  "kuwait": "KWI", "bahrain": "BAH", "baghdad": "BGW", "tangier": "TNG",
-  "madrid": "MAD", "barcelona": "BCN", "rome": "FCO", "seville": "SVQ",
+  "paris": "PAR", "باريس": "PAR", "london": "LON", "لندن": "LON", "brussels": "BRU", "bruxelles": "BRU", "بروكسل": "BRU",
+  "amsterdam": "AMS", "أمستردام": "AMS", "madrid": "MAD", "مدريد": "MAD", "barcelona": "BCN", "barcelone": "BCN", "برشلونة": "BCN",
+  "marseille": "MRS", "مرسيليا": "MRS", "lyon": "LYS", "ليون": "LYS", "nice": "NCE", "toulouse": "TLS", "dusseldorf": "DUS", "düsseldorf": "DUS", "دوسلدورف": "DUS",
+  "frankfurt": "FRA", "milan": "MIL", "ميلانو": "MIL", "rome": "ROM", "روما": "ROM", "malaga": "AGP", "seville": "SVQ", "sevilla": "SVQ",
+  "casablanca": "CMN", "الدار البيضاء": "CMN", "marrakech": "RAK", "مراكش": "RAK", "agadir": "AGA", "أكادير": "AGA", "nador": "NDR", "الناظور": "NDR",
+  "oujda": "OUD", "وجدة": "OUD", "tangier": "TNG", "tanger": "TNG", "طنجة": "TNG", "fes": "FEZ", "fès": "FEZ", "فاس": "FEZ", "rabat": "RBA", "الرباط": "RBA",
+  "dakhla": "VIL", "الداخلة": "VIL", "essaouira": "ESU", "الصويرة": "ESU", "ouarzazate": "OZZ", "ورزازات": "OZZ", "al hoceima": "AHU", "الحسيمة": "AHU", "tetouan": "TTU", "تطوان": "TTU",
+  "dubai": "DXB", "دبي": "DXB", "istanbul": "IST", "إسطنبول": "IST", "اسطنبول": "IST", "cairo": "CAI", "القاهرة": "CAI", "jeddah": "JED", "جدة": "JED",
+  "riyadh": "RUH", "الرياض": "RUH", "doha": "DOH", "الدوحة": "DOH", "tunis": "TUN", "تونس": "TUN", "algiers": "ALG", "الجزائر": "ALG",
+  "abu dhabi": "AUH", "أبوظبي": "AUH", "muscat": "MCT", "kuwait": "KWI", "bahrain": "BAH", "beirut": "BEY", "amman": "AMM", "new york": "NYC", "tokyo": "TYO",
 };
 
 const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
@@ -72,8 +77,12 @@ const SERVICE_LINKS: Record<string, AffiliateLink[]> = {
   flight: [{ name: "Aviasales", desc: "Search all airlines", url: "https://aviasales.tpx.gr/yQxrYmk7", icon: "" }],
 };
 
+const AIRPORT_TO_CITY: Record<string, string> = { CDG: "PAR", ORY: "PAR", BVA: "PAR", LHR: "LON", LGW: "LON", STN: "LON", CRL: "BRU", JFK: "NYC", NRT: "TYO", FCO: "ROM", MXP: "MIL", BGY: "MIL", SAW: "IST" };
+
 function getIATA(text: string): string | undefined {
   if (!text) return undefined;
+  const up = text.trim().toUpperCase();
+  if (/^[A-Z]{3}$/.test(up)) return AIRPORT_TO_CITY[up] || up;
   const lower = text.toLowerCase().trim();
   for (const [city, iata] of Object.entries(CITY_TO_IATA)) {
     if (lower.includes(city)) return iata;
