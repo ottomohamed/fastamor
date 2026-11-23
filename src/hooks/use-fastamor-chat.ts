@@ -237,7 +237,11 @@ export function useFastamorChat(service: string, lang: string) {
               const { flights, hasDirectFlights, fallbackUrl } = await searchFlights(searchData.origin, searchData.destination, searchData.date);
               setShowSearchAnim(false);
 
-              if (rawDest) setTripDest({ name: rawDest, city: cityFromCode(searchData.destination) || rawDest });
+              if (rawDest) {
+                const city = cityFromCode(searchData.destination) || cityFromCode(rawDest.toUpperCase()) || rawDest;
+                // The model sometimes sends an airport code (e.g. FCO): show the city name instead.
+                setTripDest({ name: /^[A-Za-z]{3}$/.test(rawDest) ? city : rawDest, city });
+              }
               if (flights.length > 0) {
                 setFlightResults(flights);
                 setHasResults(true);
