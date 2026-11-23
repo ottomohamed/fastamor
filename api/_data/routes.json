@@ -1,0 +1,1662 @@
+{
+  "paris-casablanca": {
+    "origin": "PAR",
+    "destination": "CMN",
+    "originName": {
+      "en": "Paris",
+      "ar": "باريس",
+      "fr": "Paris",
+      "es": "París"
+    },
+    "destinationName": {
+      "en": "Casablanca",
+      "ar": "الدار البيضاء",
+      "fr": "Casablanca",
+      "es": "Casablanca"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من باريس إلى الدار البيضاء | أحدث الأسعار والنصائح",
+        "description": "قارن أسعار الرحلات من باريس إلى الدار البيضاء: مطارات شارل ديغول وأورلي، مدة الرحلة، أفضل أوقات الحجز، ونصائح عملية للعائلات المغربية في فرنسا.",
+        "intro": [
+          "يُعدّ خط باريس – الدار البيضاء من أكثر الخطوط ازدحاماً بين أوروبا والمغرب، إذ يجمع أبناء الجالية المغربية الذين يزورون أهلهم، ورجال الأعمال المتنقلين بين العاصمتين الاقتصاديتين، والطلبة، والسياح الذين يبدؤون رحلتهم من أكبر مدن المملكة. تنطلق أغلب الرحلات من مطار باريس شارل ديغول أو مطار أورلي، وتصل إلى مطار محمد الخامس الدولي الواقع في النواصر على بعد نحو ثلاثين كيلومتراً جنوب المدينة. وتستغرق الرحلة المباشرة قرابة ثلاث ساعات.",
+          "ترتفع الأسعار عادةً في عطلة الصيف، خصوصاً في يوليو وأغسطس، وقبيل عيد الأضحى وعيد الفطر، وخلال العطل المدرسية الفرنسية ورأس السنة. أما الفترات الأهدأ فهي غالباً منتصف الخريف وشهر يناير بعد العطلة وبعض أسابيع الربيع خارج العطل. الحجز المبكر لمواسم الذروة، والمرونة في يوم السفر، يصنعان فرقاً ملموساً. ويعرض الجدول أدناه أحدث الأسعار التي عثرنا عليها لهذا الخط.",
+          "للعائلات المسافرة بحقائب كثيرة وهدايا، انتبهوا إلى وزن الأمتعة المسموح به في كل تذكرة، فالعروض الأرخص لا تشمل دائماً حقيبة مسجلة. عند الوصول إلى مطار محمد الخامس، يربط القطار المطار بمحطات الدار البيضاء الرئيسية، كما تتوفر سيارات الأجرة الكبيرة ووكالات كراء السيارات، ومن المدينة يسهل مواصلة الطريق نحو الرباط أو الجديدة أو سطات. يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب شروط شركة الطيران، وعلى غيرهم مراجعة المصادر الرسمية."
+        ],
+        "tips": [
+          "قارن بين مطاري شارل ديغول وأورلي، فقد يختلف السعر وسهولة الوصول من منزلك.",
+          "احجز مبكراً إذا كان سفرك في الصيف أو قبيل العيد، فالمقاعد الرخيصة تنفد بسرعة.",
+          "تحقق من الأمتعة المسجلة المشمولة قبل الدفع، خاصة عند السفر مع الأطفال.",
+          "قطار المطار خيار اقتصادي للوصول إلى وسط الدار البيضاء دون عناء التفاوض على الأجرة.",
+          "احتفظ بنسخة رقمية من جواز سفرك أو بطاقتك الوطنية على هاتفك."
+        ],
+        "faq": [
+          {
+            "q": "كم تستغرق الرحلة من باريس إلى الدار البيضاء؟",
+            "a": "تستغرق الرحلة المباشرة نحو ثلاث ساعات، وقد تطول المدة إذا تضمنت توقفاً."
+          },
+          {
+            "q": "من أي مطار في باريس تنطلق الرحلات إلى الدار البيضاء؟",
+            "a": "تنطلق أغلب الرحلات من مطار شارل ديغول أو مطار أورلي. يوضح الجدول أدناه المطار وشركة الطيران لكل سعر."
+          },
+          {
+            "q": "متى تكون التذاكر أرخص؟",
+            "a": "غالباً ما تكون الأسعار أدنى في الخريف وشهر يناير وبعض أسابيع الربيع خارج العطل المدرسية، وأعلى في الصيف والأعياد ونهاية السنة."
+          },
+          {
+            "q": "كيف أصل من مطار محمد الخامس إلى وسط المدينة؟",
+            "a": "يمكنك ركوب القطار من محطة المطار نحو وسط الدار البيضاء، أو أخذ سيارة أجرة كبيرة، أو كراء سيارة من الوكالات الموجودة في المطار."
+          },
+          {
+            "q": "ما الوثائق المطلوبة للسفر؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق شروط شركة الطيران. أما المسافرون الآخرون فعليهم التحقق من المصادر الرسمية قبل السفر."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Paris Casablanca : comparez les derniers prix",
+        "description": "Vol Paris Casablanca au meilleur prix : aéroports CDG et Orly, durée du vol, périodes chères et creuses, conseils bagages et arrivée à Mohammed V.",
+        "intro": [
+          "La ligne Paris – Casablanca est l'une des plus fréquentées entre l'Europe et le Maroc. On y croise des familles de la diaspora qui rentrent voir leurs proches, des cadres qui font la navette entre les deux capitales économiques, des étudiants et des voyageurs qui commencent leur séjour par la plus grande ville du royaume. Les vols partent en général de Paris-Charles de Gaulle ou de Paris-Orly et arrivent à l'aéroport international Mohammed V, situé à Nouaceur, à une trentaine de kilomètres au sud de la ville. Comptez environ trois heures de vol direct.",
+          "Les prix grimpent surtout en juillet et en août, à l'approche de l'Aïd el-Kébir et de l'Aïd el-Fitr, pendant les vacances scolaires françaises et autour de Noël et du Nouvel An. Les périodes plus calmes sont souvent la mi-automne, janvier après les fêtes et certaines semaines de printemps hors vacances. Réserver tôt et rester flexible d'un ou deux jours aide beaucoup. Le tableau ci-dessous affiche les derniers tarifs trouvés sur cette ligne.",
+          "Si vous voyagez en famille avec valises et cadeaux, vérifiez la franchise bagages de chaque billet : les tarifs les plus bas n'incluent pas toujours de bagage en soute. À l'arrivée, le train relie l'aéroport aux principales gares de Casablanca, et vous trouverez aussi des grands taxis et des loueurs de voitures. Depuis la ville, Rabat, El Jadida ou Settat sont faciles d'accès. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres voyageurs doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Comparez CDG et Orly : le prix et le temps de trajet depuis chez vous peuvent changer le calcul.",
+          "Pour l'été ou l'Aïd, réservez plusieurs semaines à l'avance, les petits prix partent vite.",
+          "Vérifiez le bagage en soute inclus avant de payer, surtout avec des enfants.",
+          "Le train depuis Mohammed V est une solution économique pour rejoindre le centre de Casablanca.",
+          "Gardez une copie numérique de votre passeport ou de votre carte nationale sur votre téléphone."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Paris Casablanca ?",
+            "a": "Un vol direct dure environ trois heures. Avec une escale, le trajet est plus long."
+          },
+          {
+            "q": "De quel aéroport parisien partent les vols pour Casablanca ?",
+            "a": "La plupart des vols partent de Charles de Gaulle ou d'Orly. Le tableau ci-dessous indique l'aéroport et la compagnie pour chaque tarif."
+          },
+          {
+            "q": "Quand trouver un billet moins cher ?",
+            "a": "Les prix sont souvent plus bas à l'automne, en janvier et hors vacances scolaires au printemps, et plus élevés l'été, pendant l'Aïd et en fin d'année."
+          },
+          {
+            "q": "Comment rejoindre le centre-ville depuis l'aéroport Mohammed V ?",
+            "a": "Le train part de la gare de l'aéroport vers le centre de Casablanca. Grands taxis et voitures de location sont aussi disponibles sur place."
+          },
+          {
+            "q": "Quels documents faut-il pour voyager ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres voyageurs doivent vérifier les conditions auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Paris to Casablanca: compare the latest fares",
+        "description": "Cheap flights from Paris to Casablanca: CDG and Orly departures, flight time, peak and off-peak dates, luggage tips and getting from Mohammed V into town.",
+        "intro": [
+          "Paris to Casablanca is one of the busiest routes between Europe and Morocco. It carries diaspora families heading home to see relatives, business travellers moving between France's capital and Morocco's economic hub, students, and visitors starting their trip in the kingdom's largest city. Flights usually leave from Paris Charles de Gaulle or Paris Orly and land at Mohammed V International Airport in Nouaceur, roughly 30 km south of the city. A direct flight takes about three hours.",
+          "Fares tend to climb in July and August, in the run-up to Eid al-Adha and Eid al-Fitr, during French school holidays and around Christmas and New Year. Quieter periods are often mid-autumn, January after the festive season and some spring weeks outside school breaks. Booking early for peak dates and staying flexible by a day or two can make a real difference. The table below shows the latest fares found on this route.",
+          "If you are travelling as a family with suitcases and gifts, check the baggage allowance on every ticket, because the cheapest fares do not always include checked luggage. On arrival, a train links the airport with Casablanca's main stations, and grand taxis and car hire desks are also available. From the city it is easy to continue to Rabat, El Jadida or Settat. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "Compare CDG and Orly: the fare and your journey to the airport can change which is better value.",
+          "For summer or Eid travel, book weeks ahead, as the cheapest seats go quickly.",
+          "Check whether checked baggage is included before paying, especially with children.",
+          "The airport train is an inexpensive way to reach central Casablanca.",
+          "Keep a digital copy of your passport or national ID card on your phone."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Paris to Casablanca?",
+            "a": "A direct flight takes about three hours. Connecting itineraries take longer."
+          },
+          {
+            "q": "Which Paris airport do Casablanca flights leave from?",
+            "a": "Most flights depart from Charles de Gaulle or Orly. The table below shows the airport and airline for each fare."
+          },
+          {
+            "q": "When are flights to Casablanca cheapest?",
+            "a": "Fares are often lower in autumn, in January and in spring weeks outside school holidays, and higher in summer, around Eid and at the end of the year."
+          },
+          {
+            "q": "How do I get from Mohammed V Airport to the city centre?",
+            "a": "A train runs from the airport station into central Casablanca. Grand taxis and car hire are also available at the airport."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check entry conditions with official sources."
+          }
+        ]
+      }
+    }
+  },
+  "paris-marrakech": {
+    "origin": "PAR",
+    "destination": "RAK",
+    "originName": {
+      "en": "Paris",
+      "ar": "باريس",
+      "fr": "Paris",
+      "es": "París"
+    },
+    "destinationName": {
+      "en": "Marrakech",
+      "ar": "مراكش",
+      "fr": "Marrakech",
+      "es": "Marrakech"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من باريس إلى مراكش | قارن الأسعار واحجز بذكاء",
+        "description": "تذاكر طيران من باريس إلى مراكش: مطارات شارل ديغول وأورلي وبوفيه، مدة الرحلة، مواسم الغلاء والهدوء، والوصول من مطار المنارة إلى المدينة العتيقة.",
+        "intro": [
+          "تجمع رحلات باريس – مراكش جمهوراً متنوعاً: عائلات مغربية من الحوز وشيشاوة وقلعة السراغنة تعود إلى بلدها، وأزواج وأصدقاء يقضون عطلة قصيرة في المدينة الحمراء، ومسافرون يقصدون جبال الأطلس أو الصويرة انطلاقاً من مراكش. تغادر الرحلات عادة من مطار شارل ديغول أو أورلي، وتستعمل بعض شركات الطيران منخفضة التكلفة مطار بوفيه شمال باريس. أما الوصول فيكون إلى مطار مراكش المنارة، وهو قريب جداً من المدينة ولا يبعد عن ساحة جامع الفنا إلا بضعة كيلومترات. وتدوم الرحلة المباشرة نحو ثلاث ساعات وربع.",
+          "بما أن مراكش وجهة سياحية وعائلية في آن واحد، فإن الطلب يرتفع في أكثر من موسم: عطلة الصيف، وفترة عيد الأضحى، وعطل الربيع المدرسية الفرنسية، ثم أعياد نهاية السنة التي يقضيها كثيرون تحت شمس مراكش. وتكون الأسعار في الغالب ألطف في نوفمبر وأواخر يناير وفبراير، وكذلك في بداية يونيو قبل انطلاق العطلة. ستجد في الجدول أدناه أحدث الأسعار التي رصدناها.",
+          "إذا كنت تسافر مع والديك أو أطفالك، فاختر رحلة بأوقات مريحة، وتأكد من شمول التذكرة للحقيبة المسجلة إن كنت تحمل هدايا للعائلة. من مطار المنارة تنقلك سيارات الأجرة أو حافلة المطار إلى المدينة في وقت قصير، ومن مراكش تنطلق الحافلات وسيارات الأجرة الكبيرة نحو أوريكا وورزازات وآسفي. يسافر المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب قواعد شركة الطيران، ويُنصح غيرهم بمراجعة المصادر الرسمية."
+        ],
+        "tips": [
+          "إذا كنت تسكن شمال باريس فقد يكون مطار بوفيه مناسباً، لكن احسب وقت وتكلفة الوصول إليه.",
+          "احجز مبكراً لعطلة رأس السنة، فهي من أكثر الفترات طلباً نحو مراكش.",
+          "اتفق على سعر سيارة الأجرة قبل الركوب أو تأكد من تشغيل العداد.",
+          "في الصيف تكون الحرارة مرتفعة جداً، فاختر رحلة تصل في المساء إن أمكن.",
+          "راجع شروط الأمتعة في التذاكر منخفضة التكلفة، فهي تختلف كثيراً من عرض لآخر."
+        ],
+        "faq": [
+          {
+            "q": "كم مدة الرحلة من باريس إلى مراكش؟",
+            "a": "تستغرق الرحلة المباشرة حوالي ثلاث ساعات وربع."
+          },
+          {
+            "q": "ما هي مطارات باريس التي تخدم مراكش؟",
+            "a": "تنطلق الرحلات عادة من شارل ديغول وأورلي، وتستعمل بعض الشركات منخفضة التكلفة مطار بوفيه. الجدول أدناه يبين المطار لكل سعر."
+          },
+          {
+            "q": "ما أرخص فترة للسفر إلى مراكش؟",
+            "a": "غالباً ما تنخفض الأسعار في نوفمبر وأواخر يناير وفبراير وبداية يونيو، بينما ترتفع في الصيف والأعياد ونهاية السنة."
+          },
+          {
+            "q": "هل مطار المنارة بعيد عن وسط مراكش؟",
+            "a": "لا، فالمطار قريب من المدينة، والوصول إلى المدينة العتيقة بسيارة الأجرة أو حافلة المطار يستغرق وقتاً قصيراً."
+          },
+          {
+            "q": "ما الوثائق المطلوبة؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق قواعد شركة الطيران، أما الآخرون فعليهم التحقق من المصادر الرسمية."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Paris Marrakech : comparez CDG, Orly et Beauvais",
+        "description": "Vol Paris Marrakech pas cher : départs CDG, Orly ou Beauvais, durée du vol, saisons chères et creuses, et transfert de Menara vers la médina.",
+        "intro": [
+          "Le vol Paris – Marrakech attire un public très varié : familles originaires du Haouz, de Chichaoua ou de Kelâa des Sraghna qui rentrent au pays, couples et amis en escapade dans la ville ocre, voyageurs qui partent ensuite vers l'Atlas ou Essaouira. Les départs se font surtout depuis Charles de Gaulle et Orly, et certaines compagnies low-cost utilisent Beauvais. On atterrit à l'aéroport de Marrakech-Menara, tout proche de la ville, à quelques kilomètres seulement de la place Jemaa el-Fna. Le vol direct dure environ trois heures et quart.",
+          "Marrakech étant à la fois une destination touristique et familiale, la demande monte à plusieurs moments : vacances d'été, Aïd el-Kébir, vacances de printemps et surtout les fêtes de fin d'année, très prisées sous le soleil marocain. Les prix sont souvent plus doux en novembre, fin janvier, février et début juin. Le tableau ci-dessous présente les derniers tarifs trouvés.",
+          "En voyage avec des parents âgés ou des enfants, privilégiez des horaires confortables et vérifiez que votre billet inclut un bagage en soute si vous emportez des cadeaux. Depuis Menara, taxis et bus de l'aéroport rejoignent le centre rapidement ; de Marrakech, cars et grands taxis desservent l'Ourika, Ouarzazate ou Safi. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres voyageurs doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Beauvais peut convenir si vous habitez au nord de Paris, mais comptez le temps et le coût de la navette.",
+          "Réservez tôt pour le Nouvel An, l'une des périodes les plus demandées vers Marrakech.",
+          "Mettez-vous d'accord sur le prix du taxi avant de monter, ou demandez le compteur.",
+          "En été, il fait très chaud : une arrivée en soirée est souvent plus agréable.",
+          "Lisez bien les conditions bagages des billets low-cost, elles varient beaucoup."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Paris Marrakech ?",
+            "a": "Comptez environ trois heures et quart pour un vol direct."
+          },
+          {
+            "q": "Quels aéroports parisiens desservent Marrakech ?",
+            "a": "Principalement Charles de Gaulle et Orly, et Beauvais pour certaines compagnies low-cost. Le tableau ci-dessous précise l'aéroport de chaque tarif."
+          },
+          {
+            "q": "Quelle est la période la moins chère ?",
+            "a": "Les prix baissent souvent en novembre, fin janvier, février et début juin. Ils montent l'été, pendant l'Aïd et pour les fêtes de fin d'année."
+          },
+          {
+            "q": "L'aéroport de Menara est-il loin du centre ?",
+            "a": "Non, il est très proche de la ville. En taxi ou en bus, la médina est à quelques minutes."
+          },
+          {
+            "q": "Quels papiers prévoir ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres doivent vérifier les conditions auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Paris to Marrakech: CDG, Orly and Beauvais fares",
+        "description": "Find cheap flights from Paris to Marrakech: CDG, Orly or Beauvais departures, flight time, peak and quiet seasons, and getting from Menara to the medina.",
+        "intro": [
+          "The Paris to Marrakech route serves a wide mix of travellers: families with roots in Al Haouz, Chichaoua or Kelaat Sraghna going home, couples and friends on a short break in the Red City, and visitors heading on to the Atlas Mountains or Essaouira. Flights mostly leave from Charles de Gaulle and Orly, and some low-cost carriers use Beauvais. You land at Marrakech Menara Airport, which sits very close to the city, just a few kilometres from Jemaa el-Fna square. A direct flight takes about three and a quarter hours.",
+          "Because Marrakech is both a holiday and a family destination, demand peaks at several points in the year: the summer break, Eid al-Adha, French spring school holidays and, above all, Christmas and New Year, when many people chase the winter sun. Fares are often gentler in November, late January, February and early June. The table below shows the latest fares found.",
+          "If you are flying with elderly parents or young children, pick comfortable departure times and make sure your ticket includes checked baggage if you are bringing gifts. From Menara, taxis and the airport bus reach the centre quickly, and from Marrakech coaches and grand taxis run to the Ourika Valley, Ouarzazate and Safi. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "Beauvais can suit you if you live north of Paris, but factor in the time and cost of the shuttle.",
+          "Book early for New Year, one of the busiest times to fly to Marrakech.",
+          "Agree on the taxi fare before getting in, or ask for the meter.",
+          "Summer afternoons are extremely hot, so an evening arrival is often more pleasant.",
+          "Read the baggage rules on low-cost tickets carefully, as they vary a lot."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Paris to Marrakech?",
+            "a": "A direct flight takes about three and a quarter hours."
+          },
+          {
+            "q": "Which Paris airports have flights to Marrakech?",
+            "a": "Mainly Charles de Gaulle and Orly, with some low-cost carriers using Beauvais. The table below shows the airport for each fare."
+          },
+          {
+            "q": "When is the cheapest time to fly to Marrakech?",
+            "a": "Fares are often lower in November, late January, February and early June, and higher in summer, around Eid and over the festive season."
+          },
+          {
+            "q": "Is Menara Airport far from the city centre?",
+            "a": "No, it is very close to the city. A taxi or the airport bus gets you to the medina in a short time."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check entry conditions with official sources."
+          }
+        ]
+      }
+    }
+  },
+  "paris-agadir": {
+    "origin": "PAR",
+    "destination": "AGA",
+    "originName": {
+      "en": "Paris",
+      "ar": "باريس",
+      "fr": "Paris",
+      "es": "París"
+    },
+    "destinationName": {
+      "en": "Agadir",
+      "ar": "أكادير",
+      "fr": "Agadir",
+      "es": "Agadir"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من باريس إلى أكادير | أسعار محدثة ونصائح للعائلات",
+        "description": "ابحث عن أرخص رحلة من باريس إلى أكادير: مطارات الانطلاق، مدة الطيران، أفضل فترات الحجز، والتنقل من مطار المسيرة الدولي إلى أكادير وإنزكان وتيزنيت.",
+        "intro": [
+          "أكادير بوابة منطقة سوس، ولهذا يحظى خط باريس – أكادير بإقبال كبير من أبناء الجالية السوسية في فرنسا الذين يعودون إلى إنزكان وأيت ملول وتارودانت وتيزنيت والقرى المجاورة. ويقصده أيضاً محبو الشمس في الشتاء، وهواة ركوب الأمواج المتجهون إلى تغازوت، والمتقاعدون الذين يقضون أشهر البرد على الساحل الأطلسي. تنطلق الرحلات أساساً من مطاري أورلي وشارل ديغول، وتحط في مطار أكادير المسيرة الدولي، الواقع على بعد نحو خمسة وعشرين كيلومتراً جنوب شرق المدينة. وتستغرق الرحلة المباشرة قرابة ثلاث ساعات ونصف.",
+          "تبلغ الأسعار ذروتها عادة في يوليو وأغسطس حين تعود العائلات، وحول عيد الأضحى، وفي العطل المدرسية الفرنسية، وكذلك في عطلة نهاية السنة لأن أكادير وجهة شتوية مفضلة لدى الأوروبيين. وكثيراً ما تكون الأسعار أنسب في أواخر الربيع وبداية الخريف خارج العطل. يعرض الجدول أدناه أحدث الأسعار التي وجدناها لهذا الخط.",
+          "عند الوصول إلى مطار المسيرة، تتوفر سيارات الأجرة الكبيرة نحو أكادير وإنزكان، ومن إنزكان تنطلق وسائل النقل إلى معظم مدن سوس والجنوب، كما أن كراء سيارة خيار عملي لمن يزور أكثر من قرية. وإذا كنت تحمل أغراضاً للعائلة، فقارن الأسعار بعد احتساب الحقيبة المسجلة لا قبلها. يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق قواعد شركة الطيران، ويتعين على غيرهم التحقق من المصادر الرسمية."
+        ],
+        "tips": [
+          "قارن السعر النهائي بعد إضافة الأمتعة، فالفرق بين العروض قد يتغير تماماً.",
+          "احجز سيارة الكراء مسبقاً في الصيف إن كنت ستتنقل بين قرى سوس.",
+          "لعطلة الشتاء ونهاية السنة، احجز مبكراً لأن الطلب السياحي مرتفع.",
+          "المطار بعيد نسبياً عن المدينة، فرتّب وسيلة التنقل قبل وصولك ليلاً.",
+          "إذا كانت مواعيدك مرنة، جرّب السفر في منتصف الأسبوع."
+        ],
+        "faq": [
+          {
+            "q": "كم تستغرق الرحلة من باريس إلى أكادير؟",
+            "a": "تستغرق الرحلة المباشرة حوالي ثلاث ساعات ونصف."
+          },
+          {
+            "q": "أين يقع مطار أكادير المسيرة؟",
+            "a": "يقع على بعد نحو خمسة وعشرين كيلومتراً جنوب شرق أكادير، وهو قريب نسبياً من إنزكان وأيت ملول."
+          },
+          {
+            "q": "متى تكون الرحلات إلى أكادير أرخص؟",
+            "a": "غالباً في أواخر الربيع وبداية الخريف خارج العطل المدرسية. وترتفع الأسعار في الصيف والعيد ونهاية السنة."
+          },
+          {
+            "q": "كيف أصل من المطار إلى تيزنيت أو تارودانت؟",
+            "a": "يمكنك أخذ سيارة أجرة إلى إنزكان ثم مواصلة الطريق بوسائل النقل المتوفرة هناك، أو كراء سيارة من المطار مباشرة."
+          },
+          {
+            "q": "ما الوثائق اللازمة للسفر؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب شروط شركة الطيران، وعلى الآخرين مراجعة المصادر الرسمية."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Paris Agadir : tarifs récents et conseils pratiques",
+        "description": "Vol Paris Agadir pas cher : aéroports de départ, durée du vol, meilleures périodes pour réserver et trajet d'Al Massira vers Agadir, Inezgane ou Tiznit.",
+        "intro": [
+          "Agadir est la porte d'entrée du Souss, et la ligne Paris – Agadir est très prisée par la communauté soussie de France qui rentre à Inezgane, Aït Melloul, Taroudant, Tiznit ou dans les villages alentour. On y croise aussi des amateurs de soleil d'hiver, des surfeurs en route pour Taghazout et des retraités qui passent la saison froide sur la côte atlantique. Les vols partent principalement d'Orly et de Charles de Gaulle et arrivent à l'aéroport international Agadir Al Massira, à environ 25 km au sud-est de la ville. Le vol direct dure environ trois heures et demie.",
+          "Les tarifs culminent généralement en juillet et en août, autour de l'Aïd el-Kébir, pendant les vacances scolaires françaises et pour les fêtes de fin d'année, car Agadir est une destination d'hiver très demandée. Les prix sont souvent plus doux à la fin du printemps et au début de l'automne, hors vacances. Le tableau ci-dessous affiche les derniers tarifs trouvés.",
+          "À l'arrivée, des grands taxis rejoignent Agadir et Inezgane, d'où partent les transports vers la plupart des villes du Souss et du Sud. Louer une voiture est pratique si vous visitez plusieurs villages. Si vous emportez des affaires pour la famille, comparez les prix bagage compris. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres voyageurs doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Comparez le prix final avec bagage : le classement des offres peut complètement changer.",
+          "En été, réservez votre voiture de location à l'avance si vous circulez dans le Souss.",
+          "Pour l'hiver et les fêtes, réservez tôt : la demande touristique est forte.",
+          "L'aéroport est assez éloigné de la ville : prévoyez votre transfert si vous arrivez tard.",
+          "Avec des dates flexibles, testez les départs en milieu de semaine."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Paris Agadir ?",
+            "a": "Un vol direct dure environ trois heures et demie."
+          },
+          {
+            "q": "Où se trouve l'aéroport d'Agadir Al Massira ?",
+            "a": "À environ 25 km au sud-est d'Agadir, assez près d'Inezgane et d'Aït Melloul."
+          },
+          {
+            "q": "Quand les vols pour Agadir sont-ils moins chers ?",
+            "a": "Souvent à la fin du printemps et au début de l'automne, hors vacances scolaires. Les prix montent l'été, pendant l'Aïd et en fin d'année."
+          },
+          {
+            "q": "Comment aller de l'aéroport à Tiznit ou Taroudant ?",
+            "a": "Prenez un grand taxi jusqu'à Inezgane, puis les transports qui desservent le Souss, ou louez une voiture directement à l'aéroport."
+          },
+          {
+            "q": "Quels documents faut-il ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres voyageurs doivent vérifier auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Paris to Agadir: latest fares and travel tips",
+        "description": "Cheap flights from Paris to Agadir: departure airports, flight time, the best periods to book, and getting from Al Massira to Agadir, Inezgane or Tiznit.",
+        "intro": [
+          "Agadir is the gateway to the Souss region, so the Paris to Agadir route is popular with the Soussi community in France heading home to Inezgane, Ait Melloul, Taroudant, Tiznit and the surrounding villages. It also draws winter-sun seekers, surfers bound for Taghazout and retirees who spend the colder months on the Atlantic coast. Flights leave mainly from Orly and Charles de Gaulle and land at Agadir Al Massira International Airport, about 25 km south-east of the city. A direct flight takes roughly three and a half hours.",
+          "Fares usually peak in July and August when families travel, around Eid al-Adha, during French school holidays and over Christmas and New Year, since Agadir is a sought-after winter destination. Prices are often kinder in late spring and early autumn outside the holidays. The table below shows the latest fares found on this route.",
+          "On arrival, grand taxis run to Agadir and Inezgane, which is the hub for transport to most towns in the Souss and the south. Hiring a car makes sense if you plan to visit several villages. If you are carrying things for the family, compare fares with checked baggage included rather than the headline price. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "Compare final prices with baggage added: the cheapest offer can change completely.",
+          "Book a hire car ahead in summer if you will be driving around the Souss.",
+          "For winter and the festive season, book early as tourist demand is high.",
+          "The airport is some distance from town, so arrange your transfer if you land late.",
+          "If your dates are flexible, try midweek departures."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Paris to Agadir?",
+            "a": "A direct flight takes about three and a half hours."
+          },
+          {
+            "q": "Where is Agadir Al Massira Airport?",
+            "a": "About 25 km south-east of Agadir, relatively close to Inezgane and Ait Melloul."
+          },
+          {
+            "q": "When are flights to Agadir cheapest?",
+            "a": "Often in late spring and early autumn outside school holidays. Fares rise in summer, around Eid and at the end of the year."
+          },
+          {
+            "q": "How do I get from the airport to Tiznit or Taroudant?",
+            "a": "Take a grand taxi to Inezgane and continue with the transport serving the Souss, or hire a car at the airport."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check official sources."
+          }
+        ]
+      }
+    }
+  },
+  "paris-nador": {
+    "origin": "PAR",
+    "destination": "NDR",
+    "originName": {
+      "en": "Paris",
+      "ar": "باريس",
+      "fr": "Paris",
+      "es": "París"
+    },
+    "destinationName": {
+      "en": "Nador",
+      "ar": "الناظور",
+      "fr": "Nador",
+      "es": "Nador"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من باريس إلى الناظور | أسعار أورلي وبوفيه المحدثة",
+        "description": "رحلات من باريس إلى الناظور بأفضل الأسعار: الانطلاق من أورلي أو بوفيه، مدة الرحلة، ذروة الصيف والأعياد، والتنقل من مطار العروي إلى مدن الريف.",
+        "intro": [
+          "خط باريس – الناظور خط عائلي بامتياز، يستعمله أساساً أبناء الريف المقيمون في فرنسا لزيارة ذويهم في الناظور والعروي وزايو وسلوان والدريوش، أو للمرور نحو الحسيمة وقرى الريف. ويختاره كثيرون بدلاً من الرحلة الطويلة بالسيارة والباخرة عبر إسبانيا. تنطلق الرحلات أساساً من مطار باريس أورلي، كما تظهر أحياناً رحلات منخفضة التكلفة من مطار بوفيه. ويكون الوصول إلى مطار الناظور العروي الدولي، على بعد نحو خمسة وعشرين كيلومتراً جنوب الناظور. وتستغرق الرحلة المباشرة قرابة ساعتين وخمس وأربعين دقيقة.",
+          "الصيف هو الموسم الأصعب على هذا الخط، فمع عودة الجالية في يوليو وأغسطس ترتفع الأسعار وتمتلئ الرحلات بسرعة، ويتكرر الأمر مع عيد الأضحى وعيد الفطر والعطل المدرسية الفرنسية وعطلة نهاية السنة. أما الفترات الأهدأ فهي غالباً نوفمبر ويناير وفبراير وبعض أسابيع مايو ويونيو قبل العطلة. وإن كانت عودتك في الصيف، فالحجز قبل أشهر يستحق العناء. يعرض الجدول أدناه أحدث الأسعار التي عثرنا عليها.",
+          "كثيراً ما يحمل المسافرون إلى الريف حقائب ثقيلة وهدايا، لذا تأكد من حدود الوزن في تذكرتك، فالمطارات لا تتسامح مع الحقائب الزائدة. من مطار العروي تتوفر سيارات الأجرة الكبيرة نحو الناظور والمدن المجاورة، ويفضّل كثيرون كراء سيارة للتنقل بحرية بين القرى أو النزول إلى شواطئ البحر المتوسط وبحيرة مارتشيكا. يسافر المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب قواعد شركة الطيران، وعلى غيرهم مراجعة المصادر الرسمية."
+        ],
+        "tips": [
+          "للسفر في يوليو وأغسطس، احجز قبل أشهر لأن الرحلات تمتلئ بسرعة.",
+          "قارن بين أورلي وبوفيه بعد احتساب تكلفة الوصول إلى المطار من منزلك.",
+          "زن حقائبك في البيت قبل الذهاب إلى المطار لتجنب رسوم الوزن الزائد.",
+          "احجز سيارة الكراء مسبقاً في الصيف، فالطلب في الناظور يكون مرتفعاً جداً.",
+          "إذا كانت وجهتك الحسيمة، احسب وقت الطريق البري من العروي قبل اختيار موعد الوصول."
+        ],
+        "faq": [
+          {
+            "q": "كم تستغرق الرحلة من باريس إلى الناظور؟",
+            "a": "تستغرق الرحلة المباشرة نحو ساعتين وخمس وأربعين دقيقة."
+          },
+          {
+            "q": "من أي مطار في باريس أسافر إلى الناظور؟",
+            "a": "تنطلق الرحلات أساساً من أورلي، وتظهر أحياناً رحلات من بوفيه. يبين الجدول أدناه المطار وشركة الطيران لكل سعر."
+          },
+          {
+            "q": "لماذا ترتفع الأسعار كثيراً في الصيف؟",
+            "a": "لأن عدداً كبيراً من أبناء الجالية يعودون إلى الريف في يوليو وأغسطس، فيرتفع الطلب على المقاعد المحدودة."
+          },
+          {
+            "q": "كيف أصل من مطار العروي إلى الناظور؟",
+            "a": "تتوفر سيارات الأجرة الكبيرة ووكالات كراء السيارات في المطار، والمسافة إلى الناظور نحو خمسة وعشرين كيلومتراً."
+          },
+          {
+            "q": "ما الوثائق المطلوبة؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق قواعد شركة الطيران، أما الآخرون فعليهم التحقق من المصادر الرسمية."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Paris Nador : tarifs au départ d'Orly et Beauvais",
+        "description": "Vol Paris Nador au meilleur prix : départs d'Orly ou de Beauvais, durée du vol, pic de l'été et de l'Aïd, et trajet de l'aéroport d'Al Aroui vers le Rif.",
+        "intro": [
+          "Paris – Nador est avant tout une ligne familiale. Elle est surtout empruntée par les Rifains de France qui rentrent voir leurs proches à Nador, Al Aroui, Zaïo, Selouane ou Driouch, ou qui continuent vers Al Hoceïma et les villages du Rif. Beaucoup la préfèrent au long trajet en voiture et en ferry via l'Espagne. Les vols partent principalement de Paris-Orly, et des vols low-cost depuis Beauvais apparaissent aussi selon les périodes. On atterrit à l'aéroport international Nador-Al Aroui, à environ 25 km au sud de Nador. Le vol direct dure environ 2 h 45.",
+          "L'été est la saison la plus tendue : en juillet et en août, avec le retour de la diaspora, les prix montent et les vols se remplissent vite. Même scénario pour l'Aïd el-Kébir, l'Aïd el-Fitr, les vacances scolaires et la fin d'année. Les périodes plus calmes sont souvent novembre, janvier, février et certaines semaines de mai et juin. Pour un retour estival, réserver plusieurs mois à l'avance vaut la peine. Le tableau ci-dessous affiche les derniers tarifs trouvés.",
+          "Les voyageurs vers le Rif ont souvent des valises lourdes et des cadeaux : vérifiez bien le poids autorisé par votre billet. Depuis Al Aroui, des grands taxis rejoignent Nador et les villes voisines, et beaucoup louent une voiture pour circuler entre les villages ou descendre vers la Méditerranée et la lagune de Marchica. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres voyageurs doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Pour juillet et août, réservez plusieurs mois à l'avance : les vols se remplissent vite.",
+          "Comparez Orly et Beauvais en incluant le coût du trajet jusqu'à l'aéroport.",
+          "Pesez vos valises à la maison pour éviter les frais d'excédent.",
+          "Réservez votre voiture de location tôt en été, la demande à Nador est très forte.",
+          "Si vous allez à Al Hoceïma, tenez compte du trajet routier depuis Al Aroui pour choisir l'heure d'arrivée."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Paris Nador ?",
+            "a": "Un vol direct dure environ 2 h 45."
+          },
+          {
+            "q": "De quel aéroport parisien partir pour Nador ?",
+            "a": "Principalement d'Orly, avec aussi des vols depuis Beauvais selon les périodes. Le tableau ci-dessous indique l'aéroport et la compagnie de chaque tarif."
+          },
+          {
+            "q": "Pourquoi les prix sont-ils si élevés en été ?",
+            "a": "Une grande partie de la diaspora rifaine rentre en juillet et en août, ce qui fait grimper la demande sur un nombre de sièges limité."
+          },
+          {
+            "q": "Comment aller de l'aéroport d'Al Aroui à Nador ?",
+            "a": "Des grands taxis et des loueurs de voitures sont présents à l'aéroport. Nador se trouve à environ 25 km."
+          },
+          {
+            "q": "Quels documents faut-il ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres doivent vérifier auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Paris to Nador: latest Orly and Beauvais fares",
+        "description": "Cheap flights from Paris to Nador: Orly or Beauvais departures, flight time, the summer and Eid peaks, and getting from Al Aroui airport into the Rif.",
+        "intro": [
+          "Paris to Nador is above all a family route. It is used mainly by people of Riffian origin living in France who are visiting relatives in Nador, Al Aroui, Zaio, Selouane or Driouch, or travelling on to Al Hoceima and the villages of the Rif. Many choose it over the long drive and ferry crossing through Spain. Flights leave mainly from Paris Orly, and low-cost flights from Beauvais also appear at certain times of year. You land at Nador Al Aroui International Airport, about 25 km south of Nador. A direct flight takes around two hours and 45 minutes.",
+          "Summer is the toughest season on this route: in July and August, as the diaspora returns, fares rise and flights fill quickly. The same happens around Eid al-Adha, Eid al-Fitr, French school holidays and the end of the year. Quieter periods are often November, January, February and some weeks in May and June. If you are going home for the summer, booking months ahead is worth it. The table below shows the latest fares found.",
+          "Travellers heading to the Rif often carry heavy suitcases and gifts, so check your ticket's weight limits carefully. From Al Aroui, grand taxis run to Nador and nearby towns, and many people hire a car to move freely between villages or head down to the Mediterranean coast and the Marchica lagoon. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "For July and August, book months ahead because flights fill up fast.",
+          "Compare Orly and Beauvais including the cost of getting to the airport.",
+          "Weigh your suitcases at home to avoid excess baggage fees.",
+          "Book a hire car early in summer, as demand in Nador is very high.",
+          "If you are going to Al Hoceima, allow for the road journey from Al Aroui when choosing your arrival time."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Paris to Nador?",
+            "a": "A direct flight takes about two hours and 45 minutes."
+          },
+          {
+            "q": "Which Paris airport do I fly to Nador from?",
+            "a": "Mainly Orly, with flights from Beauvais at certain times of year. The table below shows the airport and airline for each fare."
+          },
+          {
+            "q": "Why are summer fares so high?",
+            "a": "A large part of the Riffian diaspora travels home in July and August, so demand rises sharply for a limited number of seats."
+          },
+          {
+            "q": "How do I get from Al Aroui airport to Nador?",
+            "a": "Grand taxis and car hire desks are available at the airport. Nador is about 25 km away."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check official sources."
+          }
+        ]
+      }
+    }
+  },
+  "paris-oujda": {
+    "origin": "PAR",
+    "destination": "OUD",
+    "originName": {
+      "en": "Paris",
+      "ar": "باريس",
+      "fr": "Paris",
+      "es": "París"
+    },
+    "destinationName": {
+      "en": "Oujda",
+      "ar": "وجدة",
+      "fr": "Oujda",
+      "es": "Uchda"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من باريس إلى وجدة | أحدث أسعار التذاكر ونصائح عملية",
+        "description": "قارن رحلات باريس – وجدة: الانطلاق من أورلي أو بوفيه، مدة الطيران، مواسم الغلاء، والوصول من مطار وجدة أنكاد الدولي إلى المدينة وبركان والسعيدية.",
+        "intro": [
+          "وجدة عاصمة الجهة الشرقية، ومنها يتفرع الطريق نحو بركان والسعيدية وأحفير وجرادة وتاوريرت وفكيك. لذلك يجمع خط باريس – وجدة أساساً أبناء الجهة الشرقية المقيمين في فرنسا، إلى جانب عائلات تقصد شاطئ السعيدية صيفاً، وطلبة وزوار يكتشفون مدينة الألفية وموسيقاها الغرناطية. تنطلق الرحلات أساساً من مطار باريس أورلي، وقد تظهر في بعض الفترات رحلات من مطار بوفيه. أما الوصول فيكون إلى مطار وجدة أنكاد الدولي، الواقع على بعد نحو خمسة عشر كيلومتراً شمال المدينة. وتستغرق الرحلة المباشرة حوالي ساعتين ونصف.",
+          "ترتفع الأسعار بشكل ملحوظ في يوليو وأغسطس مع عودة الجالية وموسم الاصطياف في السعيدية، وكذلك قبيل عيد الأضحى وعيد الفطر وخلال العطل المدرسية الفرنسية وعطلة الميلاد ورأس السنة. وتكون الأسعار في الغالب أخف في الخريف وشهري يناير وفبراير وبعض أسابيع الربيع. ونظراً لأن عدد الرحلات على هذا الخط أقل من خطوط الدار البيضاء أو مراكش، يُستحسن الحجز مبكراً. يعرض الجدول أدناه أحدث الأسعار التي وجدناها.",
+          "عند الوصول، تنقلك سيارات الأجرة من المطار إلى وسط وجدة في وقت قصير، ومن المدينة تنطلق سيارات الأجرة الكبيرة والحافلات نحو بركان والسعيدية والناظور، كما تربط القطارات وجدة بفاس والرباط والدار البيضاء. وإن كنت مسافراً مع العائلة، فتحقق من الحقائب المسجلة المشمولة في التذكرة. يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب شروط شركة الطيران، وعلى غيرهم الرجوع إلى المصادر الرسمية."
+        ],
+        "tips": [
+          "الرحلات إلى وجدة أقل عدداً، فاحجز مبكراً خاصة في الصيف والأعياد.",
+          "إذا كانت وجهتك السعيدية، قد يكون كراء سيارة من المطار أسهل من تبديل وسائل النقل.",
+          "قارن بين أورلي وبوفيه بعد احتساب كلفة الوصول إلى كل مطار.",
+          "تحقق من الحقائب المسجلة المشمولة قبل الدفع.",
+          "القطار من وجدة خيار مريح إذا كنت ستواصل نحو فاس أو مدن أخرى."
+        ],
+        "faq": [
+          {
+            "q": "كم مدة الرحلة من باريس إلى وجدة؟",
+            "a": "تستغرق الرحلة المباشرة حوالي ساعتين ونصف."
+          },
+          {
+            "q": "من أي مطار في باريس تنطلق رحلات وجدة؟",
+            "a": "تنطلق الرحلات أساساً من أورلي، وقد تظهر رحلات من بوفيه في بعض الفترات. يوضح الجدول أدناه المطار لكل سعر."
+          },
+          {
+            "q": "متى تكون الأسعار أرخص؟",
+            "a": "عادة في الخريف ويناير وفبراير وبعض أسابيع الربيع، بينما ترتفع في الصيف والأعياد ونهاية السنة."
+          },
+          {
+            "q": "كم يبعد مطار أنكاد عن وسط وجدة؟",
+            "a": "يقع المطار على بعد نحو خمسة عشر كيلومتراً شمال المدينة، ويمكن الوصول إليها بسيارة الأجرة."
+          },
+          {
+            "q": "ما الوثائق المطلوبة للسفر؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق قواعد شركة الطيران، أما غيرهم فعليهم مراجعة المصادر الرسمية."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Paris Oujda : derniers prix depuis Orly et Beauvais",
+        "description": "Vol Paris Oujda pas cher : départs d'Orly ou Beauvais, durée du vol, périodes chères, et trajet de l'aéroport Oujda-Angads vers la ville, Berkane et Saïdia.",
+        "intro": [
+          "Oujda est la capitale de l'Oriental marocain, d'où partent les routes vers Berkane, Saïdia, Ahfir, Jerada, Taourirt et Figuig. La ligne Paris – Oujda réunit donc surtout des originaires de l'Oriental installés en France, des familles qui filent vers la plage de Saïdia l'été, et des étudiants ou visiteurs curieux de la « ville millénaire » et de sa musique gharnatie. Les vols partent principalement de Paris-Orly, et des vols depuis Beauvais peuvent apparaître selon les périodes. On atterrit à l'aéroport international Oujda-Angads, à une quinzaine de kilomètres au nord de la ville. Le vol direct dure environ deux heures et demie.",
+          "Les prix grimpent nettement en juillet et en août, avec le retour de la diaspora et la saison balnéaire à Saïdia, ainsi qu'avant l'Aïd el-Kébir et l'Aïd el-Fitr, pendant les vacances scolaires et à Noël. Ils sont souvent plus légers à l'automne, en janvier, en février et certaines semaines de printemps. Comme cette ligne compte moins de vols que Casablanca ou Marrakech, mieux vaut réserver tôt. Le tableau ci-dessous affiche les derniers tarifs trouvés.",
+          "À l'arrivée, un taxi vous conduit rapidement au centre d'Oujda. De là, grands taxis et cars desservent Berkane, Saïdia et Nador, et le train relie Oujda à Fès, Rabat et Casablanca. En famille, vérifiez les bagages en soute inclus. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Les vols vers Oujda sont moins nombreux : réservez tôt, surtout pour l'été et l'Aïd.",
+          "Pour Saïdia, une voiture de location depuis l'aéroport évite les correspondances.",
+          "Comparez Orly et Beauvais en incluant le coût du trajet jusqu'à chaque aéroport.",
+          "Vérifiez les bagages en soute inclus avant de payer.",
+          "Le train au départ d'Oujda est pratique pour continuer vers Fès ou d'autres villes."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Paris Oujda ?",
+            "a": "Un vol direct dure environ deux heures et demie."
+          },
+          {
+            "q": "De quel aéroport parisien partent les vols pour Oujda ?",
+            "a": "Principalement d'Orly, avec parfois des vols depuis Beauvais. Le tableau ci-dessous indique l'aéroport pour chaque tarif."
+          },
+          {
+            "q": "Quand les billets sont-ils moins chers ?",
+            "a": "Généralement à l'automne, en janvier, en février et certaines semaines de printemps. Les prix montent l'été, pendant l'Aïd et en fin d'année."
+          },
+          {
+            "q": "À quelle distance du centre se trouve l'aéroport d'Angads ?",
+            "a": "À une quinzaine de kilomètres au nord d'Oujda, facilement accessible en taxi."
+          },
+          {
+            "q": "Quels documents faut-il ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres voyageurs doivent vérifier auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Paris to Oujda: latest fares from Orly and Beauvais",
+        "description": "Cheap flights from Paris to Oujda: Orly or Beauvais departures, flight time, peak dates, and getting from Oujda Angads airport to the city, Berkane and Saidia.",
+        "intro": [
+          "Oujda is the capital of Morocco's Oriental region, the starting point for roads to Berkane, Saidia, Ahfir, Jerada, Taourirt and Figuig. The Paris to Oujda route therefore mainly carries people from the Oriental who live in France, families heading for Saidia's beach in summer, and students or visitors curious about the 'millennial city' and its Gharnati music. Flights leave mainly from Paris Orly, and flights from Beauvais may appear at certain times. You land at Oujda Angads International Airport, about 15 km north of the city. A direct flight takes about two and a half hours.",
+          "Fares rise noticeably in July and August, with the diaspora's return and the beach season in Saidia, as well as before Eid al-Adha and Eid al-Fitr, during French school holidays and over Christmas. They are often lighter in autumn, January, February and some spring weeks. Because this route has fewer flights than Casablanca or Marrakech, booking early is wise. The table below shows the latest fares found.",
+          "On arrival, a taxi gets you to central Oujda quickly. From the city, grand taxis and coaches serve Berkane, Saidia and Nador, and trains link Oujda with Fez, Rabat and Casablanca. If you are travelling as a family, check the checked baggage included. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "There are fewer flights to Oujda, so book early, especially for summer and Eid.",
+          "For Saidia, a hire car from the airport saves changing transport.",
+          "Compare Orly and Beauvais including the cost of reaching each airport.",
+          "Check what checked baggage is included before you pay.",
+          "The train from Oujda is a comfortable option for continuing to Fez or beyond."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Paris to Oujda?",
+            "a": "A direct flight takes about two and a half hours."
+          },
+          {
+            "q": "Which Paris airport has flights to Oujda?",
+            "a": "Mainly Orly, with flights from Beauvais at some times of year. The table below shows the airport for each fare."
+          },
+          {
+            "q": "When are tickets cheapest?",
+            "a": "Usually in autumn, January, February and some spring weeks. Fares rise in summer, around Eid and at the end of the year."
+          },
+          {
+            "q": "How far is Angads airport from central Oujda?",
+            "a": "About 15 km north of the city, an easy taxi ride."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check official sources."
+          }
+        ]
+      }
+    }
+  },
+  "brussels-nador": {
+    "origin": "BRU",
+    "destination": "NDR",
+    "originName": {
+      "en": "Brussels",
+      "ar": "بروكسل",
+      "fr": "Bruxelles",
+      "es": "Bruselas"
+    },
+    "destinationName": {
+      "en": "Nador",
+      "ar": "الناظور",
+      "fr": "Nador",
+      "es": "Nador"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من بروكسل إلى الناظور | قارن زافنتم وشارلروا",
+        "description": "أرخص رحلات بروكسل – الناظور: مطار بروكسل زافنتم أو شارلروا، مدة الرحلة، تأثير العطل البلجيكية والأعياد، والوصول من مطار العروي إلى مدن الريف.",
+        "intro": [
+          "تضم بلجيكا واحدة من أكبر الجاليات الريفية في أوروبا، من مولنبيك وسكاربيك وأندرلخت في بروكسل إلى أنتويرب ولييج. ولهذا يُعد خط بروكسل – الناظور شرياناً حقيقياً بين العائلات هنا وهناك، يستعمله الآباء والأبناء والأجداد لزيارة الناظور والعروي وميضار وبن الطيب والدريوش، ثم الحسيمة لمن يقصدها. وتنطلق الرحلات من مطار بروكسل الدولي في زافنتم أو من مطار بروكسل الجنوبي في شارلروا، الذي تستعمله شركات منخفضة التكلفة، وتحط في مطار الناظور العروي الدولي. وتستغرق الرحلة المباشرة نحو ثلاث ساعات.",
+          "ترتبط الأسعار على هذا الخط بالعطل المدرسية البلجيكية ارتباطاً وثيقاً: عطلة الصيف في يوليو وأغسطس هي الذروة الكبرى، تليها عطلة الخريف وعطلة الميلاد ورأس السنة وعطلة الربيع، دون نسيان عيد الأضحى وعيد الفطر. وتكون الأسعار أهدأ في الغالب خارج هذه الفترات، مثل منتصف نوفمبر ويناير وبعض أسابيع مايو ويونيو. يعرض الجدول أدناه أحدث الأسعار التي عثرنا عليها.",
+          "يقع مطار شارلروا على بعد نحو خمسين كيلومتراً جنوب بروكسل، فاحسب وقت الحافلة أو السيارة قبل أن تختاره لأجل فرق صغير في السعر، بينما يسهل الوصول إلى زافنتم بالقطار. وفي العروي تنتظرك سيارات الأجرة الكبيرة ووكالات كراء السيارات، والمسافة إلى الناظور نحو خمسة وعشرين كيلومتراً. يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب شروط شركة الطيران، أما غيرهم فعليهم مراجعة المصادر الرسمية."
+        ],
+        "tips": [
+          "خطط لسفرك وفق العطل المدرسية البلجيكية، واحجز مبكراً إن لم تكن مرناً.",
+          "قارن زافنتم وشارلروا بعد احتساب كلفة ووقت الوصول إلى المطار.",
+          "إذا كنت تحمل هدايا وأغراضاً للعائلة، اختر تذكرة تشمل حقيبة مسجلة كافية.",
+          "احجز سيارة الكراء في الناظور مسبقاً في الصيف.",
+          "راجع مواعيد آخر حافلة إلى شارلروا إن كانت رحلتك في الصباح الباكر."
+        ],
+        "faq": [
+          {
+            "q": "كم تستغرق الرحلة من بروكسل إلى الناظور؟",
+            "a": "تستغرق الرحلة المباشرة حوالي ثلاث ساعات."
+          },
+          {
+            "q": "هل أسافر من زافنتم أم من شارلروا؟",
+            "a": "كلا المطارين قد يقدم رحلات إلى الناظور. شارلروا يرتبط غالباً بالشركات منخفضة التكلفة لكنه أبعد عن بروكسل، والجدول أدناه يبين المطار لكل سعر."
+          },
+          {
+            "q": "متى تكون الرحلات أرخص؟",
+            "a": "غالباً خارج العطل المدرسية البلجيكية والأعياد، مثل منتصف نوفمبر ويناير وبعض أسابيع الربيع."
+          },
+          {
+            "q": "كيف أصل من مطار العروي إلى الناظور أو الحسيمة؟",
+            "a": "توجد سيارات أجرة كبيرة ووكالات كراء في المطار. الناظور قريبة، أما الحسيمة فتتطلب طريقاً برياً أطول."
+          },
+          {
+            "q": "ما الوثائق المطلوبة؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق قواعد شركة الطيران، وعلى الآخرين التحقق من المصادر الرسمية."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Bruxelles Nador : comparez Zaventem et Charleroi",
+        "description": "Vol Bruxelles Nador pas cher : départs de Zaventem ou Charleroi, durée du vol, effet des congés scolaires belges et de l'Aïd, arrivée à Nador-Al Aroui.",
+        "intro": [
+          "La Belgique compte l'une des plus grandes communautés rifaines d'Europe, de Molenbeek, Schaerbeek et Anderlecht jusqu'à Anvers et Liège. La ligne Bruxelles – Nador est donc un véritable trait d'union entre les familles d'ici et de là-bas : parents, enfants et grands-parents l'empruntent pour rejoindre Nador, Al Aroui, Midar, Ben Taïeb ou Driouch, voire Al Hoceïma. Les vols partent de Brussels Airport à Zaventem ou de Brussels South Charleroi, utilisé par des compagnies low-cost, et arrivent à l'aéroport international Nador-Al Aroui. Le vol direct dure environ trois heures.",
+          "Sur cette ligne, les prix suivent de près le calendrier scolaire belge : les grandes vacances de juillet et d'août forment le pic principal, suivies des congés d'automne, de Noël et de printemps, sans oublier l'Aïd el-Kébir et l'Aïd el-Fitr. En dehors de ces périodes, par exemple mi-novembre, en janvier ou certaines semaines de mai et de juin, les tarifs sont souvent plus calmes. Le tableau ci-dessous affiche les derniers tarifs trouvés.",
+          "Charleroi se trouve à une cinquantaine de kilomètres au sud de Bruxelles : tenez compte de la navette ou du trajet en voiture avant de le choisir pour quelques euros d'écart, alors que Zaventem est facile d'accès en train. À Al Aroui, grands taxis et loueurs vous attendent, Nador étant à environ 25 km. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Calez votre voyage sur le calendrier scolaire belge et réservez tôt si vous n'êtes pas flexible.",
+          "Comparez Zaventem et Charleroi en intégrant le coût et la durée du trajet vers l'aéroport.",
+          "Avec des cadeaux pour la famille, choisissez un billet avec un bagage en soute suffisant.",
+          "Réservez votre voiture de location à Nador à l'avance en été.",
+          "Pour un vol tôt le matin depuis Charleroi, vérifiez les horaires de la première navette."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Bruxelles Nador ?",
+            "a": "Un vol direct dure environ trois heures."
+          },
+          {
+            "q": "Faut-il partir de Zaventem ou de Charleroi ?",
+            "a": "Les deux aéroports peuvent proposer des vols vers Nador. Charleroi est souvent associé aux low-cost mais il est plus éloigné de Bruxelles ; le tableau ci-dessous indique l'aéroport de chaque tarif."
+          },
+          {
+            "q": "Quand les vols sont-ils moins chers ?",
+            "a": "Souvent en dehors des congés scolaires belges et des fêtes, par exemple mi-novembre, en janvier ou certaines semaines de printemps."
+          },
+          {
+            "q": "Comment rejoindre Nador ou Al Hoceïma depuis l'aéroport ?",
+            "a": "Grands taxis et loueurs de voitures sont présents à l'aéroport. Nador est proche, Al Hoceïma demande un trajet routier plus long."
+          },
+          {
+            "q": "Quels documents faut-il ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres doivent vérifier auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Brussels to Nador: compare Zaventem and Charleroi",
+        "description": "Cheap flights from Brussels to Nador: Zaventem or Charleroi departures, flight time, how Belgian school holidays and Eid affect fares, arriving at Al Aroui.",
+        "intro": [
+          "Belgium is home to one of Europe's largest Riffian communities, from Molenbeek, Schaerbeek and Anderlecht in Brussels to Antwerp and Liège. The Brussels to Nador route is a real lifeline between families on both sides: parents, children and grandparents use it to reach Nador, Al Aroui, Midar, Ben Tayeb or Driouch, and Al Hoceima beyond. Flights leave from Brussels Airport in Zaventem or from Brussels South Charleroi, which is used by low-cost carriers, and land at Nador Al Aroui International Airport. A direct flight takes about three hours.",
+          "Fares on this route closely follow the Belgian school calendar: the July and August summer break is the main peak, followed by the autumn, Christmas and spring holidays, plus Eid al-Adha and Eid al-Fitr. Outside those periods, for example mid-November, January or some weeks in May and June, prices are often calmer. The table below shows the latest fares found.",
+          "Charleroi is around 50 km south of Brussels, so factor in the shuttle bus or drive before choosing it for a small saving, whereas Zaventem is easy to reach by train. At Al Aroui, grand taxis and car hire desks are waiting, and Nador is about 25 km away. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "Plan around the Belgian school calendar and book early if your dates are fixed.",
+          "Compare Zaventem and Charleroi including the cost and time of getting there.",
+          "If you are bringing gifts for the family, choose a ticket with enough checked baggage.",
+          "Book your hire car in Nador ahead of time in summer.",
+          "For an early flight from Charleroi, check the timing of the first shuttle."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Brussels to Nador?",
+            "a": "A direct flight takes about three hours."
+          },
+          {
+            "q": "Should I fly from Zaventem or Charleroi?",
+            "a": "Both airports may offer flights to Nador. Charleroi is often linked with low-cost carriers but is further from Brussels; the table below shows the airport for each fare."
+          },
+          {
+            "q": "When are flights cheapest?",
+            "a": "Often outside Belgian school holidays and religious festivals, for example mid-November, January or some spring weeks."
+          },
+          {
+            "q": "How do I get from the airport to Nador or Al Hoceima?",
+            "a": "Grand taxis and car hire are available at the airport. Nador is close by, while Al Hoceima is a longer drive."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check official sources."
+          }
+        ]
+      }
+    }
+  },
+  "brussels-casablanca": {
+    "origin": "BRU",
+    "destination": "CMN",
+    "originName": {
+      "en": "Brussels",
+      "ar": "بروكسل",
+      "fr": "Bruxelles",
+      "es": "Bruselas"
+    },
+    "destinationName": {
+      "en": "Casablanca",
+      "ar": "الدار البيضاء",
+      "fr": "Casablanca",
+      "es": "Casablanca"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من بروكسل إلى الدار البيضاء | أسعار محدثة ونصائح",
+        "description": "رحلات بروكسل – الدار البيضاء بأفضل سعر: زافنتم أو شارلروا، مدة الرحلة، مواسم الذروة في بلجيكا، والتنقل من مطار محمد الخامس إلى المدينة وما بعدها.",
+        "intro": [
+          "يخدم خط بروكسل – الدار البيضاء فئات متعددة من المسافرين: عائلات مغربية بلجيكية تنحدر من الدار البيضاء والشاوية وبني ملال وخريبكة، وموظفون ورجال أعمال يتنقلون بين عاصمة المؤسسات الأوروبية والقطب الاقتصادي للمغرب، إضافة إلى مسافرين يجعلون من الدار البيضاء محطة للانتقال نحو مدن مغربية أخرى. تنطلق الرحلات من مطار بروكسل الدولي في زافنتم، كما تظهر رحلات من مطار شارلروا جنوب العاصمة، ويكون الوصول إلى مطار محمد الخامس الدولي في النواصر. وتستغرق الرحلة المباشرة نحو ثلاث ساعات وربع.",
+          "تتبع الأسعار إيقاع العطل البلجيكية: الصيف هو الأغلى، ثم عطلتا الخريف والميلاد وعطلة الربيع، وتشتد المنافسة على المقاعد أيضاً قبيل عيد الأضحى وعيد الفطر. أما إذا كنت تستطيع السفر في منتصف نوفمبر أو في يناير وبداية مارس، فغالباً ما تجد أسعاراً أفضل. يعرض الجدول أدناه أحدث الأسعار التي عثرنا عليها لهذا الخط.",
+          "مطار محمد الخامس ليس مجرد بوابة للدار البيضاء، بل محطة يتابع منها كثيرون رحلات داخلية أو يستقلون القطار. فمحطة المطار تربطك بوسط المدينة، ومن محطة الدار البيضاء المسافرين يمكنك ركوب القطار فائق السرعة نحو الرباط وطنجة، أو القطارات العادية نحو مراكش وفاس. وإذا كنت مسافراً مع أطفال وحقائب كثيرة، فقد تكون سيارة الأجرة الكبيرة أو كراء سيارة أريح. يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب قواعد شركة الطيران، ويتعين على غيرهم مراجعة المصادر الرسمية."
+        ],
+        "tips": [
+          "قارن بين زافنتم وشارلروا، مع احتساب وقت الوصول من منزلك إلى كل مطار.",
+          "إذا كنت ستواصل نحو طنجة أو الرباط، فالقطار من الدار البيضاء خيار سريع.",
+          "تجنب الحجز في آخر لحظة خلال العطل المدرسية البلجيكية.",
+          "تأكد من مدة الربط إن كنت ستأخذ رحلة داخلية من مطار محمد الخامس.",
+          "احتفظ بالأغراض الثمينة والأدوية في حقيبة اليد."
+        ],
+        "faq": [
+          {
+            "q": "كم تستغرق الرحلة من بروكسل إلى الدار البيضاء؟",
+            "a": "تستغرق الرحلة المباشرة حوالي ثلاث ساعات وربع."
+          },
+          {
+            "q": "هل توجد رحلات من شارلروا إلى الدار البيضاء؟",
+            "a": "تظهر رحلات من شارلروا إلى جانب رحلات مطار زافنتم. يوضح الجدول أدناه المطار وشركة الطيران لكل سعر."
+          },
+          {
+            "q": "متى أجد أرخص التذاكر؟",
+            "a": "غالباً خارج العطل المدرسية البلجيكية والأعياد، مثل منتصف نوفمبر ويناير وبداية مارس."
+          },
+          {
+            "q": "كيف أتنقل من مطار محمد الخامس إلى مدن أخرى؟",
+            "a": "يربط القطار المطار بوسط الدار البيضاء، ومنها تنطلق القطارات نحو الرباط وطنجة ومراكش وفاس. كما تتوفر سيارات الأجرة وكراء السيارات."
+          },
+          {
+            "q": "ما الوثائق المطلوبة؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق قواعد شركة الطيران، أما غيرهم فعليهم التحقق من المصادر الرسمية."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Bruxelles Casablanca : derniers tarifs et conseils",
+        "description": "Vol Bruxelles Casablanca pas cher : Zaventem ou Charleroi, durée du vol, pics liés aux congés belges, et trajets depuis Mohammed V vers la ville et au-delà.",
+        "intro": [
+          "La ligne Bruxelles – Casablanca sert des voyageurs très différents : familles belgo-marocaines originaires de Casablanca, de la Chaouia, de Béni Mellal ou de Khouribga, fonctionnaires et cadres qui naviguent entre la capitale des institutions européennes et le cœur économique du Maroc, ou encore voyageurs qui utilisent Casablanca comme point de passage vers d'autres villes. Les vols partent de Brussels Airport à Zaventem, et des vols depuis Charleroi apparaissent aussi. On arrive à l'aéroport international Mohammed V, à Nouaceur. Le vol direct dure environ trois heures et quart.",
+          "Les prix suivent le rythme des congés belges : l'été est la période la plus chère, puis viennent les congés d'automne, de Noël et de printemps, et la demande s'emballe aussi avant l'Aïd el-Kébir et l'Aïd el-Fitr. Si vous pouvez partir mi-novembre, en janvier ou début mars, vous trouverez souvent de meilleurs prix. Le tableau ci-dessous affiche les derniers tarifs trouvés sur cette ligne.",
+          "Mohammed V n'est pas seulement la porte de Casablanca : c'est aussi un point de correspondance. La gare de l'aéroport vous emmène en ville, et depuis Casa-Voyageurs le train à grande vitesse file vers Rabat et Tanger, tandis que les trains classiques desservent Marrakech et Fès. Avec des enfants et beaucoup de bagages, un grand taxi ou une voiture de location peut être plus confortable. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Comparez Zaventem et Charleroi en tenant compte du trajet depuis votre domicile.",
+          "Pour continuer vers Tanger ou Rabat, le train depuis Casablanca est rapide.",
+          "Évitez les réservations de dernière minute pendant les congés scolaires belges.",
+          "Prévoyez une marge suffisante si vous enchaînez avec un vol intérieur à Mohammed V.",
+          "Gardez objets de valeur et médicaments dans votre bagage cabine."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Bruxelles Casablanca ?",
+            "a": "Un vol direct dure environ trois heures et quart."
+          },
+          {
+            "q": "Y a-t-il des vols depuis Charleroi vers Casablanca ?",
+            "a": "Des vols depuis Charleroi apparaissent en plus de ceux de Zaventem. Le tableau ci-dessous indique l'aéroport et la compagnie de chaque tarif."
+          },
+          {
+            "q": "Quand trouver les billets les moins chers ?",
+            "a": "Souvent en dehors des congés scolaires belges et des fêtes, par exemple mi-novembre, en janvier ou début mars."
+          },
+          {
+            "q": "Comment rejoindre d'autres villes depuis Mohammed V ?",
+            "a": "Le train relie l'aéroport au centre de Casablanca, d'où partent les trains vers Rabat, Tanger, Marrakech et Fès. Taxis et location de voitures sont aussi disponibles."
+          },
+          {
+            "q": "Quels documents faut-il ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres doivent vérifier auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Brussels to Casablanca: latest fares and tips",
+        "description": "Cheap flights from Brussels to Casablanca: Zaventem or Charleroi, flight time, Belgian holiday peaks, and onward travel from Mohammed V by train or taxi.",
+        "intro": [
+          "The Brussels to Casablanca route serves very different travellers: Belgian-Moroccan families with roots in Casablanca, Chaouia, Beni Mellal or Khouribga, civil servants and professionals moving between the capital of the European institutions and Morocco's economic heart, and travellers using Casablanca as a stepping stone to other Moroccan cities. Flights leave from Brussels Airport in Zaventem, and flights from Charleroi also appear. You arrive at Mohammed V International Airport in Nouaceur. A direct flight takes about three and a quarter hours.",
+          "Fares follow the rhythm of Belgian holidays: summer is the most expensive period, followed by the autumn, Christmas and spring breaks, and demand also surges before Eid al-Adha and Eid al-Fitr. If you can travel in mid-November, January or early March, you will often find better prices. The table below shows the latest fares found on this route.",
+          "Mohammed V is not just the gateway to Casablanca but also a connection point. The airport station takes you into the city, and from Casa-Voyageurs the high-speed train runs to Rabat and Tangier while regular trains serve Marrakech and Fez. With children and a lot of luggage, a grand taxi or a hire car can be more comfortable. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "Compare Zaventem and Charleroi, allowing for the journey from your home.",
+          "If you are continuing to Tangier or Rabat, the train from Casablanca is fast.",
+          "Avoid last-minute bookings during Belgian school holidays.",
+          "Leave enough time if you are connecting to a domestic flight at Mohammed V.",
+          "Keep valuables and medicines in your cabin bag."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Brussels to Casablanca?",
+            "a": "A direct flight takes about three and a quarter hours."
+          },
+          {
+            "q": "Are there flights from Charleroi to Casablanca?",
+            "a": "Flights from Charleroi appear alongside those from Zaventem. The table below shows the airport and airline for each fare."
+          },
+          {
+            "q": "When can I find the cheapest tickets?",
+            "a": "Often outside Belgian school holidays and religious festivals, for example mid-November, January or early March."
+          },
+          {
+            "q": "How do I reach other cities from Mohammed V?",
+            "a": "A train links the airport with central Casablanca, where trains leave for Rabat, Tangier, Marrakech and Fez. Taxis and car hire are also available."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check official sources."
+          }
+        ]
+      }
+    }
+  },
+  "amsterdam-nador": {
+    "origin": "AMS",
+    "destination": "NDR",
+    "originName": {
+      "en": "Amsterdam",
+      "ar": "أمستردام",
+      "fr": "Amsterdam",
+      "es": "Ámsterdam"
+    },
+    "destinationName": {
+      "en": "Nador",
+      "ar": "الناظور",
+      "fr": "Nador",
+      "es": "Nador"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من أمستردام إلى الناظور | أحدث الأسعار من سخيبول",
+        "description": "قارن أسعار رحلات أمستردام – الناظور: مطار سخيبول، مدة الرحلة، تأثير العطل الهولندية والأعياد على الأسعار، والوصول من مطار العروي الدولي إلى الريف.",
+        "intro": [
+          "ينحدر عدد كبير من المغاربة في هولندا من منطقة الريف، ويتوزعون بين أمستردام وروتردام وأوتريخت ولاهاي. ولذلك يحمل خط أمستردام – الناظور طابعاً عائلياً واضحاً، فهو الطريق المعتاد لزيارة الأهل في الناظور وبني انصار وقرية أركمان وتمسمان، أو لقضاء العطلة على شواطئ المتوسط. تنطلق الرحلات من مطار أمستردام سخيبول، أحد أكبر مطارات أوروبا والمرتبط بالقطار بمعظم المدن الهولندية، وتحط في مطار الناظور العروي الدولي. وتستغرق الرحلة المباشرة نحو ثلاث ساعات وربع.",
+          "من الخصوصيات الهولندية أن عطلة الصيف المدرسية تبدأ في مواعيد مختلفة حسب المنطقة: الشمال والوسط والجنوب. وهذا يعني أن موجة الطلب تمتد على أسابيع عديدة بين يوليو وأغسطس، فتبقى الأسعار مرتفعة طوال تلك الفترة. وتشهد عطلة الخريف وعطلة الميلاد وعطلة الربيع والأعياد الإسلامية ارتفاعاً مماثلاً. أما الفترات الأهدأ فهي غالباً نوفمبر ويناير وبعض أسابيع يونيو قبل العطلة. يعرض الجدول أدناه أحدث الأسعار التي عثرنا عليها.",
+          "إن كان السعر من سخيبول مرتفعاً، فمن المفيد مقارنة رحلات من مطارات هولندية أخرى مثل آيندهوفن أو روتردام، والتي تظهر في بعض الفترات. وعند الوصول إلى العروي تجد سيارات الأجرة الكبيرة نحو الناظور ووكالات لكراء السيارات، وهي ضرورية تقريباً لمن يتنقل بين القرى. لا تنسَ التحقق من وزن الحقائب، خاصة إذا كنت تحمل هدايا العائلة. يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب قواعد شركة الطيران، وعلى غيرهم مراجعة المصادر الرسمية."
+        ],
+        "tips": [
+          "اعرف منطقتك في جدول العطل المدرسية الهولندية واحجز قبل أن يرتفع الطلب.",
+          "قارن سخيبول مع آيندهوفن أو روتردام إذا كان ذلك أقرب إلى منزلك.",
+          "القطار إلى سخيبول غالباً أسرع وأرخص من ركن السيارة لأسابيع.",
+          "احجز سيارة الكراء في الناظور مسبقاً، خصوصاً في يوليو وأغسطس.",
+          "زن حقائبك قبل الخروج من البيت لتفادي الرسوم الإضافية."
+        ],
+        "faq": [
+          {
+            "q": "كم مدة الرحلة من أمستردام إلى الناظور؟",
+            "a": "تستغرق الرحلة المباشرة حوالي ثلاث ساعات وربع."
+          },
+          {
+            "q": "هل توجد رحلات إلى الناظور من مطارات هولندية أخرى؟",
+            "a": "نعم، تظهر في بعض الفترات رحلات من آيندهوفن أو روتردام. هذه الصفحة تعرض أسعار أمستردام، ويمكن مقارنتها بالمطارات الأخرى."
+          },
+          {
+            "q": "لماذا تبقى الأسعار مرتفعة طوال الصيف؟",
+            "a": "لأن العطلة الصيفية في هولندا تبدأ في مواعيد مختلفة حسب المنطقة، فيمتد الطلب المرتفع على أسابيع كثيرة."
+          },
+          {
+            "q": "كيف أصل من مطار العروي إلى الناظور؟",
+            "a": "تتوفر سيارات الأجرة الكبيرة ووكالات كراء السيارات في المطار، والناظور على بعد نحو خمسة وعشرين كيلومتراً."
+          },
+          {
+            "q": "ما الوثائق المطلوبة؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق قواعد شركة الطيران، ويتعين على الآخرين التحقق من المصادر الرسمية."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Amsterdam Nador : derniers prix depuis Schiphol",
+        "description": "Vol Amsterdam Nador pas cher : départ de Schiphol, durée du vol, effet des vacances néerlandaises et de l'Aïd sur les prix, et arrivée à Nador-Al Aroui.",
+        "intro": [
+          "Une grande partie des Marocains des Pays-Bas est originaire du Rif et vit à Amsterdam, Rotterdam, Utrecht ou La Haye. La ligne Amsterdam – Nador a donc un caractère très familial : c'est le trajet habituel pour rendre visite aux proches à Nador, Beni Ansar, Kariat Arekmane ou Temsamane, ou pour passer les vacances sur les plages méditerranéennes. Les vols partent de l'aéroport d'Amsterdam-Schiphol, l'un des plus grands d'Europe, relié en train à la plupart des villes néerlandaises, et arrivent à l'aéroport international Nador-Al Aroui. Le vol direct dure environ trois heures et quart.",
+          "Particularité néerlandaise : les grandes vacances scolaires commencent à des dates différentes selon la région, nord, centre ou sud. La vague de demande s'étale donc sur de nombreuses semaines en juillet et en août, et les prix restent élevés toute la période. Les vacances d'automne, de Noël, de printemps et les fêtes musulmanes font aussi grimper les tarifs. Novembre, janvier et certaines semaines de juin sont souvent plus calmes. Le tableau ci-dessous affiche les derniers tarifs trouvés.",
+          "Si Schiphol est cher, comparez avec d'autres aéroports néerlandais comme Eindhoven ou Rotterdam, qui proposent parfois des vols. À Al Aroui, grands taxis vers Nador et loueurs de voitures vous attendent ; une voiture est presque indispensable pour circuler entre les villages. Pensez à vérifier le poids des bagages. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Repérez votre région dans le calendrier scolaire néerlandais et réservez avant la hausse.",
+          "Comparez Schiphol avec Eindhoven ou Rotterdam si c'est plus proche de chez vous.",
+          "Le train jusqu'à Schiphol est souvent plus pratique qu'un parking de plusieurs semaines.",
+          "Réservez votre voiture de location à Nador à l'avance, surtout en juillet et en août.",
+          "Pesez vos valises avant de partir pour éviter les suppléments."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Amsterdam Nador ?",
+            "a": "Un vol direct dure environ trois heures et quart."
+          },
+          {
+            "q": "Y a-t-il des vols pour Nador depuis d'autres aéroports néerlandais ?",
+            "a": "Oui, des vols depuis Eindhoven ou Rotterdam apparaissent selon les périodes. Cette page affiche les prix au départ d'Amsterdam, à comparer avec ces aéroports."
+          },
+          {
+            "q": "Pourquoi les prix restent-ils élevés tout l'été ?",
+            "a": "Les vacances d'été néerlandaises commencent à des dates différentes selon la région, ce qui étale la forte demande sur de nombreuses semaines."
+          },
+          {
+            "q": "Comment aller de l'aéroport d'Al Aroui à Nador ?",
+            "a": "Grands taxis et loueurs de voitures sont présents à l'aéroport. Nador se trouve à environ 25 km."
+          },
+          {
+            "q": "Quels documents faut-il ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres doivent vérifier auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Amsterdam to Nador: latest fares from Schiphol",
+        "description": "Cheap flights from Amsterdam to Nador: Schiphol departures, flight time, how Dutch school holidays and Eid affect fares, and arriving at Nador Al Aroui.",
+        "intro": [
+          "Many Moroccans in the Netherlands have roots in the Rif and live in Amsterdam, Rotterdam, Utrecht or The Hague. That gives the Amsterdam to Nador route a strongly family character: it is the usual way to visit relatives in Nador, Beni Ansar, Kariat Arekmane or Temsamane, or to spend the holidays on the Mediterranean beaches. Flights leave from Amsterdam Schiphol, one of Europe's largest airports and linked by train to most Dutch cities, and land at Nador Al Aroui International Airport. A direct flight takes about three and a quarter hours.",
+          "A Dutch quirk matters here: the summer school holidays start on different dates depending on the region, north, middle or south. As a result the wave of demand stretches over many weeks in July and August, and fares stay high throughout. The autumn, Christmas and spring breaks and the Muslim festivals push prices up too. November, January and some weeks in June are often calmer. The table below shows the latest fares found.",
+          "If Schiphol looks expensive, compare other Dutch airports such as Eindhoven or Rotterdam, which have flights at some times of year. At Al Aroui, grand taxis to Nador and car hire desks are waiting, and a car is almost essential for getting between villages. Remember to check your baggage weight. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "Find your region in the Dutch school holiday calendar and book before prices rise.",
+          "Compare Schiphol with Eindhoven or Rotterdam if they are closer to home.",
+          "The train to Schiphol is often easier than paying for weeks of parking.",
+          "Book a hire car in Nador ahead of time, especially for July and August.",
+          "Weigh your suitcases before leaving home to avoid extra charges."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Amsterdam to Nador?",
+            "a": "A direct flight takes about three and a quarter hours."
+          },
+          {
+            "q": "Are there flights to Nador from other Dutch airports?",
+            "a": "Yes, flights from Eindhoven or Rotterdam appear at certain times. This page shows fares from Amsterdam, which you can compare with those airports."
+          },
+          {
+            "q": "Why do fares stay high all summer?",
+            "a": "Dutch summer holidays start on different dates by region, which spreads the high demand over many weeks."
+          },
+          {
+            "q": "How do I get from Al Aroui airport to Nador?",
+            "a": "Grand taxis and car hire desks are available at the airport. Nador is about 25 km away."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check official sources."
+          }
+        ]
+      }
+    }
+  },
+  "madrid-casablanca": {
+    "origin": "MAD",
+    "destination": "CMN",
+    "originName": {
+      "en": "Madrid",
+      "ar": "مدريد",
+      "fr": "Madrid",
+      "es": "Madrid"
+    },
+    "destinationName": {
+      "en": "Casablanca",
+      "ar": "الدار البيضاء",
+      "fr": "Casablanca",
+      "es": "Casablanca"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من مدريد إلى الدار البيضاء | أحدث الأسعار والنصائح",
+        "description": "أرخص رحلات مدريد – الدار البيضاء: مطار مدريد باراخاس، رحلة قصيرة بنحو ساعة ونصف، مواسم الغلاء في إسبانيا والأعياد، والوصول من مطار محمد الخامس.",
+        "intro": [
+          "تعيش في إسبانيا جالية مغربية كبيرة، ويعد خط مدريد – الدار البيضاء من أقصر الخطوط وأكثرها عملية بين البلدين. يستعمله العمال والعائلات المقيمة في مدريد وضواحيها لزيارة الأهل في الدار البيضاء والمحمدية وبرشيد وسطات والجديدة، كما يستعمله رجال الأعمال المرتبطون بالشركات الإسبانية العاملة في المغرب، والطلبة في الاتجاهين. وبالنسبة لكثير من العائلات، تشكل الطائرة بديلاً مريحاً عن السفر الطويل بالسيارة والعبور بالباخرة في الصيف. تنطلق الرحلات من مطار أدولفو سواريث مدريد باراخاس، وتصل إلى مطار محمد الخامس الدولي، وتستغرق الرحلة المباشرة نحو ساعة ونصف فقط.",
+          "ترتفع الأسعار عادة في يوليو وأغسطس، وفي أسبوع الفصح، وفي عطلة الميلاد الممتدة حتى عيد الملوك في السادس من يناير، إضافة إلى عطل الجسور الطويلة في إسبانيا، وقبيل عيد الأضحى وعيد الفطر. وغالباً ما تكون الأسعار أنسب في منتصف يناير وفبراير ونوفمبر وبعض أسابيع الربيع. يعرض الجدول أدناه أحدث الأسعار التي عثرنا عليها.",
+          "قِصَر الرحلة يجعلها مناسبة لعطلة نهاية أسبوع طويلة، لكن انتبه إلى أن العروض الأرخص قد لا تشمل حقيبة مسجلة. يصل مترو مدريد والقطارات المحلية إلى باراخاس بسهولة. وفي الدار البيضاء، يربط القطار مطار محمد الخامس بوسط المدينة، وتتوفر سيارات الأجرة الكبيرة وكراء السيارات لمن يواصل نحو الجديدة أو سطات. يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب قواعد شركة الطيران، أما غيرهم فعليهم مراجعة المصادر الرسمية."
+        ],
+        "tips": [
+          "الرحلة قصيرة، فقد تكفيك حقيبة اليد في زيارة سريعة.",
+          "احجز مبكراً لعطل الجسور الإسبانية وأسبوع الفصح، فالطلب يرتفع بسرعة.",
+          "قارن السعر مع الحقيبة المسجلة إن كنت تحمل هدايا.",
+          "المترو أو القطار المحلي إلى باراخاس أرخص من سيارة الأجرة غالباً.",
+          "تحقق من مبنى المغادرة في باراخاس قبل التوجه إلى المطار."
+        ],
+        "faq": [
+          {
+            "q": "كم مدة الرحلة من مدريد إلى الدار البيضاء؟",
+            "a": "تستغرق الرحلة المباشرة حوالي ساعة ونصف."
+          },
+          {
+            "q": "من أي مطار تنطلق الرحلات في مدريد؟",
+            "a": "من مطار أدولفو سواريث مدريد باراخاس. تأكد من مبنى المغادرة لأن المطار يضم عدة مبانٍ."
+          },
+          {
+            "q": "متى تكون الأسعار أرخص؟",
+            "a": "غالباً في منتصف يناير وفبراير ونوفمبر وبعض أسابيع الربيع، وترتفع في الصيف والفصح والميلاد والأعياد."
+          },
+          {
+            "q": "كيف أصل من مطار محمد الخامس إلى وسط الدار البيضاء؟",
+            "a": "يمكنك ركوب القطار من محطة المطار، أو استعمال سيارة أجرة كبيرة، أو كراء سيارة."
+          },
+          {
+            "q": "ما الوثائق المطلوبة؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق قواعد شركة الطيران، وعلى الآخرين التحقق من المصادر الرسمية."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Madrid Casablanca : comparez les derniers tarifs",
+        "description": "Vol Madrid Casablanca pas cher : départ de Madrid-Barajas, environ 1 h 30 de vol, périodes chères en Espagne et pendant l'Aïd, arrivée à Mohammed V.",
+        "intro": [
+          "L'Espagne accueille une importante communauté marocaine, et la ligne Madrid – Casablanca est l'une des plus courtes et des plus pratiques entre les deux pays. Travailleurs et familles installés à Madrid et dans sa région l'empruntent pour rejoindre leurs proches à Casablanca, Mohammedia, Berrechid, Settat ou El Jadida. On y croise aussi des cadres liés aux entreprises espagnoles présentes au Maroc et des étudiants dans les deux sens. Pour beaucoup de familles, l'avion est une alternative confortable au long trajet en voiture et à la traversée en ferry de l'été. Les vols partent de l'aéroport Adolfo Suárez Madrid-Barajas et arrivent à Mohammed V. Le vol direct dure environ une heure et demie.",
+          "Les prix montent généralement en juillet et en août, pendant la Semaine sainte, aux fêtes de Noël qui se prolongent jusqu'aux Rois le 6 janvier, lors des longs ponts espagnols et avant l'Aïd el-Kébir et l'Aïd el-Fitr. Mi-janvier, février, novembre et certaines semaines de printemps sont souvent plus abordables. Le tableau ci-dessous affiche les derniers tarifs trouvés.",
+          "Ce vol court se prête bien à un long week-end, mais attention : les tarifs les plus bas n'incluent pas toujours de bagage en soute. Le métro et les trains de banlieue desservent Barajas. À Casablanca, le train relie l'aéroport au centre-ville, et grands taxis ou location de voitures permettent de continuer vers El Jadida ou Settat. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Le vol est court : un bagage cabine peut suffire pour un séjour rapide.",
+          "Réservez tôt pour les ponts espagnols et la Semaine sainte.",
+          "Comparez les prix bagage en soute compris si vous emportez des cadeaux.",
+          "Le métro ou le train de banlieue vers Barajas coûte souvent moins cher qu'un taxi.",
+          "Vérifiez votre terminal de départ à Barajas avant de partir."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Madrid Casablanca ?",
+            "a": "Un vol direct dure environ une heure et demie."
+          },
+          {
+            "q": "De quel aéroport partent les vols à Madrid ?",
+            "a": "De l'aéroport Adolfo Suárez Madrid-Barajas. Vérifiez votre terminal, l'aéroport en compte plusieurs."
+          },
+          {
+            "q": "Quand les billets sont-ils moins chers ?",
+            "a": "Souvent mi-janvier, en février, en novembre et certaines semaines de printemps. Les prix montent l'été, à Pâques, à Noël et pendant l'Aïd."
+          },
+          {
+            "q": "Comment rejoindre le centre de Casablanca depuis Mohammed V ?",
+            "a": "Prenez le train depuis la gare de l'aéroport, un grand taxi ou une voiture de location."
+          },
+          {
+            "q": "Quels documents faut-il ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres doivent vérifier auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Madrid to Casablanca: compare the latest fares",
+        "description": "Cheap flights from Madrid to Casablanca: Madrid-Barajas departures, about 1.5 hours in the air, Spanish holiday and Eid peaks, and arriving at Mohammed V.",
+        "intro": [
+          "Spain is home to a large Moroccan community, and Madrid to Casablanca is one of the shortest and most practical routes between the two countries. Workers and families living in Madrid and its region use it to visit relatives in Casablanca, Mohammedia, Berrechid, Settat or El Jadida. It also carries professionals linked to Spanish companies operating in Morocco and students travelling in both directions. For many families, flying is a comfortable alternative to the long summer drive and ferry crossing. Flights leave from Adolfo Suárez Madrid-Barajas Airport and land at Mohammed V International Airport. A direct flight takes only about an hour and a half.",
+          "Fares usually rise in July and August, during Holy Week, over Christmas, which in Spain runs until Three Kings Day on 6 January, on long Spanish bank holiday weekends and before Eid al-Adha and Eid al-Fitr. Mid-January, February, November and some spring weeks are often more affordable. The table below shows the latest fares found.",
+          "The short flight suits a long weekend, but note that the cheapest fares do not always include checked baggage. The metro and commuter trains serve Barajas. In Casablanca, a train links the airport with the city centre, and grand taxis or hire cars let you continue to El Jadida or Settat. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "It is a short flight, so cabin baggage may be enough for a quick visit.",
+          "Book early for Spanish bank holiday weekends and Holy Week.",
+          "Compare fares with checked baggage included if you are carrying gifts.",
+          "The metro or commuter train to Barajas is often cheaper than a taxi.",
+          "Check your departure terminal at Barajas before you set off."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Madrid to Casablanca?",
+            "a": "A direct flight takes about an hour and a half."
+          },
+          {
+            "q": "Which Madrid airport do flights leave from?",
+            "a": "Adolfo Suárez Madrid-Barajas. Check your terminal, as the airport has several."
+          },
+          {
+            "q": "When are tickets cheapest?",
+            "a": "Often in mid-January, February, November and some spring weeks. Fares rise in summer, at Easter, over Christmas and around Eid."
+          },
+          {
+            "q": "How do I get from Mohammed V to central Casablanca?",
+            "a": "Take the train from the airport station, a grand taxi or a hire car."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check official sources."
+          }
+        ]
+      },
+      "es": {
+        "title": "Vuelos baratos Madrid Casablanca: compara las últimas tarifas",
+        "description": "Vuelos baratos de Madrid a Casablanca: salida desde Barajas, unos 90 minutos de vuelo, temporadas caras en España y en el Eid, y llegada a Mohammed V.",
+        "intro": [
+          "España acoge a una gran comunidad marroquí, y la ruta Madrid – Casablanca es una de las más cortas y prácticas entre ambos países. Trabajadores y familias que viven en Madrid y su comunidad la utilizan para visitar a sus seres queridos en Casablanca, Mohammedia, Berrechid, Settat o El Jadida. También la usan profesionales vinculados a empresas españolas con actividad en Marruecos y estudiantes en ambos sentidos. Para muchas familias, el avión es una alternativa cómoda al largo viaje en coche y al cruce en ferry del verano. Los vuelos salen del aeropuerto Adolfo Suárez Madrid-Barajas y llegan al aeropuerto internacional Mohammed V. Un vuelo directo dura solo alrededor de una hora y media.",
+          "Las tarifas suelen subir en julio y agosto, en Semana Santa, en Navidad, que en España se alarga hasta el Día de Reyes, en los puentes largos y antes del Eid al-Adha y del Eid al-Fitr. Mediados de enero, febrero, noviembre y algunas semanas de primavera suelen ser más asequibles. En la tabla de abajo verás las últimas tarifas encontradas.",
+          "Al ser un vuelo corto, encaja bien en un fin de semana largo, pero ojo: las tarifas más bajas no siempre incluyen maleta facturada. El metro y el Cercanías llegan a Barajas. En Casablanca, el tren une el aeropuerto con el centro, y los grandes taxis o el coche de alquiler permiten seguir hacia El Jadida o Settat. Los ciudadanos marroquíes viajan con su pasaporte o su tarjeta de identidad nacional según las normas de la aerolínea; el resto de viajeros debe consultar las fuentes oficiales."
+        ],
+        "tips": [
+          "Es un vuelo corto: para una visita rápida puede bastar con equipaje de mano.",
+          "Reserva con antelación para los puentes y la Semana Santa.",
+          "Compara precios con maleta facturada si llevas regalos.",
+          "El metro o el Cercanías hasta Barajas suele salir más barato que el taxi.",
+          "Comprueba tu terminal de salida en Barajas antes de ir al aeropuerto."
+        ],
+        "faq": [
+          {
+            "q": "¿Cuánto dura el vuelo de Madrid a Casablanca?",
+            "a": "Un vuelo directo dura alrededor de una hora y media."
+          },
+          {
+            "q": "¿Desde qué aeropuerto de Madrid salen los vuelos?",
+            "a": "Desde el aeropuerto Adolfo Suárez Madrid-Barajas. Comprueba la terminal, ya que el aeropuerto tiene varias."
+          },
+          {
+            "q": "¿Cuándo son más baratos los billetes?",
+            "a": "Suelen serlo a mediados de enero, en febrero, en noviembre y en algunas semanas de primavera. Suben en verano, Semana Santa, Navidad y durante el Eid."
+          },
+          {
+            "q": "¿Cómo llego del aeropuerto Mohammed V al centro de Casablanca?",
+            "a": "Puedes tomar el tren en la estación del aeropuerto, un gran taxi o un coche de alquiler."
+          },
+          {
+            "q": "¿Qué documentos necesito?",
+            "a": "Los ciudadanos marroquíes viajan con su pasaporte o su tarjeta de identidad nacional según las normas de la aerolínea. El resto de viajeros debe consultar las fuentes oficiales."
+          }
+        ]
+      }
+    }
+  },
+  "barcelona-tangier": {
+    "origin": "BCN",
+    "destination": "TNG",
+    "originName": {
+      "en": "Barcelona",
+      "ar": "برشلونة",
+      "fr": "Barcelone",
+      "es": "Barcelona"
+    },
+    "destinationName": {
+      "en": "Tangier",
+      "ar": "طنجة",
+      "fr": "Tanger",
+      "es": "Tánger"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من برشلونة إلى طنجة | أحدث الأسعار ونصائح السفر",
+        "description": "قارن رحلات برشلونة – طنجة: مطار إل برات، مدة الرحلة نحو ساعتين، مواسم الغلاء، والتنقل من مطار ابن بطوطة إلى طنجة وتطوان وأصيلة والقطار فائق السرعة.",
+        "intro": [
+          "تحتضن كاتالونيا واحدة من أكبر الجاليات المغربية في إسبانيا، وكثير من أبنائها ينحدرون من شمال المملكة: طنجة وتطوان والعرائش والقصر الكبير وأصيلة. ولهذا يجمع خط برشلونة – طنجة العائلات العائدة إلى الشمال، والشباب الذين يزورون أهلهم في العطل، وسياحاً يكتشفون مدينة البوغاز ومدينتها العتيقة وقصبتها المطلة على المضيق. تنطلق الرحلات من مطار جوزيب تاراديلاس برشلونة إل برات، وتحط في مطار طنجة ابن بطوطة الدولي، على بعد نحو خمسة عشر كيلومتراً جنوب غرب المدينة. وتستغرق الرحلة المباشرة قرابة ساعتين، وهي أسرع بكثير من الرحلة البحرية الطويلة من برشلونة.",
+          "تبلغ الأسعار أعلى مستوياتها في يوليو وأغسطس حين يعود عدد كبير من أبناء الجالية إلى الشمال، كما ترتفع في أسبوع الفصح وعطلة الميلاد ورأس السنة، وفي الجسور والأعياد المحلية الكاتالونية، وقبيل عيد الأضحى وعيد الفطر. وغالباً ما تكون الأسعار ألطف في نوفمبر ويناير وفبراير وبعض أسابيع الربيع. يعرض الجدول أدناه أحدث الأسعار التي وجدناها لهذا الخط.",
+          "من مطار ابن بطوطة تنقلك سيارات الأجرة إلى وسط طنجة، ومن هناك تنطلق سيارات الأجرة الكبيرة والحافلات نحو تطوان وأصيلة وشفشاون. أما إن كنت متجهاً إلى الرباط أو الدار البيضاء، فالقطار فائق السرعة من محطة طنجة المدينة يختصر الطريق كثيراً. وتأكد من حدود الأمتعة إن كنت تحمل حقائب العائلة. يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب قواعد شركة الطيران، أما غيرهم فعليهم مراجعة المصادر الرسمية."
+        ],
+        "tips": [
+          "إذا كنت ستواصل نحو الرباط أو الدار البيضاء، فكّر في القطار فائق السرعة من طنجة.",
+          "احجز مبكراً لعطلة الصيف، فالطلب نحو الشمال مرتفع جداً في يوليو وأغسطس.",
+          "قارن السعر مع الحقيبة المسجلة لا قبلها.",
+          "اتفق على سعر سيارة الأجرة من المطار قبل الانطلاق.",
+          "المترو والقطار يصلان إلى مطار إل برات، فلا داعي لركن السيارة طويلاً."
+        ],
+        "faq": [
+          {
+            "q": "كم مدة الرحلة من برشلونة إلى طنجة؟",
+            "a": "تستغرق الرحلة المباشرة نحو ساعتين."
+          },
+          {
+            "q": "كم يبعد مطار ابن بطوطة عن وسط طنجة؟",
+            "a": "يقع المطار على بعد نحو خمسة عشر كيلومتراً جنوب غرب المدينة، ويمكن الوصول إليها بسيارة الأجرة."
+          },
+          {
+            "q": "متى تكون التذاكر أرخص؟",
+            "a": "غالباً في نوفمبر ويناير وفبراير وبعض أسابيع الربيع، وترتفع في الصيف والفصح والميلاد والأعياد."
+          },
+          {
+            "q": "كيف أصل من طنجة إلى تطوان أو شفشاون؟",
+            "a": "تنطلق سيارات الأجرة الكبيرة والحافلات من طنجة نحو تطوان وشفشاون وأصيلة، ويمكن أيضاً كراء سيارة."
+          },
+          {
+            "q": "ما الوثائق المطلوبة؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق قواعد شركة الطيران، وعلى الآخرين التحقق من المصادر الرسمية."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Barcelone Tanger : comparez les derniers tarifs",
+        "description": "Vol Barcelone Tanger pas cher : départ d'El Prat, environ 2 h de vol, périodes chères, et trajet depuis Ibn Battouta vers Tanger, Tétouan, Asilah ou le TGV.",
+        "intro": [
+          "La Catalogne compte l'une des plus grandes communautés marocaines d'Espagne, dont beaucoup sont originaires du nord du royaume : Tanger, Tétouan, Larache, Ksar El Kébir ou Asilah. La ligne Barcelone – Tanger réunit donc des familles qui rentrent dans le Nord, des jeunes qui rendent visite à leurs proches pendant les vacances, et des voyageurs venus découvrir la ville du détroit, sa médina et sa kasbah face à l'Espagne. Les vols partent de l'aéroport Josep Tarradellas Barcelona-El Prat et arrivent à l'aéroport international Tanger Ibn Battouta, à une quinzaine de kilomètres au sud-ouest de la ville. Le vol direct dure environ deux heures, bien moins que la longue traversée en ferry depuis Barcelone.",
+          "Les prix atteignent leur maximum en juillet et en août, quand de nombreuses familles regagnent le Nord, et montent aussi pendant la Semaine sainte, à Noël et au Nouvel An, lors des ponts et fêtes catalanes et avant l'Aïd el-Kébir et l'Aïd el-Fitr. Novembre, janvier, février et certaines semaines de printemps sont souvent plus doux. Le tableau ci-dessous affiche les derniers tarifs trouvés.",
+          "Depuis Ibn Battouta, les taxis rejoignent le centre de Tanger, d'où grands taxis et cars partent vers Tétouan, Asilah et Chefchaouen. Pour Rabat ou Casablanca, le train à grande vitesse depuis la gare de Tanger-Ville fait gagner beaucoup de temps. Vérifiez les limites de bagages. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Pour continuer vers Rabat ou Casablanca, pensez au train à grande vitesse depuis Tanger.",
+          "Réservez tôt pour l'été : la demande vers le Nord explose en juillet et en août.",
+          "Comparez les prix bagage en soute compris.",
+          "Mettez-vous d'accord sur le prix du taxi à l'aéroport avant de partir.",
+          "Métro et train desservent El Prat, inutile de laisser la voiture au parking."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Barcelone Tanger ?",
+            "a": "Un vol direct dure environ deux heures."
+          },
+          {
+            "q": "L'aéroport Ibn Battouta est-il loin du centre de Tanger ?",
+            "a": "Il se trouve à une quinzaine de kilomètres au sud-ouest de la ville, accessible en taxi."
+          },
+          {
+            "q": "Quand les billets sont-ils moins chers ?",
+            "a": "Souvent en novembre, janvier, février et certaines semaines de printemps. Les prix montent l'été, à Pâques, à Noël et pendant l'Aïd."
+          },
+          {
+            "q": "Comment aller de Tanger à Tétouan ou Chefchaouen ?",
+            "a": "Grands taxis et cars relient Tanger à Tétouan, Chefchaouen et Asilah. La location de voiture est aussi possible."
+          },
+          {
+            "q": "Quels documents faut-il ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres doivent vérifier auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Barcelona to Tangier: compare the latest fares",
+        "description": "Cheap flights from Barcelona to Tangier: El Prat departures, about 2 hours in the air, peak dates, and getting from Ibn Battouta to Tangier, Tetouan or Asilah.",
+        "intro": [
+          "Catalonia has one of the largest Moroccan communities in Spain, and many of its members come from the north of the kingdom: Tangier, Tetouan, Larache, Ksar El Kebir and Asilah. The Barcelona to Tangier route therefore brings together families going home to the north, young people visiting relatives in the holidays, and visitors discovering the city on the Strait, with its medina and kasbah looking across to Spain. Flights leave from Josep Tarradellas Barcelona-El Prat Airport and land at Tangier Ibn Battouta International Airport, about 15 km south-west of the city. A direct flight takes around two hours, far quicker than the long ferry crossing from Barcelona.",
+          "Fares reach their highest in July and August, when many families head back to the north, and also rise during Holy Week, over Christmas and New Year, on Catalan bank holidays and long weekends, and before Eid al-Adha and Eid al-Fitr. November, January, February and some spring weeks are often gentler. The table below shows the latest fares found.",
+          "From Ibn Battouta, taxis take you to central Tangier, where grand taxis and coaches leave for Tetouan, Asilah and Chefchaouen. If you are heading to Rabat or Casablanca, the high-speed train from Tanger-Ville station saves a lot of time. Check your baggage limits. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "Continuing to Rabat or Casablanca? Consider the high-speed train from Tangier.",
+          "Book early for summer, as demand to the north soars in July and August.",
+          "Compare fares with checked baggage included.",
+          "Agree on the taxi fare at the airport before setting off.",
+          "The metro and trains serve El Prat, so there is no need to leave your car parked."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Barcelona to Tangier?",
+            "a": "A direct flight takes about two hours."
+          },
+          {
+            "q": "Is Ibn Battouta Airport far from central Tangier?",
+            "a": "It is about 15 km south-west of the city and easy to reach by taxi."
+          },
+          {
+            "q": "When are tickets cheapest?",
+            "a": "Often in November, January, February and some spring weeks. Fares rise in summer, at Easter, over Christmas and around Eid."
+          },
+          {
+            "q": "How do I get from Tangier to Tetouan or Chefchaouen?",
+            "a": "Grand taxis and coaches link Tangier with Tetouan, Chefchaouen and Asilah. Car hire is also an option."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check official sources."
+          }
+        ]
+      },
+      "es": {
+        "title": "Vuelos baratos Barcelona Tánger: compara las últimas tarifas",
+        "description": "Vuelos baratos de Barcelona a Tánger: salida desde El Prat, unas 2 horas de vuelo, temporadas caras, y cómo ir del aeropuerto Ibn Battouta a Tánger o Tetuán.",
+        "intro": [
+          "Cataluña tiene una de las mayores comunidades marroquíes de España, y muchos de sus miembros proceden del norte del reino: Tánger, Tetuán, Larache, Ksar El Kebir o Arcila. Por eso la ruta Barcelona – Tánger reúne a familias que vuelven al norte, jóvenes que visitan a los suyos en vacaciones y viajeros que descubren la ciudad del Estrecho, con su medina y su kasba frente a la costa española. Los vuelos salen del aeropuerto Josep Tarradellas Barcelona-El Prat y llegan al aeropuerto internacional Tánger Ibn Battouta, a unos 15 km al suroeste de la ciudad. Un vuelo directo dura unas dos horas, mucho menos que la larga travesía en ferry desde Barcelona.",
+          "Los precios alcanzan su máximo en julio y agosto, cuando muchas familias regresan al norte, y también suben en Semana Santa, en Navidad y Año Nuevo, en los puentes y festivos catalanes y antes del Eid al-Adha y del Eid al-Fitr. Noviembre, enero, febrero y algunas semanas de primavera suelen ser más suaves. En la tabla de abajo verás las últimas tarifas encontradas.",
+          "Desde Ibn Battouta, los taxis te llevan al centro de Tánger, desde donde salen grandes taxis y autocares hacia Tetuán, Arcila y Chauen. Si vas a Rabat o Casablanca, el tren de alta velocidad desde la estación Tanger-Ville ahorra mucho tiempo. Revisa los límites de equipaje. Los ciudadanos marroquíes viajan con su pasaporte o su tarjeta de identidad nacional según las normas de la aerolínea; el resto de viajeros debe consultar las fuentes oficiales."
+        ],
+        "tips": [
+          "¿Sigues hacia Rabat o Casablanca? Piensa en el tren de alta velocidad desde Tánger.",
+          "Reserva pronto para el verano: la demanda hacia el norte se dispara en julio y agosto.",
+          "Compara precios con maleta facturada incluida.",
+          "Acuerda el precio del taxi en el aeropuerto antes de salir.",
+          "El metro y el tren llegan a El Prat, así que no hace falta dejar el coche aparcado."
+        ],
+        "faq": [
+          {
+            "q": "¿Cuánto dura el vuelo de Barcelona a Tánger?",
+            "a": "Un vuelo directo dura unas dos horas."
+          },
+          {
+            "q": "¿Está lejos el aeropuerto Ibn Battouta del centro de Tánger?",
+            "a": "Está a unos 15 km al suroeste de la ciudad y se llega fácilmente en taxi."
+          },
+          {
+            "q": "¿Cuándo son más baratos los billetes?",
+            "a": "Suelen serlo en noviembre, enero, febrero y algunas semanas de primavera. Suben en verano, Semana Santa, Navidad y durante el Eid."
+          },
+          {
+            "q": "¿Cómo voy de Tánger a Tetuán o Chauen?",
+            "a": "Grandes taxis y autocares conectan Tánger con Tetuán, Chauen y Arcila. También puedes alquilar un coche."
+          },
+          {
+            "q": "¿Qué documentos necesito?",
+            "a": "Los ciudadanos marroquíes viajan con su pasaporte o su tarjeta de identidad nacional según las normas de la aerolínea. El resto de viajeros debe consultar las fuentes oficiales."
+          }
+        ]
+      }
+    }
+  },
+  "marseille-casablanca": {
+    "origin": "MRS",
+    "destination": "CMN",
+    "originName": {
+      "en": "Marseille",
+      "ar": "مرسيليا",
+      "fr": "Marseille",
+      "es": "Marsella"
+    },
+    "destinationName": {
+      "en": "Casablanca",
+      "ar": "الدار البيضاء",
+      "fr": "Casablanca",
+      "es": "Casablanca"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من مرسيليا إلى الدار البيضاء | أسعار محدثة ونصائح",
+        "description": "قارن أسعار رحلات مرسيليا – الدار البيضاء: مطار مرسيليا بروفانس، مدة الرحلة، مواسم الغلاء في جنوب فرنسا والأعياد، والتنقل من مطار محمد الخامس.",
+        "intro": [
+          "مرسيليا من أقدم مدن الهجرة المغربية في فرنسا، ويخدم مطارها جالية واسعة تمتد من بروفانس إلى مونبلييه وطولون وأفينيون. ويستعمل خط مرسيليا – الدار البيضاء أبناء هذه الجالية لزيارة ذويهم في الدار البيضاء أو للانتقال منها إلى مدن مغربية أخرى، إلى جانب طلبة ومهنيين وزوار يرغبون في اكتشاف كورنيش عين الذئاب ومسجد الحسن الثاني. ويفضل كثيرون الطائرة على الرحلة البحرية الطويلة من موانئ جنوب فرنسا. تنطلق الرحلات من مطار مرسيليا بروفانس في مارينيان، على بعد نحو خمسة وعشرين كيلومتراً شمال غرب المدينة، وتصل إلى مطار محمد الخامس الدولي. وتستغرق الرحلة المباشرة نحو ساعتين ونصف إلى ثلاث ساعات.",
+          "ترتفع الأسعار عادة في يوليو وأغسطس، وقبيل عيد الأضحى وعيد الفطر، وخلال العطل المدرسية الخاصة بأكاديمية إكس مرسيليا، وفي عطلة الميلاد ورأس السنة. أما أواخر سبتمبر ونوفمبر ويناير وبعض أسابيع الربيع، فكثيراً ما تأتي بأسعار ألطف. يعرض الجدول أدناه أحدث الأسعار التي عثرنا عليها.",
+          "للوصول إلى مطار مرسيليا بروفانس، تتوفر حافلات تربطه بمحطة سان شارل، كما توجد محطة قطار قريبة في فيترول. وعند الهبوط في الدار البيضاء، يأخذك قطار المطار إلى وسط المدينة، ومنها يمكنك مواصلة السفر بالقطار نحو مراكش أو الرباط، أو أخذ سيارة أجرة كبيرة نحو برشيد وسطات. وإذا كنت مسافراً مع العائلة، فتأكد من الأمتعة المسموح بها لكل فرد. يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب قواعد شركة الطيران، أما غيرهم فعليهم مراجعة المصادر الرسمية."
+        ],
+        "tips": [
+          "خطط وفق عطل المنطقة المدرسية الخاصة بمرسيليا، فهي التي تحدد ذروة الطلب محلياً.",
+          "حافلة المطار من محطة سان شارل حل عملي لتجنب ركن السيارة.",
+          "إذا كنت ستواصل إلى مراكش، فالقطار من الدار البيضاء خيار مريح.",
+          "تحقق من الأمتعة المسموح بها لكل مسافر عند الحجز العائلي.",
+          "قارن بين عدة أيام سفر، فالفرق قد يكون كبيراً خلال الأسبوع نفسه."
+        ],
+        "faq": [
+          {
+            "q": "كم مدة الرحلة من مرسيليا إلى الدار البيضاء؟",
+            "a": "تستغرق الرحلة المباشرة ما بين ساعتين ونصف وثلاث ساعات تقريباً."
+          },
+          {
+            "q": "كيف أصل إلى مطار مرسيليا بروفانس؟",
+            "a": "تربط حافلات المطار بمحطة سان شارل في وسط مرسيليا، كما توجد محطة قطار فيترول القريبة من المطار."
+          },
+          {
+            "q": "متى تكون التذاكر أرخص؟",
+            "a": "غالباً في أواخر سبتمبر ونوفمبر ويناير وبعض أسابيع الربيع، بينما ترتفع في الصيف والأعياد والعطل المدرسية."
+          },
+          {
+            "q": "كيف أنتقل من مطار محمد الخامس إلى وسط الدار البيضاء؟",
+            "a": "يمكنك ركوب القطار من محطة المطار، أو أخذ سيارة أجرة كبيرة، أو كراء سيارة."
+          },
+          {
+            "q": "ما الوثائق المطلوبة؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق قواعد شركة الطيران، ويتعين على الآخرين التحقق من المصادر الرسمية."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Marseille Casablanca : comparez les derniers prix",
+        "description": "Vol Marseille Casablanca pas cher : départ de Marseille Provence, durée du vol, périodes chères dans le Sud et pendant l'Aïd, et arrivée à Mohammed V.",
+        "intro": [
+          "Marseille est l'une des plus anciennes villes de l'immigration marocaine en France, et son aéroport dessert une large communauté qui s'étend de la Provence à Montpellier, Toulon et Avignon. La ligne Marseille – Casablanca sert à rendre visite à la famille ou à rejoindre d'autres villes du Maroc, mais aussi aux étudiants, aux professionnels et aux visiteurs qui veulent découvrir la corniche d'Aïn Diab et la mosquée Hassan II. Beaucoup préfèrent l'avion à la longue traversée en ferry depuis les ports du Sud. Les vols partent de l'aéroport Marseille Provence, à Marignane, à environ 25 km au nord-ouest de la ville, et arrivent à Mohammed V. Comptez entre deux heures et demie et trois heures de vol direct.",
+          "Les prix montent généralement en juillet et en août, avant l'Aïd el-Kébir et l'Aïd el-Fitr, pendant les vacances scolaires de l'académie d'Aix-Marseille et à Noël. Fin septembre, novembre, janvier et certaines semaines de printemps sont souvent plus doux. Le tableau ci-dessous affiche les derniers tarifs trouvés.",
+          "Pour rejoindre Marseille Provence, des navettes relient l'aéroport à la gare Saint-Charles, et la gare de Vitrolles-Aéroport est toute proche. À Casablanca, le train de l'aéroport vous dépose en ville, d'où vous pouvez continuer en train vers Marrakech ou Rabat, ou en grand taxi vers Berrechid et Settat. En famille, vérifiez la franchise bagages de chacun. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Calez-vous sur le calendrier de votre zone scolaire : il fixe les pics de demande au départ de Marseille.",
+          "La navette depuis Saint-Charles évite de payer un parking à l'aéroport.",
+          "Pour continuer vers Marrakech, le train depuis Casablanca est confortable.",
+          "En réservation familiale, vérifiez la franchise bagages de chaque passager.",
+          "Comparez plusieurs jours de départ : les écarts peuvent être importants dans la même semaine."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Marseille Casablanca ?",
+            "a": "Comptez entre deux heures et demie et trois heures environ pour un vol direct."
+          },
+          {
+            "q": "Comment se rendre à l'aéroport Marseille Provence ?",
+            "a": "Des navettes relient l'aéroport à la gare Saint-Charles, et la gare de Vitrolles-Aéroport est à proximité."
+          },
+          {
+            "q": "Quand les billets sont-ils moins chers ?",
+            "a": "Souvent fin septembre, en novembre, en janvier et certaines semaines de printemps. Les prix montent l'été, pendant l'Aïd et les vacances scolaires."
+          },
+          {
+            "q": "Comment rejoindre le centre de Casablanca depuis Mohammed V ?",
+            "a": "En train depuis la gare de l'aéroport, en grand taxi ou en voiture de location."
+          },
+          {
+            "q": "Quels documents faut-il ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres doivent vérifier auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Marseille to Casablanca: compare the latest fares",
+        "description": "Cheap flights from Marseille to Casablanca: Marseille Provence departures, flight time, peak dates in southern France and around Eid, arriving at Mohammed V.",
+        "intro": [
+          "Marseille is one of the oldest centres of Moroccan migration in France, and its airport serves a community stretching across Provence to Montpellier, Toulon and Avignon. People use the Marseille to Casablanca route to visit family or continue to other Moroccan cities, and it also carries students, professionals and visitors keen to see the Ain Diab corniche and the Hassan II Mosque. Many prefer flying to the long ferry crossing from southern French ports. Flights leave from Marseille Provence Airport in Marignane, about 25 km north-west of the city, and land at Mohammed V International Airport. A direct flight takes roughly two and a half to three hours.",
+          "Fares usually rise in July and August, before Eid al-Adha and Eid al-Fitr, during the Aix-Marseille school holidays and over Christmas. Late September, November, January and some spring weeks are often gentler. The table below shows the latest fares found.",
+          "To reach Marseille Provence, shuttle buses link the airport with Saint-Charles station, and Vitrolles Airport rail station is close by. In Casablanca, the airport train takes you into the city, where you can continue by rail to Marrakech or Rabat, or by grand taxi to Berrechid and Settat. If you are travelling as a family, check each person's baggage allowance. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "Plan around your local school holiday zone, which sets demand peaks from Marseille.",
+          "The shuttle from Saint-Charles saves paying for airport parking.",
+          "If you are heading on to Marrakech, the train from Casablanca is comfortable.",
+          "On family bookings, check the baggage allowance for every passenger.",
+          "Compare several departure days, as prices can vary a lot within the same week."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Marseille to Casablanca?",
+            "a": "A direct flight takes roughly two and a half to three hours."
+          },
+          {
+            "q": "How do I get to Marseille Provence Airport?",
+            "a": "Shuttle buses run between the airport and Saint-Charles station, and Vitrolles Airport rail station is nearby."
+          },
+          {
+            "q": "When are tickets cheapest?",
+            "a": "Often in late September, November, January and some spring weeks. Fares rise in summer, around Eid and during school holidays."
+          },
+          {
+            "q": "How do I get from Mohammed V to central Casablanca?",
+            "a": "By train from the airport station, by grand taxi or with a hire car."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check official sources."
+          }
+        ]
+      }
+    }
+  },
+  "dusseldorf-nador": {
+    "origin": "DUS",
+    "destination": "NDR",
+    "originName": {
+      "en": "Düsseldorf",
+      "ar": "دوسلدورف",
+      "fr": "Düsseldorf",
+      "es": "Düsseldorf"
+    },
+    "destinationName": {
+      "en": "Nador",
+      "ar": "الناظور",
+      "fr": "Nador",
+      "es": "Nador"
+    },
+    "content": {
+      "ar": {
+        "title": "رحلات رخيصة من دوسلدورف إلى الناظور | قارن الأسعار من ألمانيا",
+        "description": "أرخص رحلات دوسلدورف – الناظور: مطار دوسلدورف أو فيزه، مدة الرحلة، أثر عطل شمال الراين وستفاليا والأعياد، والتنقل من مطار العروي إلى مدن الريف.",
+        "intro": [
+          "تتركز الجالية المغربية في ألمانيا بشكل كبير في ولاية شمال الراين وستفاليا، في دوسلدورف وكولونيا ودويسبورغ وإيسن وفوبرتال وبون، وأصول معظم أفرادها من الريف. لذلك يُعد خط دوسلدورف – الناظور الطريق الأقصر لهذه العائلات نحو الناظور وسلوان وزغنغن والدريوش وميضار. تنطلق الرحلات من مطار دوسلدورف الدولي، كما تظهر رحلات من مطار فيزه الذي يُسوَّق باسم دوسلدورف فيزه، رغم أنه يقع قرب الحدود الهولندية على بعد نحو ثمانين كيلومتراً من المدينة. ويكون الوصول إلى مطار الناظور العروي الدولي، وتستغرق الرحلة المباشرة نحو ثلاث ساعات وربع.",
+          "في ألمانيا تتغير مواعيد العطلة الصيفية من سنة إلى أخرى حسب الولاية، فقد تبدأ عطلة شمال الراين وستفاليا في أواخر يونيو أو في يوليو. لذا راجع التقويم المدرسي لولايتك قبل الحجز، لأن الأسعار ترتفع بقوة مع انطلاق العطلة، وكذلك في عطلة الخريف والميلاد وعيد الفصح وقبيل عيد الأضحى وعيد الفطر. وتكون الأسعار في الغالب أهدأ في نوفمبر ويناير وفبراير. يعرض الجدول أدناه أحدث الأسعار التي عثرنا عليها.",
+          "إذا اخترت فيزه بسبب السعر، فاحسب كلفة الحافلة أو موقف السيارات ووقت الطريق، بينما يتصل مطار دوسلدورف بشبكة القطارات مباشرة. وفي العروي تجد سيارات الأجرة الكبيرة ووكالات كراء السيارات، والناظور على بعد نحو خمسة وعشرين كيلومتراً. وإذا كنت تحمل أغراضاً كثيرة للأهل، فتأكد من وزن الحقائب المسموح به. يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية حسب قواعد شركة الطيران، وعلى غيرهم مراجعة المصادر الرسمية."
+        ],
+        "tips": [
+          "راجع مواعيد العطلة الصيفية لولايتك هذا العام، فهي تتغير من سنة لأخرى.",
+          "قارن بين دوسلدورف وفيزه بعد احتساب وقت وكلفة الوصول إلى كل مطار.",
+          "القطار إلى مطار دوسلدورف مريح إذا كنت تسكن في منطقة الرور.",
+          "احجز سيارة الكراء في الناظور مسبقاً خلال الصيف.",
+          "زن حقائبك في البيت قبل السفر لتجنب الرسوم الإضافية."
+        ],
+        "faq": [
+          {
+            "q": "كم مدة الرحلة من دوسلدورف إلى الناظور؟",
+            "a": "تستغرق الرحلة المباشرة حوالي ثلاث ساعات وربع."
+          },
+          {
+            "q": "هل مطار فيزه قريب من دوسلدورف؟",
+            "a": "لا، فهو يقع قرب الحدود الهولندية على بعد نحو ثمانين كيلومتراً، لذا احسب وقت الطريق قبل الحجز."
+          },
+          {
+            "q": "متى تكون الرحلات أرخص؟",
+            "a": "غالباً في نوفمبر ويناير وفبراير، خارج العطل المدرسية الألمانية والأعياد."
+          },
+          {
+            "q": "كيف أصل من مطار العروي إلى الناظور؟",
+            "a": "تتوفر سيارات الأجرة الكبيرة ووكالات كراء السيارات في المطار، والناظور على بعد نحو خمسة وعشرين كيلومتراً."
+          },
+          {
+            "q": "ما الوثائق المطلوبة؟",
+            "a": "يسافر المواطنون المغاربة بجواز السفر أو بطاقة التعريف الوطنية وفق قواعد شركة الطيران، أما غيرهم فعليهم التحقق من المصادر الرسمية."
+          }
+        ]
+      },
+      "fr": {
+        "title": "Vol pas cher Düsseldorf Nador : comparez les derniers tarifs",
+        "description": "Vol Düsseldorf Nador pas cher : départs de Düsseldorf ou Weeze, durée du vol, effet des vacances en Rhénanie-du-Nord-Westphalie et de l'Aïd sur les prix.",
+        "intro": [
+          "La communauté marocaine d'Allemagne est très présente en Rhénanie-du-Nord-Westphalie, à Düsseldorf, Cologne, Duisbourg, Essen, Wuppertal ou Bonn, et la plupart de ses membres sont originaires du Rif. La ligne Düsseldorf – Nador est donc le chemin le plus court pour ces familles vers Nador, Selouane, Zeghanghane, Driouch ou Midar. Les vols partent de l'aéroport international de Düsseldorf, et des vols depuis Weeze apparaissent aussi : cet aéroport, commercialisé sous le nom de Düsseldorf Weeze, se trouve près de la frontière néerlandaise, à environ 80 km de la ville. On arrive à l'aéroport international Nador-Al Aroui. Le vol direct dure environ trois heures et quart.",
+          "En Allemagne, les dates des grandes vacances changent chaque année selon le Land : en Rhénanie-du-Nord-Westphalie, elles peuvent commencer fin juin ou en juillet. Consultez le calendrier scolaire de votre Land avant de réserver, car les prix s'envolent dès le début des vacances, comme aux vacances d'automne, à Noël, à Pâques et avant l'Aïd el-Kébir et l'Aïd el-Fitr. Novembre, janvier et février sont souvent plus calmes. Le tableau ci-dessous affiche les derniers tarifs trouvés.",
+          "Si vous choisissez Weeze pour le prix, comptez le bus ou le parking et le temps de trajet, alors que l'aéroport de Düsseldorf est directement relié au réseau ferroviaire. À Al Aroui, grands taxis et loueurs vous attendent, Nador étant à environ 25 km. Vérifiez le poids autorisé si vous emportez beaucoup d'affaires. Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie ; les autres doivent consulter les sources officielles."
+        ],
+        "tips": [
+          "Vérifiez les dates des vacances d'été de votre Land cette année : elles changent chaque année.",
+          "Comparez Düsseldorf et Weeze en intégrant le temps et le coût du trajet.",
+          "Le train jusqu'à l'aéroport de Düsseldorf est pratique depuis la Ruhr.",
+          "Réservez votre voiture de location à Nador à l'avance en été.",
+          "Pesez vos valises chez vous pour éviter les suppléments."
+        ],
+        "faq": [
+          {
+            "q": "Combien de temps dure un vol Düsseldorf Nador ?",
+            "a": "Un vol direct dure environ trois heures et quart."
+          },
+          {
+            "q": "L'aéroport de Weeze est-il proche de Düsseldorf ?",
+            "a": "Non, il se trouve près de la frontière néerlandaise, à environ 80 km. Tenez compte du trajet avant de réserver."
+          },
+          {
+            "q": "Quand les vols sont-ils moins chers ?",
+            "a": "Souvent en novembre, janvier et février, en dehors des vacances scolaires allemandes et des fêtes."
+          },
+          {
+            "q": "Comment aller de l'aéroport d'Al Aroui à Nador ?",
+            "a": "Grands taxis et loueurs de voitures sont présents à l'aéroport. Nador se trouve à environ 25 km."
+          },
+          {
+            "q": "Quels documents faut-il ?",
+            "a": "Les citoyens marocains voyagent avec leur passeport ou leur carte nationale selon les règles de la compagnie. Les autres doivent vérifier auprès des sources officielles."
+          }
+        ]
+      },
+      "en": {
+        "title": "Cheap flights Düsseldorf to Nador: compare the latest fares",
+        "description": "Cheap flights from Düsseldorf to Nador: Düsseldorf or Weeze departures, flight time, and how North Rhine-Westphalia school holidays and Eid affect fares.",
+        "intro": [
+          "Germany's Moroccan community is heavily concentrated in North Rhine-Westphalia, in Düsseldorf, Cologne, Duisburg, Essen, Wuppertal and Bonn, and most of its members have roots in the Rif. The Düsseldorf to Nador route is therefore the shortest way home for these families, to Nador, Selouane, Zeghanghane, Driouch or Midar. Flights leave from Düsseldorf International Airport, and flights from Weeze also appear: that airport is marketed as Düsseldorf Weeze but sits near the Dutch border, about 80 km from the city. You arrive at Nador Al Aroui International Airport. A direct flight takes about three and a quarter hours.",
+          "In Germany, summer holiday dates change every year by federal state, and in North Rhine-Westphalia they can start in late June or in July. Check your state's school calendar before booking, because fares jump as soon as the holidays begin, and also during the autumn break, Christmas, Easter and before Eid al-Adha and Eid al-Fitr. November, January and February are often calmer. The table below shows the latest fares found.",
+          "If you pick Weeze for the price, factor in the bus or parking and the travel time, whereas Düsseldorf Airport connects directly to the rail network. At Al Aroui, grand taxis and car hire desks are waiting, and Nador is about 25 km away. Check the weight allowance if you are bringing a lot for the family. Moroccan citizens travel with their passport or national ID card according to the airline's rules; other travellers should check official sources."
+        ],
+        "tips": [
+          "Check this year's summer holiday dates for your state, as they change every year.",
+          "Compare Düsseldorf and Weeze including the time and cost of getting there.",
+          "The train to Düsseldorf Airport is convenient from the Ruhr area.",
+          "Book your hire car in Nador ahead of time in summer.",
+          "Weigh your suitcases at home to avoid extra charges."
+        ],
+        "faq": [
+          {
+            "q": "How long is the flight from Düsseldorf to Nador?",
+            "a": "A direct flight takes about three and a quarter hours."
+          },
+          {
+            "q": "Is Weeze Airport close to Düsseldorf?",
+            "a": "No, it is near the Dutch border, about 80 km away. Allow for the journey before you book."
+          },
+          {
+            "q": "When are flights cheapest?",
+            "a": "Often in November, January and February, outside German school holidays and religious festivals."
+          },
+          {
+            "q": "How do I get from Al Aroui airport to Nador?",
+            "a": "Grand taxis and car hire desks are available at the airport. Nador is about 25 km away."
+          },
+          {
+            "q": "What documents do I need?",
+            "a": "Moroccan citizens travel with their passport or national ID card according to the airline's rules. Other travellers should check official sources."
+          }
+        ]
+      }
+    }
+  }
+}
