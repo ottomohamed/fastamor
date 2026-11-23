@@ -79,7 +79,8 @@ const CSS = `<style>
 .fc-disc{font-size:13px;color:#6b7280;margin-top:36px}
 </style>`;
 
-const TAB_ORDER = ['economy', 'qeeq', 'autoeurope', 'getrentacar', 'localrent', 'bikes'];
+// Localrent is left out: its widget is fixed to Georgia and not relevant for Morocco.
+const TAB_ORDER = ['economy', 'qeeq', 'autoeurope', 'getrentacar', 'bikes'];
 
 async function render(lang, template) {
   const all = await getContent();
