@@ -4,6 +4,7 @@ import { localizedPath, isLang } from '@/lib/i18n-url';
 
 import { I18N, PARTNERS } from '@/lib/data';
 import { trackClick } from '@/lib/tracking';
+import { HeroAssistant } from '@/components/HeroAssistant';
 import { supabase } from '@/lib/supabase';
 import { ArrowRight, Plane, Building2, Car, Ticket, Bus, Ship, MapPin, Eye } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -66,8 +67,6 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
   const [settings, setSettings] = useState<SiteSettings>({});
   const [loadingContent, setLoadingContent] = useState(true);
 
-  // Default images — قابلة للتغيير من لوحة التحكم
-  const heroImage = settings.hero_image || "https://i.ibb.co/WWJBNxwT/1977.png";
 
   useEffect(() => {
     loadContent();
@@ -143,41 +142,8 @@ export function LandingView({ onOpenApp, lang, setLang, onOpenPrivacy, adminTrig
         </div>
       </nav>
 
-      {/* ── Hero */}
-      <section className="relative min-h-[88vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src={heroImage} alt="Travel" className="w-full h-full object-cover"/>
-          <div className="absolute inset-0 bg-[#1b1c19]/35"/>
-        </div>
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-24">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-black text-[10px] uppercase tracking-[0.3em] mb-8">
-            {t.hero_badge || 'The Digital Travel Magazine'}
-          </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className="text-6xl md:text-8xl lg:text-9xl font-serif font-black text-white leading-[0.9] mb-8 tracking-tighter">
-            {settings.hero_title_en && !isRtl ? settings.hero_title_en :
-             settings.hero_title_ar && isRtl ? settings.hero_title_ar :
-             t.hero_title || 'Elevate Your'} <br/>
-            <span className="italic text-[#ffd23f]">Journey.</span>
-          </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-white/90 max-w-xl mb-12 font-medium leading-relaxed">
-            {t.hero_desc}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-start gap-4">
-            <button onClick={() => onOpenApp()}
-              className="px-10 py-4 rounded-full bg-[#0d9488] text-white font-black text-sm uppercase tracking-widest hover:bg-[#0f766e] hover:shadow-2xl transition-all flex items-center gap-3 transform hover:-translate-y-1">
-              🚀 {t.hero_btn_start}
-            </button>
-            <a href="#magazine"
-              className="px-10 py-4 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white font-black text-sm uppercase tracking-widest hover:bg-white/20 transition-all text-center">
-              {isRtl ? 'اقرأ المجلة' : 'Read Magazine'}
-            </a>
-          </motion.div>
-        </div>
-      </section>
+      {/* ── Hero: the AI assistant is the first thing visitors use */}
+      <HeroAssistant lang={lang} onOpenApp={onOpenApp} />
 
       {/* ── Services Strip */}
       <div className="border-y border-[#bcc9c6]/15 bg-white py-5 overflow-hidden">
