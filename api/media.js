@@ -7,6 +7,13 @@ import { convertWebp } from './_lib/convert-webp.js';
 
 export default async function handler(req, res) {
   if (req.query.migrate === '1') return migrateImages(req, res); // preview-only tool
+  // TEMP (preview only): raw article body for the content rewrite. Removed before merge.
+  if (req.query.dump && process.env.VERCEL_ENV === 'preview') {
+    const slug = String(req.query.dump).replace(/[^a-z0-9-]/g, '');
+    const r = await fetch(`${process.env.VITE_SUPABASE_URL}/rest/v1/articles?select=slug,title_en,excerpt_en,body_en&slug=eq.${slug}`,
+      { headers: { apikey: process.env.VITE_SUPABASE_KEY, Authorization: `Bearer ${process.env.VITE_SUPABASE_KEY}` } });
+    return res.status(200).json(await r.json());
+  }
   if (req.query.convert === '1') return convertWebp(req, res);   // preview-only tool
   const file = String(req.query.file || '');
   if (!/^[a-f0-9]{20}\.(jpg|png|webp|gif|avif)$/.test(file)) return res.status(404).end();
