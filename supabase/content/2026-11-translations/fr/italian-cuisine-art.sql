@@ -13,7 +13,7 @@ update articles set
     <div style="margin:20px 0; text-align:center">
         <img loading="lazy" decoding="async" src="https://www.fastamor.com/media/c0a816711b7626ced307.webp" alt="Pâtes italiennes" style="width:100%; max-width:600px; border-radius:16px">
     </div>
-    <p>Bien plus qu'une simple pâte, les pâtes sont une véritable déclaration d'amour à l'italienne, déclinée en centaines de formes et de sauces traditionnelles qui varient d'un village à l'autre.</p>
+    <p>Plus qu'une simple pâte, c'est un langage amoureux à l'italienne, décliné en centaines de formes et de sauces qui changent d'un village à l'autre.</p>
 
     <h3>La pizza napolitaine : trois ingrédients, rien de plus</h3>
     <div style="margin:20px 0; text-align:center">
@@ -25,13 +25,13 @@ update articles set
     <div style="margin:20px 0; text-align:center">
         <img loading="lazy" decoding="async" src="https://www.fastamor.com/media/a969281fb481cf896b18.webp" alt="Risotto italien" style="width:100%; max-width:600px; border-radius:16px">
     </div>
-    <p>Le risotto au safran (risotto alla milanese) est le plat emblématique du nord de l'Italie. Il demande de la patience et beaucoup de savoir-faire pour obtenir cette texture veloutée et crémeuse qui fond en bouche.</p>
+    <p>Le risotto au safran (risotto alla milanese) est le plat emblématique du nord de l'Italie. Il demande patience et savoir-faire pour obtenir cette texture veloutée qui fond en bouche.</p>
 
     <h3>L'espresso : un rituel quotidien</h3>
     <div style="margin:20px 0; text-align:center">
         <img loading="lazy" decoding="async" src="https://www.fastamor.com/media/8ebda382bd59311e8070.webp" alt="Espresso italien" style="width:100%; max-width:600px; border-radius:16px">
     </div>
-    <p>En Italie, le café n'est pas une simple boisson, c'est un véritable rituel. De l'espresso serré bu debout au comptoir au cappuccino mousseux que l'on ne commande traditionnellement pas après 11 heures.</p>
+    <p>En Italie, le café n'est pas une boisson, c'est un rituel. De l'espresso serré bu debout au comptoir au cappuccino mousseux que l'on ne commande traditionnellement pas après 11 heures.</p>
 
     <h3>Le tiramisu : une note sucrée pour finir</h3>
     <div style="margin:20px 0; text-align:center">
@@ -40,6 +40,6 @@ update articles set
     <p>Tiramisu signifie littéralement « remonte-moi » ou « remonte-moi le moral ». Des couches de biscuits à la cuillère imbibés de café, une crème riche au mascarpone et un voile de cacao amer.</p>
 
     <h3>Conclusion</h3>
-    <p>La cuisine italienne n'est pas seulement de la nourriture : c'est une philosophie de vie fondée sur la simplicité et la qualité des produits. Chaque plat raconte l'histoire d'une terre, d'un climat et d'un riche passé.</p>$b$,
+    <p>La cuisine italienne est une philosophie de vie fondée sur la simplicité et la qualité des produits. Chaque plat raconte l'histoire d'une terre, d'un climat et d'un riche passé.</p>$b$,
   updated_at = now()
 where slug = 'italian-cuisine-art' and status = 'published';
