@@ -26,6 +26,27 @@
         });
       });
     </script>
+    <style>
+      /* Server-rendered fallback (for search engines) stays hidden behind a brief
+         branded loader until the app mounts, so visitors never see unstyled HTML. */
+      #root[data-ssr] > * { visibility: hidden; }
+      #root[data-ssr]::before {
+        content: ""; position: fixed; inset: 0; z-index: 9999;
+        background: #F7F8FC url(/media/6172d55e66bb86428408.png) center 45% / 72px auto no-repeat;
+      }
+      #root[data-ssr]::after {
+        content: ""; position: fixed; z-index: 10000; left: 50%; top: calc(45% + 56px);
+        width: 28px; height: 28px; margin-left: -14px; border-radius: 50%;
+        border: 3px solid #E1E4F0; border-top-color: #3550C8; animation: fa-spin .8s linear infinite;
+      }
+      @keyframes fa-spin { to { transform: rotate(360deg); } }
+      @media (prefers-reduced-motion: reduce) { #root[data-ssr]::after { animation: none; } }
+    </style>
+    <noscript><style>#root[data-ssr] > * { visibility: visible; } #root[data-ssr]::before, #root[data-ssr]::after { display: none; }</style></noscript>
+    <script>
+      // Safety net: if the app has not mounted after 8 s, show the server HTML rather than a loader forever.
+      setTimeout(function () { var r = document.getElementById('root'); if (r) r.removeAttribute('data-ssr'); }, 8000);
+    </script>
   </head>
   <body class="bg-[#FFFDF7] m-0 p-0">
     <div id="root"></div>
