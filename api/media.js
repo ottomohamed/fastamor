@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   // TEMP (preview only): raw article body for the content rewrite. Removed before merge.
   if (req.query.dump && process.env.VERCEL_ENV === 'preview') {
     const slug = String(req.query.dump).replace(/[^a-z0-9-]/g, '');
-    const r = await fetch(`${process.env.VITE_SUPABASE_URL}/rest/v1/articles?select=slug,category,tags,title_en,excerpt_en,body_en,title_ar,excerpt_ar,body_ar,title_fr,excerpt_fr,body_fr,title_es,excerpt_es,body_es&slug=eq.${slug}`,
+    const r = await fetch(`${process.env.VITE_SUPABASE_URL}/rest/v1/articles?select=slug,category,title_en,excerpt_en,body_en,title_ar,excerpt_ar,body_ar,title_fr,excerpt_fr,body_fr,title_es,excerpt_es,body_es&slug=eq.${slug}`,
       { headers: { apikey: process.env.VITE_SUPABASE_KEY, Authorization: `Bearer ${process.env.VITE_SUPABASE_KEY}` } });
     return res.status(200).json(await r.json());
   }
