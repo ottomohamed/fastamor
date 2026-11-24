@@ -2,7 +2,7 @@ import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { langFromPath, type Lang } from "@/lib/i18n-url";
 import FastamorMain from "@/pages/FastamorMain";
 import NotFound from "@/pages/not-found";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useLayoutEffect } from "react";
 
 const BlogView = lazy(() => import("@/views/BlogView"));
 const ArticleView = lazy(() => import("@/views/ArticleView"));
@@ -53,6 +53,8 @@ function Router() {
 }
 
 function App() {
+  // React has replaced the server-rendered fallback: hide the boot loader (see index.html).
+  useLayoutEffect(() => { document.getElementById("root")?.removeAttribute("data-ssr"); }, []);
   return (
     <WouterRouter>
       <Router />

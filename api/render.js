@@ -133,7 +133,7 @@ function render(template, { title, description, url, image, lang = 'en', type = 
     .replace(/<meta name="twitter:card"[^>]*>/, '')
     .replace(/<link rel="alternate" hreflang="x-default"[^>]*>/, '')
     .replace('</head>', `    ${head}\n  </head>`)
-    .replace('<div id="root"></div>', `<div id="root">${body}</div>`);
+    .replace('<div id="root"></div>', `<div id="root" data-ssr="1">${body}</div>`);
 }
 
 function alternatesFor(path, langs, defaultLang) {
